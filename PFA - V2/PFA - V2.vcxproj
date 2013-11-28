@@ -100,7 +100,6 @@
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameEvents.h" />
@@ -108,7 +107,6 @@
     <ClInclude Include="GraphicEngine.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IEntity.h" />
-    <ClInclude Include="IEvents.h" />
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="KeyboardControler.h" />
     <ClInclude Include="Map.h" />
@@ -116,7 +114,6 @@
     <ClInclude Include="PhysicEngine.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="StartEvent.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>

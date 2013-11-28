@@ -1,4 +1,4 @@
-class GameEngine;
+#pragma once
 
 class IEvent
 {

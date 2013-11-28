@@ -9,11 +9,6 @@ void GraphicEngine::update(std::list<IEntity *> players, std::list<IEntity *> en
 {
 }
 
-IScreen* GraphicEngine::GetCurrentState__(void)
-{
-}
-
-
 void GraphicEngine::PushState(IScreen* state)
 {
 }

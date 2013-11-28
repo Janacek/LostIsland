@@ -1,14 +1,16 @@
+#pragma once
+
 #include <list>
 #include "IEntity.h"
 
 
-class Tree
+class Tree : public IEntity
 {
 public:
    void doAction(IEntity* other);
    void getAction(IEntity* other);
    void Animate(std::string const & string_anim);
-   int getDamage(void);
+   int getDamage(void) const;
    //sf::Rect & getCollisionBox(void);
 
 protected:

@@ -2,6 +2,13 @@
 #include				<iostream>
 #include				<deque>
 
+//TODO faire la vrai classe
+class Map
+{
+
+};
+
+/*
 #include				"Area.h"
 #include				"Object.h"
 #include				"Coordinates.hpp"
@@ -28,3 +35,4 @@ private:
 	sf::RenderTexture						_img;
 	Chunk									**_chunks;
 };
+*/

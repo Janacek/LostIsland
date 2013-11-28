@@ -1,12 +1,11 @@
-
-class GameEngine;
+#pragma once
 
 class KeyboardControler
 {
 public:
-   void handlePlayerInput(sf::Keyboard& k);
-
-   GameEngine* gameEngine;
+	KeyboardControler();
+	~KeyboardControler();
+	void handlePlayerInput(sf::Keyboard& k);
 
 protected:
 private:

@@ -1,8 +1,9 @@
+#pragma once
+
 #include "IEngine.h"
-#include "Collision.h"
 #include "PathFinding.h"
 
-class PhysicEngine
+class PhysicEngine : public IEngine
 {
 public:
    void init(Map * map);
@@ -11,8 +12,5 @@ public:
 protected:
 private:
    bool _isRunning;
-   Pathfinding _pathFinding;
-   Collision _collision;
-
-
+   PathFinding _pathFinding;
 };

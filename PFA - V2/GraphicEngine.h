@@ -1,29 +1,33 @@
+#pragma once
+
 #include <list>
 #include <stack>
-#include "IENtity.h"
+#include "IEntity.h"
+#include "StartScreen.h"
+#include "GameScreen.h"
 #include "IEngine.h"
 #include "IScreen.h"
 
-class GraphicEngine
+class GraphicEngine : public IEngine
 {
 public:
-   void init(Map * map);
+   void init(Map *);
    void update(std::list<IEntity *> players, std::list<IEntity *> entities);
-   IScreen* GetCurrentState__(void);
-   void PushState(IScreen* state);
-   void SetState(IScreen* state);
+   IScreen* GetCurrentState(void) {return (!_states.empty()) ? _states.top() : NULL;}
+   void PushState(IScreen *state);
+   void SetState(IScreen *state);
    void PopState(void);
 
 protected:
 private:
    std::list<IEntity *> _entities;
    bool _isRunning;
-   IScreen _startScreen;
-   IScreen _optionScreen;
-   IScreen _gameScreen;
+ 
+   StartScreen *_startScreen;
+   GameScreen  *_gameScreen;
+   //TODO OptionScreen
+
    std::stack<IScreen *> _states;
 
 
 };
-
-#endif

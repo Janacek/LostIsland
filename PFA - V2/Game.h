@@ -1,5 +1,8 @@
+#pragma once
 
-#include "IEngine.h"
+#include "GameEngine.h"
+#include "GraphicEngine.h"
+#include "PhysicEngine.h"
 
 class Game
 {
@@ -8,9 +11,9 @@ public:
 
 protected:
 private:
-   IEngine _graphicEngine;
-   IEngine _gameEngine;
-   IEngine _physicEngine;
+   GraphicEngine *_graphicEngine;
+   GameEngine	 *_gameEngine;
+   PhysicEngine *_physicEngine;
 
 
 };

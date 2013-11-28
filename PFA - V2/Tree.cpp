@@ -13,8 +13,10 @@ void Tree::Animate(std::string const & string_anim)
 {
 }
 
-int Tree::getDamage(void)
+//Pas de dommages
+int Tree::getDamage(void) const
 {
+	return 0;
 }
 
 /*sf::Rect & Tree::getCollisionBox(void)
