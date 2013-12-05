@@ -1,4 +1,5 @@
 #include "GameScreen.h"
+#include "Inventory.h"
 
 GameScreen::GameScreen()
 {
@@ -7,11 +8,12 @@ GameScreen::GameScreen()
 
 void GameScreen::draw(std::list<IEntity *> entities)
 {
+	this->_inventory->draw();
 }
 
 void GameScreen::initialize(void)
 {
-
+	this->_inventory = new Inventory;
 }
 
 IScreen * GameScreen::getNextState(void)
