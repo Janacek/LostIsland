@@ -85,11 +85,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Compartment.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="KeyboardControler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -101,14 +103,15 @@
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="astar.hpp" />
-    <ClInclude Include="Game.h" />
+	<ClInclude Include="Compartment.h" />
+	<ClInclude Include="astar.hpp" />    <ClInclude Include="Game.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GraphicEngine.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IEntity.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="KeyboardControler.h" />
     <ClInclude Include="Map.h" />

@@ -1,11 +1,13 @@
 #pragma once
 
 #include "IScreen.h"
+#include "Inventory.h"
 
 class GameScreen : public IScreen
 {
 public:
 	GameScreen();
+   
    void draw(std::list<IEntity *> players,std::list<IEntity *> entities);
    void initialize(void);
    IScreen * getNextState(void);
@@ -15,6 +17,7 @@ public:
 
 protected:
 private:
+Inventory *_inventory;
 	void				updateStatistics(sf::Time &elapsedTime);
 	sf::Text			_statisticsText;
 	std::size_t			_statisticsNumFrames;
