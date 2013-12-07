@@ -1,6 +1,7 @@
 #pragma once
 
 #include	<vector>
+#include <deque>
 #include	<list>
 #include	<SFML/Graphics.hpp>
 #include	"IEntity.h"
@@ -16,12 +17,19 @@ public:
 	void update(void);
 	void draw(void);
 	void addEntityInInventory(IEntity *);
-	void deleteEntityInInventory(IEntity *);
+	void deleteEntityInInventory(Compartment *);
+	
 private:
 	
-	sf::RectangleShape _mainInventory;
-	std::vector<IEntity *> _ressources;
-	std::vector<Compartment> _compartment;
+	void checkInputs();
+	void printInventory() const;
+	bool isInCompartment(Compartment &) const;
+	void organizeCompartment(Compartment *);
 
+	sf::RectangleShape _mainInventory;
+	std::deque<Compartment *> _compartment;
+	unsigned int			_sizeInventory;
+	std::map<Type, sf::Sprite *> _mapSprites;
+	std::map<Type, std::string> _enumStrings;
 };
 
