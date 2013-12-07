@@ -9,6 +9,7 @@ Inventory::Inventory(void)
 	this->_enumStrings[WOOD] = "WOOD";
 	this->_enumStrings[FOOD] = "FOOD";
 	this->_enumStrings[WATER] = "WATER";
+	this->_enumStrings[PLAYER] = "PLAYER";
 	this->_mainInventory = sf::RectangleShape(sf::Vector2f((float)Singleton::getInstance()._window->getSize().x / 2, (float)Singleton::getInstance()._window->getSize().y / 2));
 	this->_mainInventory.setFillColor(sf::Color::Blue);
 	for (int i = 0; i < 6; i++)

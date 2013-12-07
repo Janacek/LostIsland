@@ -17,6 +17,11 @@ int Player::getDamage(void) const
 	return this->_damages;
 }
 
+Type Player::getType() const
+{
+	return PLAYER;
+}
+
 /*sf::Rect & Player::getCollisionBox(void)
 {
 }

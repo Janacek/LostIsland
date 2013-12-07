@@ -15,12 +15,12 @@ Game::~Game(void)
 
 void Game::launch(void)
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	sf::Time t;
 	Singleton& ptr1 = Singleton::getInstance();
 	std::list<IEntity *> _players;
 	std::list<IEntity *> _entities;
-	Map *_map = new Map(); // TODO Map est bidon pour le moment, envoyer un mail a mart_u@epitech.eu pour des éventuels problèmes avec cette classe
+	Map *_map = new Map(); // TODO Map est bidon pour le moment, envoyer un mail a mart_u@epitech.eu pour des éventuels problèmes avec cette classe (Rémy -> LOOL)
 	ptr1._clock = new sf::Clock();
 	ptr1._clock->restart();
 	_gameEngine->init(_map);

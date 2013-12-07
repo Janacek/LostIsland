@@ -17,7 +17,7 @@ void StartScreen::draw(std::list<IEntity *> players,std::list<IEntity *> entitie
 	update();
 	for (std::vector<sf::Text *>::iterator it = _entries.begin(); it != _entries.end() ; ++it)
 	{
-		(*it)->setPosition(Singleton::getInstance()._window->getSize().x / 2, i);
+		(*it)->setPosition((float)Singleton::getInstance()._window->getSize().x / 2, i);
 		Singleton::getInstance()._window->draw(*(*it));
 		i += 50;
 	}
@@ -58,7 +58,7 @@ void StartScreen::update(void)
 {
 	int size = _entries.size();
 	sf::Time t = _choiceClock->getElapsedTime();
-	float timeReload = t.asMilliseconds() - _timeElapsed.asMilliseconds();
+	float timeReload = (float)t.asMilliseconds() - _timeElapsed.asMilliseconds();
 	if (Singleton::getInstance().isMovingUp == true && timeReload > 100)
 	{
 		_timeElapsed = _choiceClock->getElapsedTime();
@@ -71,7 +71,7 @@ void StartScreen::update(void)
 		_timeElapsed = _choiceClock->getElapsedTime();
 		
 		_curPos += 1;
-		if (_curPos > _entries.size() - 1)
+		if ((unsigned int)_curPos > _entries.size() - 1)
 			_curPos = 0;
 	}
 	else if (Singleton::getInstance().isValidating == true)

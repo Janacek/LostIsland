@@ -8,6 +8,7 @@ enum Type
 	WOOD,
 	WATER,
 	FOOD,
+	PLAYER,
 };
 
 class IEntity
