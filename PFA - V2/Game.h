@@ -7,6 +7,8 @@
 class Game
 {
 public:
+	Game(void);
+	~Game(void);
    void launch(void);
 
 protected:
@@ -15,6 +17,6 @@ private:
    GameEngine	 *_gameEngine;
    PhysicEngine *_physicEngine;
 
-
+   sf::Clock			_cl;
 };
 

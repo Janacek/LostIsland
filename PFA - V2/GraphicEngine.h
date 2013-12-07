@@ -11,23 +11,24 @@
 class GraphicEngine : public IEngine
 {
 public:
-   void init(Map *);
-   void update(std::list<IEntity *> players, std::list<IEntity *> entities);
-   IScreen* GetCurrentState(void) {return (!_states.empty()) ? _states.top() : NULL;}
-   void PushState(IScreen *state);
-   void SetState(IScreen *state);
-   void PopState(void);
+	void init(Map *);
+	bool getIsRunning() const;
+	void update(std::list<IEntity *> players, std::list<IEntity *> entities);
+	IScreen* GetCurrentState(void) {return (!_states.empty()) ? _states.top() : NULL;}
+	void PushState(IScreen *state);
+	void SetState(IScreen *state);
+	void PopState(void);
 
 protected:
 private:
-   std::list<IEntity *> _entities;
-   bool _isRunning;
- 
-   StartScreen *_startScreen;
-   GameScreen  *_gameScreen;
-   //TODO OptionScreen
+	std::list<IEntity *> _entities;
+	bool _isRunning;
+	Map			*_map;
+	StartScreen *_startScreen;
+	GameScreen  *_gameScreen;
+	//TODO OptionScreen
 
-   std::stack<IScreen *> _states;
+	std::stack<IScreen *> _states;
 
 
 };

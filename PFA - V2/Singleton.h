@@ -11,6 +11,12 @@ public:
 	sf::Clock *_clock;
 	bool isLeftClicking;
 	bool isRightClicking;
+	bool isMovingUp;
+	bool isMovingDown;
+	bool isMovingRight;
+	bool isMovingLeft;
+	
+
 	sf::Vector2f posLeftClick;
 	sf::Vector2f posRightClick;
 	bool isValidating;

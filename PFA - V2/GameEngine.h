@@ -8,13 +8,18 @@
 class GameEngine
 {
 public:
+	GameEngine();
+	bool getIsRunning() const;
 	void init(Map * map);
 	void update(std::list<IEntity *> players, std::list<IEntity *> entities);
 
 protected:
 private:
 	bool _isRunning;
-	KeyboardControler *_controler;
+	GameEvents				*_gameEvents;	
+	sf::Clock				*_cl;
+	KeyboardControler _controler;
+	Map						*_map;
 
 };
 
