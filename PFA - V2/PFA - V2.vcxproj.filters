@@ -122,6 +122,9 @@
     <ClInclude Include="Map.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+<ClInclude Include="astar.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>

@@ -1,22 +1,22 @@
-/***********************************************************************
- * Module:  KeyboardControler.cpp
- * Author:  Ronan
- * Modified: mardi 19 novembre 2013 22:27:38
- * Purpose: Implementation of the class KeyboardControler
- ***********************************************************************/
-
 #include "GameEngine.h"
 #include "KeyboardControler.h"
+#include "Singleton.h"
 
-////////////////////////////////////////////////////////////////////////
-// Name:       KeyboardControler::handlePlayerInput(sf::Keyboard& k)
-// Purpose:    Implementation of KeyboardControler::handlePlayerInput()
-// Parameters:
-// - k
-// Return:     void
-////////////////////////////////////////////////////////////////////////
-
-void KeyboardControler::handlePlayerInput(sf::Keyboard& k)
+KeyboardControler::KeyboardControler()
 {
-   // TODO : implement
+
+}
+
+void KeyboardControler::handlePlayerInput(sf::Keyboard::Key& k, bool isPressed)
+{
+ if (k == sf::Keyboard::Up)
+		Singleton::getInstance().isMovingUp = isPressed;
+	else if (k == sf::Keyboard::Left )
+		Singleton::getInstance().isMovingLeft = isPressed;
+	else if (k == sf::Keyboard::Right)
+		Singleton::getInstance().isMovingRight = isPressed;
+	else if ( k == sf::Keyboard::Down)
+		Singleton::getInstance().isMovingDown = isPressed;
+	else if (k == sf::Keyboard::Return)
+		Singleton::getInstance().isValidating = isPressed;
 }

@@ -13,5 +13,6 @@ public:
 
 protected:
 private:
+	sf::Time	_timeElapsed;
 
 };
