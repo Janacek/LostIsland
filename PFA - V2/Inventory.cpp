@@ -11,22 +11,23 @@ Inventory::Inventory(void)
 	this->_enumStrings[WATER] = "WATER";
 	this->_enumStrings[PLAYER] = "PLAYER";
 	this->_mainInventory = sf::RectangleShape(sf::Vector2f((float)Singleton::getInstance()._window->getSize().x / 2, (float)Singleton::getInstance()._window->getSize().y / 2));
+	this->_mainInventory.setPosition(200, 200);
 	this->_mainInventory.setFillColor(sf::Color::Blue);
 	for (int i = 0; i < 6; i++)
 	{
 		this->_compartment.push_back(new Compartment((float)Singleton::getInstance()._window->getSize().x / 10, (float)Singleton::getInstance()._window->getSize().y / 10));
 	}
-	this->_compartment[0]->_rect.setPosition((float)Singleton::getInstance()._window->getSize().x / 10, 50);
+	this->_compartment[0]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10, 50);
 	this->_compartment[0]->_rect.setFillColor(sf::Color::Red);
-	this->_compartment[1]->_rect.setPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 2, 50);
+	this->_compartment[1]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 2, 50);
 	this->_compartment[1]->_rect.setFillColor(sf::Color::Red);
-	this->_compartment[2]->_rect.setPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 3, 50);
+	this->_compartment[2]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 3, 50);
 	this->_compartment[2]->_rect.setFillColor(sf::Color::Red);
-	this->_compartment[3]->_rect.setPosition((float)Singleton::getInstance()._window->getSize().x / 10, 200);
+	this->_compartment[3]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10, 200);
 	this->_compartment[3]->_rect.setFillColor(sf::Color::Red);
-	this->_compartment[4]->_rect.setPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 2, 200);
+	this->_compartment[4]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 2, 200);
 	this->_compartment[4]->_rect.setFillColor(sf::Color::Red);
-	this->_compartment[5]->_rect.setPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 3, 200);
+	this->_compartment[5]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 3, 200);
 	this->_compartment[5]->_rect.setFillColor(sf::Color::Red);
 	this->_sizeInventory = 0;
 	addEntityInInventory(new Food);
@@ -86,13 +87,13 @@ void Inventory::addEntityInInventory(IEntity *entity)
 	{
 		if (u->_elements.size() != 0 && u->_elements.front()->getType() == tmpType)
 		{
-			u->_elements.push_back(entity);
+			u->addElement(entity);
 			return ;
 		}
 	}
 	if (this->_sizeInventory < 6)
 	{
-		this->_compartment[this->_sizeInventory]->_elements.push_back(entity);
+		this->_compartment[this->_sizeInventory]->addElement(entity);
 		++this->_sizeInventory;
 	}
 	else
@@ -108,12 +109,11 @@ void Inventory::deleteEntityInInventory(Compartment *compartment)
 		std::cout << "Compartiment vide !" << std::endl;
 		return ;
 	}
-	compartment->_elements.pop_back();
+	compartment->delElement();
 	if (compartment->_elements.size() == 0)
 	{
-	
 		organizeCompartment(compartment);
-			--this->_sizeInventory;
+		--this->_sizeInventory;
 	}
 }
 

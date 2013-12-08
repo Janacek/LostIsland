@@ -12,19 +12,19 @@ GameScreen::GameScreen()
 
 void GameScreen::draw(std::list<IEntity *> players, std::list<IEntity *> entities)
 {
-	this->_inventory->draw();
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
 	updateStatistics(_t);
 	
 	Singleton::getInstance()._window->draw(_statisticsText);
 	Singleton::getInstance()._window->draw(_statisticsText);
+	this->_inventory->draw();
 	Singleton::getInstance()._window->display();
 }
 
 void GameScreen::initialize(void)
 {
-this->_inventory = new Inventory;
+	this->_inventory = new Inventory;
 	_font.loadFromFile("./Media/Sansation.ttf");
 	_statisticsText.setFont(_font);
 	_statisticsText.setPosition(5.f, 5.f);
