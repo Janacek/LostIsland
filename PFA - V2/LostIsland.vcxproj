@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{17A71382-4914-4C69-9253-4E1D46F9F83B}</ProjectGuid>
+    <ProjectGuid>{80EB1BBE-58C7-4818-B8D8-510A4F3E85A0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>PFAV2</RootNamespace>
+    <RootNamespace>LostIsland</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -51,16 +51,20 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>THOR_STATIC;SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)/include/</AdditionalIncludeDirectories>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)/lib/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>thor-s-d.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -73,7 +77,6 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)/include/</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,63 +84,65 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)/lib/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;thor-s.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Area.cpp" />
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="Chunk.cpp" />
-    <ClCompile Include="Compartment.cpp" />
     <ClCompile Include="Edge.cpp" />
-    <ClCompile Include="Food.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GameEvents.cpp" />
-    <ClCompile Include="GameScreen.cpp" />
-    <ClCompile Include="GraphicEngine.cpp" />
-    <ClCompile Include="Inventory.cpp" />
-    <ClCompile Include="KeyboardControler.cpp" />
+    <ClCompile Include="Human.cpp" />
+    <ClCompile Include="LEntity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="PathFinding.cpp" />
-    <ClCompile Include="PhysicEngine.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Bear.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="Polygon.cpp" />
-    <ClCompile Include="Singleton.cpp" />
-    <ClCompile Include="StartScreen.cpp" />
-    <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="Voronoi.cpp" />
     <ClCompile Include="VoronoiDiagramGenerator.cpp" />
-    <ClCompile Include="Water.cpp" />
-    <ClCompile Include="Wood.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Area.h" />
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="Chunk.h" />
-    <ClInclude Include="Compartment.h" />
     <ClInclude Include="Coordinates.hpp" />
+    <ClInclude Include="Bear.h" />
     <ClInclude Include="Edge.h" />
-    <ClInclude Include="Food.h" />
-    <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="GameEvents.h" />
-    <ClInclude Include="GameScreen.h" />
-    <ClInclude Include="GraphicEngine.h" />
-    <ClInclude Include="IEngine.h" />
-    <ClInclude Include="IEntity.h" />
-    <ClInclude Include="Inventory.h" />
-    <ClInclude Include="IScreen.h" />
-    <ClInclude Include="KeyboardControler.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Human.h" />
+    <ClInclude Include="IDisplay.h" />
+    <ClInclude Include="LEntity.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="PathFinding.h" />
-    <ClInclude Include="PhysicEngine.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="Polygon.h" />
-    <ClInclude Include="Singleton.h" />
-    <ClInclude Include="StartScreen.h" />
-    <ClInclude Include="Tree.h" />
+    <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="Voronoi.h" />
     <ClInclude Include="VoronoiDiagramGenerator.h" />
-    <ClInclude Include="Water.h" />
-    <ClInclude Include="Wood.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\fleche_gauche.png" />
+    <Image Include="..\mouse.png" />
+    <Image Include="curseur.png" />
+    <Image Include="zelda.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

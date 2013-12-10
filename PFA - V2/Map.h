@@ -2,13 +2,7 @@
 #include				<iostream>
 #include				<deque>
 
-//TODO faire la vrai classe
-class Map
-{
 
-};
-
-/*
 #include				"Area.h"
 #include				"Object.h"
 #include				"Coordinates.hpp"
@@ -16,7 +10,7 @@ class Map
 #include				"Polygon.h"
 #include				"Chunk.h"
 
-class										Map : public IDisplay
+class										Map
 {
 public:
 	Map(std::pair<unsigned int, unsigned int>, int);
@@ -35,4 +29,3 @@ private:
 	sf::RenderTexture						_img;
 	Chunk									**_chunks;
 };
-*/
