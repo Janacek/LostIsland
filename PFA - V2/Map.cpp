@@ -1,5 +1,5 @@
 #include "Map.h"
-/*
+
 Map::Map(std::pair<unsigned int, unsigned int> size, int seed)
 	: _size(size), _seed(seed)
 {
@@ -157,4 +157,4 @@ void	Map::draw(sf::RenderWindow *win)
 
 void	Map::update(sf::Event *)
 {
-}*/
+}
