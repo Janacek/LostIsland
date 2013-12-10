@@ -1,7 +1,7 @@
 #pragma once
 #include				<iostream>
 #include				<deque>
-
+#include				<algorithm>
 
 #include				"Area.h"
 #include				"Object.h"
@@ -9,6 +9,7 @@
 #include				"VoronoiDiagramGenerator.h"
 #include				"Polygon.h"
 #include				"Chunk.h"
+#include				"PerlinNoise.h"
 
 class										Map
 {
@@ -20,12 +21,13 @@ public:
 	void									setSize(std::pair<unsigned int, unsigned int>);
 	std::pair<unsigned int, unsigned int>	getSize();
 	void									generateVoronoiPolygons();
-private:
+	Chunk									**getChunks();
+//private:
+	PerlinNoise								*_perlinNoise;
 	std::pair<unsigned int, unsigned int>	_size;
 	int										_seed;
 	std::pair<int, int>						_sizeOfChunks;
 	std::deque<Coordinates>					_points;
 	std::deque<Polygon *>					_polygons;
-	sf::RenderTexture						_img;
 	Chunk									**_chunks;
 };

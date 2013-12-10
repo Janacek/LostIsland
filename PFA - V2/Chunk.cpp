@@ -56,10 +56,6 @@ sf::RenderTexture			*Chunk::getTexture()
 
 				this->_texture->draw(convex);
 			}
-			sf::CircleShape shape(5, 30);
-			shape.setFillColor(sf::Color::Red);
-			shape.setPosition((*it)->getCenter().first - boundsX, (*it)->getCenter().second - boundsY);
-			this->_texture->draw(shape);
 		}
 	}
 

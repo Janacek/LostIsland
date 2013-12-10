@@ -101,6 +101,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="PathFinding.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="PhysicEngine.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Polygon.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="Coordinates.hpp" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="Food.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameScreen.h" />
@@ -129,6 +131,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PathFinding.h" />
+    <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="PhysicEngine.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Polygon.h" />
