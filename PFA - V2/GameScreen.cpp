@@ -7,7 +7,7 @@
 GameScreen::GameScreen()
 {
 	_isRunning = true;
-	_map = new Map(std::pair<int, int>(1200, 800), 42);
+	_map = new Map(std::pair<int, int>(12000, 8000), 42);
 	// TODO Map est bidon pour le moment, envoyer un mail a mart_u@epitech.eu pour des éventuels problèmes avec cette classe (Rémy -> LOOL)
 
 }

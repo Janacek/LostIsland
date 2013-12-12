@@ -2,6 +2,12 @@
 #include				<iostream>
 #include				<deque>
 #include				<algorithm>
+#include				<list>
+
+#include				<SFML/System.hpp>
+#include				<SFML/Graphics.hpp>
+#include				<SFML/Window.hpp>
+
 
 #include				"Area.h"
 #include				"Object.h"
@@ -11,23 +17,31 @@
 #include				"Chunk.h"
 #include				"PerlinNoise.h"
 
-class										Map
+class												Map
 {
 public:
 	Map(std::pair<unsigned int, unsigned int>, int);
 	~Map();
-	void									draw(sf::RenderWindow *);
-	void									update(sf::Event *);
-	void									setSize(std::pair<unsigned int, unsigned int>);
-	std::pair<unsigned int, unsigned int>	getSize();
-	void									generateVoronoiPolygons();
-	Chunk									**getChunks();
+	void											draw(sf::RenderWindow *);
+	void											update(sf::Event *);
+	void											setSize(std::pair<unsigned int, unsigned int>);
+	std::pair<unsigned int, unsigned int>			getSize();
+	void											generateVoronoiPolygons();
+	Chunk											**getChunks();
 //private:
-	PerlinNoise								*_perlinNoise;
-	std::pair<unsigned int, unsigned int>	_size;
-	int										_seed;
-	std::pair<int, int>						_sizeOfChunks;
-	std::deque<Coordinates>					_points;
-	std::deque<Polygon *>					_polygons;
-	Chunk									**_chunks;
+	PerlinNoise										*_perlinNoise;
+	std::pair<unsigned int, unsigned int>			_size;
+	int												_seed;
+	std::pair<int, int>								_sizeOfChunks;
+	std::deque<Coordinates>							_points;
+	std::deque<Polygon *>							_polygons;
+	Chunk											**_chunks;
+
+	/*
+	** list of chunks to draw, useful to know which chunks to unload from memory.
+	*/
+	std::list<
+			std::pair<Chunk *,
+					std::pair<sf::Vector2f,
+							bool>>>					_drawableChunks;
 };
