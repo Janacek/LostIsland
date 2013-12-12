@@ -2,7 +2,7 @@
 #include <sstream>
 #include <iostream>
 
-Compartment::Compartment(float posX, float posY)
+Compartment::Compartment()
 {
 	this->_numberElements = 0;
 	this->_rect = sf::RectangleShape(sf::Vector2f(50, 50));

@@ -95,6 +95,7 @@
     <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
+    <ClCompile Include="InventaryWindow.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="KeyboardControler.cpp" />
     <ClCompile Include="main.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="GraphicEngine.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IEntity.h" />
+    <ClInclude Include="InventaryWindow.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="KeyboardControler.h" />

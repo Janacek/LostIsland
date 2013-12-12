@@ -4,6 +4,7 @@
 #include <deque>
 #include	<list>
 #include	<SFML/Graphics.hpp>
+#include	"InventaryWindow.h"
 #include	"IEntity.h"
 #include	"Compartment.h"
 #include	"Singleton.h"
@@ -26,7 +27,7 @@ private:
 	bool isInCompartment(Compartment &) const;
 	void organizeCompartment(Compartment *);
 
-	sf::RectangleShape _mainInventory;
+	InventaryWindow _mainInventory;
 	std::deque<Compartment *> _compartment;
 	unsigned int			_sizeInventory;
 	std::map<Type, sf::Sprite *> _mapSprites;

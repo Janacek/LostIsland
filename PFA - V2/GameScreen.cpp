@@ -18,12 +18,15 @@ void GameScreen::draw(std::list<IEntity *> players, std::list<IEntity *> entitie
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
 	updateStatistics(_t);
-	
+
 	this->_map->draw(Singleton::getInstance()._window);
 
 	Singleton::getInstance()._window->draw(_statisticsText);
 	Singleton::getInstance()._window->draw(_statisticsText);
-	this->_inventory->draw();
+	if (Singleton::getInstance().isKeyIPressed)
+	{
+		this->_inventory->draw();
+	}
 	Singleton::getInstance()._window->display();
 }
 

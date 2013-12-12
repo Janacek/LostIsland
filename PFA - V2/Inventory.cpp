@@ -10,12 +10,11 @@ Inventory::Inventory(void)
 	this->_enumStrings[FOOD] = "FOOD";
 	this->_enumStrings[WATER] = "WATER";
 	this->_enumStrings[PLAYER] = "PLAYER";
-	this->_mainInventory = sf::RectangleShape(sf::Vector2f((float)Singleton::getInstance()._window->getSize().x / 2, (float)Singleton::getInstance()._window->getSize().y / 2));
-	this->_mainInventory.setPosition(200, 200);
-	this->_mainInventory.setFillColor(sf::Color::Blue);
+	this->_mainInventory = InventaryWindow();
 	for (int i = 0; i < 6; i++)
 	{
-		this->_compartment.push_back(new Compartment((float)Singleton::getInstance()._window->getSize().x / 10, (float)Singleton::getInstance()._window->getSize().y / 10));
+		this->_mainInventory.addCompartment();
+		this->_compartment.push_back(new Compartment());
 	}
 	this->_compartment[0]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10, 50);
 	this->_compartment[0]->_rect.setFillColor(sf::Color::Red);
@@ -49,11 +48,11 @@ void Inventory::update()
 
 void Inventory::draw()
 {
-	Singleton::getInstance()._window->draw(this->_mainInventory);
-	for (Compartment *u : _compartment)
-	{
-		u->draw();
-	}
+	this->_mainInventory.draw();
+// 	for (Compartment *u : _compartment)
+// 	{
+// 		u->draw();
+// 	}
 }
 
 bool Inventory::isInCompartment(Compartment &c) const

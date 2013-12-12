@@ -8,7 +8,7 @@
 class Compartment
 {
 public:
-	Compartment(float posX, float posY);
+	Compartment();
 	~Compartment();
 	void draw();
 	void addElement(IEntity *);
@@ -21,6 +21,7 @@ public:
 	sf::Font			_font;
 
 private:
+	sf::RectangleShape _parent;
 	unsigned int _numberElements;
 	void applyPicture(Type);
 	void increaseNumber();

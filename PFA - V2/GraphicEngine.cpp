@@ -44,8 +44,6 @@ bool GraphicEngine::getIsRunning() const
 	return _isRunning;
 }
 
-//PUTE
-
 void GraphicEngine::PopState(void)
 {
 	 if ( !_states.empty() )
