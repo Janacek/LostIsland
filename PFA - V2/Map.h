@@ -1,22 +1,17 @@
 #pragma once
 #include				<iostream>
 #include				<deque>
+#include				<algorithm>
 
-//TODO faire la vrai classe
-class Map
-{
-
-};
-
-/*
 #include				"Area.h"
 #include				"Object.h"
 #include				"Coordinates.hpp"
 #include				"VoronoiDiagramGenerator.h"
 #include				"Polygon.h"
 #include				"Chunk.h"
+#include				"PerlinNoise.h"
 
-class										Map : public IDisplay
+class										Map
 {
 public:
 	Map(std::pair<unsigned int, unsigned int>, int);
@@ -26,13 +21,13 @@ public:
 	void									setSize(std::pair<unsigned int, unsigned int>);
 	std::pair<unsigned int, unsigned int>	getSize();
 	void									generateVoronoiPolygons();
-private:
+	Chunk									**getChunks();
+//private:
+	PerlinNoise								*_perlinNoise;
 	std::pair<unsigned int, unsigned int>	_size;
 	int										_seed;
 	std::pair<int, int>						_sizeOfChunks;
 	std::deque<Coordinates>					_points;
 	std::deque<Polygon *>					_polygons;
-	sf::RenderTexture						_img;
 	Chunk									**_chunks;
 };
-*/

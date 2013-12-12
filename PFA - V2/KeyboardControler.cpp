@@ -6,6 +6,9 @@ KeyboardControler::KeyboardControler()
 {
 
 }
+KeyboardControler::~KeyboardControler()
+{
+}
 
 void KeyboardControler::handlePlayerInput(sf::Keyboard::Key& k, bool isPressed)
 {

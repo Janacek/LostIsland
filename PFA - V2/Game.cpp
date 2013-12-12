@@ -20,9 +20,9 @@ void Game::launch(void)
 	Singleton& ptr1 = Singleton::getInstance();
 	std::list<IEntity *> _players;
 	std::list<IEntity *> _entities;
-	Map *_map = new Map(); // TODO Map est bidon pour le moment, envoyer un mail a mart_u@epitech.eu pour des éventuels problèmes avec cette classe (Rémy -> LOOL)
 	ptr1._clock = new sf::Clock();
 	ptr1._clock->restart();
+	Map *_map = new Map(std::pair<int, int>(1200, 800), 42);;
 	_gameEngine->init(_map);
 	_physicEngine->init(_map);
 	_graphicEngine->init(_map);

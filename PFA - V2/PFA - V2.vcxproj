@@ -85,7 +85,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Area.cpp" />
+    <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Compartment.cpp" />
+    <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEngine.cpp" />
@@ -96,18 +99,26 @@
     <ClCompile Include="KeyboardControler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="PathFinding.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="PhysicEngine.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="VoronoiDiagramGenerator.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="Wood.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Chunk.h" />
     <ClInclude Include="Compartment.h" />
+    <ClInclude Include="Coordinates.hpp" />
+    <ClInclude Include="Edge.h" />
     <ClInclude Include="Food.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameScreen.h" />
@@ -118,12 +129,16 @@
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="KeyboardControler.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="PathFinding.h" />
+    <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="PhysicEngine.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Polygon.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="VoronoiDiagramGenerator.h" />
     <ClInclude Include="Water.h" />
     <ClInclude Include="Wood.h" />
   </ItemGroup>

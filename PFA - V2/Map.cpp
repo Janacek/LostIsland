@@ -1,10 +1,11 @@
 #include "Map.h"
-/*
+
 Map::Map(std::pair<unsigned int, unsigned int> size, int seed)
 	: _size(size), _seed(seed)
 {
 	this->_sizeOfChunks.first = 512;
 	this->_sizeOfChunks.second = 512;
+	this->_perlinNoise = new PerlinNoise(seed);
 	generateVoronoiPolygons();
 }
 
@@ -18,13 +19,18 @@ void	Map::setSize(std::pair<unsigned int, unsigned int> size)
 	this->_size = size;
 }
 
+Chunk	**Map::getChunks()
+{
+	return (this->_chunks);
+}
+
 void	Map::generateVoronoiPolygons()
 {
 	int i = 0;
 
 
 	srand(_seed);
-	int number = 50;
+	int number = 1000;
 	float *nx = new float[number];
 	float *ny = new float[number];
 	for (; i < number ; ++i)
@@ -34,14 +40,9 @@ void	Map::generateVoronoiPolygons()
 		_points.push_back(Coordinates(nx[i], ny[i]));
 		this->_polygons.push_back(new Polygon(std::pair<float, float>(nx[i], ny[i])));
 	}
-		
-
 	VoronoiDiagramGenerator vdg;
 	vdg.generateVoronoi(nx, ny, number, 0, _size.first, 0, _size.second, 3);
-
 	vdg.resetIterator();
-	this->_img.create(this->_size.first, this->_size.second);
-
 	float x1, y1, x2, y2;
 	while(vdg.getNext(x1,y1,x2,y2))
 	{
@@ -71,9 +72,14 @@ void	Map::generateVoronoiPolygons()
 				nearest2 = (*it);
 			}
 		}
-		nearest1->addEdge(std::pair<float, float>(x1, y1), std::pair<float, float>(x2, y2));
-		nearest2->addEdge(std::pair<float, float>(x1, y1), std::pair<float, float>(x2, y2));
+		Edge_ *edge = new Edge_(std::pair<float, float>(x1, y1), std::pair<float, float>(x2, y2));
+
+		nearest1->addEdge(edge);
+		nearest2->addEdge(edge);
+		edge->_polygonsOwn.first = nearest1;
+		edge->_polygonsOwn.second = nearest2;
 	}
+
 
 	std::deque<Polygon *>::iterator it = this->_polygons.begin();
 	std::deque<Edge_ *>::iterator edges;
@@ -103,10 +109,158 @@ void	Map::generateVoronoiPolygons()
 			if (r > (*edges)->_pos2.first)
 				r = (*edges)->_pos2.first;
 		}
-		(*it)->_topLeft = std::pair<float, float>(t, l);
-		(*it)->_bottomRight = std::pair<float, float>(b, r);
+
+		(*it)->_pos.left = r;
+		(*it)->_pos.top = b;
+		(*it)->_pos.width = (l - r);
+		(*it)->_pos.height = (t - b);
+		if (b <= 0)
+		{
+			Edge_ *tmp = new Edge_(std::pair<int, int>(r, b), std::pair<int, int>(r + (l - r), b));
+			(*it)->addEdge(tmp);
+		}
+		if (b + (t - b) == this->_size.second)
+		{
+			Edge_ *tmp = new Edge_(std::pair<int, int>(r, (b + (t - b))), std::pair<int, int>(r + (l - r), b + (t - b)));
+			(*it)->addEdge(tmp);
+		}
+
+		if (r == 0)
+		{
+			Edge_ *tmp = new Edge_(std::pair<int, int>(r, b), std::pair<int, int>(r, b + (t - b)));
+			(*it)->addEdge(tmp);
+		}
+		if (r + (l - r) == this->_size.first)
+		{
+			Edge_ *tmp = new Edge_(std::pair<int, int>(r + (l - r), b), std::pair<int, int>(r + (l - r), b + (t - b)));
+			(*it)->addEdge(tmp);
+		}
+
+		if (this->_perlinNoise->getElevation((*it)->getCenter().first, (*it)->getCenter().second, 350) > -30 &&
+			this->_perlinNoise->getElevation((*it)->getCenter().first, (*it)->getCenter().second, 350) < 20)
+			(*it)->setPolygonType(Polygon::GROUND);
+		else
+			(*it)->setPolygonType(Polygon::WATER);
+	}	
+
+	int nb_chunksX = ceil((float)this->_size.first / (float)Chunk::_width);
+	int nb_chunksY = ceil((float)this->_size.second / (float)Chunk::_height);
+	this->_chunks = new Chunk*[nb_chunksY];
+	for (int c = 0 ; c < nb_chunksY ; ++c)
+		this->_chunks[c] = new Chunk[nb_chunksX];
+	it = this->_polygons.begin();
+
+	for (; it != this->_polygons.end() ; ++it)
+	{
+		int posX = (float)(*it)->_pos.top / (float)Chunk::_width;
+		int posY = (float)(*it)->_pos.left / (float)Chunk::_height;
+
+		/*	this->_chunks[posX][posY]._polygons.push_back((*it));
+		this->_chunks[posX][posY]._pos = std::pair<int, int>(posX, posY);*/
+
+		for (int i = 0 ; i < 10 ; ++i)
+		{
+			for (int j = 0 ; j < 10 ; ++j)
+			{
+				if (posX + i < nb_chunksY && posY + j < nb_chunksX)
+				{
+					this->_chunks[posX + i][posY + j].addPolygon(*it);
+					this->_chunks[posX + i][posY + j]._pos = std::pair<int, int>(posX + i, posY + j);
+				}
+			}
+		}
 	}
-	std::cout << this->_polygons.size() << std::endl;
+
+	//PUTTING THE MAP EDGES OCEAN TYPE
+	for (int i = 0 ; i < nb_chunksY ; ++i)
+	{
+		it = this->_chunks[i][0]._polygons.begin();
+		for (; it != this->_chunks[i][0]._polygons.end() ; ++it)
+			if ((*it)->_pos.left < 50)
+			{
+				(*it)->setPolygonType(Polygon::WATER);
+				(*it)->setPolygonPrecisionType(Polygon::OCEAN);
+			}
+	}
+
+	for (int i = 0 ; i < nb_chunksY ; ++i)
+	{
+		it = this->_chunks[i][nb_chunksX - 1]._polygons.begin();
+		for (; it != this->_chunks[i][nb_chunksX - 1]._polygons.end() ; ++it)
+			if ((*it)->_pos.left + (*it)->_pos.width > this->_size.first - 50)
+			{
+				(*it)->setPolygonType(Polygon::WATER);
+				(*it)->setPolygonPrecisionType(Polygon::OCEAN);
+			}
+	}
+
+	for (int i = 0 ; i < nb_chunksX ; ++i)
+	{
+		it = this->_chunks[0][i]._polygons.begin();
+		for (; it != this->_chunks[0][i]._polygons.end() ; ++it)
+			if ((*it)->_pos.top < 50)
+			{
+				(*it)->setPolygonType(Polygon::WATER);
+				(*it)->setPolygonPrecisionType(Polygon::OCEAN);
+			}
+	}
+
+	for (int i = 0 ; i < nb_chunksX ; ++i)
+	{
+		it = this->_chunks[nb_chunksY - 1][i]._polygons.begin();
+		for (; it != this->_chunks[nb_chunksY - 1][i]._polygons.end() ; ++it)
+			if ((*it)->_pos.top + (*it)->_pos.height > this->_size.second - 50)
+			{
+				(*it)->setPolygonType(Polygon::WATER);
+				(*it)->setPolygonPrecisionType(Polygon::OCEAN);
+			}
+	}
+
+	int looooooop = 0;
+	while (looooooop != 6)
+	{
+		it = this->_polygons.begin();
+		for (; it != this->_polygons.end() ; ++it)
+		{
+			if ((*it)->getPolygonType() == Polygon::WATER && (*it)->getPolygonPrecisionType() == Polygon::NONE)
+			{
+				edges = (*it)->getEdges().begin();
+				for (; edges != (*it)->getEdges().end() ; ++edges)
+				{
+					if ((*edges)->_polygonsOwn.first && (*edges)->_polygonsOwn.second)
+						if ((*edges)->_polygonsOwn.first->getPolygonPrecisionType() == Polygon::OCEAN ||
+							(*edges)->_polygonsOwn.second->getPolygonPrecisionType() == Polygon::OCEAN)
+						{
+							(*it)->setPolygonPrecisionType(Polygon::OCEAN);
+						}
+				}
+			}
+		}
+		++looooooop;
+	}
+
+	it = this->_polygons.begin();
+	for (; it != this->_polygons.end() ; ++it)
+	{
+		if ((*it)->getPolygonType() == Polygon::WATER && (*it)->getPolygonPrecisionType() == Polygon::NONE)
+			(*it)->setPolygonPrecisionType(Polygon::LAKE);
+	}
+
+	it = this->_polygons.begin();
+	for (; it != this->_polygons.end() ; ++it)
+	{
+		if ((*it)->getPolygonType() == Polygon::GROUND && (*it)->getPolygonPrecisionType() == Polygon::NONE)
+		{
+			edges = (*it)->getEdges().begin();
+			for (; edges != (*it)->getEdges().end() ; ++edges)
+			{
+				if ((*edges)->_polygonsOwn.first && (*edges)->_polygonsOwn.second)
+					if ((*edges)->_polygonsOwn.first->getPolygonPrecisionType() == Polygon::OCEAN ||
+						(*edges)->_polygonsOwn.second->getPolygonPrecisionType() == Polygon::OCEAN)
+						(*it)->setPolygonPrecisionType(Polygon::BEACH);
+			}
+		}
+	}
 }
 
 Map::~Map()
@@ -117,44 +271,66 @@ Map::~Map()
 }
 
 void	Map::draw(sf::RenderWindow *win)
-{	
-	std::deque<Polygon *>::iterator it = this->_polygons.begin();
-	for (; it != this->_polygons.end() ; ++it)
+{
+	int nb_chunksX = ceil((float)this->_size.first / (float)Chunk::_width);
+	int nb_chunksY = ceil((float)this->_size.second / (float)Chunk::_height);
+
+	static int x = 0;
+	static int y = 0;
+
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		std::deque<Edge_ *> edges = (*it)->getEdges();
-		if (edges.size() > 2)
+		// left key is pressed: move our character
+		x += 10;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		// left key is pressed: move our character
+		x -= 10;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		// left key is pressed: move our character
+		y -= 10;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		// left key is pressed: move our character
+		y += 10;
+	}
+
+	int posX = x / Chunk::_width;
+	int posY = y / Chunk::_height;
+
+	int posXX = x - posX * 512;
+	int posYY = y - posY * 512;
+
+
+	int nbChunksToDrawX = ceil((float)win->getSize().x / (float)Chunk::_width) + 1;
+	int nbChunksToDrawY = ceil((float)win->getSize().y / (float)Chunk::_height) + 1;
+
+	for (int i = posY ; i < nbChunksToDrawY + posY; ++i)
+	{
+		for (int j = posX ; j < nbChunksToDrawX + posX; ++j)
 		{
-			sf::ConvexShape convex;
-			convex.setPointCount(3);
-			convex.setFillColor(sf::Color(rand()%255, rand()%255, rand()%255));
-
-			int bord = 0;
-
-			while (bord < edges.size())
+			if (j < nb_chunksX && i < nb_chunksY)
 			{
-				std::deque<Edge_ *>::iterator ite = edges.begin();
-				for (; ite != edges.end() ; ++ite)
-				{
-					sf::VertexArray lines(sf::Lines, 2);
-					lines[0].position = sf::Vector2f((*ite)->_pos1.first, (*ite)->_pos1.second);
-					lines[1].position = sf::Vector2f((*ite)->_pos2.first, (*ite)->_pos2.second);
-					this->_img.draw(lines);
-					convex.setPoint(0, sf::Vector2f((*it)->getCenter().first, (*it)->getCenter().second));
-					convex.setPoint(1, sf::Vector2f((*ite)->_pos1.first, (*ite)->_pos1.second));
-					convex.setPoint(2, sf::Vector2f((*ite)->_pos2.first, (*ite)->_pos2.second));
-					this->_img.draw(convex);
-				}
-				++bord;
+				sf::Sprite sprite(this->_chunks[i][j].getTexture()->getTexture(), sf::Rect<int>(0, 0, 512, 512));
+				sprite.setPosition((j * 512) - x, (i * 512) - y);
+				win->draw(sprite);
+
+				//sf::RectangleShape tmp(sf::Vector2f(512, 512));
+				//tmp.setFillColor(sf::Color::Transparent);
+				//tmp.setOutlineColor(sf::Color::Red);
+				//tmp.setPosition((j * 512) - x, (i * 512) - y);
+				//win->draw(sprite);
 			}
 		}
 	}
-	this->_img.display();
-
-
-	sf::Sprite sprite(this->_img.getTexture(), sf::Rect<int>(0, 0, 1200, 800));
-	win->draw(sprite);
 }
 
 void	Map::update(sf::Event *)
 {
-}*/
+}
