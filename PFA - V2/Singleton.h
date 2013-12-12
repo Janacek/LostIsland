@@ -15,6 +15,7 @@ public:
 	bool isMovingDown;
 	bool isMovingRight;
 	bool isMovingLeft;
+	bool isKeyIPressed;
 	
 
 	sf::Vector2f posLeftClick;
