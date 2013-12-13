@@ -347,8 +347,9 @@ void	Map::draw(sf::RenderWindow *win)
 						(*it).second.second = true;
 					}
 
-				_drawableChunks.push_back(std::pair<Chunk *, std::pair<sf::Vector2f, bool>>(&(this->_chunks[i][j]),
-					std::pair<sf::Vector2f, bool>(sf::Vector2f((j * 512) - x, (i * 512) - y), true)));
+				if (push)
+					_drawableChunks.push_back(std::pair<Chunk *, std::pair<sf::Vector2f, bool>>(&(this->_chunks[i][j]),
+						std::pair<sf::Vector2f, bool>(sf::Vector2f((j * 512) - x, (i * 512) - y), true)));
 
 
 

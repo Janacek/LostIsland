@@ -3,7 +3,6 @@
 #include "GameScreen.h"
 #include "Singleton.h"
 
-
 GameScreen::GameScreen()
 {
 	_isRunning = true;
