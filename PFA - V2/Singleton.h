@@ -17,12 +17,12 @@ public:
 	bool isMovingLeft;
 	bool isKeyIPressed;
 	
-
-	sf::Vector2f posLeftClick;
-	sf::Vector2f posRightClick;
+	sf::Vector2i posLeftClick;
+	sf::Vector2i posRightClick;
 	bool isValidating;
 	sf::Clock *_animClock;
 
+	
 private:
 	Singleton(const Singleton&) {};
 	static Singleton m_instance;

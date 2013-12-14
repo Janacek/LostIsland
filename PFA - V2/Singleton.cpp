@@ -13,8 +13,8 @@ Singleton::Singleton()
 	this->isMovingLeft = false;
 	this->isKeyIPressed = false;
 
-	this->posLeftClick = sf::Vector2f(0, 0);
-	this->posRightClick = sf::Vector2f(0, 0);
+	this->posLeftClick = sf::Vector2i(0, 0);
+	this->posRightClick = sf::Vector2i(0, 0);
 
 	_clock = new sf::Clock();
 	_animClock = new sf::Clock();
