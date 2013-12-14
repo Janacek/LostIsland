@@ -7,7 +7,7 @@
 GameScreen::GameScreen()
 {
 	_isRunning = true;
-	//_map = new Map(std::pair<int, int>(1200, 800), 42);
+	_map = new Map(std::pair<int, int>(1200, 800), 42);
 	// TODO Map est bidon pour le moment, envoyer un mail a mart_u@epitech.eu pour des éventuels problèmes avec cette classe (Rémy -> LOL)
 
 }
@@ -19,7 +19,7 @@ void GameScreen::draw(std::list<IEntity *> players, std::list<IEntity *> entitie
 	_t = Singleton::getInstance()._clock->restart();
 	updateStatistics(_t);
 
-	//this->_map->draw(Singleton::getInstance()._window);
+	this->_map->draw(Singleton::getInstance()._window);
 
 	Singleton::getInstance()._window->draw(_statisticsText);
 	Singleton::getInstance()._window->draw(_statisticsText);

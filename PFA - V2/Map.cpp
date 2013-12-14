@@ -1,12 +1,24 @@
 #include "Map.h"
 
+static void print_pouet()
+{
+	std::cout << "pouet" << std::endl;
+}
+
+static void print_penis()
+{
+	std::cout << "penis" << std::endl;
+}
+
 Map::Map(std::pair<unsigned int, unsigned int> size, int seed)
 	: _size(size), _seed(seed)
 {
+	this->_drawableChunks.clear();
 	this->_sizeOfChunks.first = 512;
 	this->_sizeOfChunks.second = 512;
 	this->_perlinNoise = new PerlinNoise(seed);
 	generateVoronoiPolygons();
+
 }
 
 std::pair<unsigned int, unsigned int> Map::getSize()
@@ -114,6 +126,7 @@ void	Map::generateVoronoiPolygons()
 		(*it)->_pos.top = b;
 		(*it)->_pos.width = (l - r);
 		(*it)->_pos.height = (t - b);
+
 		if (b <= 0)
 		{
 			Edge_ *tmp = new Edge_(std::pair<int, int>(r, b), std::pair<int, int>(r + (l - r), b));
@@ -136,8 +149,8 @@ void	Map::generateVoronoiPolygons()
 			(*it)->addEdge(tmp);
 		}
 
-		if (this->_perlinNoise->getElevation((*it)->getCenter().first, (*it)->getCenter().second, 350) > -30 &&
-			this->_perlinNoise->getElevation((*it)->getCenter().first, (*it)->getCenter().second, 350) < 20)
+		if (this->_perlinNoise->getElevation((*it)->getCenter().first, (*it)->getCenter().second, 350) > -50 &&
+			this->_perlinNoise->getElevation((*it)->getCenter().first, (*it)->getCenter().second, 350) < 30)
 			(*it)->setPolygonType(Polygon::GROUND);
 		else
 			(*it)->setPolygonType(Polygon::WATER);
@@ -217,7 +230,7 @@ void	Map::generateVoronoiPolygons()
 	}
 
 	int looooooop = 0;
-	while (looooooop != 6)
+	while (looooooop < 6)
 	{
 		it = this->_polygons.begin();
 		for (; it != this->_polygons.end() ; ++it)
@@ -311,6 +324,10 @@ void	Map::draw(sf::RenderWindow *win)
 	int nbChunksToDrawX = ceil((float)win->getSize().x / (float)Chunk::_width) + 1;
 	int nbChunksToDrawY = ceil((float)win->getSize().y / (float)Chunk::_height) + 1;
 
+	std::list<std::pair<Chunk *, std::pair<sf::Vector2f, bool>>>::iterator it = _drawableChunks.begin();
+	for ( ; it != _drawableChunks.end() ; ++it)
+		(*it).second.second = false;
+
 	for (int i = posY ; i < nbChunksToDrawY + posY; ++i)
 	{
 		for (int j = posX ; j < nbChunksToDrawX + posX; ++j)
@@ -319,6 +336,24 @@ void	Map::draw(sf::RenderWindow *win)
 			{
 				sf::Sprite sprite(this->_chunks[i][j].getTexture()->getTexture(), sf::Rect<int>(0, 0, 512, 512));
 				sprite.setPosition((j * 512) - x, (i * 512) - y);
+
+
+				bool push = true;
+				it = _drawableChunks.begin();
+				for ( ; it != _drawableChunks.end() ; ++it)
+					if ((*it).first == &(this->_chunks[i][j]))
+					{
+						push = false;
+						(*it).second.second = true;
+					}
+
+				if (push)
+					_drawableChunks.push_back(std::pair<Chunk *, std::pair<sf::Vector2f, bool>>(&(this->_chunks[i][j]),
+						std::pair<sf::Vector2f, bool>(sf::Vector2f((j * 512) - x, (i * 512) - y), true)));
+
+
+
+
 				win->draw(sprite);
 
 				//sf::RectangleShape tmp(sf::Vector2f(512, 512));
@@ -329,6 +364,15 @@ void	Map::draw(sf::RenderWindow *win)
 			}
 		}
 	}
+
+	it = _drawableChunks.begin();
+	for ( ; it != _drawableChunks.end() ; ++it)
+		if ((*it).second.second == false)
+		{
+			(*it).first->unload();
+			_drawableChunks.erase(it);
+			it = _drawableChunks.begin();
+		}
 }
 
 void	Map::update(sf::Event *)

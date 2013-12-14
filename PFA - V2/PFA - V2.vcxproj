@@ -88,6 +88,7 @@
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="AWindow.cpp" />
     <ClCompile Include="Chunk.cpp" />
+    <ClCompile Include="ChunkFactory.cpp" />
     <ClCompile Include="Compartment.cpp" />
     <ClCompile Include="Crafting.cpp" />
     <ClCompile Include="Edge.cpp" />
@@ -102,6 +103,8 @@
     <ClCompile Include="KeyboardControler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Mutex.cpp" />
+    <ClCompile Include="MutexWin.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Onglet.cpp" />
     <ClCompile Include="PathFinding.cpp" />
@@ -112,6 +115,9 @@
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="Stuff.cpp" />
+    <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="ThreadPoolChunks.cpp" />
+    <ClCompile Include="ThreadWin.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="VoronoiDiagramGenerator.cpp" />
     <ClCompile Include="Water.cpp" />
@@ -120,6 +126,7 @@
   <ItemGroup>
     <ClInclude Include="AWindow.h" />
     <ClInclude Include="Chunk.h" />
+    <ClInclude Include="ChunkFactory.h" />
     <ClInclude Include="Compartment.h" />
     <ClInclude Include="Coordinates.hpp" />
     <ClInclude Include="Crafting.h" />
@@ -144,17 +151,22 @@
     <ClInclude Include="PhysicEngine.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Polygon.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="Stuff.h" />
+    <ClInclude Include="ThreadPoolChunks.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="VoronoiDiagramGenerator.h" />
     <ClInclude Include="Water.h" />
     <ClInclude Include="Wood.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="PFA - V2.rc" />
+    <None Include="IMutex.hh" />
+    <None Include="IThread.hh" />
+    <None Include="Mutex.hh" />
+    <None Include="MutexWin.hh" />
+    <None Include="Thread.hh" />
+    <None Include="ThreadWin.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

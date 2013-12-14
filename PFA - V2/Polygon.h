@@ -5,6 +5,7 @@
 #include					"Coordinates.hpp"
 #include					"Edge.h"
 
+
 class						Polygon
 {
 public:
