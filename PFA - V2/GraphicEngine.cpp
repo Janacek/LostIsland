@@ -8,7 +8,6 @@ void GraphicEngine::init(Map * map)
 	_startScreen = new StartScreen();
 	Singleton &ptr1=  Singleton::getInstance();
 	ptr1._window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Lost Island");
-	_gameScreen = new GameScreen();
 	ptr1._window->setFramerateLimit(60);
 	//_gameScreen->initialize();
 	//PushState(*_gameScreen);
@@ -43,8 +42,6 @@ bool GraphicEngine::getIsRunning() const
 {
 	return _isRunning;
 }
-
-//PUTE
 
 void GraphicEngine::PopState(void)
 {

@@ -67,4 +67,5 @@ sf::RenderTexture			*Chunk::getTexture()
 void						Chunk::unload()
 {
 	delete this->_texture;
+	this->_texture = NULL;
 }

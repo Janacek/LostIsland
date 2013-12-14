@@ -29,13 +29,18 @@ void GameEngine::update(std::list<IEntity *> players, std::list<IEntity *> entit
 				Singleton::getInstance()._window->close();
 				_isRunning = false;
 				break;
+			case sf::Event::MouseButtonReleased :
+				_controler.handlePlayerInput(event.mouseButton.button, false);
+				break;
+			case sf::Event::MouseButtonPressed :
+				_controler.handlePlayerInput(event.mouseButton.button, true);
+				break;
 		}
 		if (event.key.code == sf::Keyboard::Escape)
 		{
 			_isRunning = false;
 			break;
 		}
-
 	}
 	_gameEvents->update(players, entities, _map);
 }

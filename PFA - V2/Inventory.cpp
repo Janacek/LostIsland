@@ -4,56 +4,88 @@
 #include "Water.h"
 #include "Inventory.h"
 
-Inventory::Inventory(void)
+Inventory::Inventory(std::vector<Player *> &players) : _players(players)
 {
 	this->_enumStrings[WOOD] = "WOOD";
 	this->_enumStrings[FOOD] = "FOOD";
 	this->_enumStrings[WATER] = "WATER";
 	this->_enumStrings[PLAYER] = "PLAYER";
-	this->_mainInventory = sf::RectangleShape(sf::Vector2f((float)Singleton::getInstance()._window->getSize().x / 2, (float)Singleton::getInstance()._window->getSize().y / 2));
-	this->_mainInventory.setPosition(200, 200);
-	this->_mainInventory.setFillColor(sf::Color::Blue);
-	for (int i = 0; i < 6; i++)
-	{
-		this->_compartment.push_back(new Compartment((float)Singleton::getInstance()._window->getSize().x / 10, (float)Singleton::getInstance()._window->getSize().y / 10));
-	}
-	this->_compartment[0]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10, 50);
-	this->_compartment[0]->_rect.setFillColor(sf::Color::Red);
-	this->_compartment[1]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 2, 50);
-	this->_compartment[1]->_rect.setFillColor(sf::Color::Red);
-	this->_compartment[2]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 3, 50);
-	this->_compartment[2]->_rect.setFillColor(sf::Color::Red);
-	this->_compartment[3]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10, 200);
-	this->_compartment[3]->_rect.setFillColor(sf::Color::Red);
-	this->_compartment[4]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 2, 200);
-	this->_compartment[4]->_rect.setFillColor(sf::Color::Red);
-	this->_compartment[5]->setCompartmentPosition((float)Singleton::getInstance()._window->getSize().x / 10 * 3, 200);
-	this->_compartment[5]->_rect.setFillColor(sf::Color::Red);
+	this->_mainInventory = new InventaryWindow(players);
+	for (int i = 0; i < 9; i++)
+		this->_mainInventory->addCompartment();
 	this->_sizeInventory = 0;
-	addEntityInInventory(new Food);
-	addEntityInInventory(new Food);
-	addEntityInInventory(new Water);
-	addEntityInInventory(new Water);
-	addEntityInInventory(new Water);
-	addEntityInInventory(new Water);
-	addEntityInInventory(new Water);
-	addEntityInInventory(new Wood);
-	addEntityInInventory(new Wood);
-	printInventory();
+	players[0]->_inventary.push_back(new Food);
+	players[0]->_inventary.push_back(new Food);
+	players[1]->_inventary.push_back(new Water);
+	players[1]->_inventary.push_back(new Water);
+	players[1]->_inventary.push_back(new Food);
+	players[1]->_inventary.push_back(new Food);
+	players[2]->_inventary.push_back(new Wood);
+	players[2]->_inventary.push_back(new Wood);
+	players[2]->_inventary.push_back(new Wood);
+	players[3]->_inventary.push_back(new Water);
+	players[3]->_inventary.push_back(new Water);
+	players[3]->_inventary.push_back(new Water);
+	players[3]->_inventary.push_back(new Food);
+	players[3]->_inventary.push_back(new Water);
+	this->_selectOnglet = this->_mainInventory->_onglets.front();
+	updateViewCompartments();
+}
+
+bool Inventory::close() const
+{
+	return this->_mainInventory->close();
 }
 
 void Inventory::update()
 {
+	checkInputOnglet();
+	this->_mainInventory->update();
+}
 
+void Inventory::checkInputOnglet()
+{
+	sf::Vector2i posLeftClick = Singleton::getInstance().posLeftClick;
+	for (Onglet *o : this->_mainInventory->_onglets)
+	{
+		float leftCompartment = o->getGlobalBounds().left;
+		float rightCompartment = o->getGlobalBounds().width + leftCompartment;
+		float topCompartment = o->getGlobalBounds().top;
+		float bottomCompartment = topCompartment + o->getGlobalBounds().height;
+		if (posLeftClick.x != -1  && leftCompartment <= posLeftClick.x && rightCompartment >= posLeftClick.x && topCompartment <= posLeftClick.y && bottomCompartment >= posLeftClick.y)
+		{
+			Singleton::getInstance().posLeftClick.x = -1;
+			if (o != this->_selectOnglet)
+				this->selectOnglet(o);
+			std::cout << "J'ai cliqué sur l'onglet : " << o->getName() << std::endl;
+			return ;
+		}
+	}
+
+}
+
+void Inventory::updateViewCompartments()
+{
+	for (Compartment *c : this->_mainInventory->_compartments)
+		c->emptyCompartment();
+	this->_sizeInventory = 0;
+	for (IEntity *u : this->_selectOnglet->_player->_inventary)
+		this->addEntityInInventory(u);
+
+}
+
+void Inventory::selectOnglet(Onglet *onglet)
+{
+	this->_selectOnglet->setisSelected(false);
+	this->_selectOnglet = onglet;
+	this->_selectOnglet->setisSelected(true);
+	updateViewCompartments();
 }
 
 void Inventory::draw()
 {
-	Singleton::getInstance()._window->draw(this->_mainInventory);
-	for (Compartment *u : _compartment)
-	{
-		u->draw();
-	}
+	//this->update();
+	this->_mainInventory->draw();
 }
 
 bool Inventory::isInCompartment(Compartment &c) const
@@ -62,28 +94,48 @@ bool Inventory::isInCompartment(Compartment &c) const
 	float rightCompartment = c._rect.getGlobalBounds().width + leftCompartment;
 	float topCompartment = c._rect.getGlobalBounds().top;
 	float bottomCompartment = topCompartment + c._rect.getGlobalBounds().height;
-	sf::Vector2f posLeftClick = Singleton::getInstance().posLeftClick;
+	sf::Vector2i posLeftClick = Singleton::getInstance().posLeftClick;
+	sf::Vector2i posRightClick = Singleton::getInstance().posRightClick;
 
-	if (leftCompartment <= posLeftClick.x && rightCompartment >= posLeftClick.x && topCompartment <= posLeftClick.y && bottomCompartment >= posLeftClick.y)
+	if (posLeftClick.x != -1 && !c.isSelected() && leftCompartment <= posLeftClick.x && rightCompartment >= posLeftClick.x && topCompartment <= posLeftClick.y && bottomCompartment >= posLeftClick.y)
+	{
+		c.setIsSelected(true);
+		Singleton::getInstance().posLeftClick.x = -1;
+		Singleton::getInstance().posRightClick.x = -1;
 		return true;
+	}
+	if (posRightClick.x != -1 && c.isSelected() && leftCompartment <= posRightClick.x && rightCompartment >= posRightClick.x && topCompartment <= posRightClick.y && bottomCompartment >= posRightClick.y)
+	{
+		c.setIsSelected(false);
+		Singleton::getInstance().posLeftClick.x = -1;
+		Singleton::getInstance().posRightClick.x = -1;
+		return true;
+	}
 	return false;
 }
 
 void Inventory::checkInputs()
 {
-	for (Compartment *u : this->_compartment)
+	for (Compartment *u : this->_mainInventory->_compartments)
 	{
 		if (isInCompartment(*u))
-			std::cout << "Il est dans le compartiment !" << std::endl;
+		{
+
+		}
 	}
 }
 
+/// <summary>
+/// Adds the entity information inventory. Ajoute seulement pour l'affichage mais pas dans l'inventaire du player
+/// </summary>
+/// <param name="entity">The entity.</param>
 void Inventory::addEntityInInventory(IEntity *entity)
 {
 	int i = 0;
 
 	Type tmpType = entity->getType();
-	for (Compartment *u : _compartment)
+	//std::cout << "SIZE : " << this->_mainInventory._compartments.size() << std::endl;
+	for (Compartment *u : this->_mainInventory->_compartments)
 	{
 		if (u->_elements.size() != 0 && u->_elements.front()->getType() == tmpType)
 		{
@@ -93,7 +145,7 @@ void Inventory::addEntityInInventory(IEntity *entity)
 	}
 	if (this->_sizeInventory < 6)
 	{
-		this->_compartment[this->_sizeInventory]->addElement(entity);
+		this->_mainInventory->_compartments[this->_sizeInventory]->addElement(entity);
 		++this->_sizeInventory;
 	}
 	else
@@ -112,19 +164,19 @@ void Inventory::deleteEntityInInventory(Compartment *compartment)
 	compartment->delElement();
 	if (compartment->_elements.size() == 0)
 	{
-		organizeCompartment(compartment);
 		--this->_sizeInventory;
 	}
 }
 
+//n'est plus utilisée
 void Inventory::organizeCompartment(Compartment *comp)
 {
 	int size = 0;
 	if (this->_sizeInventory != 0)
 		size = _sizeInventory - 1;
-	comp->_elements = this->_compartment[size]->_elements;
-	comp->_rect = this->_compartment[size]->_rect;
-	this->_compartment[size]->_elements.clear();
+	comp->_elements = this->_mainInventory->_compartments[size]->_elements;
+	comp->_rect = this->_mainInventory->_compartments[size]->_rect;
+	this->_mainInventory->_compartments[size]->_elements.clear();
 }
 
 Inventory::~Inventory(void)
@@ -134,7 +186,7 @@ Inventory::~Inventory(void)
 void Inventory::printInventory() const
 {
 	int i = 0;
-	for (Compartment *u : this->_compartment)
+	for (Compartment *u : this->_mainInventory->_compartments)
 	{
 		std::cout << "---------- CASE " << i << " ---------" << std::endl;
 		for (IEntity *i : u->_elements)

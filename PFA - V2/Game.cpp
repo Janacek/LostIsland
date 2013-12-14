@@ -22,10 +22,9 @@ void Game::launch(void)
 	std::list<IEntity *> _entities;
 	ptr1._clock = new sf::Clock();
 	ptr1._clock->restart();
-	Map *_map = new Map(std::pair<int, int>(1200, 800), 42);;
-	_gameEngine->init(_map);
-	_physicEngine->init(_map);
-	_graphicEngine->init(_map);
+	_gameEngine->init(NULL);
+	_physicEngine->init(NULL);
+	_graphicEngine->init(NULL);
 	IEntity *player = new Player();
 	//set les attributs du player
 	_players.push_back(player);

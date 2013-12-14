@@ -10,6 +10,7 @@ public:
 	KeyboardControler();
 	~KeyboardControler();
 	void handlePlayerInput(sf::Keyboard::Key &k, bool isPressed);
+	void handlePlayerInput(sf::Mouse::Button &k, bool isPressed);
 
 protected:
 private:
