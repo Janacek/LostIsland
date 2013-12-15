@@ -11,7 +11,7 @@ Chunk::~Chunk()
 
 #include <iostream>
 
-void						Chunk::addPolygon(Polygon *polygon)
+void						Chunk::addPolygon(Polygon_ *polygon)
 {
 	this->_polygons.push_back(polygon);
 }
@@ -23,22 +23,22 @@ sf::RenderTexture			*Chunk::getTexture()
 		this->_texture = new sf::RenderTexture();
 		this->_texture->create(this->_height, this->_width);
 
-		std::deque<Polygon *>::iterator it = this->_polygons.begin();
+		std::deque<Polygon_ *>::iterator it = this->_polygons.begin();
 		sf::ConvexShape convex;
 		convex.setPointCount(3);
 		for (; it != this->_polygons.end() ; ++it)
 		{
 			std::deque<Edge_ *> edges = (*it)->getEdges();
-			if ((*it)->getPolygonType() == Polygon::GROUND)
+			if ((*it)->getPolygonType() == Polygon_::GROUND)
 			{
-				if ((*it)->getPolygonPrecisionType() == Polygon::BEACH)
+				if ((*it)->getPolygonPrecisionType() == Polygon_::BEACH)
 					convex.setFillColor(sf::Color::Yellow);
 				else
 					convex.setFillColor(sf::Color::Green);
 			}
 			else
 			{
-				if ((*it)->getPolygonPrecisionType() == Polygon::OCEAN)
+				if ((*it)->getPolygonPrecisionType() == Polygon_::OCEAN)
 					convex.setFillColor(sf::Color::Blue);
 				else
 					convex.setFillColor(sf::Color::Cyan);

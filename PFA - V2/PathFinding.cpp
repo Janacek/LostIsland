@@ -6,7 +6,7 @@
 
 void PathFinding::initPathfinding(Map* map)
 {
-	for (Polygon *u : map->_polygons)
+	for (Polygon_ *u : map->_polygons)
 	{
 		if (u->getPolygonType() == u->GROUND)
 		{
@@ -26,7 +26,7 @@ void PathFinding::initPathfinding(Map* map)
 						break;
 					}
 				}
-				std::pair<Polygon *, Polygon *> t = (*it)->_polygonsOwn;
+				std::pair<Polygon_ *, Polygon_ *> t = (*it)->_polygonsOwn;
 				if (isPass == false)
 				{
 					WayPointID wpID2 = boost::add_vertex(graphe);

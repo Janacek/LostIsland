@@ -9,7 +9,7 @@ class Chunk
 public:
 	Chunk();
 	~Chunk();
-	std::deque<Polygon *>		_polygons;
+	std::deque<Polygon_ *>		_polygons;
 	static const int			_width = 512;
 	static const int			_height = 512;
 	std::pair<int, int>			_pos;
@@ -20,6 +20,6 @@ private:
 
 public:
 	sf::RenderTexture			*getTexture();
-	void						addPolygon(Polygon *);
+	void						addPolygon(Polygon_ *);
 	void						unload();
 };

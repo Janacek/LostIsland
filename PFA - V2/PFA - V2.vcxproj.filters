@@ -235,11 +235,23 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IMutex.hh" />
-    <None Include="IThread.hh" />
-    <None Include="Mutex.hh" />
-    <None Include="MutexWin.hh" />
-    <None Include="Thread.hh" />
-    <None Include="ThreadWin.hh" />
+    <None Include="ThreadWin.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="IMutex.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="IThread.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="Mutex.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="MutexWin.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="Thread.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
   </ItemGroup>
 </Project>

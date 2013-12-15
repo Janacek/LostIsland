@@ -50,7 +50,7 @@ void	Map::generateVoronoiPolygons()
 		nx[i] = rand() % (_size.first);
 		ny[i] = rand() % (_size.second);
 		_points.push_back(Coordinates(nx[i], ny[i]));
-		this->_polygons.push_back(new Polygon(std::pair<float, float>(nx[i], ny[i])));
+		this->_polygons.push_back(new Polygon_(std::pair<float, float>(nx[i], ny[i])));
 	}
 	VoronoiDiagramGenerator vdg;
 	vdg.generateVoronoi(nx, ny, number, 0, _size.first, 0, _size.second, 3);
@@ -63,10 +63,10 @@ void	Map::generateVoronoiPolygons()
 		mX = (x1 + x2) / 2;
 		mY = (y1 + y2) / 2;
 
-		Polygon			*nearest1 = NULL;
-		Polygon			*nearest2 = NULL;
+		Polygon_			*nearest1 = NULL;
+		Polygon_			*nearest2 = NULL;
 		float n1 = _size.second, n2 = _size.second;
-		std::deque<Polygon *>::iterator it = this->_polygons.begin();
+		std::deque<Polygon_ *>::iterator it = this->_polygons.begin();
 		for (; it != this->_polygons.end() ; ++it)
 		{
 			float norme = sqrt(((mX - (*it)->getCenter().first) * (mX - (*it)->getCenter().first)) +
@@ -93,7 +93,7 @@ void	Map::generateVoronoiPolygons()
 	}
 
 
-	std::deque<Polygon *>::iterator it = this->_polygons.begin();
+	std::deque<Polygon_ *>::iterator it = this->_polygons.begin();
 	std::deque<Edge_ *>::iterator edges;
 	for (; it != this->_polygons.end() ; ++it)
 	{
@@ -151,9 +151,9 @@ void	Map::generateVoronoiPolygons()
 
 		if (this->_perlinNoise->getElevation((*it)->getCenter().first, (*it)->getCenter().second, 350) > -50 &&
 			this->_perlinNoise->getElevation((*it)->getCenter().first, (*it)->getCenter().second, 350) < 30)
-			(*it)->setPolygonType(Polygon::GROUND);
+			(*it)->setPolygonType(Polygon_::GROUND);
 		else
-			(*it)->setPolygonType(Polygon::WATER);
+			(*it)->setPolygonType(Polygon_::WATER);
 	}	
 
 	int nb_chunksX = ceil((float)this->_size.first / (float)Chunk::_width);
@@ -191,8 +191,8 @@ void	Map::generateVoronoiPolygons()
 		for (; it != this->_chunks[i][0]._polygons.end() ; ++it)
 			if ((*it)->_pos.left < 50)
 			{
-				(*it)->setPolygonType(Polygon::WATER);
-				(*it)->setPolygonPrecisionType(Polygon::OCEAN);
+				(*it)->setPolygonType(Polygon_::WATER);
+				(*it)->setPolygonPrecisionType(Polygon_::OCEAN);
 			}
 	}
 
@@ -202,8 +202,8 @@ void	Map::generateVoronoiPolygons()
 		for (; it != this->_chunks[i][nb_chunksX - 1]._polygons.end() ; ++it)
 			if ((*it)->_pos.left + (*it)->_pos.width > this->_size.first - 50)
 			{
-				(*it)->setPolygonType(Polygon::WATER);
-				(*it)->setPolygonPrecisionType(Polygon::OCEAN);
+				(*it)->setPolygonType(Polygon_::WATER);
+				(*it)->setPolygonPrecisionType(Polygon_::OCEAN);
 			}
 	}
 
@@ -213,8 +213,8 @@ void	Map::generateVoronoiPolygons()
 		for (; it != this->_chunks[0][i]._polygons.end() ; ++it)
 			if ((*it)->_pos.top < 50)
 			{
-				(*it)->setPolygonType(Polygon::WATER);
-				(*it)->setPolygonPrecisionType(Polygon::OCEAN);
+				(*it)->setPolygonType(Polygon_::WATER);
+				(*it)->setPolygonPrecisionType(Polygon_::OCEAN);
 			}
 	}
 
@@ -224,8 +224,8 @@ void	Map::generateVoronoiPolygons()
 		for (; it != this->_chunks[nb_chunksY - 1][i]._polygons.end() ; ++it)
 			if ((*it)->_pos.top + (*it)->_pos.height > this->_size.second - 50)
 			{
-				(*it)->setPolygonType(Polygon::WATER);
-				(*it)->setPolygonPrecisionType(Polygon::OCEAN);
+				(*it)->setPolygonType(Polygon_::WATER);
+				(*it)->setPolygonPrecisionType(Polygon_::OCEAN);
 			}
 	}
 
@@ -235,16 +235,16 @@ void	Map::generateVoronoiPolygons()
 		it = this->_polygons.begin();
 		for (; it != this->_polygons.end() ; ++it)
 		{
-			if ((*it)->getPolygonType() == Polygon::WATER && (*it)->getPolygonPrecisionType() == Polygon::NONE)
+			if ((*it)->getPolygonType() == Polygon_::WATER && (*it)->getPolygonPrecisionType() == Polygon_::NONE)
 			{
 				edges = (*it)->getEdges().begin();
 				for (; edges != (*it)->getEdges().end() ; ++edges)
 				{
 					if ((*edges)->_polygonsOwn.first && (*edges)->_polygonsOwn.second)
-						if ((*edges)->_polygonsOwn.first->getPolygonPrecisionType() == Polygon::OCEAN ||
-							(*edges)->_polygonsOwn.second->getPolygonPrecisionType() == Polygon::OCEAN)
+						if ((*edges)->_polygonsOwn.first->getPolygonPrecisionType() == Polygon_::OCEAN ||
+							(*edges)->_polygonsOwn.second->getPolygonPrecisionType() == Polygon_::OCEAN)
 						{
-							(*it)->setPolygonPrecisionType(Polygon::OCEAN);
+							(*it)->setPolygonPrecisionType(Polygon_::OCEAN);
 						}
 				}
 			}
@@ -255,22 +255,22 @@ void	Map::generateVoronoiPolygons()
 	it = this->_polygons.begin();
 	for (; it != this->_polygons.end() ; ++it)
 	{
-		if ((*it)->getPolygonType() == Polygon::WATER && (*it)->getPolygonPrecisionType() == Polygon::NONE)
-			(*it)->setPolygonPrecisionType(Polygon::LAKE);
+		if ((*it)->getPolygonType() == Polygon_::WATER && (*it)->getPolygonPrecisionType() == Polygon_::NONE)
+			(*it)->setPolygonPrecisionType(Polygon_::LAKE);
 	}
 
 	it = this->_polygons.begin();
 	for (; it != this->_polygons.end() ; ++it)
 	{
-		if ((*it)->getPolygonType() == Polygon::GROUND && (*it)->getPolygonPrecisionType() == Polygon::NONE)
+		if ((*it)->getPolygonType() == Polygon_::GROUND && (*it)->getPolygonPrecisionType() == Polygon_::NONE)
 		{
 			edges = (*it)->getEdges().begin();
 			for (; edges != (*it)->getEdges().end() ; ++edges)
 			{
 				if ((*edges)->_polygonsOwn.first && (*edges)->_polygonsOwn.second)
-					if ((*edges)->_polygonsOwn.first->getPolygonPrecisionType() == Polygon::OCEAN ||
-						(*edges)->_polygonsOwn.second->getPolygonPrecisionType() == Polygon::OCEAN)
-						(*it)->setPolygonPrecisionType(Polygon::BEACH);
+					if ((*edges)->_polygonsOwn.first->getPolygonPrecisionType() == Polygon_::OCEAN ||
+						(*edges)->_polygonsOwn.second->getPolygonPrecisionType() == Polygon_::OCEAN)
+						(*it)->setPolygonPrecisionType(Polygon_::BEACH);
 			}
 		}
 	}
@@ -278,7 +278,7 @@ void	Map::generateVoronoiPolygons()
 
 Map::~Map()
 {
-	std::deque<Polygon *>::iterator it = this->_polygons.begin();
+	std::deque<Polygon_ *>::iterator it = this->_polygons.begin();
 	for (; it != this->_polygons.end() ; ++it)
 		delete *it;
 }

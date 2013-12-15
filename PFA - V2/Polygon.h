@@ -6,7 +6,7 @@
 #include					"Edge.h"
 
 
-class						Polygon
+class						Polygon_
 {
 public:
 	enum					PType
@@ -26,8 +26,8 @@ public:
 	};
 
 public:
-	Polygon(std::pair<float, float>);
-	~Polygon();
+	Polygon_(std::pair<float, float>);
+	~Polygon_();
 	void					addEdge(Edge_ *);
 	void					addEdge(std::pair<float, float>, std::pair<float, float>);
 	std::deque<Edge_ *>		&getEdges();

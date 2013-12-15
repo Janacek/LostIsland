@@ -3,7 +3,7 @@
 
 #include							<queue>
 
-class								Polygon;
+class								Polygon_;
 
 class								Edge_
 {
@@ -13,7 +13,7 @@ public:
 	~Edge_();
 	std::pair<float, float>			_pos1;
 	std::pair<float, float>			_pos2;
-	std::pair<Polygon *, Polygon *>	_polygonsOwn;
+	std::pair<Polygon_ *, Polygon_ *>	_polygonsOwn;
 };
 
 #endif								

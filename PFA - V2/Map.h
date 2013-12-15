@@ -34,7 +34,7 @@ public:
 	int												_seed;
 	std::pair<int, int>								_sizeOfChunks;
 	std::deque<Coordinates>							_points;
-	std::deque<Polygon *>							_polygons;
+	std::deque<Polygon_ *>							_polygons;
 	Chunk											**_chunks;
 
 	/*
