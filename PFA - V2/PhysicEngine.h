@@ -1,16 +1,20 @@
 #pragma once
 
+#include <stack>
 #include "IEngine.h"
 #include "PathFinding.h"
 
 class PhysicEngine : public IEngine
 {
 public:
-   void init(Map * map);
+	PhysicEngine(Map *&, std::stack<IScreen *>&);
+   void init();
    void update(std::list<IEntity *> players, std::list<IEntity *> entities);
 
 protected:
 private:
    bool _isRunning;
    PathFinding _pathFinding;
+   Map *&_map;
+   std::stack<IScreen *> &_states;
 };

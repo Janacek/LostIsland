@@ -1,13 +1,18 @@
 #include "GameEngine.h"
 #include "Singleton.h"
 
-GameEngine::GameEngine()
+GameEngine::GameEngine(Map *&map, std::stack<IScreen *>&states) : _map(map), _states(states)
 {
+
 }
 
-void GameEngine::init(Map * map)
+GameEngine::~GameEngine()
 {
-	this->_map = map;
+
+}
+
+void GameEngine::init()
+{
 	_gameEvents = new GameEvents();
 	_isRunning = true;
 }

@@ -48,8 +48,6 @@ private:
 	sf::Text			_statisticsText;
 	std::size_t			_statisticsNumFrames;
 	sf::Time			_statisticsUpdateTime;
-	sf::Time			_t;
-	sf::Time			_timeKey;
 	sf::Font			_font;
 	bool				_isRunning;
    IScreen				* _next;

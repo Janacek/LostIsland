@@ -98,6 +98,7 @@
     <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
+    <ClCompile Include="ImageSingleton.cpp" />
     <ClCompile Include="InventaryWindow.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="KeyboardControler.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="GraphicEngine.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IEntity.h" />
+    <ClInclude Include="ImageSingleton.h" />
     <ClInclude Include="InventaryWindow.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="IScreen.h" />
