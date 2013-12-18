@@ -14,12 +14,16 @@ public:
 	static const int			_height = 512;
 	std::pair<int, int>			_pos;
 
-private:
+public:
 	sf::RenderTexture			*_texture;
 	std::deque<sf::ConvexShape>	_convexShapes;
 
 public:
 	sf::RenderTexture			*getTexture();
+	sf::RenderTexture			*getGeneratedTexture();
 	void						addPolygon(Polygon_ *);
 	void						unload();
+
+	bool						_generated;
+	bool						_generating;
 };

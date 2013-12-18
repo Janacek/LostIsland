@@ -9,5 +9,5 @@ class IEngine
 {
 	public:
    virtual void init() = 0;
-   virtual void update(std::list<IEntity *> players, std::list<IEntity *> entities) = 0;
+   virtual void update(std::vector<IEntity *> &players, std::list<IEntity *> &entities) = 0;
 };

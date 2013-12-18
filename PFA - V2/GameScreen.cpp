@@ -7,13 +7,11 @@
 GameScreen::GameScreen()
 {
 	_isRunning = true;
-	_map = new Map(std::pair<int, int>(1200, 800), 42);
-	// TODO Map est bidon pour le moment, envoyer un mail a mart_u@epitech.eu pour des éventuels problèmes avec cette classe (Rémy -> LOL)
-
+	_map = new Map(std::pair<int, int>(12000, 8000), 42);
 }
 
 
-void GameScreen::draw(std::list<IEntity *> players, std::list<IEntity *> entities)
+void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
 {
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
@@ -54,8 +52,8 @@ void GameScreen::checkInput()
 	{
 		this->_activeInventary = false;
 	}
-	if (this->_stuff->close() || this->_crafting->close() || this->_inventory->close())
-		this->_activeInventary = false;
+	//if (this->_stuff->close() || this->_crafting->close() || this->_inventory->close())
+	//	this->_activeInventary = false;
 
 }
 
@@ -76,6 +74,7 @@ void GameScreen::initialize(void)
 	_statisticsText.setPosition(0, 30);
 
 }
+
 void GameScreen::updateStatistics(sf::Time &elapsedTime)
 {
 	_statisticsUpdateTime += elapsedTime;
@@ -112,5 +111,5 @@ bool GameScreen::isRunning(void) const
 
 void GameScreen::update(void)
 {
-
+	//_map->update();
 }

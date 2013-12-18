@@ -98,7 +98,6 @@
     <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
-    <ClCompile Include="ImageSingleton.cpp" />
     <ClCompile Include="InventaryWindow.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="KeyboardControler.cpp" />
@@ -163,6 +162,7 @@
     <ClInclude Include="Wood.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CrossType.hh" />
     <None Include="IMutex.hh" />
     <None Include="IThread.hh" />
     <None Include="Mutex.hh" />

@@ -1,11 +1,12 @@
 #include "Player.h"
 #include "Singleton.h"
-#include "ImageSingleton.h"
+//#include "ImageSingleton.h"
 #include "Game.h"
+#include "Thread.hh"
 
 Game::Game(void) 
 {
-	
+
 }
 
 Game::~Game(void)
@@ -17,31 +18,48 @@ void Game::init()
 	srand((unsigned int)time(NULL));
 	Singleton& ptr1 = Singleton::getInstance();
 
+	ptr1._window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Lost Island");
+	ptr1._window->setFramerateLimit(60);
+
+	ptr1._window->setActive(false);
+
 	Map *map = NULL;
-	std::list<IEntity *> _players;
-	std::list<IEntity *> _entities;
 	ptr1._clock = new sf::Clock();
 	ptr1._clock->restart();
 
-	this->_graphicEngine = new GraphicEngine(map, this->_states);
+	//_states.push()
+	_states.push( new StartScreen() );
+	_states.top()->initialize();
+	this->_graphicEngine = new GraphicEngine(map, this->_states, _players, _entities);
 	this->_gameEngine = new GameEngine(map, this->_states);
 	this->_physicEngine = new PhysicEngine(map, this->_states);
+
+	//this->_graphicEngine->init();
+	this->_gameEngine->init();
+	this->_physicEngine->init();
 }
 
 
 void Game::launch(void)
 {
-	
+	this->init();
 
-	while (42)
+	/*
+	** Instantiation du graphical engine + threading;
+	*/
+
+	Thread *graphicalThread = new Thread(&GraphicEngine::run, _graphicEngine);
+
+	graphicalThread->launch();
+	while (true)
 	{
-		if (_graphicEngine->getIsRunning() == false)
-			break;
+		/*if (_graphicEngine->getIsRunning() == false)
+			break;*/
 		if (_gameEngine->getIsRunning() == false)
 			break;
 		//_graphicEngine->update(_players, _entities);
+		//_graphicEngine->draw(_players, _entities);
 		_gameEngine->update(_players, _entities);
 		_physicEngine->update(_players, _entities);
-		
 	}
 }

@@ -10,7 +10,7 @@ void PhysicEngine::init()
 	
 }
 
-void PhysicEngine::update(std::list<IEntity *> players, std::list<IEntity *> entities)
+void PhysicEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
 {
 
 }

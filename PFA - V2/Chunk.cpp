@@ -3,6 +3,8 @@
 Chunk::Chunk()
 {
 	this->_texture = NULL;
+	_generated = false;
+	_generating = false;
 }
 
 Chunk::~Chunk()
@@ -16,10 +18,16 @@ void						Chunk::addPolygon(Polygon_ *polygon)
 	this->_polygons.push_back(polygon);
 }
 
+sf::RenderTexture			*Chunk::getGeneratedTexture()
+{
+	return (this->_texture);
+}
+
 sf::RenderTexture			*Chunk::getTexture()
 {
 	if (!this->_texture)
 	{
+		_generating = true;
 		this->_texture = new sf::RenderTexture();
 		this->_texture->create(this->_height, this->_width);
 
@@ -59,7 +67,8 @@ sf::RenderTexture			*Chunk::getTexture()
 		}
 	}
 
-
+	_generating = false;
+	_generated = true;
 	this->_texture->display();
 	return (this->_texture);
 }
@@ -68,4 +77,6 @@ void						Chunk::unload()
 {
 	delete this->_texture;
 	this->_texture = NULL;
+	_generated = false;
+	_generating = false;
 }

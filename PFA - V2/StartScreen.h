@@ -6,7 +6,7 @@ class StartScreen : public IScreen
 public:
 	StartScreen(); //ALORS, on met un boolean dans chaque state des qu'on veut un new slide on set un ptr IScreen dans se state au next state , dans le gamemanager si il est false on get le state suivant dans le state
 
-	void draw(std::list<IEntity *> players, std::list<IEntity *> entities);
+	void draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
 	void initialize(void);
 	IScreen * getNextState(void);
 	void release(void);

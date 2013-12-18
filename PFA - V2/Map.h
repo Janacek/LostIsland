@@ -17,13 +17,15 @@
 #include				"Chunk.h"
 #include				"PerlinNoise.h"
 
+#include				"Singleton.h"
+
 class												Map
 {
 public:
 	Map(std::pair<unsigned int, unsigned int>, int);
 	~Map();
 	void											draw(sf::RenderWindow *);
-	void											update(sf::Event *);
+	void											update();
 	void											setSize(std::pair<unsigned int, unsigned int>);
 	std::pair<unsigned int, unsigned int>			getSize();
 	void											generateVoronoiPolygons();

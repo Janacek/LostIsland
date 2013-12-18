@@ -9,7 +9,7 @@ class PhysicEngine : public IEngine
 public:
 	PhysicEngine(Map *&, std::stack<IScreen *>&);
    void init();
-   void update(std::list<IEntity *> players, std::list<IEntity *> entities);
+   void update(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
 
 protected:
 private:

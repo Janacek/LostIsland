@@ -1,15 +1,5 @@
 #include "Map.h"
 
-static void print_pouet()
-{
-	std::cout << "pouet" << std::endl;
-}
-
-static void print_penis()
-{
-	std::cout << "penis" << std::endl;
-}
-
 Map::Map(std::pair<unsigned int, unsigned int> size, int seed)
 	: _size(size), _seed(seed)
 {
@@ -334,33 +324,35 @@ void	Map::draw(sf::RenderWindow *win)
 		{
 			if (j < nb_chunksX && i < nb_chunksY)
 			{
-				sf::Sprite sprite(this->_chunks[i][j].getTexture()->getTexture(), sf::Rect<int>(0, 0, 512, 512));
-				sprite.setPosition((j * 512) - x, (i * 512) - y);
+				sf::RenderTexture *tmp = this->_chunks[i][j].getGeneratedTexture();
+				if (true)
+				//if (tmp && this->_chunks[i][j]._generated && !this->_chunks[i][j]._generating)
+				{
+					sf::Sprite sprite(this->_chunks[i][j].getTexture()->getTexture(), sf::Rect<int>(0, 0, 512, 512));
+					sprite.setPosition((j * 512) - x, (i * 512) - y);
 
 
-				bool push = true;
-				it = _drawableChunks.begin();
-				for ( ; it != _drawableChunks.end() ; ++it)
-					if ((*it).first == &(this->_chunks[i][j]))
-					{
-						push = false;
-						(*it).second.second = true;
-					}
+					bool push = true;
+					it = _drawableChunks.begin();
+					for ( ; it != _drawableChunks.end() ; ++it)
+						if ((*it).first == &(this->_chunks[i][j]))
+						{
+							push = false;
+							(*it).second.second = true;
+						}
 
-				if (push)
-					_drawableChunks.push_back(std::pair<Chunk *, std::pair<sf::Vector2f, bool>>(&(this->_chunks[i][j]),
-						std::pair<sf::Vector2f, bool>(sf::Vector2f((j * 512) - x, (i * 512) - y), true)));
+						if (push)
+							_drawableChunks.push_back(std::pair<Chunk *, std::pair<sf::Vector2f, bool>>(&(this->_chunks[i][j]),
+							std::pair<sf::Vector2f, bool>(sf::Vector2f((j * 512) - x, (i * 512) - y), true)));
 
+						win->draw(sprite);
 
-
-
-				win->draw(sprite);
-
-				//sf::RectangleShape tmp(sf::Vector2f(512, 512));
-				//tmp.setFillColor(sf::Color::Transparent);
-				//tmp.setOutlineColor(sf::Color::Red);
-				//tmp.setPosition((j * 512) - x, (i * 512) - y);
-				//win->draw(sprite);
+						//sf::RectangleShape tmp(sf::Vector2f(512, 512));
+						//tmp.setFillColor(sf::Color::Transparent);
+						//tmp.setOutlineColor(sf::Color::Red);
+						//tmp.setPosition((j * 512) - x, (i * 512) - y);
+						//win->draw(sprite);
+				}
 			}
 		}
 	}
@@ -375,6 +367,55 @@ void	Map::draw(sf::RenderWindow *win)
 		}
 }
 
-void	Map::update(sf::Event *)
+void	Map::update()
 {
+	int nb_chunksX = ceil((float)this->_size.first / (float)Chunk::_width);
+	int nb_chunksY = ceil((float)this->_size.second / (float)Chunk::_height);
+
+	static int x = 0;
+	static int y = 0;
+
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		// left key is pressed: move our character
+		x += 10;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		// left key is pressed: move our character
+		x -= 10;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		// left key is pressed: move our character
+		y -= 10;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		// left key is pressed: move our character
+		y += 10;
+	}
+
+	int posX = x / Chunk::_width;
+	int posY = y / Chunk::_height;
+
+	int posXX = x - posX * 512;
+	int posYY = y - posY * 512;
+
+
+	int nbChunksToDrawX = ceil((float)Singleton::getInstance()._window->getSize().x / (float)Chunk::_width) + 1;
+	int nbChunksToDrawY = ceil((float)Singleton::getInstance()._window->getSize().y / (float)Chunk::_height) + 1;
+
+	for (int i = posY ; i < nbChunksToDrawY + posY; ++i)
+	{
+		for (int j = posX ; j < nbChunksToDrawX + posX; ++j)
+		{
+			if (j < nb_chunksX && i < nb_chunksY)
+			{
+				this->_chunks[i][j].getTexture();
+			}
+		}
+	}
 }

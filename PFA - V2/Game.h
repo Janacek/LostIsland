@@ -11,15 +11,17 @@ class Game
 public:
 	Game(void);
 	~Game(void);
-   void launch(void);
-   void init();
+	void launch(void);
+	void init();
 
 protected:
 private:
-   GraphicEngine *_graphicEngine;
-   GameEngine	 *_gameEngine;
-   PhysicEngine *_physicEngine;
-   sf::Clock			_cl;
-   std::stack<IScreen *> _states;
+	GraphicEngine			*_graphicEngine;
+	GameEngine				*_gameEngine;
+	PhysicEngine			*_physicEngine;
+	sf::Clock				_cl;
+	std::stack<IScreen *>	_states;
+	std::vector<IEntity *>	_players;
+	std::list<IEntity *>	_entities;
 };
 
