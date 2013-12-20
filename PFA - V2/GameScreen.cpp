@@ -7,7 +7,9 @@
 GameScreen::GameScreen()
 {
 	_isRunning = true;
-	_map = new Map(std::pair<int, int>(12000, 8000), 42);
+	_map = new Map();
+	_map->init(std::string(""), sf::Vector2i(18, 18), 33);
+	_map->generate();
 }
 
 

@@ -14,7 +14,7 @@ public:
 protected:
 private:
    bool _isRunning;
-   PathFinding _pathFinding;
+   //PathFinding _pathFinding;
    Map *&_map;
    std::stack<IScreen *> &_states;
 };
