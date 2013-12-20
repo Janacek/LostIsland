@@ -11,7 +11,7 @@ Map::~Map()
 {
 }
 
-static unsigned int generateHash(std::string &string)
+static unsigned int generateHash(std::string const & string)
 {
     unsigned int hash = 0;
 	for(size_t i = 0; i < string.length(); ++i) 
@@ -19,7 +19,7 @@ static unsigned int generateHash(std::string &string)
     return hash ^ (hash >> 16);
 }
 
-void						Map::init(std::string &seed, sf::Vector2i size, int groundRatio)
+void						Map::init(std::string const & seed, sf::Vector2i size, int groundRatio)
 {
 	_size = size;
 	_seed = generateHash(seed);

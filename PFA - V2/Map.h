@@ -19,7 +19,7 @@ public:
 	~Map();
 
 	// Initializes the map.
-	void					init(std::string &, sf::Vector2i, int);
+	void					init(std::string const &, sf::Vector2i, int);
 	// Generates the map.
 	void					generate();
 	void					generateCenterIsland(int);
