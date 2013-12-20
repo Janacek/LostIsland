@@ -19,7 +19,7 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 	_t = Singleton::getInstance()._clock->restart();
 	updateStatistics(_t);
 
-	this->_map->draw(Singleton::getInstance()._window);
+//	this->_map->draw(Singleton::getInstance()._window);
 
 	Singleton::getInstance()._window->draw(_statisticsText);
 	Singleton::getInstance()._window->draw(_statisticsText);

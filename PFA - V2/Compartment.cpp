@@ -21,6 +21,8 @@ void Compartment::emptyCompartment()
 {
 	this->_elements.clear();
 	this->_textNumber.setString("");
+	this->_rect.setTexture(NULL);
+	this->_rect.setFillColor(sf::Color::Red);
 	this->_numberElements = 0;
 }
 
@@ -101,13 +103,15 @@ void Compartment::decreaseNumber()
 	}
 	else //Si c'est zéro
 	{
-		//TODO supprimer la photo
+		this->_rect.setTexture(NULL);
+		this->_rect.setFillColor(sf::Color::Red);
 	}
 }
 
 void Compartment::applyPicture(Type type)
 {
-	//TODO mettre le sprite qui correspond au type
+	this->_rect.setTexture(ImageSingleton::getInstance().get(type));
+	this->_rect.setFillColor(sf::Color::White);
 }
 
 Compartment::~Compartment(void)

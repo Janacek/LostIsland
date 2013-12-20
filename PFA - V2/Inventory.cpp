@@ -71,7 +71,7 @@ void Inventory::updateViewCompartments()
 	this->_sizeInventory = 0;
 	for (IEntity *u : this->_selectOnglet->_player->_inventary)
 		this->addEntityInInventory(u);
-
+	printInventory();
 }
 
 void Inventory::selectOnglet(Onglet *onglet)
