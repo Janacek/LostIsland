@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "Compartment.h"
 #include "IEntity.h"
 
 class Player : public IEntity

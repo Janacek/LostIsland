@@ -31,11 +31,17 @@ void KeyboardControler::handlePlayerInput(sf::Mouse::Button &k, bool isPressed)
 	if (k == sf::Mouse::Left)
 	{
 		Singleton::getInstance().isLeftClicking = isPressed;
-		Singleton::getInstance().posLeftClick = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+		if (isPressed)
+			Singleton::getInstance().posLeftClickPressed = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+		else 
+			Singleton::getInstance().posLeftClickReleased = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 	}
 	else if (k == sf::Mouse::Right)
 	{
 		Singleton::getInstance().isRightClicking = isPressed;
-		Singleton::getInstance().posRightClick = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+		if (isPressed)
+			Singleton::getInstance().posRightClickPressed = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+		else
+			Singleton::getInstance().posRightClickReleased = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 	}
 }

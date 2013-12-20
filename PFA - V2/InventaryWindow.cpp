@@ -35,6 +35,28 @@ void InventaryWindow::createOnglets()
 	this->_onglets.front()->setisSelected(true);
 }
 
+
+ s_action Stuff::clickInCompartment()
+{
+	 s_action action;
+	sf::Vector2i posLeftClickPressed = Singleton::getInstance().posLeftClickPressed;
+	for (Compartment *c : this->_compartments)
+	{
+		float leftCompartment = c->_rect.getGlobalBounds().left;
+		float rightCompartment = c->_rect.getGlobalBounds().width + leftCompartment;
+		float topCompartment = c->_rect.getGlobalBounds().top;
+		float bottomCompartment = topCompartment + c->_rect.getGlobalBounds().height;
+		if (posLeftClickPressed.x != -1  && leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
+		{
+			std::cout << "On est dans un compartiment" << std::endl;
+			action._compartment = c;
+			action._screen = INVENTORY;
+			return action;
+		}
+	}
+	return action;
+}
+
 bool InventaryWindow::close()
 {
 	if (this->_close == true)

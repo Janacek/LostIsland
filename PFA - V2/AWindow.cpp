@@ -36,28 +36,11 @@ void AWindow::checkClose()
 	float rightCompartment = this->_closeButton.getGlobalBounds().width + leftCompartment;
 	float topCompartment = this->_closeButton.getGlobalBounds().top;
 	float bottomCompartment = topCompartment + this->_closeButton.getGlobalBounds().height;
-	sf::Vector2i posLeftClick = Singleton::getInstance().posLeftClick;
-	if (posLeftClick.x != -1  && leftCompartment <= posLeftClick.x && rightCompartment >= posLeftClick.x && topCompartment <= posLeftClick.y && bottomCompartment >= posLeftClick.y)
+	sf::Vector2i posLeftClickPressed = Singleton::getInstance().posLeftClickPressed;
+	if (posLeftClickPressed.x != -1  && leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
 	{
-		Singleton::getInstance().posLeftClick.x = -1;
+		Singleton::getInstance().posLeftClickPressed.x = -1;
 		this->_close = true;
-	}
-}
-
-void AWindow::clickInCompartment()
-{
-	sf::Vector2i posLeftClick = Singleton::getInstance().posLeftClick;
-	for (Compartment *c : this->_compartments)
-	{
-		float leftCompartment = c->_rect.getGlobalBounds().left;
-		float rightCompartment = c->_rect.getGlobalBounds().width + leftCompartment;
-		float topCompartment = c->_rect.getGlobalBounds().top;
-		float bottomCompartment = topCompartment + c->_rect.getGlobalBounds().height;
-		if (posLeftClick.x != -1  && leftCompartment <= posLeftClick.x && rightCompartment >= posLeftClick.x && topCompartment <= posLeftClick.y && bottomCompartment >= posLeftClick.y)
-		{
-			std::cout << "On est dans un compartiment" << std::endl;
-			return ;
-		}
 	}
 }
 
@@ -67,11 +50,11 @@ bool AWindow::clickInWindow()
 	float rightCompartment = this->_window.getGlobalBounds().width + leftCompartment;
 	float topCompartment = this->_window.getGlobalBounds().top;
 	float bottomCompartment = topCompartment + this->_window.getGlobalBounds().height;
-	sf::Vector2i posLeftClick = Singleton::getInstance().posLeftClick;
-	if (posLeftClick.x != -1  && leftCompartment <= posLeftClick.x && rightCompartment >= posLeftClick.x && topCompartment <= posLeftClick.y && bottomCompartment >= posLeftClick.y)
+	sf::Vector2i posLeftClickPressed = Singleton::getInstance().posLeftClickPressed;
+	if (posLeftClickPressed.x != -1  && leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
 	{
 		clickInCompartment();
-		Singleton::getInstance().posLeftClick.x = -1;
+		Singleton::getInstance().posLeftClickPressed.x = -1;
 		std::cout << "Je clique dans la fenetre" << std::endl;
 		return true;
 	}
