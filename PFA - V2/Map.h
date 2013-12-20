@@ -31,6 +31,10 @@ public:
 	void					mergeLands();
 	void					dryUselessWater();
 	void					addDetails();
+
+	void					transformChunkToMap();
+	bool					isCellTypeAround(int, int, Cell::Type);
+
 	void					generateSand();
 
 
@@ -51,4 +55,5 @@ private:
 private:
 	// THIS CAN HAS A GETTER
 	Chunk					**_map;		  // Map container.
+	Cell					**_cellMap;
 };

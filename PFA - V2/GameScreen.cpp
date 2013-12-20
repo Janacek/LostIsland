@@ -8,7 +8,7 @@ GameScreen::GameScreen()
 {
 	_isRunning = true;
 	_map = new Map();
-	_map->init(std::string(""), sf::Vector2i(18, 18), 33);
+	_map->init(std::string("pouet"), sf::Vector2i(18, 18), 33);
 	_map->generate();
 }
 
@@ -19,7 +19,7 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 	_t = Singleton::getInstance()._clock->restart();
 	updateStatistics(_t);
 
-//	this->_map->draw(Singleton::getInstance()._window);
+	this->_map->draw(Singleton::getInstance()._window);
 
 	Singleton::getInstance()._window->draw(_statisticsText);
 	Singleton::getInstance()._window->draw(_statisticsText);

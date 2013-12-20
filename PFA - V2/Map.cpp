@@ -13,10 +13,10 @@ Map::~Map()
 
 static unsigned int generateHash(std::string const & string)
 {
-    unsigned int hash = 0;
+	unsigned int hash = 0;
 	for(size_t i = 0; i < string.length(); ++i) 
 		hash = 65599 * hash + string.at(i);
-    return hash ^ (hash >> 16);
+	return hash ^ (hash >> 16);
 }
 
 void						Map::init(std::string const & seed, sf::Vector2i size, int groundRatio)
@@ -121,6 +121,39 @@ int							Map::countAdjacentChunkType(int x, int y, Cell::Type type)
 	return nbr;
 }
 
+void						Map::transformChunkToMap()
+{
+	_cellMap = new Cell*[_size.y * Chunk::NB_CELLS];
+	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
+		_cellMap[i] = new Cell[_size.x * Chunk::NB_CELLS];
+	for (int i = 0 ; i < _size.y ; ++i)
+		for (int j = 0 ; j < _size.x ; ++j)
+		{
+			Cell **tmp = _map[i][j].getCells();
+			for (int x = 0 ; x < Chunk::NB_CELLS ; ++x)
+			{
+				for (int y = 0 ; y < Chunk::NB_CELLS ; ++y)
+				{
+					_cellMap[(j * Chunk::NB_CELLS) + y][(i * Chunk::NB_CELLS) + x]._cellType =
+						tmp[y][x]._cellType;
+				}
+			}
+		}
+}
+
+bool					Map::isCellTypeAround(int x, int y, Cell::Type type)
+{
+	if (y - 1 >= 0 && _cellMap[y - 1][x]._cellType == type)
+		return true;
+	else if (y + 1 < Chunk::NB_CELLS && _cellMap[y + 1][x]._cellType == type)
+		return true;
+	else if (x - 1 >= 0 && _cellMap[y][x - 1]._cellType == type)
+		return true;
+	else if (x + 1 < Chunk::NB_CELLS && _cellMap[y][x + 1]._cellType == type)
+		return true;
+	return (false);
+}
+
 void						Map::generate()
 {
 	srand(_seed);
@@ -137,7 +170,11 @@ void						Map::generate()
 	mergeLands();
 	dryUselessWater();
 	addDetails();
-	generateSand();
+	//generateSand();
+
+	// Transforming the chunk to a map.
+	transformChunkToMap();
+
 }
 
 void						Map::divideLands()
@@ -227,11 +264,29 @@ void						Map::generateSand()
 
 void						Map::draw(sf::RenderWindow *win)
 {
-	for (int i = 0 ; i < _size.y ; ++i)
+	//for (int i = 0 ; i < _size.y ; ++i)
+	//{
+	//	for (int j = 0 ; j < _size.x ; ++j)
+	//		_map[i][j].draw(win, i, j);
+	//}
+
+	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
 	{
-		for (int j = 0 ; j < _size.x ; ++j)
+		for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
 		{
-			_map[i][j].draw(win, i, j);
+
+			sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL / Chunk::NB_CELLS,
+				Chunk::SIZE_OF_CELL / Chunk::NB_CELLS));
+			if (_cellMap[i][j]._cellType == Cell::OCEAN)
+				tmp.setFillColor(sf::Color(12, 173, 193));
+			else if (_cellMap[i][j]._cellType == Cell::GRASS)
+				tmp.setFillColor(sf::Color(19, 209, 111));
+			else
+				tmp.setFillColor(sf::Color::Yellow);
+			tmp.setPosition(j * (Chunk::SIZE_OF_CELL / Chunk::NB_CELLS),
+				i * (Chunk::SIZE_OF_CELL / Chunk::NB_CELLS));
+			win->draw(tmp);
+
 			/*sf::RectangleShape tmp(sf::Vector2f(32, 32));
 			tmp.setFillColor(sf::Color::Transparent);
 			tmp.setOutlineColor(sf::Color::Black);
