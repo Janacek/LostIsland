@@ -22,21 +22,21 @@ public:
 	void addEntityInInventory(IEntity *);
 	void deleteEntityInInventory(Compartment *);
 	bool close() const;
-	
 	//tmp
-
+	InventaryWindow				 *_mainInventory;
 private:
 	void checkInputs();
 	void updateViewCompartments();
 	void printInventory() const;
 	bool isInCompartment(Compartment &) const;
+	
 	void organizeCompartment(Compartment *);
 	void checkInputOnglet();
 	void selectOnglet(Onglet *);
 
 	Onglet						*_selectOnglet;
 	//pointeur pour pas avoir a créer un constructeur vide
-	InventaryWindow				 *_mainInventory;
+	
 	std::vector<Player *>			_players;
 //	std::deque<Compartment *> _compartment;
 	unsigned int				_sizeInventory;

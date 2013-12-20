@@ -31,23 +31,85 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 		this->_inventory->update();
 		this->_crafting->update();
 		this->_stuff->update();
+		checkClicks();
 	}
 	checkInput();
 	Singleton::getInstance()._window->display();
 }
 
+void GameScreen::checkClicks()
+{
+	static int stillClicking = 0;
+	if (Singleton::getInstance().isLeftClicking)
+	{
+		saveClick(true);
+		++stillClicking;
+	}
+	else if (Singleton::getInstance().isLeftClicking == false && stillClicking > 10)
+	{
+		saveClick(false);
+		stillClicking = 0;
+	}
+	else if (Singleton::getInstance().isLeftClicking == false && stillClicking < 10)
+	{
+		std::cout << "Click trop court. Appuyer plus longtemps pour glisser/deposer." std::endl;
+	}
+}
+
+void GameScreen::saveClick(bool click)
+{
+	if (click)
+	{
+		if (this->_inventory->_mainInventory->clickInWindow())
+		{
+			this->_leftClickPressed = this->_inventory->_mainInventory->clickInCompartment();
+			return ;
+		}
+		if (this->_crafting->clickInWindow())
+		{
+			this->_leftClickPressed = this->_crafting->clickInCompartment();
+			return ;
+		}
+		if (this->_stuff->clickInWindow())
+		{
+			this->_leftClickPressed = this->_stuff->clickInCompartment();
+			return ;
+		}
+	}
+	else
+	{
+		if (this->_inventory->_mainInventory->clickInWindow())
+		{
+			this->_leftClickReleased = this->_inventory->_mainInventory->clickInCompartment();
+			return ;
+		}
+		if (this->_crafting->clickInWindow())
+		{
+			this->_leftClickReleased = this->_crafting->clickInCompartment();
+			return ;
+		}
+		if (this->_stuff->clickInWindow())
+		{
+			this->_leftClickReleased = this->_stuff->clickInCompartment();
+			return ;
+		}
+
+	}
+
+}
+
 //la clickClock est temporaire. TODO faire une gestion mieux
 void GameScreen::checkInput()
 {
-// 	if (this->_clickClock.getElapsedTime().asMilliseconds() < 100)
-// 		return  ;
-// 	this->_clickClock.restart();
-// 	if (Singleton::getInstance().isKeyIPressed && this->_activeInventary == false)
-// 	{
-// 		this->_activeInventary = true;
-// 	}
-// 	 else if (Singleton::getInstance().isKeyIPressed && this->_activeInventary == true)
-// 		this->_activeInventary = false;
+	// 	if (this->_clickClock.getElapsedTime().asMilliseconds() < 100)
+	// 		return  ;
+	// 	this->_clickClock.restart();
+	// 	if (Singleton::getInstance().isKeyIPressed && this->_activeInventary == false)
+	// 	{
+	// 		this->_activeInventary = true;
+	// 	}
+	// 	 else if (Singleton::getInstance().isKeyIPressed && this->_activeInventary == true)
+	// 		this->_activeInventary = false;
 	if (Singleton::getInstance().isKeyIPressed)
 		this->_activeInventary = true;
 	else
@@ -84,7 +146,7 @@ void GameScreen::updateStatistics(sf::Time &elapsedTime)
 
 	if (_statisticsUpdateTime >= sf::seconds(1.0f))
 	{
-			std::ostringstream oss;
+		std::ostringstream oss;
 		std::ostringstream oss2;
 		oss << _statisticsNumFrames;
 		oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;

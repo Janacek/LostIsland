@@ -7,20 +7,7 @@
 #include "Crafting.h"
 #include "Stuff.h"
 #include "Map.h"
-
-enum Screens
-{
-	INVENTORY,
-	STUFF,
-	CRAFTING,
-	GAMESCREEN
-};
-
-struct			s_action
-{
-	Screens		_screen;
-	Compartment *_compartment;
-};
+#include "AWindow.h"
 
 class GameScreen : public IScreen
 {
@@ -38,6 +25,8 @@ protected:
 private:
 	void				updateStatistics(sf::Time &elapsedTime);
 	void				checkInput();
+	void				checkClicks();
+	void				saveClick(bool click);
 
 	bool				_activeInventary;
 	Map					*_map;
@@ -54,5 +43,9 @@ private:
 	bool				_isRunning;
 	IScreen				* _next;
 	sf::Text			* _statisticText;
+	struct s_action			_leftClickPressed;
+	struct s_action			_leftClickReleased;
+	struct s_action			_rightClickPressed;
+	struct s_action			_rightClickReleased;
 	// std::map<Screens, std::map<Screens, void (AWindow::*)(s_action&, s_action&)> > _map;
 };

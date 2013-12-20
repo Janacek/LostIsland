@@ -4,8 +4,24 @@
 #include				<SFML/Graphics.hpp>
 #include				<iostream>
 #include				<vector>
+#include				"GameScreen.h"
 #include				"Compartment.h"
 #include				"Singleton.h"
+
+enum Screens
+{
+	INVENTORY,
+	STUFF,
+	CRAFTING,
+	GAMESCREEN,
+	NONE
+};
+typedef struct	s_action	
+{
+	s_action() : _screen(NONE), _compartment(NULL){};
+	Screens		_screen;
+	Compartment *_compartment;
+}		s_action;
 
 class					AWindow
 {
@@ -15,7 +31,7 @@ public:
 	virtual void draw();
 	virtual bool close() = 0;
 	virtual bool clickInWindow();
-	virtual void clickInCompartment();
+	//virtual struct s_action clickInCompartment() = 0;
 	~AWindow(void);
 
 	std::vector<Compartment *> _compartments;
