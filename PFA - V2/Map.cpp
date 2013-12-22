@@ -145,11 +145,11 @@ bool					Map::isCellTypeAround(int x, int y, Cell::Type type)
 {
 	if (y - 1 >= 0 && _cellMap[y - 1][x]._cellType == type)
 		return true;
-	else if (y + 1 < Chunk::NB_CELLS && _cellMap[y + 1][x]._cellType == type)
+	else if (y + 1 < Chunk::NB_CELLS * _size.y && _cellMap[y + 1][x]._cellType == type)
 		return true;
 	else if (x - 1 >= 0 && _cellMap[y][x - 1]._cellType == type)
 		return true;
-	else if (x + 1 < Chunk::NB_CELLS && _cellMap[y][x + 1]._cellType == type)
+	else if (x + 1 < Chunk::NB_CELLS *_size.x && _cellMap[y][x + 1]._cellType == type)
 		return true;
 	return (false);
 }
@@ -170,10 +170,10 @@ void						Map::generate()
 	mergeLands();
 	dryUselessWater();
 	addDetails();
-	//generateSand();
 
 	// Transforming the chunk to a map.
 	transformChunkToMap();
+	generateSand();
 
 }
 
@@ -254,13 +254,32 @@ void						Map::addDetails()
 
 void						Map::generateSand()
 {
-	for (int i = 0 ; i < _size.y ; ++i)
+	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
 	{
-		for (int j = 0 ; j < _size.x ; ++j)
+		for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
 		{
-			_map[i][j].generateSand();
+			if (_cellMap[i][j]._cellType == Cell::GRASS && isCellTypeAround(j, i, Cell::OCEAN))
+				_cellMap[i][j]._cellType = Cell::SAND;
 		}
-	}}
+	}
+
+	int nbLands = 400;
+	int stop = 0;
+	while (nbLands > 0)
+	{
+		if (stop > Chunk::NB_CELLS * Chunk::NB_CELLS)
+			return ;
+		int x = rand() % (Chunk::NB_CELLS * _size.y);
+		int y = rand() % (Chunk::NB_CELLS * _size.x);
+		if (_cellMap[x][y]._cellType == Cell::GRASS &&
+			isCellTypeAround(y, x, Cell::SAND))
+		{
+			_cellMap[x][y]._cellType = Cell::SAND;
+			--nbLands;
+		}
+		//++stop;
+	}
+}
 
 void						Map::draw(sf::RenderWindow *win)
 {
