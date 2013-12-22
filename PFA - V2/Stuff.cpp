@@ -13,7 +13,6 @@ Stuff::Stuff(std::string const &title) : AWindow(title,
 
 }
 
-
 s_action Stuff::clickInCompartment()
 {
 	 s_action action;

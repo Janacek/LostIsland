@@ -1,8 +1,6 @@
 #include <sstream>
 #include <iostream>
 #include "GameScreen.h"
-#include "Singleton.h"
-
 
 GameScreen::GameScreen()
 {
@@ -52,7 +50,7 @@ void GameScreen::checkClicks()
 	}
 	else if (Singleton::getInstance().isLeftClicking == false && stillClicking < 10)
 	{
-		std::cout << "Click trop court. Appuyer plus longtemps pour glisser/deposer." std::endl;
+		std::cout << "Click trop court. Appuyer plus longtemps pour glisser/deposer." << std::endl;
 	}
 }
 

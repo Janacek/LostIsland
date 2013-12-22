@@ -7,7 +7,6 @@
 #include "Crafting.h"
 #include "Stuff.h"
 #include "Map.h"
-#include "AWindow.h"
 
 class GameScreen : public IScreen
 {

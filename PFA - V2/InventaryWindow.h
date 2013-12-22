@@ -1,9 +1,9 @@
 #pragma once
 
+#include <vector>
 #include "AWindow.h"
 #include "Player.h"
 #include "Onglet.h"
-#include <vector>
 
 class InventaryWindow : public AWindow
 {

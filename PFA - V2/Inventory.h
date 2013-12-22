@@ -6,7 +6,6 @@
 #include	<SFML/Graphics.hpp>
 #include	"InventaryWindow.h"
 #include	"Player.h"
-#include	"AWindow.h"
 #include	"IEntity.h"
 #include	"Compartment.h"
 #include	"Singleton.h"

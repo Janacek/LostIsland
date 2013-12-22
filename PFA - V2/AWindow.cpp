@@ -1,4 +1,5 @@
 #include "AWindow.h"
+#include "Singleton.h"
 
 
 AWindow::AWindow(std::string const &title, float sizeX, float sizeY, float posX, float posY)
@@ -53,7 +54,7 @@ bool AWindow::clickInWindow()
 	sf::Vector2i posLeftClickPressed = Singleton::getInstance().posLeftClickPressed;
 	if (posLeftClickPressed.x != -1  && leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
 	{
-		clickInCompartment();
+		//clickInCompartment();
 		Singleton::getInstance().posLeftClickPressed.x = -1;
 		std::cout << "Je clique dans la fenetre" << std::endl;
 		return true;

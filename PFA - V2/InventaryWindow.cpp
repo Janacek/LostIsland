@@ -35,8 +35,7 @@ void InventaryWindow::createOnglets()
 	this->_onglets.front()->setisSelected(true);
 }
 
-
- s_action Stuff::clickInCompartment()
+ s_action InventaryWindow::clickInCompartment()
 {
 	 s_action action;
 	sf::Vector2i posLeftClickPressed = Singleton::getInstance().posLeftClickPressed;
