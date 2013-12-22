@@ -17,7 +17,7 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 	_t = Singleton::getInstance()._clock->restart();
 	updateStatistics(_t);
 
-	this->_map->draw(Singleton::getInstance()._window);
+	//this->_map->draw(Singleton::getInstance()._window);
 
 	Singleton::getInstance()._window->draw(_statisticsText);
 	Singleton::getInstance()._window->draw(_statisticsText);
@@ -38,9 +38,13 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 void GameScreen::checkClicks()
 {
 	static int stillClicking = 0;
-	if (Singleton::getInstance().isLeftClicking)
+	if (Singleton::getInstance().isLeftClicking && stillClicking == 0)
 	{
 		saveClick(true);
+		++stillClicking;
+	}
+	else if (Singleton::getInstance().isLeftClicking == true && stillClicking < 10)
+	{
 		++stillClicking;
 	}
 	else if (Singleton::getInstance().isLeftClicking == false && stillClicking > 10)
@@ -48,10 +52,8 @@ void GameScreen::checkClicks()
 		saveClick(false);
 		stillClicking = 0;
 	}
-	else if (Singleton::getInstance().isLeftClicking == false && stillClicking < 10)
-	{
-		std::cout << "Click trop court. Appuyer plus longtemps pour glisser/deposer." << std::endl;
-	}
+	else if (Singleton::getInstance().isLeftClicking == false && stillClicking <= 10)
+		stillClicking = 0;
 }
 
 void GameScreen::saveClick(bool click)
