@@ -5,6 +5,7 @@
 #include					<SFML/System.hpp>
 #include					<SFML/Window.hpp>
 
+#include					"Singleton.h"
 #include					"Chunk.h"
 
 /*
