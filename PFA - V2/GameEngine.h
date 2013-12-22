@@ -1,25 +1,33 @@
 #pragma once
-#include <list>
+
+#include <stack>
+#include <vector>
 #include "IEntity.h"
 #include "IEngine.h"
 #include "GameEvents.h"
 #include "KeyboardControler.h"
 
-class GameEngine
+class GameEngine : public IEngine
 {
 public:
-	GameEngine();
+	GameEngine(Map *&, std::stack<IScreen *>&);
+	~GameEngine();
 	bool getIsRunning() const;
-	void init(Map * map);
-	void update(std::list<IEntity *> players, std::list<IEntity *> entities);
+	void init();
+	void update(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
+
+	void PushState(IScreen *state);
+	void SetState(IScreen *state);
+	void PopState(void);
 
 protected:
 private:
 	bool _isRunning;
-	GameEvents				*_gameEvents;	
+	GameEvents				*_gameEvents;
+	KeyboardControler		_controler;
 	sf::Clock				*_cl;
-	KeyboardControler _controler;
-	Map						*_map;
+	Map						*&_map;
+	std::stack<IScreen *>	&_states;
 
 };
 

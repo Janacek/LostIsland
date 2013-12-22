@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Singleton.h"
+#include "ImageSingleton.h"
 #include "IEntity.h"
 #include "Player.h"
 #include <list>

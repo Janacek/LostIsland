@@ -3,6 +3,8 @@
 #include						<SFML/Window.hpp>
 #include						<SFML/Graphics.hpp>
 
+
+
 class Singleton
 {
 public:
@@ -17,8 +19,10 @@ public:
 	bool isMovingLeft;
 	bool isKeyIPressed;
 	
-	sf::Vector2i posLeftClick;
-	sf::Vector2i posRightClick;
+	sf::Vector2i posLeftClickPressed;
+	sf::Vector2i posLeftClickReleased;
+	sf::Vector2i posRightClickPressed;
+	sf::Vector2i posRightClickReleased;
 	bool isValidating;
 	sf::Clock *_animClock;
 

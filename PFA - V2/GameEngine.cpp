@@ -1,20 +1,28 @@
 #include "GameEngine.h"
+#include "StartScreen.h"
 #include "Singleton.h"
 
-GameEngine::GameEngine()
+GameEngine::GameEngine(Map *&map, std::stack<IScreen *>&states) : _map(map), _states(states)
 {
+
 }
 
-void GameEngine::init(Map * map)
+GameEngine::~GameEngine()
 {
-	this->_map = map;
+
+}
+
+void GameEngine::init()
+{
 	_gameEvents = new GameEvents();
 	_isRunning = true;
 }
 
-void GameEngine::update(std::list<IEntity *> players, std::list<IEntity *> entities)
+void GameEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
 {
 	sf::Event	event;
+
+	// OPENGL COULD THROW WARNINGS HERE.
 	while (Singleton::getInstance()._window->pollEvent(event))
 	{
 		switch (event.type)
@@ -28,6 +36,7 @@ void GameEngine::update(std::list<IEntity *> players, std::list<IEntity *> entit
 			case sf::Event::Closed :
 				Singleton::getInstance()._window->close();
 				_isRunning = false;
+				exit(42);
 				break;
 			case sf::Event::MouseButtonReleased :
 				_controler.handlePlayerInput(event.mouseButton.button, false);
@@ -42,10 +51,42 @@ void GameEngine::update(std::list<IEntity *> players, std::list<IEntity *> entit
 			break;
 		}
 	}
+
+	if (_states.top()->isRunning() == false)
+	{
+		PushState(_states.top()->getNextState());
+	}
 	_gameEvents->update(players, entities, _map);
+	IScreen *state = _states.top();
+	if (state)
+		state->update();
+	
 }
 
 bool GameEngine::getIsRunning() const
 {
 	return _isRunning;
+}
+
+void GameEngine::PushState(IScreen *state)
+{
+	_states.push( state );
+	_states.top()->initialize();
+}
+
+void GameEngine::SetState(IScreen* state)
+{
+	PopState ();
+
+	// Add the new state
+	PushState(state);
+}
+
+void GameEngine::PopState(void)
+{
+	if ( !_states.empty() )
+	{
+		_states.top()->release();
+		_states.pop();
+	}
 }

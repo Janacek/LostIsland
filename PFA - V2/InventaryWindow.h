@@ -1,11 +1,9 @@
 #pragma once
 
-#include "Compartment.h"
-#include "Player.h"
-#include "AWindow.h"
-#include "Onglet.h"
 #include <vector>
-
+#include "AWindow.h"
+#include "Player.h"
+#include "Onglet.h"
 
 class InventaryWindow : public AWindow
 {
@@ -18,6 +16,7 @@ public:
 	void addCompartment();
 	void createOnglets();
 	void changeCompartments(Onglet *);
+	s_action clickInCompartment();
 	// private:
 	//sf::RectangleShape _inventaryWindow;
 	std::vector<Player *>			_players;

@@ -45,16 +45,16 @@ void Inventory::update()
 
 void Inventory::checkInputOnglet()
 {
-	sf::Vector2i posLeftClick = Singleton::getInstance().posLeftClick;
+	sf::Vector2i posLeftClickPressed = Singleton::getInstance().posLeftClickPressed;
 	for (Onglet *o : this->_mainInventory->_onglets)
 	{
 		float leftCompartment = o->getGlobalBounds().left;
 		float rightCompartment = o->getGlobalBounds().width + leftCompartment;
 		float topCompartment = o->getGlobalBounds().top;
 		float bottomCompartment = topCompartment + o->getGlobalBounds().height;
-		if (posLeftClick.x != -1  && leftCompartment <= posLeftClick.x && rightCompartment >= posLeftClick.x && topCompartment <= posLeftClick.y && bottomCompartment >= posLeftClick.y)
+		if (posLeftClickPressed.x != -1  && leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
 		{
-			Singleton::getInstance().posLeftClick.x = -1;
+			Singleton::getInstance().posLeftClickPressed.x = -1;
 			if (o != this->_selectOnglet)
 				this->selectOnglet(o);
 			std::cout << "J'ai cliqué sur l'onglet : " << o->getName() << std::endl;
@@ -71,7 +71,7 @@ void Inventory::updateViewCompartments()
 	this->_sizeInventory = 0;
 	for (IEntity *u : this->_selectOnglet->_player->_inventary)
 		this->addEntityInInventory(u);
-
+	printInventory();
 }
 
 void Inventory::selectOnglet(Onglet *onglet)
@@ -94,21 +94,21 @@ bool Inventory::isInCompartment(Compartment &c) const
 	float rightCompartment = c._rect.getGlobalBounds().width + leftCompartment;
 	float topCompartment = c._rect.getGlobalBounds().top;
 	float bottomCompartment = topCompartment + c._rect.getGlobalBounds().height;
-	sf::Vector2i posLeftClick = Singleton::getInstance().posLeftClick;
-	sf::Vector2i posRightClick = Singleton::getInstance().posRightClick;
+	sf::Vector2i posLeftClickPressed = Singleton::getInstance().posLeftClickPressed;
+	sf::Vector2i posRightClickPressed = Singleton::getInstance().posRightClickPressed;
 
-	if (posLeftClick.x != -1 && !c.isSelected() && leftCompartment <= posLeftClick.x && rightCompartment >= posLeftClick.x && topCompartment <= posLeftClick.y && bottomCompartment >= posLeftClick.y)
+	if (posLeftClickPressed.x != -1 && !c.isSelected() && leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
 	{
 		c.setIsSelected(true);
-		Singleton::getInstance().posLeftClick.x = -1;
-		Singleton::getInstance().posRightClick.x = -1;
+		Singleton::getInstance().posLeftClickPressed.x = -1;
+		Singleton::getInstance().posRightClickPressed.x = -1;
 		return true;
 	}
-	if (posRightClick.x != -1 && c.isSelected() && leftCompartment <= posRightClick.x && rightCompartment >= posRightClick.x && topCompartment <= posRightClick.y && bottomCompartment >= posRightClick.y)
+	if (posRightClickPressed.x != -1 && c.isSelected() && leftCompartment <= posRightClickPressed.x && rightCompartment >= posRightClickPressed.x && topCompartment <= posRightClickPressed.y && bottomCompartment >= posRightClickPressed.y)
 	{
 		c.setIsSelected(false);
-		Singleton::getInstance().posLeftClick.x = -1;
-		Singleton::getInstance().posRightClick.x = -1;
+		Singleton::getInstance().posLeftClickPressed.x = -1;
+		Singleton::getInstance().posRightClickPressed.x = -1;
 		return true;
 	}
 	return false;

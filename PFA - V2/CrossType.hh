@@ -25,7 +25,6 @@
 #  pragma comment(lib, "ws2_32.lib")
 #  pragma comment(lib, "winmm.lib")
 #  pragma warning(disable: 4127)
-#  define       FD_SETSIZE      512
 # else
 #  include	<sys/types.h>
 #  include	<sys/socket.h>

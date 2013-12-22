@@ -9,12 +9,10 @@ StartScreen::StartScreen()
 	_curPos = 0;
 }
 
-void StartScreen::draw(std::list<IEntity *> players,std::list<IEntity *> entities)
+void StartScreen::draw(std::vector<IEntity *> &players,std::list<IEntity *> &entities)
 {
-	update();
 	Singleton::getInstance()._window->clear();
 	float i = 0;
-	update();
 	for (std::vector<sf::Text *>::iterator it = _entries.begin(); it != _entries.end() ; ++it)
 	{
 		(*it)->setPosition((float)Singleton::getInstance()._window->getSize().x / 2, i);
@@ -77,7 +75,9 @@ void StartScreen::update(void)
 	else if (Singleton::getInstance().isValidating == true)
 	{
 		if (_curPos == 0) 
+		{
 			_next = new GameScreen();
+		}
 		if (_curPos == 1)
 			_next = NULL; // TODO
 		_isRunning = false;

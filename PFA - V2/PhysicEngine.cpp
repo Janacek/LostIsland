@@ -1,10 +1,16 @@
 #include "PhysicEngine.h"
 
-void PhysicEngine::init(Map * map)
+PhysicEngine::PhysicEngine(Map *&map, std::stack<IScreen *> &states) : _map(map), _states(states)
 {
+
 }
 
-void PhysicEngine::update(std::list<IEntity *> players, std::list<IEntity *> entities)
+void PhysicEngine::init()
+{
+	
+}
+
+void PhysicEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
 {
 
 }

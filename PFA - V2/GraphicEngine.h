@@ -1,34 +1,44 @@
 #pragma once
 
 #include <list>
+#include <vector>
 #include <stack>
 #include "IEntity.h"
 #include "StartScreen.h"
 #include "GameScreen.h"
 #include "IEngine.h"
 #include "IScreen.h"
+#include "KeyboardControler.h"
 
 class GraphicEngine : public IEngine
 {
 public:
-	void init(Map *);
+	GraphicEngine(Map *&, std::stack<IScreen *> &, std::vector<IEntity *> &, std::list<IEntity *> &);
+
+	void run();
+	void draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
+
+	void init();
 	bool getIsRunning() const;
-	void update(std::list<IEntity *> players, std::list<IEntity *> entities);
-	IScreen* GetCurrentState(void) {return (!_states.empty()) ? _states.top() : NULL;}
-	void PushState(IScreen *state);
-	void SetState(IScreen *state);
-	void PopState(void);
+	void update(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
+
+	IScreen* GetCurrentState(void) 
+	{
+		return (!_states.empty()) ? _states.top() : NULL;
+	}
 
 protected:
 private:
-	std::list<IEntity *> _entities;
-	bool _isRunning;
-	Map			*_map;
-	StartScreen *_startScreen;
-	GameScreen  *_gameScreen;
+	bool					_isRunning;
+	Map						*_map;
+	StartScreen				*_startScreen;
+	GameScreen				*_gameScreen;
 	//TODO OptionScreen
 
-	std::stack<IScreen *> _states;
-
+	std::stack<IScreen *>	&
+		_states;
+	std::vector<IEntity *>	&_players;
+	std::list<IEntity *>	&_entities;
+	KeyboardControler		_controler;
 
 };

@@ -1,19 +1,17 @@
 #include <sstream>
 #include <iostream>
 #include "GameScreen.h"
-#include "Singleton.h"
-
 
 GameScreen::GameScreen()
 {
 	_isRunning = true;
-	_map = new Map(std::pair<int, int>(1200, 800), 42);
-	// TODO Map est bidon pour le moment, envoyer un mail a mart_u@epitech.eu pour des éventuels problèmes avec cette classe (Rémy -> LOL)
-
+	_map = new Map();
+	_map->init(std::string("pouet"), sf::Vector2i(18, 18), 33);
+	_map->generate();
 }
 
 
-void GameScreen::draw(std::list<IEntity *> players, std::list<IEntity *> entities)
+void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
 {
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
@@ -31,31 +29,95 @@ void GameScreen::draw(std::list<IEntity *> players, std::list<IEntity *> entitie
 		this->_inventory->update();
 		this->_crafting->update();
 		this->_stuff->update();
+		checkClicks();
 	}
 	checkInput();
 	Singleton::getInstance()._window->display();
 }
 
+void GameScreen::checkClicks()
+{
+	static int stillClicking = 0;
+	if (Singleton::getInstance().isLeftClicking && stillClicking == 0)
+	{
+		saveClick(true);
+		++stillClicking;
+	}
+	else if (Singleton::getInstance().isLeftClicking == true && stillClicking < 10)
+	{
+		++stillClicking;
+	}
+	else if (Singleton::getInstance().isLeftClicking == false && stillClicking > 10)
+	{
+		saveClick(false);
+		stillClicking = 0;
+	}
+	else if (Singleton::getInstance().isLeftClicking == false && stillClicking <= 10)
+		stillClicking = 0;
+}
+
+void GameScreen::saveClick(bool click)
+{
+	if (click)
+	{
+		if (this->_inventory->_mainInventory->clickInWindow())
+		{
+			this->_leftClickPressed = this->_inventory->_mainInventory->clickInCompartment();
+			return ;
+		}
+		if (this->_crafting->clickInWindow())
+		{
+			this->_leftClickPressed = this->_crafting->clickInCompartment();
+			return ;
+		}
+		if (this->_stuff->clickInWindow())
+		{
+			this->_leftClickPressed = this->_stuff->clickInCompartment();
+			return ;
+		}
+	}
+	else
+	{
+		if (this->_inventory->_mainInventory->clickInWindow())
+		{
+			this->_leftClickReleased = this->_inventory->_mainInventory->clickInCompartment();
+			return ;
+		}
+		if (this->_crafting->clickInWindow())
+		{
+			this->_leftClickReleased = this->_crafting->clickInCompartment();
+			return ;
+		}
+		if (this->_stuff->clickInWindow())
+		{
+			this->_leftClickReleased = this->_stuff->clickInCompartment();
+			return ;
+		}
+
+	}
+
+}
+
 //la clickClock est temporaire. TODO faire une gestion mieux
 void GameScreen::checkInput()
 {
-// 	if (this->_clickClock.getElapsedTime().asMilliseconds() < 100)
-// 		return  ;
-// 	this->_clickClock.restart();
-// 	if (Singleton::getInstance().isKeyIPressed && this->_activeInventary == false)
-// 	{
-// 		this->_activeInventary = true;
-// 	}
-// 	 else if (Singleton::getInstance().isKeyIPressed && this->_activeInventary == true)
-// 		this->_activeInventary = false;
+	// 	if (this->_clickClock.getElapsedTime().asMilliseconds() < 100)
+	// 		return  ;
+	// 	this->_clickClock.restart();
+	// 	if (Singleton::getInstance().isKeyIPressed && this->_activeInventary == false)
+	// 	{
+	// 		this->_activeInventary = true;
+	// 	}
+	// 	 else if (Singleton::getInstance().isKeyIPressed && this->_activeInventary == true)
+	// 		this->_activeInventary = false;
 	if (Singleton::getInstance().isKeyIPressed)
 		this->_activeInventary = true;
 	else
 	{
 		this->_activeInventary = false;
 	}
-	if (this->_stuff->close() || this->_crafting->close() || this->_inventory->close())
-		this->_activeInventary = false;
+	//if (this->_stuff->close() || this->_crafting->close() || this->_inventory->close())
+	//	this->_activeInventary = false;
 
 }
 
@@ -76,6 +138,7 @@ void GameScreen::initialize(void)
 	_statisticsText.setPosition(0, 30);
 
 }
+
 void GameScreen::updateStatistics(sf::Time &elapsedTime)
 {
 	_statisticsUpdateTime += elapsedTime;
@@ -83,7 +146,7 @@ void GameScreen::updateStatistics(sf::Time &elapsedTime)
 
 	if (_statisticsUpdateTime >= sf::seconds(1.0f))
 	{
-			std::ostringstream oss;
+		std::ostringstream oss;
 		std::ostringstream oss2;
 		oss << _statisticsNumFrames;
 		oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
@@ -112,5 +175,5 @@ bool GameScreen::isRunning(void) const
 
 void GameScreen::update(void)
 {
-
+	//_map->update();
 }
