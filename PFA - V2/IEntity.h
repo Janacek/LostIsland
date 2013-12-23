@@ -9,6 +9,8 @@ enum Type
 	WATER,
 	FOOD,
 	PLAYER,
+	SABLE,
+	LAC,
 };
 
 class IEntity

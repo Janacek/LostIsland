@@ -6,6 +6,7 @@
 #include					<SFML/Window.hpp>
 
 #include					"Singleton.h"
+#include					"ImageSingleton.h"
 #include					"Chunk.h"
 
 /*

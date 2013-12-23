@@ -309,11 +309,14 @@ void						Map::draw(sf::RenderWindow *win)
 			sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL,
 				Chunk::SIZE_OF_CELL));
 			if (_cellMap[i][j]._cellType == Cell::OCEAN)
-				tmp.setFillColor(sf::Color(12, 173, 193));
+				tmp.setTexture(ImageSingleton::getInstance().get(Type::LAC));
 			else if (_cellMap[i][j]._cellType == Cell::GRASS)
 				tmp.setFillColor(sf::Color(19, 209, 111));
 			else
-				tmp.setFillColor(sf::Color::Yellow);
+			{
+			//	tmp.setFillColor(sf::Color::Yellow);
+				tmp.setTexture(ImageSingleton::getInstance().get(Type::SABLE));
+			}
 			tmp.setPosition((j -hori) * Chunk::SIZE_OF_CELL,
 				(i -vert) * Chunk::SIZE_OF_CELL);
 			win->draw(tmp);
