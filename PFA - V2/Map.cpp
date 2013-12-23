@@ -287,9 +287,9 @@ void						Map::draw(sf::RenderWindow *win)
 	static int vert = 0;
 
 	if (Singleton::getInstance().isMovingRight)
-		/*	if (hori + Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL 
-		< _size.x / Chunk::SIZE_OF_CELL)*/
-		++hori;
+		if (hori + Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL 
+			< _size.x * Chunk::NB_CELLS)
+			++hori;
 	if (Singleton::getInstance().isMovingLeft)
 		if (hori - 1 >= 0)
 			--hori;
@@ -298,9 +298,9 @@ void						Map::draw(sf::RenderWindow *win)
 		if (vert - 1 >= 0)
 			--vert;
 	if (Singleton::getInstance().isMovingDown)
-		/*if (vert + Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL 
-		< _size.y / Chunk::SIZE_OF_CELL)*/
-		++vert;
+		if (vert + Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL 
+			< _size.y * Chunk::NB_CELLS)
+			++vert;
 
 	for (int i = vert ; i < Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL + vert ; ++i)
 	{
