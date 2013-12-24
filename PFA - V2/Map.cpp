@@ -145,11 +145,11 @@ bool					Map::isCellTypeAround(int x, int y, Cell::Type type)
 {
 	if (y - 1 >= 0 && _cellMap[y - 1][x]._cellType == type)
 		return true;
-	else if (y + 1 < Chunk::NB_CELLS && _cellMap[y + 1][x]._cellType == type)
+	else if (y + 1 < Chunk::NB_CELLS * _size.y && _cellMap[y + 1][x]._cellType == type)
 		return true;
 	else if (x - 1 >= 0 && _cellMap[y][x - 1]._cellType == type)
 		return true;
-	else if (x + 1 < Chunk::NB_CELLS && _cellMap[y][x + 1]._cellType == type)
+	else if (x + 1 < Chunk::NB_CELLS *_size.x && _cellMap[y][x + 1]._cellType == type)
 		return true;
 	return (false);
 }
@@ -170,10 +170,10 @@ void						Map::generate()
 	mergeLands();
 	dryUselessWater();
 	addDetails();
-	//generateSand();
 
 	// Transforming the chunk to a map.
 	transformChunkToMap();
+	generateSand();
 
 }
 
@@ -254,47 +254,93 @@ void						Map::addDetails()
 
 void						Map::generateSand()
 {
-	for (int i = 0 ; i < _size.y ; ++i)
-	{
-		for (int j = 0 ; j < _size.x ; ++j)
-		{
-			_map[i][j].generateSand();
-		}
-	}}
-
-void						Map::draw(sf::RenderWindow *win)
-{
-	//for (int i = 0 ; i < _size.y ; ++i)
-	//{
-	//	for (int j = 0 ; j < _size.x ; ++j)
-	//		_map[i][j].draw(win, i, j);
-	//}
-
 	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
 	{
 		for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
 		{
+			if (_cellMap[i][j]._cellType == Cell::GRASS && isCellTypeAround(j, i, Cell::OCEAN))
+				_cellMap[i][j]._cellType = Cell::SAND;
+		}
+	}
 
-			sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL / Chunk::NB_CELLS,
-				Chunk::SIZE_OF_CELL / Chunk::NB_CELLS));
+	int nbLands = 400;
+	int stop = 0;
+	while (nbLands > 0)
+	{
+		if (stop > Chunk::NB_CELLS * Chunk::NB_CELLS)
+			return ;
+		int x = rand() % (Chunk::NB_CELLS * _size.y);
+		int y = rand() % (Chunk::NB_CELLS * _size.x);
+		if (_cellMap[x][y]._cellType == Cell::GRASS &&
+			isCellTypeAround(y, x, Cell::SAND))
+		{
+			_cellMap[x][y]._cellType = Cell::SAND;
+			--nbLands;
+		}
+		//++stop;
+	}
+}
+
+void						Map::draw(sf::RenderWindow *win)
+{
+	static int hori = 0;
+	static int vert = 0;
+
+	if (Singleton::getInstance().isMovingRight)
+		if (hori + Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL 
+			< _size.x * Chunk::NB_CELLS)
+			++hori;
+	if (Singleton::getInstance().isMovingLeft)
+		if (hori - 1 >= 0)
+			--hori;
+
+	if (Singleton::getInstance().isMovingUp)
+		if (vert - 1 >= 0)
+			--vert;
+	if (Singleton::getInstance().isMovingDown)
+		if (vert + Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL 
+			< _size.y * Chunk::NB_CELLS)
+			++vert;
+
+	for (int i = vert ; i < Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL + vert ; ++i)
+	{
+		for (int j = hori ; j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + hori ; ++j)
+		{
+			sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL,
+				Chunk::SIZE_OF_CELL));
 			if (_cellMap[i][j]._cellType == Cell::OCEAN)
-				tmp.setFillColor(sf::Color(12, 173, 193));
+				tmp.setTexture(ImageSingleton::getInstance().get(Type::LAC));
 			else if (_cellMap[i][j]._cellType == Cell::GRASS)
 				tmp.setFillColor(sf::Color(19, 209, 111));
 			else
-				tmp.setFillColor(sf::Color::Yellow);
-			tmp.setPosition(j * (Chunk::SIZE_OF_CELL / Chunk::NB_CELLS),
-				i * (Chunk::SIZE_OF_CELL / Chunk::NB_CELLS));
+			{
+			//	tmp.setFillColor(sf::Color::Yellow);
+				tmp.setTexture(ImageSingleton::getInstance().get(Type::SABLE));
+			}
+			tmp.setPosition((j -hori) * Chunk::SIZE_OF_CELL,
+				(i -vert) * Chunk::SIZE_OF_CELL);
 			win->draw(tmp);
-
-			/*sf::RectangleShape tmp(sf::Vector2f(32, 32));
-			tmp.setFillColor(sf::Color::Transparent);
-			tmp.setOutlineColor(sf::Color::Black);
-			tmp.setOutlineThickness(1);
-			tmp.setPosition(i * 32, j * 32);
-			win->draw(tmp);*/
 		}
 	}
+
+	//for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
+	//{
+	//	for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
+	//	{
+
+	//		sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL / Chunk::NB_CELLS,
+	//			Chunk::SIZE_OF_CELL / Chunk::NB_CELLS));
+	//		if (_cellMap[i][j]._cellType == Cell::OCEAN)
+	//			tmp.setFillColor(sf::Color(12, 173, 193));
+	//		else if (_cellMap[i][j]._cellType == Cell::GRASS)
+	//			tmp.setFillColor(sf::Color(19, 209, 111));
+	//		else
+	//			tmp.setFillColor(sf::Color::Yellow);
+	//		tmp.setPosition(j * (Chunk::SIZE_OF_CELL / Chunk::NB_CELLS),
+	//			i * (Chunk::SIZE_OF_CELL / Chunk::NB_CELLS));
+	//		win->draw(tmp);
+	//	}
+	//}
 }
 
 void						Map::update()
