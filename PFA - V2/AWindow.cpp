@@ -45,21 +45,20 @@ void AWindow::checkClose()
 	}
 }
 
-bool AWindow::clickInWindow()
+bool AWindow::clickInWindow(sf::Vector2i &coordClick)
 {
 	float leftCompartment = this->_window.getGlobalBounds().left;
 	float rightCompartment = this->_window.getGlobalBounds().width + leftCompartment;
 	float topCompartment = this->_window.getGlobalBounds().top;
 	float bottomCompartment = topCompartment + this->_window.getGlobalBounds().height;
-	sf::Vector2i posLeftClickPressed = Singleton::getInstance().posLeftClickPressed;
+	sf::Vector2i posLeftClickPressed = coordClick;
 	if (posLeftClickPressed.x != -1  && leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
 	{
-		//clickInCompartment();
-		Singleton::getInstance().posLeftClickPressed.x = -1;
-		std::cout << "Je clique dans la fenetre" << std::endl;
+		std::string tmp = this->_title.getString();
+		std::cout << "Je clique dans la fenetre :" << tmp << std::endl;
 		return true;
 	}
-	return true;
+	return false;
 }
 
 void AWindow::draw()

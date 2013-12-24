@@ -29,8 +29,10 @@ public:
 
 	virtual void draw();
 	virtual bool close() = 0;
-	virtual bool clickInWindow();
-	virtual s_action clickInCompartment() = 0;
+	virtual bool clickInWindow(sf::Vector2i &);
+	virtual void swapCompartment(s_action &, s_action &) = 0;
+	virtual void addCompartment(s_action &, s_action &) = 0;
+	virtual s_action clickInCompartment(sf::Vector2i &) = 0;
 	~AWindow(void);
 
 	std::vector<Compartment *> _compartments;

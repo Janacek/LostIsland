@@ -100,6 +100,7 @@
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="GameScreen.cpp" />
+    <ClCompile Include="GestionClick.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
     <ClCompile Include="ImageSingleton.cpp" />
     <ClCompile Include="InventaryWindow.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="GestionClick.h" />
     <ClInclude Include="GraphicEngine.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IEntity.h" />

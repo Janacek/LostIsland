@@ -7,13 +7,13 @@
 /// Initializes a new instance of the <see cref="InventaryWindow"/> class. Set the position and Color of the sf::RectangleShape
 /// </summary>
 InventaryWindow::InventaryWindow(std::vector<Player *> &players, std::string  const &title) : _players(players), AWindow(title, 
-																	 Singleton::getInstance()._window->getSize().x * 40 / 100, 
-																	 Singleton::getInstance()._window->getSize().y * 80 / 100, 
-																	 Singleton::getInstance()._window->getSize().x * 5 / 100, 
-																	 Singleton::getInstance()._window->getSize().y / 10)
+																														 Singleton::getInstance()._window->getSize().x * 40 / 100, 
+																														 Singleton::getInstance()._window->getSize().y * 80 / 100, 
+																														 Singleton::getInstance()._window->getSize().x * 5 / 100, 
+																														 Singleton::getInstance()._window->getSize().y / 10)
 {
 	createOnglets();
-	
+
 }
 
 void InventaryWindow::createOnglets()
@@ -35,10 +35,10 @@ void InventaryWindow::createOnglets()
 	this->_onglets.front()->setisSelected(true);
 }
 
- s_action InventaryWindow::clickInCompartment()
+s_action InventaryWindow::clickInCompartment(sf::Vector2i &coordClick)
 {
-	 s_action action;
-	sf::Vector2i posLeftClickPressed = Singleton::getInstance().posLeftClickPressed;
+	s_action action;
+	sf::Vector2i posLeftClickPressed = coordClick;
 	for (Compartment *c : this->_compartments)
 	{
 		float leftCompartment = c->_rect.getGlobalBounds().left;
@@ -56,6 +56,15 @@ void InventaryWindow::createOnglets()
 	return action;
 }
 
+ void InventaryWindow::swapCompartment(s_action &pressed, s_action &released)
+ {
+	
+ }
+ void InventaryWindow::addCompartment(s_action &, s_action &)
+ {
+
+ }
+
 bool InventaryWindow::close()
 {
 	if (this->_close == true)
@@ -68,8 +77,8 @@ bool InventaryWindow::close()
 
 void InventaryWindow::update()
 {
-	clickInWindow();
-	AWindow::checkClose();
+	/*	clickInWindow();
+	AWindow::checkClose();*/
 }
 
 

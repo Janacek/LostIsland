@@ -13,10 +13,10 @@ Crafting::Crafting(std::string const &title) : AWindow(title,
 	this->_compartments.push_back(new Compartment(this->_window.getSize(), this->_window.getPosition().x + this->_window.getSize().x * 60 / 100, this->_window.getPosition().y + this->_window.getSize().y * 50 / 100));
 }
 
- s_action Crafting::clickInCompartment()
+ s_action Crafting::clickInCompartment(sf::Vector2i &coordClick)
 {
 	s_action action;
-	sf::Vector2i posLeftClickPressed = Singleton::getInstance().posLeftClickPressed;
+	sf::Vector2i posLeftClickPressed = coordClick;
 	for (Compartment *c : this->_compartments)
 	{
 		float leftCompartment = c->_rect.getGlobalBounds().left;
@@ -27,12 +27,23 @@ Crafting::Crafting(std::string const &title) : AWindow(title,
 		{
 			std::cout << "On est dans un compartiment" << std::endl;
 			action._compartment = c;
+			//Singleton::getInstance().posLeftClickPressed.x = -1;
 			action._screen = CRAFTING;
 			return action;
 		}
 	}
 	return action;
 }
+
+
+ void Crafting::swapCompartment(s_action &, s_action &)
+ {
+
+ }
+ void Crafting::addCompartment(s_action &, s_action &)
+ {
+
+ }
 
 bool Crafting::close()
 {
@@ -46,8 +57,8 @@ bool Crafting::close()
 
 void Crafting::update()
 {
-	AWindow::checkClose();
-	AWindow::clickInWindow();
+	/*AWindow::checkClose();
+	AWindow::clickInWindow();*/
 }
 
 Crafting::~Crafting(void)

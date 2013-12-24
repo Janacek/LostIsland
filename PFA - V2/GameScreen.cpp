@@ -8,8 +8,53 @@ GameScreen::GameScreen()
 	_map = new Map();
 	_map->init(std::string("pouet"), sf::Vector2i(18, 18), 33);
 	_map->generate();
+	createCorrelationTable();
 }
 
+void GameScreen::createCorrelationTable()
+{
+	createInventoryTable();
+	createStuffTable();
+	createCraftingTable();
+}
+
+void GameScreen::createInventoryTable()
+{
+	std::map<Screens, void (GestionClick::*)(s_action&, s_action&)> tmp;
+
+
+	tmp[STUFF] = &GestionClick::add;
+	tmp[CRAFTING] = &GestionClick::add;
+	tmp[INVENTORY] = &GestionClick::swap;
+	tmp[NONE] = &GestionClick::drop;
+
+	this->_correlationTable[INVENTORY] = tmp;
+}
+
+void GameScreen::createStuffTable()
+{
+	std::map<Screens, void (GestionClick::*)(s_action&, s_action&)> tmp;
+
+	tmp[STUFF] = &GestionClick::swap;
+	tmp[CRAFTING] = &GestionClick::add;
+	tmp[INVENTORY] = &GestionClick::add;
+	tmp[NONE] = &GestionClick::drop;
+
+	this->_correlationTable[STUFF] = tmp;
+}
+
+void GameScreen::createCraftingTable()
+{
+	std::map<Screens, void (GestionClick::*)(s_action&, s_action&)> tmp;
+
+
+	tmp[STUFF] = &GestionClick::add;
+	tmp[CRAFTING] = &GestionClick::swap;
+	tmp[INVENTORY] = &GestionClick::add;
+	tmp[NONE] = &GestionClick::drop;
+
+	this->_correlationTable[CRAFTING] = tmp;
+}
 
 void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
 {
@@ -41,61 +86,78 @@ void GameScreen::checkClicks()
 	if (Singleton::getInstance().isLeftClicking && stillClicking == 0)
 	{
 		saveClick(true);
+		std::cout << "CLICK : " << this->_leftClickPressed._screen << std::endl;
 		++stillClicking;
 	}
 	else if (Singleton::getInstance().isLeftClicking == true && stillClicking < 10)
 	{
 		++stillClicking;
 	}
-	else if (Singleton::getInstance().isLeftClicking == false && stillClicking > 10)
+	else if (Singleton::getInstance().isLeftClicking == false && stillClicking >= 10)
 	{
+		std::cout << "CLICK DETACH: " << this->_leftClickReleased._screen << std::endl;
 		saveClick(false);
+		updateObjectsPos();
 		stillClicking = 0;
 	}
 	else if (Singleton::getInstance().isLeftClicking == false && stillClicking <= 10)
 		stillClicking = 0;
 }
 
+void GameScreen::updateObjectsPos()
+{
+	if (this->_leftClickPressed._compartment != NULL)
+	{
+		
+// 		using callback     = std::function<void(s_action&, s_action&)>;
+// 		using screens_map  = std::map<Screens, callback>;
+// 		std::map<Screens, std::map<Screens, screens_map> > _correlationTable;
+// 
+// 		(*_correlationTable[STUFF][STUFF])(this->_leftClickPressed, this->_leftClickReleased);
+	}
+}
+
 void GameScreen::saveClick(bool click)
 {
 	if (click)
 	{
-		if (this->_inventory->_mainInventory->clickInWindow())
+		if (this->_inventory->_mainInventory->clickInWindow(Singleton::getInstance().posLeftClickPressed))
 		{
-			this->_leftClickPressed = this->_inventory->_mainInventory->clickInCompartment();
+			this->_leftClickPressed = this->_inventory->_mainInventory->clickInCompartment(Singleton::getInstance().posLeftClickPressed);
 			return ;
 		}
-		if (this->_crafting->clickInWindow())
+		if (this->_crafting->clickInWindow(Singleton::getInstance().posLeftClickPressed))
 		{
-			this->_leftClickPressed = this->_crafting->clickInCompartment();
+			this->_leftClickPressed = this->_crafting->clickInCompartment(Singleton::getInstance().posLeftClickPressed);
 			return ;
 		}
-		if (this->_stuff->clickInWindow())
+		if (this->_stuff->clickInWindow(Singleton::getInstance().posLeftClickPressed))
 		{
-			this->_leftClickPressed = this->_stuff->clickInCompartment();
+			this->_leftClickPressed = this->_stuff->clickInCompartment(Singleton::getInstance().posLeftClickPressed);
 			return ;
 		}
 	}
 	else
 	{
-		if (this->_inventory->_mainInventory->clickInWindow())
+		if (this->_inventory->_mainInventory->clickInWindow(Singleton::getInstance().posLeftClickReleased))
 		{
-			this->_leftClickReleased = this->_inventory->_mainInventory->clickInCompartment();
+			std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
+			this->_leftClickReleased = this->_inventory->_mainInventory->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
-		if (this->_crafting->clickInWindow())
+		if (this->_crafting->clickInWindow(Singleton::getInstance().posLeftClickReleased))
 		{
-			this->_leftClickReleased = this->_crafting->clickInCompartment();
+			std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
+			this->_leftClickReleased = this->_crafting->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
-		if (this->_stuff->clickInWindow())
-		{
-			this->_leftClickReleased = this->_stuff->clickInCompartment();
+		if (this->_stuff->clickInWindow(Singleton::getInstance().posLeftClickReleased))
+		{			
+			std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
+			this->_leftClickReleased = this->_stuff->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
-
 	}
-
 }
 
 //la clickClock est temporaire. TODO faire une gestion mieux

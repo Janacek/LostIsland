@@ -1,12 +1,14 @@
 #pragma once
 
 #include <map>
+#include <functional>
 #include "IScreen.h"
 #include "Player.h"
 #include "Inventory.h"
 #include "Crafting.h"
 #include "Stuff.h"
 #include "Map.h"
+#include "GestionClick.h"
 
 class GameScreen : public IScreen
 {
@@ -26,7 +28,13 @@ private:
 	void				checkInput();
 	void				checkClicks();
 	void				saveClick(bool click);
+	void				updateObjectsPos();
+	void				createCorrelationTable();
+	void				createInventoryTable();
+	void				createStuffTable();
+	void				createCraftingTable();
 
+	GestionClick		_gestionClick;
 	bool				_activeInventary;
 	Map					*_map;
 	sf::Time			_t;
@@ -46,5 +54,6 @@ private:
 	struct s_action			_leftClickReleased;
 	struct s_action			_rightClickPressed;
 	struct s_action			_rightClickReleased;
-	// std::map<Screens, std::map<Screens, void (AWindow::*)(s_action&, s_action&)> > _map;
+	
+	std::map<Screens, std::map<Screens, void (GestionClick::*)(s_action&, s_action&)> > _correlationTable;
 };

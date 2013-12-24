@@ -16,7 +16,9 @@ public:
 	void addCompartment();
 	void createOnglets();
 	void changeCompartments(Onglet *);
-	s_action clickInCompartment();
+	s_action clickInCompartment(sf::Vector2i&);
+	 void swapCompartment(s_action &, s_action &);
+	 void addCompartment(s_action &, s_action &);
 	// private:
 	//sf::RectangleShape _inventaryWindow;
 	std::vector<Player *>			_players;
