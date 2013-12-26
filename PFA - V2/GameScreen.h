@@ -29,10 +29,6 @@ private:
 	void				checkClicks();
 	void				saveClick(bool click);
 	void				updateObjectsPos();
-	void				createCorrelationTable();
-	void				createInventoryTable();
-	void				createStuffTable();
-	void				createCraftingTable();
 
 	GestionClick		_gestionClick;
 	bool				_activeInventary;
@@ -54,6 +50,6 @@ private:
 	struct s_action			_leftClickReleased;
 	struct s_action			_rightClickPressed;
 	struct s_action			_rightClickReleased;
-	
-	std::map<Screens, std::map<Screens, void (GestionClick::*)(s_action&, s_action&)> > _correlationTable;
+
+	GestionClick			_gc;
 };
