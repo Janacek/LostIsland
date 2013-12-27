@@ -15,6 +15,13 @@ Map::Map()
 	_typeToColor[Cell::SNOW] = sf::Color::White;
 	_typeToColor[Cell::SAVANNA] = sf::Color(253, 178, 1);
 
+	_typeToTexture[Cell::GRASS] = ImageSingleton::getInstance().get(Type::GRASS);
+	_typeToTexture[Cell::OCEAN] = ImageSingleton::getInstance().get(Type::LAC);
+	_typeToTexture[Cell::SAND] = ImageSingleton::getInstance().get(Type::SABLE);
+	_typeToTexture[Cell::FOREST] = ImageSingleton::getInstance().get(Type::FOREST);
+	_typeToTexture[Cell::SNOW] = ImageSingleton::getInstance().get(Type::SNOW);
+	_typeToTexture[Cell::SAVANNA] = ImageSingleton::getInstance().get(Type::SAVANNA);
+
 	int i;
 	for (i = 0 ; i < 22 ; ++i)
 		_corTab[i]._cellType = Cell::SAND;
@@ -400,7 +407,8 @@ void						Map::draw(sf::RenderWindow *win)
 			////	tmp.setFillColor(sf::Color::Yellow);
 			//	tmp.setTexture(ImageSingleton::getInstance().get(Type::SABLE));
 			//}
-			tmp.setFillColor(_typeToColor[_cellMap[i][j]._cellType]);
+			//tmp.setFillColor(_typeToColor[_cellMap[i][j]._cellType]);
+			tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
 			tmp.setPosition((j -hori) * Chunk::SIZE_OF_CELL,
 				(i -vert) * Chunk::SIZE_OF_CELL);
 			win->draw(tmp);
