@@ -5,6 +5,28 @@ Map::Map()
 	_size = sf::Vector2i(16, 16);
 	_seed = 0xcafe; // OLOL
 	_groundRatio = 33;
+	_temperature = NULL;
+	_humidity = NULL;
+
+	_typeToColor[Cell::GRASS] = sf::Color::Green;
+	_typeToColor[Cell::OCEAN] = sf::Color::Blue;
+	_typeToColor[Cell::SAND] = sf::Color::Yellow;
+	_typeToColor[Cell::FOREST] = sf::Color(3, 53, 3);
+	_typeToColor[Cell::SNOW] = sf::Color::White;
+	_typeToColor[Cell::SAVANNA] = sf::Color(253, 178, 1);
+
+	int i;
+	for (i = 0 ; i < 22 ; ++i)
+		_corTab[i]._cellType = Cell::SAND;
+	for ( ; i < 44 ; ++i)
+		_corTab[i]._cellType = Cell::FOREST;
+	for ( ; i < 55 ; ++i)
+		_corTab[i]._cellType = Cell::GRASS;
+
+	for ( ; i < 66 ; ++i)
+		_corTab[i]._cellType = Cell::SAVANNA;
+	for ( ; i < 100 ; ++i)
+		_corTab[i]._cellType = Cell::SNOW;
 }
 
 Map::~Map()
@@ -25,6 +47,8 @@ void						Map::init(std::string const & seed, sf::Vector2i size, int groundRatio
 	_seed = generateHash(seed);
 	if (_seed == 0)
 		_seed = rand() % INT_MAX;
+	_temperature = new PerlinNoise(_seed);
+	_humidity = new PerlinNoise(_seed);
 	groundRatio = groundRatio > 100 ? 100 : groundRatio;
 	groundRatio = groundRatio < 0 ? 0 : groundRatio;
 	_groundRatio = groundRatio;
@@ -173,8 +197,8 @@ void						Map::generate()
 
 	// Transforming the chunk to a map.
 	transformChunkToMap();
+	generateBiomes();
 	generateSand();
-
 }
 
 void						Map::divideLands()
@@ -252,13 +276,26 @@ void						Map::addDetails()
 	}
 }
 
+void						Map::generateBiomes()
+{
+	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
+	{
+		for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
+		{
+			//std::cout << (int)(_temperature->getElevation(i, j, 75)* 0.5 * 100) << std::endl;
+			if (_cellMap[i][j]._cellType != Cell::OCEAN)
+				_cellMap[i][j]._cellType = (_corTab[(int)((_temperature->getElevation(i, j, 10)+1)* 0.5 * 100)])._cellType;
+		}
+	}
+}
+
 void						Map::generateSand()
 {
 	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
 	{
 		for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
 		{
-			if (_cellMap[i][j]._cellType == Cell::GRASS && isCellTypeAround(j, i, Cell::OCEAN))
+			if (_cellMap[i][j]._cellType != Cell::OCEAN && isCellTypeAround(j, i, Cell::OCEAN))
 				_cellMap[i][j]._cellType = Cell::SAND;
 		}
 	}
@@ -271,7 +308,7 @@ void						Map::generateSand()
 			return ;
 		int x = rand() % (Chunk::NB_CELLS * _size.y);
 		int y = rand() % (Chunk::NB_CELLS * _size.x);
-		if (_cellMap[x][y]._cellType == Cell::GRASS &&
+		if (_cellMap[x][y]._cellType != Cell::OCEAN &&
 			isCellTypeAround(y, x, Cell::SAND))
 		{
 			_cellMap[x][y]._cellType = Cell::SAND;
@@ -308,39 +345,21 @@ void						Map::draw(sf::RenderWindow *win)
 		{
 			sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL,
 				Chunk::SIZE_OF_CELL));
-			if (_cellMap[i][j]._cellType == Cell::OCEAN)
-				tmp.setTexture(ImageSingleton::getInstance().get(Type::LAC));
-			else if (_cellMap[i][j]._cellType == Cell::GRASS)
-				tmp.setFillColor(sf::Color(19, 209, 111));
-			else
-			{
-			//	tmp.setFillColor(sf::Color::Yellow);
-				tmp.setTexture(ImageSingleton::getInstance().get(Type::SABLE));
-			}
+			//if (_cellMap[i][j]._cellType == Cell::OCEAN)
+			//	tmp.setTexture(ImageSingleton::getInstance().get(Type::LAC));
+			//else if (_cellMap[i][j]._cellType == Cell::GRASS)
+			//	tmp.setFillColor(sf::Color(19, 209, 111));
+			//else
+			//{
+			////	tmp.setFillColor(sf::Color::Yellow);
+			//	tmp.setTexture(ImageSingleton::getInstance().get(Type::SABLE));
+			//}
+			tmp.setFillColor(_typeToColor[_cellMap[i][j]._cellType]);
 			tmp.setPosition((j -hori) * Chunk::SIZE_OF_CELL,
 				(i -vert) * Chunk::SIZE_OF_CELL);
 			win->draw(tmp);
 		}
 	}
-
-	//for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
-	//{
-	//	for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
-	//	{
-
-	//		sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL / Chunk::NB_CELLS,
-	//			Chunk::SIZE_OF_CELL / Chunk::NB_CELLS));
-	//		if (_cellMap[i][j]._cellType == Cell::OCEAN)
-	//			tmp.setFillColor(sf::Color(12, 173, 193));
-	//		else if (_cellMap[i][j]._cellType == Cell::GRASS)
-	//			tmp.setFillColor(sf::Color(19, 209, 111));
-	//		else
-	//			tmp.setFillColor(sf::Color::Yellow);
-	//		tmp.setPosition(j * (Chunk::SIZE_OF_CELL / Chunk::NB_CELLS),
-	//			i * (Chunk::SIZE_OF_CELL / Chunk::NB_CELLS));
-	//		win->draw(tmp);
-	//	}
-	//}
 }
 
 void						Map::update()

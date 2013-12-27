@@ -1,6 +1,8 @@
 #pragma once
 #include					<iostream>
 
+#include					<map>
+
 #include					<SFML/Graphics.hpp>
 #include					<SFML/System.hpp>
 #include					<SFML/Window.hpp>
@@ -8,6 +10,8 @@
 #include					"Singleton.h"
 #include					"ImageSingleton.h"
 #include					"Chunk.h"
+
+#include					"PerlinNoise.h"
 
 /*
 ** This class is used to procedurally generates Islands with different biomes.
@@ -37,6 +41,7 @@ public:
 	void					transformChunkToMap();
 	bool					isCellTypeAround(int, int, Cell::Type);
 
+	void					generateBiomes();
 	void					generateSand();
 
 
@@ -58,4 +63,11 @@ private:
 	// THIS CAN HAS A GETTER
 	Chunk					**_map;		  // Map container.
 	Cell					**_cellMap;
+
+	// LATER BE TEXTURE INSTEAD OF COLOR
+	std::map<Cell::Type, sf::Color>				_typeToColor;
+	PerlinNoise				*_temperature;
+	PerlinNoise				*_humidity;
+
+	Cell					_corTab[100];
 };

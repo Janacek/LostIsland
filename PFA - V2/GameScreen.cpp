@@ -6,7 +6,7 @@ GameScreen::GameScreen()
 {
 	_isRunning = true;
 	_map = new Map();
-	_map->init(std::string("pouet"), sf::Vector2i(18, 18), 33);
+	_map->init(std::string("zob"), sf::Vector2i(18, 18), 33);
 	_map->generate();
 }
 
