@@ -70,4 +70,16 @@ private:
 	PerlinNoise				*_humidity;
 
 	Cell					_corTab[100];
+
+	float hori;
+	float vert;
+
+	/*
+	** Methodes and Attributes for the minimap.
+	*/
+private:
+	sf::RenderTexture		*_miniMapT;
+public:
+	void					createMiniMap();
+	void					drawMiniMap(sf::RenderWindow *);
 };

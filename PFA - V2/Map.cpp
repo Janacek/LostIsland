@@ -27,6 +27,9 @@ Map::Map()
 		_corTab[i]._cellType = Cell::SAVANNA;
 	for ( ; i < 100 ; ++i)
 		_corTab[i]._cellType = Cell::SNOW;
+
+	hori = 0;
+	vert = 0;
 }
 
 Map::~Map()
@@ -199,6 +202,7 @@ void						Map::generate()
 	transformChunkToMap();
 	generateBiomes();
 	generateSand();
+	createMiniMap();
 }
 
 void						Map::divideLands()
@@ -318,11 +322,53 @@ void						Map::generateSand()
 	}
 }
 
+void						Map::createMiniMap()
+{
+	_miniMapT = new sf::RenderTexture();
+	_miniMapT->create((_size.x * Chunk::NB_CELLS) * 2,
+		(_size.y * Chunk::NB_CELLS) * 2);
+
+	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
+	{
+		for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
+		{
+			sf::RectangleShape tmp(sf::Vector2f(2, 2));
+			tmp.setFillColor(_typeToColor[_cellMap[i][j]._cellType]);
+			tmp.setPosition(j * 2, i * 2);
+			_miniMapT->draw(tmp);
+		}
+	}
+	_miniMapT->display();
+}
+
+void						Map::drawMiniMap(sf::RenderWindow *win)
+{
+	sf::Sprite sprite(_miniMapT->getTexture());
+	win->draw(sprite);
+
+	{
+		sf::RectangleShape tmp(sf::Vector2f(
+			(Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL) * 2,
+			(Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) * 2));
+		tmp.setFillColor(sf::Color::Transparent);
+		tmp.setOutlineThickness(2);
+		tmp.setOutlineColor(sf::Color::Black);
+		tmp.setPosition(hori * 2, vert * 2);
+		win->draw(tmp);
+	}
+
+	sf::RectangleShape tmp(sf::Vector2f(
+		(_size.x * Chunk::NB_CELLS) * 2,
+		(_size.y * Chunk::NB_CELLS) * 2));
+	tmp.setFillColor(sf::Color::Transparent);
+	tmp.setOutlineThickness(2);
+	tmp.setOutlineColor(sf::Color::Black);
+	tmp.setPosition(0, 0);
+	win->draw(tmp);
+}
+
 void						Map::draw(sf::RenderWindow *win)
 {
-	static int hori = 0;
-	static int vert = 0;
-
 	if (Singleton::getInstance().isMovingRight)
 		if (hori + Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL 
 			< _size.x * Chunk::NB_CELLS)
