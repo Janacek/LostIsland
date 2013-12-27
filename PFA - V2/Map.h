@@ -66,6 +66,8 @@ private:
 
 	// LATER BE TEXTURE INSTEAD OF COLOR
 	std::map<Cell::Type, sf::Color>				_typeToColor;
+	std::map<Cell::Type, sf::Texture *>			_typeToTexture;
+
 	PerlinNoise				*_temperature;
 	PerlinNoise				*_humidity;
 

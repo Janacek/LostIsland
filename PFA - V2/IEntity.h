@@ -11,6 +11,10 @@ enum Type
 	PLAYER,
 	SABLE,
 	LAC,
+	GRASS,
+	SAVANNA,
+	FOREST,
+	SNOW,
 };
 
 class IEntity
