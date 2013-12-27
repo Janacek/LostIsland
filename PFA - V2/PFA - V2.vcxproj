@@ -113,6 +113,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Onglet.cpp" />
     <ClCompile Include="PathFinding.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="PhysicEngine.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Singleton.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Onglet.h" />
     <ClInclude Include="PathFinding.h" />
+    <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="PhysicEngine.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Singleton.h" />
