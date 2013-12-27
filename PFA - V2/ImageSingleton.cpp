@@ -17,7 +17,7 @@ void ImageSingleton::start()
 	this->load(WATER, "./water.png");
 	this->load(WOOD, "./wood.png");
 	this->load(SABLE, "./sable.png");
-	this->load(LAC, "./lac.png");
+	this->load(LAC, "./mer.png");
 }
 
 void ImageSingleton::load(Type id, const std::string& filename)
