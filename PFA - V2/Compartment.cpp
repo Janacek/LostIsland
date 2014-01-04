@@ -17,7 +17,7 @@ Compartment::Compartment(const sf::Vector2f &sizeParent, float x, float y)
 	this->_textNumber.setColor(sf::Color::Green);
 }
 
-void Compartment::operator=(Compartment const &c)
+Compartment &Compartment::operator=(Compartment const &c)
 {
 	this->_numberElements = 0;
 	this->_elements.clear();
@@ -26,6 +26,14 @@ void Compartment::operator=(Compartment const &c)
 	this->_font = c._font;
 	for (IEntity *u : c._elements)
 		addElement(u);
+	return *this;
+}
+
+Compartment &Compartment::operator+=(Compartment const&c)
+{
+	for (IEntity *u : c._elements)
+		addElement(u);
+	return *this;
 }
 
 void Compartment::emptyCompartment()

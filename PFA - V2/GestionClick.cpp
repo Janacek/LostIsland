@@ -1,6 +1,5 @@
 #include "GestionClick.h"
 
-
 GestionClick::GestionClick(void)
 {
 	this->_enumToString[INVENTORY] = "Inventory";
@@ -12,11 +11,20 @@ GestionClick::GestionClick(void)
 
 void	GestionClick::swap(s_action&a, s_action&b)
 {
-	Compartment tmp(sf::Vector2f(0, 0));
+	//meme type d'objet, on ajoute au lieu de swap
+	if (a._compartment->_elements.size() > 0 && b._compartment->_elements.size() > 0 && a._compartment->_elements.front()->getType() ==  b._compartment->_elements.front()->getType())
+	{
+		*b._compartment += *a._compartment;
+		a._compartment->emptyCompartment();
+	}
+	else
+	{
+		Compartment tmp(sf::Vector2f(0, 0));
 
-	tmp = *b._compartment;
-	*b._compartment = *a._compartment;
-	*a._compartment = tmp;
+		tmp = *b._compartment;
+		*b._compartment = *a._compartment;
+		*a._compartment = tmp;
+	}
 	std::cout << "SWAP between " << this->_enumToString[a._screen] << " and " <<  this->_enumToString[b._screen] << std::endl;
 	a.reset();
 	b.reset();
@@ -24,11 +32,20 @@ void	GestionClick::swap(s_action&a, s_action&b)
 
 void	GestionClick::add(s_action&a, s_action&b)
 {
-	Compartment tmp(sf::Vector2f(0, 0));
+	//meme type d'objet, on ajoute au lieu de swap
+	if (a._compartment->_elements.size() > 0 && b._compartment->_elements.size() > 0 && a._compartment->_elements.front()->getType() ==  b._compartment->_elements.front()->getType())
+	{
+		*b._compartment += *a._compartment;
+		a._compartment->emptyCompartment();
+	}
+	else
+	{
+		Compartment tmp(sf::Vector2f(0, 0));
 
-	tmp = *b._compartment;
-	*b._compartment = *a._compartment;
-	*a._compartment = tmp;
+		tmp = *b._compartment;
+		*b._compartment = *a._compartment;
+		*a._compartment = tmp;
+	}
 	std::cout << "add between " << this->_enumToString[a._screen] << " and " <<  this->_enumToString[b._screen] << std::endl;
 	a.reset();
 	b.reset();

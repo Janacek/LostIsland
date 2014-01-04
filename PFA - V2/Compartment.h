@@ -10,7 +10,8 @@ class Compartment
 {
 public:
 	Compartment(const sf::Vector2f &sizeParent, float x = 0, float y = 0);
-	void operator=(Compartment const &);
+	Compartment &operator=(Compartment const &);
+	Compartment &operator+=(Compartment const&);
 	~Compartment();
 	void draw();
 	void addElement(IEntity *);

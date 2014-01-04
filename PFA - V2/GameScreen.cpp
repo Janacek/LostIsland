@@ -40,7 +40,7 @@ void GameScreen::drawMouse()
 {
 	if (this->_activeInventary)
 	{
-		if (Singleton::getInstance().isLeftClicking)
+		if (Singleton::getInstance().isLeftClicking && this->_leftClickPressed._compartment != NULL)
 		{
 			sf::Vector2i tmp = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 			this->_mousePicture.setPosition(tmp.x, tmp.y);
@@ -55,7 +55,7 @@ void GameScreen::checkClicks()
 	if (Singleton::getInstance().isLeftClicking && stillClicking == 0)
 	{
 		saveClick(true);
-		if (this->_leftClickPressed._compartment != NULL)
+		if (this->_leftClickPressed._compartment != NULL &&  this->_leftClickPressed._screen != NONE)
 			this->_mousePicture.setTexture(this->_leftClickPressed._compartment->_rect.getTexture());
 	//	std::cout << "CLICK : " << this->_leftClickPressed._screen << std::endl;
 		++stillClicking;
