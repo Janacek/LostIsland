@@ -17,7 +17,7 @@ public:
 
 	void draw(std::vector<IEntity *> &players,std::list<IEntity *> &entities);
 	void initialize(void);
-	IScreen * getNextState(void);
+	IScreen					*getNextState(void);
 	void release(void);
 	bool isRunning(void) const;
 	void update(void);

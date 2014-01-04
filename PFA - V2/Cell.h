@@ -17,7 +17,9 @@ public:
 		OCEAN = 0,
 		GRASS,
 		SAND,
-		ROCK,
+		SNOW,
+		FOREST,
+		SAVANNA,
 	};
 
 public:
