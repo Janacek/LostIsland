@@ -5,7 +5,7 @@ GestionClick::GestionClick(void)
 	this->_enumToString[INVENTORY] = "Inventory";
 	this->_enumToString[STUFF] = "Stuff";
 	this->_enumToString[CRAFTING] = "Crafting";
-	this->_enumToString[NONE] = "NONE";
+	this->_enumToString[GAMESCREEN] = "GameScreen";
 	createCorrelationTable();
 }
 
@@ -61,6 +61,13 @@ void	GestionClick::drop(s_action&a, s_action&b)
 	std::cout << "Mettre la ressource par terre" << std::endl;
 }
 
+void GestionClick::doNothing(s_action&a, s_action&b)
+{
+	std::cout << "Mauvais drag and drop" << std::endl;
+	a.reset();
+	b.reset();
+}
+
 GestionClick::~GestionClick(void)
 {
 }
@@ -80,7 +87,8 @@ void	GestionClick::createCraftingTable()
 	tmp[STUFF] = &GestionClick::add;
 	tmp[CRAFTING] = &GestionClick::swap;
 	tmp[INVENTORY] = &GestionClick::add;
-	tmp[NONE] = &GestionClick::drop;
+	tmp[GAMESCREEN] = &GestionClick::drop;
+	tmp[NONE] = &GestionClick::doNothing;
 
 	this->_correlationTable[CRAFTING] = tmp;
 }
@@ -93,7 +101,8 @@ void	GestionClick::createInventoryTable()
 	tmp[STUFF] = &GestionClick::add;
 	tmp[CRAFTING] = &GestionClick::add;
 	tmp[INVENTORY] = &GestionClick::swap;
-	tmp[NONE] = &GestionClick::drop;
+	tmp[GAMESCREEN] = &GestionClick::drop;
+	tmp[NONE] = &GestionClick::doNothing;
 
 	this->_correlationTable[INVENTORY] = tmp;
 }
@@ -105,7 +114,8 @@ void	GestionClick::createStuffTable()
 	tmp[STUFF] = &GestionClick::swap;
 	tmp[CRAFTING] = &GestionClick::add;
 	tmp[INVENTORY] = &GestionClick::add;
-	tmp[NONE] = &GestionClick::drop;
+	tmp[GAMESCREEN] = &GestionClick::drop;
+	tmp[NONE] = &GestionClick::doNothing;
 
 	this->_correlationTable[STUFF] = tmp;
 }

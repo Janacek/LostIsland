@@ -27,7 +27,6 @@ s_action Stuff::clickInCompartment(sf::Vector2i &coordClick)
 		float bottomCompartment = topCompartment + c->_rect.getGlobalBounds().height;
 		if (leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
 		{
-			//std::cout << "On est dans un compartiment" << std::endl;
 			action._compartment = c;
 			action._screen = STUFF;
 			return action;

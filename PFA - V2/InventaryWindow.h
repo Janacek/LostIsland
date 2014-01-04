@@ -13,6 +13,7 @@ public:
 	void draw();
 	void update();
 	bool close();
+	void init();
 	void addCompartment();
 	void createOnglets();
 	void changeCompartments(Onglet *);

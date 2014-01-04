@@ -28,7 +28,7 @@ typedef struct	s_action
 	}
 	void reset()
 	{
-		_screen = NONE;
+		_screen = GAMESCREEN;
 		_compartment = NULL;
 	}
 

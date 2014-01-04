@@ -19,21 +19,25 @@ InventaryWindow::InventaryWindow(std::vector<Player *> &players, std::string  co
 	this->_enumStrings[WATER] = "WATER";
 	this->_enumStrings[PLAYER] = "PLAYER";	
 
+}
+
+void InventaryWindow::init()
+{
 	createOnglets();
-	players[0]->addEntityInInventory(new Food);
-	players[0]->addEntityInInventory(new Food);
-	players[1]->addEntityInInventory(new Water);
-	players[1]->addEntityInInventory(new Water);
-	players[1]->addEntityInInventory(new Food);
-	players[1]->addEntityInInventory(new Food);
-	players[2]->addEntityInInventory(new Wood);
-	players[2]->addEntityInInventory(new Wood);
-	players[2]->addEntityInInventory(new Wood);
-	players[3]->addEntityInInventory(new Water);
-	players[3]->addEntityInInventory(new Water);
-	players[3]->addEntityInInventory(new Water);
-	players[3]->addEntityInInventory(new Food);
-	players[3]->addEntityInInventory(new Water);
+	_players[0]->addEntityInInventory(new Food);
+	_players[0]->addEntityInInventory(new Food);
+	_players[1]->addEntityInInventory(new Water);
+	_players[1]->addEntityInInventory(new Water);
+	_players[1]->addEntityInInventory(new Food);
+	_players[1]->addEntityInInventory(new Food);
+	_players[2]->addEntityInInventory(new Wood);
+	_players[2]->addEntityInInventory(new Wood);
+	_players[2]->addEntityInInventory(new Wood);
+	_players[3]->addEntityInInventory(new Water);
+	_players[3]->addEntityInInventory(new Water);
+	_players[3]->addEntityInInventory(new Water);
+	_players[3]->addEntityInInventory(new Food);
+	_players[3]->addEntityInInventory(new Water);
 	this->_selectOnglet = this->_onglets.front();
 }
 
