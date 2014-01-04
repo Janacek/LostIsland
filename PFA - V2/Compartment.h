@@ -6,11 +6,12 @@
 #include "Player.h"
 #include <list>
 
-//Attention : Type T shall be copy-constructible and assignable.
+//Attention : Compartment shall be copy-constructible and assignable.
 class Compartment
 {
 public:
-	Compartment(const sf::Vector2f &sizeParent, float x, float y);
+	Compartment(const sf::Vector2f &sizeParent, float x = 0, float y = 0);
+	void operator=(Compartment const &);
 	~Compartment();
 	void draw();
 	void addElement(IEntity *);
@@ -26,7 +27,7 @@ public:
 	sf::Font			_font;
 	
 
-private:
+//private:
 	bool				_isSelected;
 	unsigned int _numberElements;
 	void applyPicture(Type);

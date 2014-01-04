@@ -26,6 +26,7 @@ protected:
 private:
 	void				updateStatistics(sf::Time &elapsedTime);
 	void				checkInput();
+	void				drawMouse();
 	void				checkClicks();
 	void				saveClick(bool click);
 	void				updateObjectsPos();
@@ -46,6 +47,7 @@ private:
 	bool				_isRunning;
 	IScreen				* _next;
 	sf::Text			* _statisticText;
+	sf::RectangleShape	_mousePicture;
 	struct s_action			_leftClickPressed;
 	struct s_action			_leftClickReleased;
 	struct s_action			_rightClickPressed;

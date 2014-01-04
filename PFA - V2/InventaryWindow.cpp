@@ -37,7 +37,7 @@ void InventaryWindow::createOnglets()
 
 s_action InventaryWindow::clickInCompartment(sf::Vector2i &coordClick)
 {
-	s_action action;
+	s_action action(true);
 	sf::Vector2i posLeftClickPressed = coordClick;
 	for (Compartment *c : this->_compartments)
 	{
@@ -47,7 +47,7 @@ s_action InventaryWindow::clickInCompartment(sf::Vector2i &coordClick)
 		float bottomCompartment = topCompartment + c->_rect.getGlobalBounds().height;
 		if (posLeftClickPressed.x != -1  && leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
 		{
-			std::cout << "On est dans un compartiment" << std::endl;
+			//std::cout << "On est dans un compartiment" << std::endl;
 			action._compartment = c;
 			action._screen = INVENTORY;
 			return action;
@@ -91,7 +91,7 @@ void InventaryWindow::addCompartment()
 	if (this->_compartments.size() < 3)
 	{
 		float posRelatX = this->_compartments.size() * (this->_window.getSize().x * 5 / 100) + this->_compartments.size() * (this->_window.getSize().x * 23 / 100); //Calcul savant pour avoir des cases au bon endroit
-		std::cout << "pos : " << posRelatX << std::endl;
+		//std::cout << "pos : " << posRelatX << std::endl;
 		this->_compartments.push_back(new Compartment(this->_window.getSize(), posIniX + posRelatX, this->_window.getPosition().y + this->_window.getSize().y / 10)); //10% de marge);
 	}
 	else if (this->_compartments.size() < 6)

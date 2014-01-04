@@ -15,7 +15,7 @@ Crafting::Crafting(std::string const &title) : AWindow(title,
 
  s_action Crafting::clickInCompartment(sf::Vector2i &coordClick)
 {
-	s_action action;
+	s_action action(true);
 	sf::Vector2i posLeftClickPressed = coordClick;
 	for (Compartment *c : this->_compartments)
 	{
@@ -25,7 +25,7 @@ Crafting::Crafting(std::string const &title) : AWindow(title,
 		float bottomCompartment = topCompartment + c->_rect.getGlobalBounds().height;
 		if (posLeftClickPressed.x != -1  && leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
 		{
-			std::cout << "On est dans un compartiment" << std::endl;
+			//std::cout << "On est dans un compartiment" << std::endl;
 			action._compartment = c;
 			//Singleton::getInstance().posLeftClickPressed.x = -1;
 			action._screen = CRAFTING;

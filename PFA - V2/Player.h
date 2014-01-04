@@ -15,6 +15,7 @@ public:
    Type getType() const;
    //sf::Rect & getCollisionBox(void);
 
+   //TODO : Changer en compartments pour l'inventaire
    std::vector<IEntity *> _inventary;
 protected:
 private:

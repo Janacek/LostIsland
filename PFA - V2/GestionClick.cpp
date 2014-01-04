@@ -12,17 +12,36 @@ GestionClick::GestionClick(void)
 
 void	GestionClick::swap(s_action&a, s_action&b)
 {
-	std::cout << "SWAP between " << this->_enumToString[a._screen] << "and " <<  this->_enumToString[b._screen] << std::endl;
+	Compartment tmp(sf::Vector2f(0, 0));
+
+	tmp = *b._compartment;
+	*b._compartment = *a._compartment;
+	*a._compartment = tmp;
+	std::cout << "SWAP between " << this->_enumToString[a._screen] << " and " <<  this->_enumToString[b._screen] << std::endl;
+	a.reset();
+	b.reset();
 }
 
 void	GestionClick::add(s_action&a, s_action&b)
 {
-	std::cout << "add between " << this->_enumToString[a._screen] << "and " <<  this->_enumToString[b._screen] << std::endl;
+	Compartment tmp(sf::Vector2f(0, 0));
+
+	tmp = *b._compartment;
+	*b._compartment = *a._compartment;
+	*a._compartment = tmp;
+	std::cout << "add between " << this->_enumToString[a._screen] << " and " <<  this->_enumToString[b._screen] << std::endl;
+	a.reset();
+	b.reset();
 }
 
 void	GestionClick::drop(s_action&a, s_action&b)
 {
-	std::cout << "drop between " << this->_enumToString[a._screen] << "and " <<  this->_enumToString[b._screen] << std::endl;
+	Compartment *tmp = a._compartment;
+	tmp->emptyCompartment();
+	std::cout << "drop between " << this->_enumToString[a._screen] << " and " <<  this->_enumToString[b._screen] << std::endl;
+	a.reset();
+	b.reset();
+	std::cout << "Mettre la ressource par terre" << std::endl;
 }
 
 GestionClick::~GestionClick(void)
@@ -77,7 +96,7 @@ void	GestionClick::createStuffTable()
 void	GestionClick::callFunction(s_action &a1, s_action &a2)
 {
 	std::map<Screens, void (GestionClick::*)(s_action&, s_action&)> tmp;
-	tmp = this->_correlationTable[STUFF];
-	_caller = tmp[STUFF];
+	tmp = this->_correlationTable[a1._screen];
+	_caller = tmp[a2._screen];
 	(this->*_caller)(a1, a2);
 }

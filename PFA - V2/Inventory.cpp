@@ -57,7 +57,7 @@ void Inventory::checkInputOnglet()
 			Singleton::getInstance().posLeftClickPressed.x = -1;
 			if (o != this->_selectOnglet)
 				this->selectOnglet(o);
-			std::cout << "J'ai cliqué sur l'onglet : " << o->getName() << std::endl;
+			//std::cout << "J'ai cliqué sur l'onglet : " << o->getName() << std::endl;
 			return ;
 		}
 	}
@@ -76,6 +76,7 @@ void Inventory::updateViewCompartments()
 
 void Inventory::selectOnglet(Onglet *onglet)
 {
+	//couleur de l'onglet
 	this->_selectOnglet->setisSelected(false);
 	this->_selectOnglet = onglet;
 	this->_selectOnglet->setisSelected(true);

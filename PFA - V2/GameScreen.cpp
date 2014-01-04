@@ -25,6 +25,7 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 		this->_inventory->draw();
 		this->_crafting->draw();
 		this->_stuff->draw();
+		drawMouse();
 		this->_inventory->update();
 		this->_crafting->update();
 		this->_stuff->update();
@@ -34,13 +35,28 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 	Singleton::getInstance()._window->display();
 }
 
+void GameScreen::drawMouse()
+{
+	if (this->_activeInventary)
+	{
+		if (Singleton::getInstance().isLeftClicking)
+		{
+			sf::Vector2i tmp = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+			this->_mousePicture.setPosition(tmp.x, tmp.y);
+			Singleton::getInstance()._window->draw(this->_mousePicture);
+		}
+	}
+}
+
 void GameScreen::checkClicks()
 {
 	static int stillClicking = 0;
 	if (Singleton::getInstance().isLeftClicking && stillClicking == 0)
 	{
 		saveClick(true);
-		std::cout << "CLICK : " << this->_leftClickPressed._screen << std::endl;
+		if (this->_leftClickPressed._compartment != NULL)
+			this->_mousePicture.setTexture(this->_leftClickPressed._compartment->_rect.getTexture());
+	//	std::cout << "CLICK : " << this->_leftClickPressed._screen << std::endl;
 		++stillClicking;
 	}
 	else if (Singleton::getInstance().isLeftClicking == true && stillClicking < 10)
@@ -49,8 +65,9 @@ void GameScreen::checkClicks()
 	}
 	else if (Singleton::getInstance().isLeftClicking == false && stillClicking >= 10)
 	{
-		std::cout << "CLICK DETACH: " << this->_leftClickReleased._screen << std::endl;
+		//std::cout << "CLICK DETACH: " << this->_leftClickReleased._screen << std::endl;
 		saveClick(false);
+		this->_mousePicture.setTexture(NULL);
 		updateObjectsPos();
 		stillClicking = 0;
 	}
@@ -61,7 +78,7 @@ void GameScreen::checkClicks()
 void GameScreen::updateObjectsPos()
 {
 	// MODIFICATIONS MADE HERE. SHOULD WORK NOW.
-	if (this->_leftClickPressed._compartment != NULL)
+	if (this->_leftClickPressed._compartment != NULL && this->_leftClickReleased._screen != NONE)
 		_gc.callFunction(this->_leftClickPressed, this->_leftClickReleased);
 }
 
@@ -89,22 +106,23 @@ void GameScreen::saveClick(bool click)
 	{
 		if (this->_inventory->_mainInventory->clickInWindow(Singleton::getInstance().posLeftClickReleased))
 		{
-			std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
+			//std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
 			this->_leftClickReleased = this->_inventory->_mainInventory->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
 		if (this->_crafting->clickInWindow(Singleton::getInstance().posLeftClickReleased))
 		{
-			std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
+			//std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
 			this->_leftClickReleased = this->_crafting->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
 		if (this->_stuff->clickInWindow(Singleton::getInstance().posLeftClickReleased))
 		{			
-			std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
+			//std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
 			this->_leftClickReleased = this->_stuff->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
+		this->_mousePicture.setTexture(NULL);
 	}
 }
 
@@ -146,6 +164,9 @@ void GameScreen::initialize(void)
 	_statisticsText.setPosition(5.f, 5.f);
 	_statisticsText.setCharacterSize(10);
 	_statisticsText.setPosition(0, 30);
+
+	//initialisation de l'image du pointeur
+	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
 
 }
 
