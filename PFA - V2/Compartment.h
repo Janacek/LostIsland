@@ -3,7 +3,6 @@
 #include "Singleton.h"
 #include "ImageSingleton.h"
 #include "IEntity.h"
-#include "Player.h"
 #include <list>
 
 //Attention : Compartment shall be copy-constructible and assignable.

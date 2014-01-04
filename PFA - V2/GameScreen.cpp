@@ -87,9 +87,9 @@ void GameScreen::saveClick(bool click)
 {
 	if (click)
 	{
-		if (this->_inventory->_mainInventory->clickInWindow(Singleton::getInstance().posLeftClickPressed))
+		if (this->_inventory->clickInWindow(Singleton::getInstance().posLeftClickPressed))
 		{
-			this->_leftClickPressed = this->_inventory->_mainInventory->clickInCompartment(Singleton::getInstance().posLeftClickPressed);
+			this->_leftClickPressed = this->_inventory->clickInCompartment(Singleton::getInstance().posLeftClickPressed);
 			return ;
 		}
 		if (this->_crafting->clickInWindow(Singleton::getInstance().posLeftClickPressed))
@@ -105,10 +105,10 @@ void GameScreen::saveClick(bool click)
 	}
 	else
 	{
-		if (this->_inventory->_mainInventory->clickInWindow(Singleton::getInstance().posLeftClickReleased))
+		if (this->_inventory->clickInWindow(Singleton::getInstance().posLeftClickReleased))
 		{
 			//std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
-			this->_leftClickReleased = this->_inventory->_mainInventory->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
+			this->_leftClickReleased = this->_inventory->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
 		if (this->_crafting->clickInWindow(Singleton::getInstance().posLeftClickReleased))
@@ -157,7 +157,7 @@ void GameScreen::initialize(void)
 		this->_players.push_back(new Player);
 	}
 	this->_activeInventary = false;
-	this->_inventory = new Inventory(this->_players);
+	this->_inventory = new InventaryWindow(this->_players);
 	this->_crafting = new Crafting;
 	this->_stuff = new Stuff;
 	_font.loadFromFile("./Media/Sansation.ttf");
