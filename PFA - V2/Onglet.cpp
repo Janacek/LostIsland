@@ -16,7 +16,7 @@ Onglet::Onglet(Player *player, std::string const &title, float sizeX, float size
 	this->_name.setPosition(this->getPosition().x, this->getPosition().y);
 	this->_name.setCharacterSize(15);
 	this->_name.setColor(sf::Color::Black);
-	std::cout << "NAME : " << title << std::endl;
+	//std::cout << "NAME : " << title << std::endl;
 	this->_name.setString(title);
 	
 	//Other

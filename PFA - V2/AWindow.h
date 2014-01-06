@@ -17,7 +17,21 @@ enum Screens
 };
 typedef struct	s_action	
 {
-	s_action() : _screen(NONE), _compartment(NULL){};
+	s_action(bool windows = false) : _compartment(NULL)
+	{
+		if (windows)
+			_screen = NONE;
+		else
+		{
+			_screen = GAMESCREEN;
+		}
+	}
+	void reset()
+	{
+		_screen = GAMESCREEN;
+		_compartment = NULL;
+	}
+
 	Screens		_screen;
 	Compartment *_compartment;
 }				s_action;

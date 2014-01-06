@@ -4,7 +4,7 @@
 #include <functional>
 #include "IScreen.h"
 #include "Player.h"
-#include "Inventory.h"
+#include "InventaryWindow.h"
 #include "Crafting.h"
 #include "Stuff.h"
 #include "Map.h"
@@ -18,7 +18,7 @@ public:
 
 	void draw(std::vector<IEntity *> &players,std::list<IEntity *> &entities);
 	void initialize(void);
-	IScreen * getNextState(void);
+	IScreen					*getNextState(void);
 	void release(void);
 	bool isRunning(void) const;
 	void update(void);
@@ -28,6 +28,7 @@ protected:
 private:
 	void				updateStatistics(sf::Time &elapsedTime);
 	void				checkInput();
+	void				drawMouse();
 	void				checkClicks();
 	void				saveClick(bool click);
 	void				updateObjectsPos();
@@ -39,7 +40,7 @@ private:
 	sf::Time			_t;
 	sf::Clock			_clickClock;
 	std::vector<Player *>	_players;
-	Inventory			*_inventory;
+	InventaryWindow			*_inventory;
 	Crafting			*_crafting;
 	Stuff				*_stuff;
 	sf::Text			_statisticsText;
@@ -49,6 +50,7 @@ private:
 	bool				_isRunning;
 	IScreen				* _next;
 	sf::Text			* _statisticText;
+	sf::RectangleShape	_mousePicture;
 	struct s_action			_leftClickPressed;
 	struct s_action			_leftClickReleased;
 	struct s_action			_rightClickPressed;

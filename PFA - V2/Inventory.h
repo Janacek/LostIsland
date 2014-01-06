@@ -24,12 +24,9 @@ public:
 	//tmp
 	InventaryWindow				 *_mainInventory;
 private:
-	void checkInputs();
-	void updateViewCompartments();
 	void printInventory() const;
 	bool isInCompartment(Compartment &) const;
-	
-	void organizeCompartment(Compartment *);
+	void printInventory(Onglet *o) const;
 	void checkInputOnglet();
 	void selectOnglet(Onglet *);
 
@@ -39,6 +36,6 @@ private:
 	std::vector<Player *>			_players;
 //	std::deque<Compartment *> _compartment;
 	unsigned int				_sizeInventory;
-	std::map<Type, std::string> _enumStrings;
+	
 };
 

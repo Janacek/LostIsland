@@ -24,17 +24,19 @@ Map::Map()
 	_typeToTexture[Cell::SAVANNA] = ImageSingleton::getInstance().get(Type::SAVANNA);
 
 	int i;
-	for (i = 0 ; i < 22 ; ++i)
-		_corTab[i]._cellType = Cell::SAND;
+	for (i = 0 ; i < 27 ; ++i)
+		_corTab[i]._cellType = Cell::SNOW;
 	for ( ; i < 44 ; ++i)
-		_corTab[i]._cellType = Cell::FOREST;
+		_corTab[i]._cellType = Cell::SAVANNA;
 	for ( ; i < 55 ; ++i)
 		_corTab[i]._cellType = Cell::GRASS;
 
 	for ( ; i < 66 ; ++i)
-		_corTab[i]._cellType = Cell::SAVANNA;
+		_corTab[i]._cellType = Cell::FOREST;
 	for ( ; i < 100 ; ++i)
-		_corTab[i]._cellType = Cell::SNOW;
+		_corTab[i]._cellType = Cell::SAND;
+
+	// SNOW SAVANNA GRASS FOREST SAND
 
 	hori = 0;
 	vert = 0;

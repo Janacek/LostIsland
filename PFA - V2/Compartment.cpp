@@ -17,12 +17,31 @@ Compartment::Compartment(const sf::Vector2f &sizeParent, float x, float y)
 	this->_textNumber.setColor(sf::Color::Green);
 }
 
+Compartment &Compartment::operator=(Compartment const &c)
+{
+	this->_numberElements = 0;
+	this->_elements.clear();
+	this->_rect.setTexture(NULL);
+	this->_rect.setFillColor(sf::Color::Magenta);
+	this->_font = c._font;
+	for (IEntity *u : c._elements)
+		addElement(u);
+	return *this;
+}
+
+Compartment &Compartment::operator+=(Compartment const&c)
+{
+	for (IEntity *u : c._elements)
+		addElement(u);
+	return *this;
+}
+
 void Compartment::emptyCompartment()
 {
 	this->_elements.clear();
 	this->_textNumber.setString("");
 	this->_rect.setTexture(NULL);
-	this->_rect.setFillColor(sf::Color::Red);
+	this->_rect.setFillColor(sf::Color::Magenta);
 	this->_numberElements = 0;
 }
 
@@ -31,12 +50,12 @@ void Compartment::setIsSelected(bool b)
 	this->_isSelected = b;
 	if (b)
 	{
-		std::cout << "JE SUIS SELEC" << std::endl;
+		//std::cout << "JE SUIS SELEC" << std::endl;
 		this->_rect.setOutlineThickness(10);
 	}
 	else
 	{
-		std::cout << "JE SUIS PAS SELECT" << std::endl;
+		//std::cout << "JE SUIS PAS SELECT" << std::endl;
 		this->_rect.setOutlineThickness(0);
 	}
 }
@@ -110,16 +129,18 @@ void Compartment::decreaseNumber()
 
 void Compartment::applyPicture(Type type)
 {
+	std::cout << "APPLY PICTURE" << std::endl;
 	this->_rect.setTexture(ImageSingleton::getInstance().get(type));
 	this->_rect.setFillColor(sf::Color::White);
+	std::cout << "POS: " << this->_rect.getPosition().x << " " << this->_rect.getPosition().y << std::endl;
 }
 
 Compartment::~Compartment(void)
 {
-	for (IEntity *u : this->_elements)
-	{
-		delete(u);
-	}
-	while (!this->_elements.size())
-		this->_elements.pop_back();
+	// 	for (IEntity *u : this->_elements)
+	// 	{
+	// 		delete(u);
+	// 	}
+	// 	while (!this->_elements.size())
+	// 		this->_elements.pop_back();
 }

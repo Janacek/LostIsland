@@ -55,7 +55,7 @@ bool AWindow::clickInWindow(sf::Vector2i &coordClick)
 	if (posLeftClickPressed.x != -1  && leftCompartment <= posLeftClickPressed.x && rightCompartment >= posLeftClickPressed.x && topCompartment <= posLeftClickPressed.y && bottomCompartment >= posLeftClickPressed.y)
 	{
 		std::string tmp = this->_title.getString();
-		std::cout << "Je clique dans la fenetre :" << tmp << std::endl;
+		//std::cout << "Je clique dans la fenetre :" << tmp << std::endl;
 		return true;
 	}
 	return false;

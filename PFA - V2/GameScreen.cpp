@@ -6,10 +6,32 @@ GameScreen::GameScreen()
 {
 	_isRunning = true;
 	_map = new Map();
-	_map->init(std::string("Thomas"), sf::Vector2i(18, 18), 33);
+	_map->init(std::string(""), sf::Vector2i(18, 18), 33);
 	_map->generate();
 	this->_physicEngine = new PhysicEngine(_map);
 	_physicEngine->init();
+}
+
+void GameScreen::initialize(void)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		this->_players.push_back(new Player);
+	}
+	this->_activeInventary = false;
+	this->_inventory = new InventaryWindow(this->_players);
+	this->_inventory->init();
+	this->_crafting = new Crafting;
+	this->_stuff = new Stuff;
+	_font.loadFromFile("./Media/Sansation.ttf");
+	_statisticsText.setFont(_font);
+	_statisticsText.setPosition(5.f, 5.f);
+	_statisticsText.setCharacterSize(10);
+	_statisticsText.setPosition(0, 30);
+
+	//initialisation de l'image du pointeur
+	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
+
 }
 
 void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
@@ -30,6 +52,7 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 		this->_inventory->draw();
 		this->_crafting->draw();
 		this->_stuff->draw();
+		drawMouse();
 		this->_inventory->update();
 		this->_crafting->update();
 		this->_stuff->update();
@@ -46,13 +69,26 @@ stateName GameScreen::getStateName() const
 	return GAME;
 }
 
+void GameScreen::drawMouse()
+{
+	if (this->_activeInventary)
+	{
+		if (Singleton::getInstance().isLeftClicking && this->_leftClickPressed._compartment != NULL && this->_leftClickPressed._compartment->_elements.size() > 0)
+		{
+			sf::Vector2i tmp = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+			this->_mousePicture.setPosition(tmp.x, tmp.y);
+			Singleton::getInstance()._window->draw(this->_mousePicture);
+		}
+	}
+}
 void GameScreen::checkClicks()
 {
 	static int stillClicking = 0;
 	if (Singleton::getInstance().isLeftClicking && stillClicking == 0)
 	{
 		saveClick(true);
-		std::cout << "CLICK : " << this->_leftClickPressed._screen << std::endl;
+		if (this->_leftClickPressed._compartment != NULL &&  this->_leftClickPressed._screen != NONE)
+			this->_mousePicture.setTexture(this->_leftClickPressed._compartment->_rect.getTexture());
 		++stillClicking;
 	}
 	else if (Singleton::getInstance().isLeftClicking == true && stillClicking < 10)
@@ -61,8 +97,8 @@ void GameScreen::checkClicks()
 	}
 	else if (Singleton::getInstance().isLeftClicking == false && stillClicking >= 10)
 	{
-		std::cout << "CLICK DETACH: " << this->_leftClickReleased._screen << std::endl;
 		saveClick(false);
+		this->_mousePicture.setTexture(NULL);
 		updateObjectsPos();
 		stillClicking = 0;
 	}
@@ -72,7 +108,7 @@ void GameScreen::checkClicks()
 
 void GameScreen::updateObjectsPos()
 {
-	// MODIFICATIONS MADE HERE. SHOULD WORK NOW.
+	std::cout << "RELAS : " << this->_leftClickReleased._screen << std::endl;
 	if (this->_leftClickPressed._compartment != NULL)
 		_gc.callFunction(this->_leftClickPressed, this->_leftClickReleased);
 }
@@ -81,9 +117,9 @@ void GameScreen::saveClick(bool click)
 {
 	if (click)
 	{
-		if (this->_inventory->_mainInventory->clickInWindow(Singleton::getInstance().posLeftClickPressed))
+		if (this->_inventory->clickInWindow(Singleton::getInstance().posLeftClickPressed))
 		{
-			this->_leftClickPressed = this->_inventory->_mainInventory->clickInCompartment(Singleton::getInstance().posLeftClickPressed);
+			this->_leftClickPressed = this->_inventory->clickInCompartment(Singleton::getInstance().posLeftClickPressed);
 			return ;
 		}
 		if (this->_crafting->clickInWindow(Singleton::getInstance().posLeftClickPressed))
@@ -96,27 +132,30 @@ void GameScreen::saveClick(bool click)
 			this->_leftClickPressed = this->_stuff->clickInCompartment(Singleton::getInstance().posLeftClickPressed);
 			return ;
 		}
+
 	}
 	else
 	{
-		if (this->_inventory->_mainInventory->clickInWindow(Singleton::getInstance().posLeftClickReleased))
+		if (this->_inventory->clickInWindow(Singleton::getInstance().posLeftClickReleased))
 		{
-			std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
-			this->_leftClickReleased = this->_inventory->_mainInventory->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
+			//std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
+			this->_leftClickReleased = this->_inventory->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
 		if (this->_crafting->clickInWindow(Singleton::getInstance().posLeftClickReleased))
 		{
-			std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
+			//std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
 			this->_leftClickReleased = this->_crafting->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
 		if (this->_stuff->clickInWindow(Singleton::getInstance().posLeftClickReleased))
 		{			
-			std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
+			//std::cout << "click released pos : " << Singleton::getInstance().posLeftClickReleased.x << std::endl;
 			this->_leftClickReleased = this->_stuff->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
+		
+		this->_mousePicture.setTexture(NULL);
 	}
 }
 
@@ -140,24 +179,6 @@ void GameScreen::checkInput()
 	}
 	//if (this->_stuff->close() || this->_crafting->close() || this->_inventory->close())
 	//	this->_activeInventary = false;
-
-}
-
-void GameScreen::initialize(void)
-{
-	for (int i = 0; i < 4; i++)
-	{
-		this->_players.push_back(new Player);
-	}
-	this->_activeInventary = false;
-	this->_inventory = new Inventory(this->_players);
-	this->_crafting = new Crafting;
-	this->_stuff = new Stuff;
-	_font.loadFromFile("./Media/Sansation.ttf");
-	_statisticsText.setFont(_font);
-	_statisticsText.setPosition(5.f, 5.f);
-	_statisticsText.setCharacterSize(10);
-	_statisticsText.setPosition(0, 30);
 
 }
 

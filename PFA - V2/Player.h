@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "IEntity.h"
+#include "Compartment.h"
 
 class Player : public IEntity
 {
@@ -13,11 +14,17 @@ public:
    void Animate(std::string const & string_anim);
    int getDamage(void) const;
    Type getType() const;
+   void addCompartment(sf::RectangleShape &);
+   void addEntityInInventory(IEntity *entity);
    //sf::Rect & getCollisionBox(void);
 
-   std::vector<IEntity *> _inventary;
+   //TODO : Changer en compartments pour l'inventaire
+   std::vector<Compartment *> _compartments;
+  // std::vector<IEntity *> _inventary;
 protected:
 private:
+
+	unsigned int _sizeInventory;
 	std::string _name;
    int _life;
    int _damages;
