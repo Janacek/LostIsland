@@ -23,20 +23,19 @@ void Game::init()
 
 	ptr1._window->setActive(false);
 
-	Map *map = NULL;
 	ptr1._clock = new sf::Clock();
 	ptr1._clock->restart();
 
 	//_states.push()
 	_states.push( new StartScreen() );
 	_states.top()->initialize();
-	this->_graphicEngine = new GraphicEngine(map, this->_states, _players, _entities);
-	this->_gameEngine = new GameEngine(map, this->_states);
-	this->_physicEngine = new PhysicEngine(map, this->_states);
+	this->_graphicEngine = new GraphicEngine( this->_states, _players, _entities);
+	this->_gameEngine = new GameEngine(this->_states);
+	//this->_physicEngine = new PhysicEngine(map, this->_states);
 
 	//this->_graphicEngine->init();
 	this->_gameEngine->init();
-	this->_physicEngine->init();
+	
 }
 
 
@@ -57,9 +56,12 @@ void Game::launch(void)
 			break;*/
 		if (_gameEngine->getIsRunning() == false)
 			break;
+		
+		//j'aimerais savoir si on est en jeu ou pas 
+		
 		//_graphicEngine->update(_players, _entities);
 		//_graphicEngine->draw(_players, _entities);
 		_gameEngine->update(_players, _entities);
-		_physicEngine->update(_players, _entities);
+		
 	}
 }

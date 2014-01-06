@@ -55,8 +55,8 @@ private:
 class PathFinding
 {
 public:
-	void initPathfinding(Map* map);
-	void updatePath(void);
+	void initPathfinding(Map *&map);
+	void updatePath(sf::Vector2f &cam);
 
 protected:
 private:
@@ -67,6 +67,7 @@ private:
 		WayPoint,                   
 		WayPointConnection          
 	> WayPointGraph;
+	std::list<sf::Vertex *> list_line;
 	typedef WayPointGraph::vertex_descriptor WayPointID;
 	typedef WayPointGraph::edge_descriptor   WayPointConnectionID;
 	WayPointGraph graphe;

@@ -13,7 +13,7 @@
 class GraphicEngine : public IEngine
 {
 public:
-	GraphicEngine(Map *&, std::stack<IScreen *> &, std::vector<IEntity *> &, std::list<IEntity *> &);
+	GraphicEngine(std::stack<IScreen *> &, std::vector<IEntity *> &, std::list<IEntity *> &);
 
 	void run();
 	void draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
@@ -30,7 +30,6 @@ public:
 protected:
 private:
 	bool					_isRunning;
-	Map						*_map;
 	StartScreen				*_startScreen;
 	GameScreen				*_gameScreen;
 	//TODO OptionScreen

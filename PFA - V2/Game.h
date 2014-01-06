@@ -21,6 +21,10 @@ private:
 	PhysicEngine			*_physicEngine;
 	sf::Clock				_cl;
 	std::stack<IScreen *>	_states;
+	IScreen* GetCurrentState(void) 
+	{
+		return (!_states.empty()) ? _states.top() : NULL;
+	}
 	std::vector<IEntity *>	_players;
 	std::list<IEntity *>	_entities;
 };

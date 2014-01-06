@@ -4,6 +4,12 @@
 #include "IEngine.h"
 #include "IEntity.h"
 
+enum stateName
+{
+	GAME,
+	MENU
+};
+
 class IScreen
 {
 public:
@@ -13,6 +19,7 @@ public:
 	virtual void release(void) = 0;
 	virtual  bool isRunning(void) const = 0;
 	virtual void update(void) = 0;
+	virtual stateName getStateName() const = 0;
 
 protected:
 private:

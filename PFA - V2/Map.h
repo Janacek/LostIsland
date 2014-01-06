@@ -24,6 +24,7 @@ public:
 	Map();
 	~Map();
 
+	sf::Vector2f			&getCamPos();
 	// Initializes the map.
 	void					init(std::string const &, sf::Vector2i, int);
 	// Generates the map.
@@ -51,6 +52,10 @@ public:
 	void					draw(sf::RenderWindow *);
 	// Updates the map.
 	void					update();
+	Chunk					**getMap() const;
+	Cell					**getCellMap() const;
+	sf::Vector2i			getSize() const;
+
 
 private:
 
@@ -75,7 +80,7 @@ private:
 
 	float hori;
 	float vert;
-
+	sf::Vector2f			_camPos;
 	/*
 	** Methodes and Attributes for the minimap.
 	*/

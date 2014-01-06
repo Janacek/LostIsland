@@ -9,6 +9,7 @@
 #include "Stuff.h"
 #include "Map.h"
 #include "GestionClick.h"
+#include "PhysicEngine.h"
 
 class GameScreen : public IScreen
 {
@@ -21,6 +22,7 @@ public:
 	void release(void);
 	bool isRunning(void) const;
 	void update(void);
+	stateName getStateName() const;
 
 protected:
 private:
@@ -30,6 +32,7 @@ private:
 	void				saveClick(bool click);
 	void				updateObjectsPos();
 
+	PhysicEngine		*_physicEngine;
 	GestionClick		_gestionClick;
 	bool				_activeInventary;
 	Map					*_map;

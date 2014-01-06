@@ -10,7 +10,7 @@
 class GameEngine : public IEngine
 {
 public:
-	GameEngine(Map *&, std::stack<IScreen *>&);
+	GameEngine(std::stack<IScreen *>&);
 	~GameEngine();
 	bool getIsRunning() const;
 	void init();
@@ -26,7 +26,6 @@ private:
 	GameEvents				*_gameEvents;
 	KeyboardControler		_controler;
 	sf::Clock				*_cl;
-	Map						*&_map;
 	std::stack<IScreen *>	&_states;
 
 };

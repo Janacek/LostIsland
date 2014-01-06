@@ -7,14 +7,17 @@
 class PhysicEngine : public IEngine
 {
 public:
-	PhysicEngine(Map *&, std::stack<IScreen *>&);
-   void init();
-   void update(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
-
+	PhysicEngine(Map *&);
+	void init();
+	void setCamPos(sf::Vector2f &cam);
+	void update(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
+	bool getIsLaunch() const;
+	
 protected:
 private:
-   bool _isRunning;
-   //PathFinding _pathFinding;
-   Map *&_map;
-   std::stack<IScreen *> &_states;
+	sf::Vector2f _cam;
+	bool _isLaunch;
+	bool _isRunning;
+	PathFinding _pathFinding;
+	Map *&_map;
 };

@@ -2,7 +2,7 @@
 #include "StartScreen.h"
 #include "Singleton.h"
 
-GameEngine::GameEngine(Map *&map, std::stack<IScreen *>&states) : _map(map), _states(states)
+GameEngine::GameEngine(std::stack<IScreen *>&states) : _states(states)
 {
 
 }
@@ -56,7 +56,7 @@ void GameEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &e
 	{
 		PushState(_states.top()->getNextState());
 	}
-	_gameEvents->update(players, entities, _map);
+	_gameEvents->update(players, entities);
 	IScreen *state = _states.top();
 	if (state)
 		state->update();

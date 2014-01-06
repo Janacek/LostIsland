@@ -8,6 +8,8 @@ GameScreen::GameScreen()
 	_map = new Map();
 	_map->init(std::string("Thomas"), sf::Vector2i(18, 18), 33);
 	_map->generate();
+	this->_physicEngine = new PhysicEngine(_map);
+	_physicEngine->init();
 }
 
 void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
@@ -15,12 +17,14 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
 	updateStatistics(_t);
-
 	this->_map->draw(Singleton::getInstance()._window);
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 
 	Singleton::getInstance()._window->draw(_statisticsText);
-	Singleton::getInstance()._window->draw(_statisticsText);
+	
+	_physicEngine->setCamPos(_map->getCamPos());
+	_physicEngine->update(players, entities);
+	
 	if (this->_activeInventary)
 	{
 		this->_inventory->draw();
@@ -31,8 +35,15 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 		this->_stuff->update();
 		checkClicks();
 	}
+	
 	checkInput();
+	
 	Singleton::getInstance()._window->display();
+}
+
+stateName GameScreen::getStateName() const
+{
+	return GAME;
 }
 
 void GameScreen::checkClicks()

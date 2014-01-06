@@ -9,6 +9,12 @@ StartScreen::StartScreen()
 	_curPos = 0;
 }
 
+stateName StartScreen::getStateName() const
+{
+	return MENU;
+}
+
+
 void StartScreen::draw(std::vector<IEntity *> &players,std::list<IEntity *> &entities)
 {
 	Singleton::getInstance()._window->clear();

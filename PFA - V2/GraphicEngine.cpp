@@ -1,9 +1,9 @@
 #include "GraphicEngine.h"
 #include "Singleton.h"
 
-GraphicEngine::GraphicEngine(Map *&map, std::stack<IScreen *> &states,
+GraphicEngine::GraphicEngine( std::stack<IScreen *> &states,
 							 std::vector<IEntity *> &players, std::list<IEntity *> &entities)
-							 : _map(map), _states(states), _players(players), _entities(entities)
+							 : _states(states), _players(players), _entities(entities)
 {
 
 }

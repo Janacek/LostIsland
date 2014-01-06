@@ -12,7 +12,7 @@ void	GameEvents::init()
 }
 
 
-void GameEvents::update(std::vector<IEntity *> &players, std::list<IEntity *> &entities, Map * map)
+void GameEvents::update(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
 {
 	// ON CHANGE LES POSITION ICI
 }

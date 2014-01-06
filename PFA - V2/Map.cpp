@@ -375,6 +375,13 @@ void						Map::drawMiniMap(sf::RenderWindow *win)
 	win->draw(tmp);
 }
 
+sf::Vector2f				&Map::getCamPos() 
+{
+	_camPos.x = hori;
+	_camPos.y = vert;
+	return _camPos;
+}
+
 void						Map::draw(sf::RenderWindow *win)
 {
 	if (Singleton::getInstance().isMovingRight)
@@ -415,6 +422,21 @@ void						Map::draw(sf::RenderWindow *win)
 			win->draw(tmp);
 		}
 	}
+}
+
+Chunk						**Map::getMap() const
+{
+	return _map;
+}
+
+Cell						**Map::getCellMap() const
+{
+	return _cellMap;
+}
+
+sf::Vector2i				Map::getSize() const
+{
+	return this->_size;
 }
 
 void						Map::update()

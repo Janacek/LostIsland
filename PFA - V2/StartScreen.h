@@ -12,6 +12,7 @@ public:
 	void release(void);
 	bool isRunning(void) const;
 	void update(void);
+	stateName getStateName() const;
 
 protected:
 private:
