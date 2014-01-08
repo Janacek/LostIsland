@@ -1,11 +1,16 @@
 #include <sstream>
 #include <iostream>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 #include "GameScreen.h"
 
 GameScreen::GameScreen()
 {
 	_isRunning = true;
 	_map = new Map();
+	pos.x = 100;
+	pos.y = 100;
 	_map->init(std::string(""), sf::Vector2i(18, 18), 33);
 	_map->generate();
 	this->_physicEngine = new PhysicEngine(_map);
@@ -36,17 +41,32 @@ void GameScreen::initialize(void)
 
 void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
 {
+	if (Singleton::getInstance().isMovingLeft)
+		pos.x -= 0.1;
+	if (Singleton::getInstance().isMovingRight)
+		pos.x += 0.1;
+	if (Singleton::getInstance().isMovingUp)
+		pos.y -= 0.1;
+	if (Singleton::getInstance().isMovingDown)
+	{
+		std::cout << "BAS" << std::endl;
+		pos.y += 0.1;
+	}
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
-	updateStatistics(_t);
+	//updateStatistics(_t);
 	this->_map->draw(Singleton::getInstance()._window);
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 
-	Singleton::getInstance()._window->draw(_statisticsText);
-	
+	//Singleton::getInstance()._window->draw(_statisticsText);
+
+	sf::RectangleShape tmp(sf::Vector2f(36, 40));
+	tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
+
+	Singleton::getInstance()._window->draw(tmp);
 	_physicEngine->setCamPos(_map->getCamPos());
 	_physicEngine->update(players, entities);
-	
+
 	if (this->_activeInventary)
 	{
 		this->_inventory->draw();
@@ -58,9 +78,9 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 		this->_stuff->update();
 		checkClicks();
 	}
-	
+
 	checkInput();
-	
+
 	Singleton::getInstance()._window->display();
 }
 
@@ -84,6 +104,8 @@ void GameScreen::drawMouse()
 void GameScreen::checkClicks()
 {
 	static int stillClicking = 0;
+
+	
 	if (Singleton::getInstance().isLeftClicking && stillClicking == 0)
 	{
 		saveClick(true);
@@ -108,6 +130,7 @@ void GameScreen::checkClicks()
 
 void GameScreen::updateObjectsPos()
 {
+	
 	std::cout << "RELAS : " << this->_leftClickReleased._screen << std::endl;
 	if (this->_leftClickPressed._compartment != NULL)
 		_gc.callFunction(this->_leftClickPressed, this->_leftClickReleased);
@@ -154,7 +177,7 @@ void GameScreen::saveClick(bool click)
 			this->_leftClickReleased = this->_stuff->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
-		
+
 		this->_mousePicture.setTexture(NULL);
 	}
 }

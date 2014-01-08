@@ -29,6 +29,7 @@ void Game::init()
 	//_states.push()
 	_states.push( new StartScreen() );
 	_states.top()->initialize();
+	
 	this->_graphicEngine = new GraphicEngine( this->_states, _players, _entities);
 	this->_gameEngine = new GameEngine(this->_states);
 	//this->_physicEngine = new PhysicEngine(map, this->_states);

@@ -23,7 +23,7 @@ public:
 	bool isRunning(void) const;
 	void update(void);
 	stateName getStateName() const;
-
+	sf::Vector2f pos;
 protected:
 private:
 	void				updateStatistics(sf::Time &elapsedTime);

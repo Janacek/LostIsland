@@ -6,33 +6,34 @@
 void PathFinding::initPathfinding(Map* &map)
 {
 	bool isPass = false;
-	Cell** ary = new Cell*[map->getSize().x * Chunk::NB_CELLS];
 	int i;
-	for(i = 0; i < map->getSize().x * Chunk::NB_CELLS; ++i)
-		ary[i] = new Cell[map->getSize().y * Chunk::NB_CELLS];
+	
 	int j = 0;
 	i = 0;
 	int t = 0;
 
 	std::cout << "LOL " << Chunk::NB_CELLS << std::endl;
 	int u = 0;
+
 	for (i = 0; i < map->getSize().y * Chunk::NB_CELLS; ++i)
 	{
 		for (j = 0; j < map->getSize().x * Chunk::NB_CELLS; ++j)
 		{
-			WayPointID wpID = boost::add_vertex(graphe); 
-			graphe[wpID].pos.first = j;
-			graphe[wpID].pos.second = i;
+			
 
 			// on doit passer par tous les points adjacent aux points courants
 			// le truc cest que Il ne peut pas y avoir 2 meme points dans la liste
 
 			if (map->getCellMap()[i][j]._cellType != Cell::OCEAN)
 			{
-				for (int u = 0; u < 2 ; ++u)
+				WayPointID wpID = boost::add_vertex(graphe); 
+				graphe[wpID].pos.first = j;
+				graphe[wpID].pos.second = i;
+				for (int u = 0; u < 4 ; ++u)
 				{
 					//std::cout << "caca" << std::endl;
 					bool isPass = false;
+					bool isOk = false;
 					boost::graph_traits<WayPointGraph>::vertex_iterator it_b, it_end;
 					
 					std::pair<float, float> tmp((j) , (i));
@@ -43,13 +44,46 @@ void PathFinding::initPathfinding(Map* &map)
 						tmp.first += 1;
 						tmp_add.first += 1;
 					}
-					else
+					else if (u == 1)
 					{
 						tmp.second += 1;
 						tmp_add.second += 1;
 					}
+					else if (u == 2)
+					{
+						tmp_add.first += 1;
+						
+						tmp_add.second += 1;
+
+						if (map->getCellMap()[tmp_add.second-1][tmp_add.first]._cellType != Cell::OCEAN && 
+							map->getCellMap()[tmp_add.second ][tmp_add.first - 1]._cellType != Cell::OCEAN)	
+						{
+							tmp.first += 1;
+							tmp.second += 1;
+						
+						}
+						else
+							isOk = true;
+					}
+					else if (u == 3)
+					{
+
+						tmp_add.first -= 1;
+						
+						tmp_add.second += 1;
+
+						if (map->getCellMap()[tmp_add.second][tmp_add.first + 1]._cellType != Cell::OCEAN && 
+							map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN)
+						{
+							tmp.first -= 1;
+							tmp.second += 1;
+						
+						}
+						else
+							isOk = true;
+					}
 						//std::cout << " x " << boost::get(boost::vertex_bundle, graphe)[*it].pos.first  << " y " << boost::get(boost::vertex_bundle, graphe)[*it].pos.second << std::endl;		
-					if (tmp.first >= 0 && tmp.second >= 0 && tmp.first <= map->getSize().x  * Chunk::NB_CELLS && tmp.second <= map->getSize().y  * Chunk::NB_CELLS)
+					if (tmp.first >= 0 && tmp.second >= 0 && tmp.first <= map->getSize().x  * Chunk::NB_CELLS && tmp.second <= map->getSize().y  * Chunk::NB_CELLS && isOk == false)
 					{
 						for (boost::tie(it_b, it_end) = boost::vertices(graphe) ; it_b != it_end ; ++it_b)
 						{
@@ -73,7 +107,7 @@ void PathFinding::initPathfinding(Map* &map)
 								float dy = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second);
 								//std::cout << "Point 1 x " << graphe[wpID].pos.first << " y " << graphe[wpID].pos.second
 								//<< "Point 2 x " << graphe[wpID2].pos.first << " y " << graphe[wpID2].pos.second << std::endl;
-								boost::add_edge(wpID, wpID2, 4, graphe);
+								boost::add_edge(wpID, wpID2, 8, graphe);
 							}
 						}
 						else
@@ -85,7 +119,7 @@ void PathFinding::initPathfinding(Map* &map)
 								float dy = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second);
 								//std::cout << "Point 1 x " << graphe[wpID].pos.first << " y " << graphe[wpID].pos.second
 								//<< "Point 2 x " << graphe[wpID2].pos.first << " y " << graphe[wpID2].pos.second << std::endl;
-								boost::add_edge(wpID, wpID2, 4, graphe);
+								boost::add_edge(wpID, wpID2, 8, graphe);
 							}
 						}
 
@@ -161,7 +195,7 @@ void PathFinding::updatePath(sf::Vector2f &cam)
 
 	sf::RenderTexture rt;
 	rt.clear(sf::Color::Transparent);
-	if (!rt.create((16* Chunk::NB_CELLS) * 4,	(16 * Chunk::NB_CELLS) * 4))
+	if (!rt.create((16* Chunk::NB_CELLS) * 8,	(16 * Chunk::NB_CELLS) * 8))
 	{
 		// erreur...
 	}
@@ -176,12 +210,12 @@ void PathFinding::updatePath(sf::Vector2f &cam)
 	{
 
 		sf::Vector2f pt1 ;
-		pt1.x =  get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.first * 4;
-		pt1.y =  get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.second * 4;
+		pt1.x =  get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.first * 8;
+		pt1.y =  get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.second * 8;
 
 		sf::Vector2f pt2 ;
-		pt2.x =  get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.first * 4;
-		pt2.y =  get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.second * 4;
+		pt2.x =  get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.first * 8;
+		pt2.y =  get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.second * 8;
 
 		sf::Vertex line[2] = 
 		{
