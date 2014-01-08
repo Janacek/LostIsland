@@ -56,7 +56,9 @@ void Game::launch(void)
 		/*if (_graphicEngine->getIsRunning() == false)
 			break;*/
 		if (_gameEngine->getIsRunning() == false)
+		{
 			break;
+		}
 		
 		//j'aimerais savoir si on est en jeu ou pas 
 		

@@ -27,27 +27,28 @@ void GameEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &e
 	{
 		switch (event.type)
 		{
-			case sf::Event::KeyPressed:
-				_controler.handlePlayerInput(event.key.code, true);
-				break;
-			case sf::Event::KeyReleased:
-				_controler.handlePlayerInput(event.key.code, false);
-				break;
-			case sf::Event::Closed :
-				Singleton::getInstance()._window->close();
+		case sf::Event::KeyPressed:
+			if (event.key.code == sf::Keyboard::Escape)
+			{
 				_isRunning = false;
-				exit(42);
 				break;
-			case sf::Event::MouseButtonReleased :
-				_controler.handlePlayerInput(event.mouseButton.button, false);
-				break;
-			case sf::Event::MouseButtonPressed :
-				_controler.handlePlayerInput(event.mouseButton.button, true);
-				break;
-		}
-		if (event.key.code == sf::Keyboard::Escape)
-		{
+			}
+			else
+				_controler.handlePlayerInput(event.key.code, true);
+			break;
+		case sf::Event::KeyReleased:
+			_controler.handlePlayerInput(event.key.code, false);
+			break;
+		case sf::Event::Closed :
+			Singleton::getInstance()._window->close();
 			_isRunning = false;
+			exit(42);
+			break;
+		case sf::Event::MouseButtonReleased :
+			_controler.handlePlayerInput(event.mouseButton.button, false);
+			break;
+		case sf::Event::MouseButtonPressed :
+			_controler.handlePlayerInput(event.mouseButton.button, true);
 			break;
 		}
 	}
@@ -60,7 +61,7 @@ void GameEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &e
 	IScreen *state = _states.top();
 	if (state)
 		state->update();
-	
+
 }
 
 bool GameEngine::getIsRunning() const

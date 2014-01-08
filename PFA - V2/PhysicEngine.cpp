@@ -25,5 +25,5 @@ bool PhysicEngine::getIsLaunch() const
 
 void PhysicEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
 {
-	_pathFinding.updatePath(_cam);
+	//_pathFinding.updatePath(_cam);
 }
