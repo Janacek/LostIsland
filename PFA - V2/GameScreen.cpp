@@ -184,22 +184,22 @@ void GameScreen::checkInput()
 
 void GameScreen::updateStatistics(sf::Time &elapsedTime)
 {
-	_statisticsUpdateTime += elapsedTime;
-	_statisticsNumFrames += 1;
+	//_statisticsUpdateTime += elapsedTime;
+	//_statisticsNumFrames += 1;
 
-	if (_statisticsUpdateTime >= sf::seconds(1.0f))
-	{
-		std::ostringstream oss;
-		std::ostringstream oss2;
-		oss << _statisticsNumFrames;
-		oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
-		_statisticsText.setString(
-			"Frames / Second = " + oss.str() + "\n" 
-			"Time / Update = " + oss2.str() + "us");
+	//if (_statisticsUpdateTime >= sf::seconds(1.0f))
+	//{
+	//	std::ostringstream oss;
+	//	std::ostringstream oss2;
+	//	oss << _statisticsNumFrames;
+	//	oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
+	//	_statisticsText.setString(
+	//		"Frames / Second = " + oss.str() + "\n" 
+	//		"Time / Update = " + oss2.str() + "us");
 
-		_statisticsUpdateTime -= sf::seconds(1.0f);
-		_statisticsNumFrames = 0;
-	}
+	//	_statisticsUpdateTime -= sf::seconds(1.0f);
+	//	_statisticsNumFrames = 0;
+	//}
 }
 
 IScreen * GameScreen::getNextState(void)
