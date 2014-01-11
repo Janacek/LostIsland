@@ -39,7 +39,7 @@ void GameScreen::initialize(void)
 
 }
 
-void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
+void GameScreen::draw()
 {
 	if (Singleton::getInstance().isMovingLeft)
 		pos.x -= 0.1;
@@ -48,10 +48,7 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 	if (Singleton::getInstance().isMovingUp)
 		pos.y -= 0.1;
 	if (Singleton::getInstance().isMovingDown)
-	{
-		std::cout << "BAS" << std::endl;
 		pos.y += 0.1;
-	}
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
 	//updateStatistics(_t);
@@ -65,7 +62,7 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 
 	Singleton::getInstance()._window->draw(tmp);
 	_physicEngine->setCamPos(_map->getCamPos());
-	_physicEngine->update(players, entities);
+	//_physicEngine->update(players, entities);
 
 	if (this->_activeInventary)
 	{

@@ -23,7 +23,7 @@ bool PhysicEngine::getIsLaunch() const
 	return _isLaunch;
 }
 
-void PhysicEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
+void PhysicEngine::update()
 {
 	//_pathFinding.updatePath(_cam);
 }

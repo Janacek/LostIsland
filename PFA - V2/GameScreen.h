@@ -16,7 +16,7 @@ class GameScreen : public IScreen
 public:
 	GameScreen();
 
-	void draw(std::vector<IEntity *> &players,std::list<IEntity *> &entities);
+	void draw();
 	void initialize(void);
 	IScreen					*getNextState(void);
 	void release(void);

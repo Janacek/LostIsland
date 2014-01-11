@@ -25,7 +25,6 @@ private:
 	{
 		return (!_states.empty()) ? _states.top() : NULL;
 	}
-	std::vector<IEntity *>	_players;
-	std::list<IEntity *>	_entities;
+
 };
 
