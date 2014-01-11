@@ -38,8 +38,8 @@ Map::Map()
 
 	// SNOW SAVANNA GRASS FOREST SAND
 
-	hori = 0;
-	vert = 0;
+	_camera._position.x = 0;
+	_camera._position.y = 0;
 }
 
 Map::~Map()
@@ -363,7 +363,7 @@ void						Map::drawMiniMap(sf::RenderWindow *win)
 		tmp.setFillColor(sf::Color::Transparent);
 		tmp.setOutlineThickness(2);
 		tmp.setOutlineColor(sf::Color::Black);
-		tmp.setPosition(hori * 2, vert * 2);
+		tmp.setPosition(_camera._position.x * 2, _camera._position.y * 2);
 		win->draw(tmp);
 	}
 
@@ -379,48 +379,22 @@ void						Map::drawMiniMap(sf::RenderWindow *win)
 
 sf::Vector2f				&Map::getCamPos() 
 {
-	_camPos.x = hori;
-	_camPos.y = vert;
+	_camPos.x = _camera._position.x;
+	_camPos.y = _camera._position.y;
 	return _camPos;
 }
 
 void						Map::draw(sf::RenderWindow *win)
 {
-	if (Singleton::getInstance().isMovingRight)
-		if (hori + Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL 
-			< _size.x * Chunk::NB_CELLS)
-			++hori;
-	if (Singleton::getInstance().isMovingLeft)
-		if (hori - 1 >= 0)
-			--hori;
-
-	if (Singleton::getInstance().isMovingUp)
-		if (vert - 1 >= 0)
-			--vert;
-	if (Singleton::getInstance().isMovingDown)
-		if (vert + Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL 
-			< _size.y * Chunk::NB_CELLS)
-			++vert;
-
-	for (int i = vert ; i < Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL + vert ; ++i)
+	for (int i = _camera._position.y ; i < (Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) + 1 + _camera._position.y ; ++i)
 	{
-		for (int j = hori ; j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + hori ; ++j)
+		for (int j = _camera._position.x ; j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + _camera._position.x ; ++j)
 		{
 			sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL,
 				Chunk::SIZE_OF_CELL));
-			//if (_cellMap[i][j]._cellType == Cell::OCEAN)
-			//	tmp.setTexture(ImageSingleton::getInstance().get(Type::LAC));
-			//else if (_cellMap[i][j]._cellType == Cell::GRASS)
-			//	tmp.setFillColor(sf::Color(19, 209, 111));
-			//else
-			//{
-			////	tmp.setFillColor(sf::Color::Yellow);
-			//	tmp.setTexture(ImageSingleton::getInstance().get(Type::SABLE));
-			//}
-			//tmp.setFillColor(_typeToColor[_cellMap[i][j]._cellType]);
 			tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
-			tmp.setPosition((j -hori) * Chunk::SIZE_OF_CELL,
-				(i -vert) * Chunk::SIZE_OF_CELL);
+			tmp.setPosition((j - _camera._position.x) * Chunk::SIZE_OF_CELL,
+				(i -_camera._position.y) * Chunk::SIZE_OF_CELL);
 			win->draw(tmp);
 		}
 	}
@@ -443,4 +417,5 @@ sf::Vector2i				Map::getSize() const
 
 void						Map::update()
 {
+	_camera.moveCamera(_size);
 }

@@ -11,7 +11,7 @@ GameScreen::GameScreen()
 	_map = new Map();
 	pos.x = 100;
 	pos.y = 100;
-	_map->init(std::string(""), sf::Vector2i(18, 18), 33);
+	_map->init(std::string("Babar"), sf::Vector2i(18, 18), 33);
 	_map->generate();
 	this->_physicEngine = new PhysicEngine(_map);
 	_physicEngine->init();
@@ -238,5 +238,5 @@ bool GameScreen::isRunning(void) const
 
 void GameScreen::update(void)
 {
-	//_map->update();
+	_map->update();
 }
