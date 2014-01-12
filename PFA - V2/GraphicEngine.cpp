@@ -1,9 +1,7 @@
 #include "GraphicEngine.h"
 #include "Singleton.h"
 
-GraphicEngine::GraphicEngine( std::stack<IScreen *> &states,
-							 std::vector<IEntity *> &players, std::list<IEntity *> &entities)
-							 : _states(states), _players(players), _entities(entities)
+GraphicEngine::GraphicEngine( std::stack<IScreen *> &states) : _states(states)
 {
 
 }
@@ -14,30 +12,24 @@ void GraphicEngine::run()
 	this->init();
 	while (true)
 	{
-		this->draw(_players, _entities);
+		this->draw();
 	}
 }
 
-void GraphicEngine::draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
+void GraphicEngine::draw()
 {
 	IScreen *state = _states.top();
 	if (state)
-		state->draw(players, entities);
+		state->draw();
 }
 
 void GraphicEngine::init()
 {
 	_isRunning = true;
-
-	//_startScreen = new StartScreen();
-
-	//_gameScreen->initialize();
-	//PushState(*_gameScreen);
-	//PushState(_startScreen);
 }
 
 
-void GraphicEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
+void GraphicEngine::update()
 {
 
 }

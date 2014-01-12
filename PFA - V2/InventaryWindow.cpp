@@ -18,7 +18,6 @@ InventaryWindow::InventaryWindow(std::vector<Player *> &players, std::string  co
 	this->_enumStrings[FOOD] = "FOOD";
 	this->_enumStrings[WATER] = "WATER";
 	this->_enumStrings[PLAYER] = "PLAYER";	
-
 }
 
 void InventaryWindow::init()
@@ -30,14 +29,14 @@ void InventaryWindow::init()
 	_players[1]->addEntityInInventory(new Water);
 	_players[1]->addEntityInInventory(new Food);
 	_players[1]->addEntityInInventory(new Food);
-	_players[2]->addEntityInInventory(new Wood);
-	_players[2]->addEntityInInventory(new Wood);
-	_players[2]->addEntityInInventory(new Wood);
-	_players[3]->addEntityInInventory(new Water);
-	_players[3]->addEntityInInventory(new Water);
-	_players[3]->addEntityInInventory(new Water);
-	_players[3]->addEntityInInventory(new Food);
-	_players[3]->addEntityInInventory(new Water);
+// 	_players[2]->addEntityInInventory(new Wood);
+// 	_players[2]->addEntityInInventory(new Wood);
+// 	_players[2]->addEntityInInventory(new Wood);
+// 	_players[3]->addEntityInInventory(new Water);
+// 	_players[3]->addEntityInInventory(new Water);
+// 	_players[3]->addEntityInInventory(new Water);
+// 	_players[3]->addEntityInInventory(new Food);
+// 	_players[3]->addEntityInInventory(new Water);
 	this->_selectOnglet = this->_onglets.front();
 }
 

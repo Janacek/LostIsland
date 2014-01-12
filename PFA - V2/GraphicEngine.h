@@ -13,14 +13,14 @@
 class GraphicEngine : public IEngine
 {
 public:
-	GraphicEngine(std::stack<IScreen *> &, std::vector<IEntity *> &, std::list<IEntity *> &);
+	GraphicEngine(std::stack<IScreen *> &);
 
 	void run();
-	void draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
+	void draw();
 
 	void init();
 	bool getIsRunning() const;
-	void update(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
+	void update();
 
 	IScreen* GetCurrentState(void) 
 	{
@@ -36,8 +36,6 @@ private:
 
 	std::stack<IScreen *>	&
 		_states;
-	std::vector<IEntity *>	&_players;
-	std::list<IEntity *>	&_entities;
 	KeyboardControler		_controler;
 
 };

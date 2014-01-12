@@ -102,7 +102,6 @@
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GestionClick.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
@@ -140,7 +139,6 @@
     <ClInclude Include="Food.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GestionClick.h" />
     <ClInclude Include="GraphicEngine.h" />
