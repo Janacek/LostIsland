@@ -11,11 +11,12 @@ public:
    void getAction(IEntity* other);
    void Animate(std::string const & string_anim);
    int getDamage(void) const;
+   Type getType() const;
    //sf::Rect & getCollisionBox(void);
 
 protected:
 private:
-   std::list<IEntity *> _inventory;
+	int _damages;
 
 
 };

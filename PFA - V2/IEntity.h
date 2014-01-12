@@ -5,6 +5,7 @@
 
 enum Type
 {
+	TREE,
 	WOOD,
 	WATER,
 	FOOD,

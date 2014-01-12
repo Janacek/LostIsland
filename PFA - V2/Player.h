@@ -2,6 +2,7 @@
 #include <vector>
 #include "IEntity.h"
 #include "Compartment.h"
+#include "Water.h"
 
 class Player : public IEntity
 {
@@ -9,6 +10,7 @@ public:
 	Player();
    void doAction(IEntity* other);
    void getAction(IEntity* other);
+   void drink(Water *);
    std::string const &getName() const;
    void setName(std::string const &);
    void Animate(std::string const & string_anim);
