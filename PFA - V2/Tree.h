@@ -7,12 +7,13 @@
 class Tree : public IEntity
 {
 public:
-   void doAction(IEntity* other);
-   void getAction(IEntity* other);
-   void Animate(std::string const & string_anim);
-   int getDamage(void) const;
+	void doAction(IEntity* other);
+	void getAction(IEntity* other);
+	void Animate(std::string const & string_anim);
+	void draw();
    Type getType() const;
-   //sf::Rect & getCollisionBox(void);
+	int getDamage(void) const;
+	//sf::Rect & getCollisionBox(void);
 
 protected:
 private:

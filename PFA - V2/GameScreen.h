@@ -41,6 +41,7 @@ private:
 	sf::Time			_t;
 	sf::Clock			_clickClock;
 	std::vector<Player *>	_players;
+	std::vector<IEntity *>	_entities;
 	InventaryWindow			*_inventory;
 	Crafting			*_crafting;
 	Stuff				*_stuff;

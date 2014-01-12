@@ -23,6 +23,16 @@ void Wood::Animate(std::string const & string_anim)
 
 }
 
+void Wood::draw()
+{
+
+}
+
+void Wood::setPosition(sf::Vector2f &pos)
+{
+
+}
+
 int Wood::getDamage() const
 {
 	return 0;

@@ -26,6 +26,16 @@ int Food::getDamage() const
 	return 0;
 }
 
+void Food::draw()
+{
+
+}
+
+void Food::setPosition(sf::Vector2f &pos)
+{
+
+}
+
 Type Food::getType() const
 {
 	return FOOD;
