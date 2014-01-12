@@ -13,22 +13,23 @@ enum Screens
 	STUFF,
 	CRAFTING,
 	GAMESCREEN,
-	NONE
+	NONE,
+	WINDOW
 };
 typedef struct	s_action	
 {
 	s_action(bool windows = false) : _compartment(NULL)
 	{
 		if (windows)
-			_screen = NONE;
+			_screen = WINDOW;
 		else
 		{
-			_screen = GAMESCREEN;
+			_screen = NONE;
 		}
 	}
 	void reset()
 	{
-		_screen = GAMESCREEN;
+		_screen = NONE;
 		_compartment = NULL;
 	}
 
