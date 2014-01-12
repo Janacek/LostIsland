@@ -13,6 +13,8 @@
 
 #include					"PerlinNoise.h"
 
+#include					"Camera.h"
+
 /*
 ** This class is used to procedurally generates Islands with different biomes.
 ** The map is made fully configurable thanks to the init function.
@@ -77,6 +79,8 @@ private:
 	PerlinNoise				*_humidity;
 
 	Cell					_corTab[100];
+
+	Camera					_camera;
 
 	float hori;
 	float vert;

@@ -4,7 +4,6 @@
 #include <vector>
 #include "IEntity.h"
 #include "IEngine.h"
-#include "GameEvents.h"
 #include "KeyboardControler.h"
 
 class GameEngine : public IEngine
@@ -14,7 +13,7 @@ public:
 	~GameEngine();
 	bool getIsRunning() const;
 	void init();
-	void update(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
+	void update();
 
 	void PushState(IScreen *state);
 	void SetState(IScreen *state);
@@ -23,7 +22,6 @@ public:
 protected:
 private:
 	bool _isRunning;
-	GameEvents				*_gameEvents;
 	KeyboardControler		_controler;
 	sf::Clock				*_cl;
 	std::stack<IScreen *>	&_states;

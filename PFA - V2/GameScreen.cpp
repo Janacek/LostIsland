@@ -11,7 +11,7 @@ GameScreen::GameScreen()
 	_map = new Map();
 	pos.x = 100;
 	pos.y = 100;
-	_map->init(std::string(""), sf::Vector2i(18, 18), 33);
+	_map->init(std::string("Babar"), sf::Vector2i(18, 18), 33);
 	_map->generate();
 	this->_physicEngine = new PhysicEngine(_map);
 	_physicEngine->init();
@@ -39,7 +39,7 @@ void GameScreen::initialize(void)
 
 }
 
-void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
+void GameScreen::draw()
 {
 	if (Singleton::getInstance().isMovingLeft)
 		pos.x -= 0.1;
@@ -48,10 +48,7 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 	if (Singleton::getInstance().isMovingUp)
 		pos.y -= 0.1;
 	if (Singleton::getInstance().isMovingDown)
-	{
-		std::cout << "BAS" << std::endl;
 		pos.y += 0.1;
-	}
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
 	//updateStatistics(_t);
@@ -65,7 +62,7 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 
 	Singleton::getInstance()._window->draw(tmp);
 	_physicEngine->setCamPos(_map->getCamPos());
-	_physicEngine->update(players, entities);
+	//_physicEngine->update(players, entities);
 
 	if (this->_activeInventary)
 	{
@@ -241,5 +238,5 @@ bool GameScreen::isRunning(void) const
 
 void GameScreen::update(void)
 {
-	//_map->update();
+	_map->update();
 }

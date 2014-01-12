@@ -1,6 +1,7 @@
 #include "GameEngine.h"
 #include "StartScreen.h"
 #include "Singleton.h"
+#include "GameScreen.h"
 
 GameEngine::GameEngine(std::stack<IScreen *>&states) : _states(states)
 {
@@ -14,11 +15,10 @@ GameEngine::~GameEngine()
 
 void GameEngine::init()
 {
-	_gameEvents = new GameEvents();
 	_isRunning = true;
 }
 
-void GameEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
+void GameEngine::update()
 {
 	sf::Event	event;
 
@@ -57,7 +57,6 @@ void GameEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &e
 	{
 		PushState(_states.top()->getNextState());
 	}
-	_gameEvents->update(players, entities);
 	IScreen *state = _states.top();
 	if (state)
 		state->update();
@@ -73,6 +72,8 @@ void GameEngine::PushState(IScreen *state)
 {
 	_states.push( state );
 	_states.top()->initialize();
+	
+	
 }
 
 void GameEngine::SetState(IScreen* state)

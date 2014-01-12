@@ -94,6 +94,7 @@
   <ItemGroup>
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="AWindow.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Compartment.cpp" />
@@ -101,7 +102,6 @@
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GestionClick.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AWindow.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Chunk.h" />
     <ClInclude Include="Compartment.h" />
@@ -138,7 +139,6 @@
     <ClInclude Include="Food.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GestionClick.h" />
     <ClInclude Include="GraphicEngine.h" />
