@@ -74,3 +74,13 @@ void AWindow::draw()
 AWindow::~AWindow(void)
 {
 }
+
+std::ostream& operator<<(std::ostream &flux, s_action const& a)
+{
+	std::string b = a._compartment->_textNumber.getString();
+	flux << " Comparment : size : " << a._compartment->_elements.size() << " nbr : " << b;
+	if (a._compartment->_elements.size() > 0)
+		flux << " type : " << a._compartment->_elements.front()->getType();
+	flux << std::endl;
+	return flux;
+}

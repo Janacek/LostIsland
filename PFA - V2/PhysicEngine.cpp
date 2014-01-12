@@ -9,7 +9,7 @@ PhysicEngine::PhysicEngine(Map *&map) : _map(map)
 void PhysicEngine::init()
 {
 	_isLaunch = true;
-	_pathFinding.initPathfinding(_map);
+	//_pathFinding.initPathfinding(_map);
 }
 
 void PhysicEngine::setCamPos(sf::Vector2f &cam)
@@ -23,7 +23,7 @@ bool PhysicEngine::getIsLaunch() const
 	return _isLaunch;
 }
 
-void PhysicEngine::update(std::vector<IEntity *> &players, std::list<IEntity *> &entities)
+void PhysicEngine::update()
 {
 	//_pathFinding.updatePath(_cam);
 }

@@ -9,9 +9,11 @@ class Camera
 public:
 	Camera();
 	~Camera();
+	
 	void				moveCamera(sf::Vector2i const &);
 	void				update();
 
 public:
+	bool				moveCameraMouse(sf::Vector2i const &size);
 	sf::Vector2f		_position;
 };

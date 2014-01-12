@@ -10,7 +10,7 @@ public:
 	PhysicEngine(Map *&);
 	void init();
 	void setCamPos(sf::Vector2f &cam);
-	void update(std::vector<IEntity *> &players, std::list<IEntity *> &entities);
+	void update();
 	bool getIsLaunch() const;
 	
 protected:

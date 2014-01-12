@@ -15,7 +15,7 @@ stateName StartScreen::getStateName() const
 }
 
 
-void StartScreen::draw(std::vector<IEntity *> &players,std::list<IEntity *> &entities)
+void StartScreen::draw()
 {
 	Singleton::getInstance()._window->clear();
 	float i = 0;

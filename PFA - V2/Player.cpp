@@ -1,10 +1,16 @@
 #include "Player.h"
+#include "Water.h"
 #include <iostream>
 
 Player::Player()
 {
 	this->_name = "Georgette";
 	this->_sizeInventory = 0;
+}
+
+void Player::drink(Water *water)
+{
+	//Ici, nous buvons.
 }
 
 void Player::addEntityInInventory(IEntity *entity)
@@ -55,10 +61,12 @@ void Player::addCompartment(sf::RectangleShape &window)
 
 void Player::doAction(IEntity* other)
 {
+	other->getAction(this);
 }
 
 void Player::getAction(IEntity* other)
 {
+	this->_damages -= other->getDamage();
 }
 
 void Player::Animate(std::string const & string_anim)
