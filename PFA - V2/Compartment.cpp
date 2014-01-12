@@ -11,6 +11,9 @@ Compartment::Compartment(const sf::Vector2f &sizeParent, float x, float y)
 	this->_rect.setPosition(x, y);
 	this->_rect.setOutlineColor(sf::Color::Red);
 	this->_font.loadFromFile("./Media/Sansation.ttf");
+
+	this->_rect.setTexture(NULL);
+	this->_textNumber.setString("");
 	this->_textNumber.setFont(this->_font);
 	this->_textNumber.setPosition(x, y);
 	this->_textNumber.setCharacterSize(30);
@@ -32,7 +35,9 @@ Compartment &Compartment::operator=(Compartment const &c)
 Compartment &Compartment::operator+=(Compartment const&c)
 {
 	for (IEntity *u : c._elements)
+	{
 		addElement(u);
+	}
 	return *this;
 }
 
@@ -129,10 +134,8 @@ void Compartment::decreaseNumber()
 
 void Compartment::applyPicture(Type type)
 {
-	std::cout << "APPLY PICTURE" << std::endl;
 	this->_rect.setTexture(ImageSingleton::getInstance().get(type));
 	this->_rect.setFillColor(sf::Color::White);
-	std::cout << "POS: " << this->_rect.getPosition().x << " " << this->_rect.getPosition().y << std::endl;
 }
 
 Compartment::~Compartment(void)

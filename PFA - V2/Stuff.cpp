@@ -11,7 +11,6 @@ Stuff::Stuff(std::string const &title) : AWindow(title,
 	this->_compartments.push_back(new Compartment(this->_window.getSize(), this->_window.getPosition().x + this->_window.getSize().x * 42 / 100, this->_window.getPosition().y + this->_window.getSize().y * 10 / 100));
 	this->_compartments.push_back(new Compartment(this->_window.getSize(), this->_window.getPosition().x + this->_window.getSize().x * 14 / 100, this->_window.getPosition().y + this->_window.getSize().y * 60 / 100));
 	this->_compartments.push_back(new Compartment(this->_window.getSize(), this->_window.getPosition().x + this->_window.getSize().x * 70 / 100, this->_window.getPosition().y + this->_window.getSize().y * 60 / 100));
-	this->_compartments[0]->_elements.push_back(new Water);
 }
 
 s_action Stuff::clickInCompartment(sf::Vector2i &coordClick)

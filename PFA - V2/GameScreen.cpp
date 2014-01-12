@@ -19,7 +19,7 @@ GameScreen::GameScreen()
 
 void GameScreen::initialize(void)
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		this->_players.push_back(new Player);
 	}
@@ -80,7 +80,6 @@ void GameScreen::draw(std::vector<IEntity *> &players, std::list<IEntity *> &ent
 	}
 
 	checkInput();
-
 	Singleton::getInstance()._window->display();
 }
 
@@ -105,7 +104,7 @@ void GameScreen::checkClicks()
 {
 	static int stillClicking = 0;
 
-	
+
 	if (Singleton::getInstance().isLeftClicking && stillClicking == 0)
 	{
 		saveClick(true);
@@ -128,18 +127,33 @@ void GameScreen::checkClicks()
 		stillClicking = 0;
 }
 
+
+bool GameScreen::checkImpossibleCase() const
+{
+	if (this->_leftClickPressed._compartment == NULL || this->_leftClickPressed._compartment->_elements.size() == 0)
+		return false;
+	if (this->_leftClickPressed._compartment == this->_leftClickReleased._compartment)
+	{
+		return false;
+	}
+	return true;
+}
+
+
 void GameScreen::updateObjectsPos()
 {
-	
-	std::cout << "RELAS : " << this->_leftClickReleased._screen << std::endl;
-	if (this->_leftClickPressed._compartment != NULL)
-		_gc.callFunction(this->_leftClickPressed, this->_leftClickReleased);
+	if (this->checkImpossibleCase() == true)
+	{
+		if (this->_leftClickPressed._compartment != NULL)
+			_gc.callFunction(this->_leftClickPressed, this->_leftClickReleased);
+	}
 }
 
 void GameScreen::saveClick(bool click)
 {
 	if (click)
 	{
+		std::cout << "Je clique : " << Singleton::getInstance().posLeftClickPressed.x << " " << Singleton::getInstance().posLeftClickPressed.y << std::endl;
 		if (this->_inventory->clickInWindow(Singleton::getInstance().posLeftClickPressed))
 		{
 			this->_leftClickPressed = this->_inventory->clickInCompartment(Singleton::getInstance().posLeftClickPressed);
@@ -177,32 +191,18 @@ void GameScreen::saveClick(bool click)
 			this->_leftClickReleased = this->_stuff->clickInCompartment(Singleton::getInstance().posLeftClickReleased);
 			return ;
 		}
-
 		this->_mousePicture.setTexture(NULL);
 	}
 }
 
-//la clickClock est temporaire. TODO faire une gestion mieux
 void GameScreen::checkInput()
 {
-	// 	if (this->_clickClock.getElapsedTime().asMilliseconds() < 100)
-	// 		return  ;
-	// 	this->_clickClock.restart();
-	// 	if (Singleton::getInstance().isKeyIPressed && this->_activeInventary == false)
-	// 	{
-	// 		this->_activeInventary = true;
-	// 	}
-	// 	 else if (Singleton::getInstance().isKeyIPressed && this->_activeInventary == true)
-	// 		this->_activeInventary = false;
 	if (Singleton::getInstance().isKeyIPressed)
 		this->_activeInventary = true;
 	else
 	{
 		this->_activeInventary = false;
 	}
-	//if (this->_stuff->close() || this->_crafting->close() || this->_inventory->close())
-	//	this->_activeInventary = false;
-
 }
 
 void GameScreen::updateStatistics(sf::Time &elapsedTime)
