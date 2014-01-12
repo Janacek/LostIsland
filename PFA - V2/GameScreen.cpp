@@ -105,7 +105,7 @@ void GameScreen::checkClicks()
 	if (Singleton::getInstance().isLeftClicking && stillClicking == 0)
 	{
 		saveClick(true);
-		if (this->_leftClickPressed._compartment != NULL &&  this->_leftClickPressed._screen != NONE)
+		if (this->_leftClickPressed._compartment != NULL &&  this->_leftClickPressed._screen != WINDOW)
 			this->_mousePicture.setTexture(this->_leftClickPressed._compartment->_rect.getTexture());
 		++stillClicking;
 	}
