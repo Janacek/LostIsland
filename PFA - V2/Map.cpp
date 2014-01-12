@@ -400,6 +400,20 @@ void						Map::draw(sf::RenderWindow *win)
 	}
 }
 
+void						Map::generateTrees()
+{
+	for (int i = 0 ; i < 50 ; )
+	{
+		int x = rand() % _size.x;
+		int y = rand() % _size.y;
+		if (_cellMap[x][y]._cellType != Cell::OCEAN)
+		{
+			//_trees.push_back(new Tree());
+			++i;
+		}
+	}
+}
+
 Chunk						**Map::getMap() const
 {
 	return _map;

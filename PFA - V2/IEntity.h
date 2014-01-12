@@ -15,6 +15,9 @@ enum Type
 	SAVANNA,
 	FOREST,
 	SNOW,
+	TREE,
+	BUSH,
+	BUSH_FRUITS,
 };
 
 class IEntity

@@ -22,6 +22,9 @@ void ImageSingleton::start()
 	this->load(SAVANNA, "./savanna.png");
 	this->load(FOREST, "./forest.png");
 	this->load(SNOW, "./snow.png");
+	this->load(TREE, "./tree.png");
+	this->load(BUSH, "./bushes.png");
+	this->load(BUSH_FRUITS, "./bush_fruits.png");
 }
 
 void ImageSingleton::load(Type id, const std::string& filename)

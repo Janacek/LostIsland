@@ -15,6 +15,9 @@
 
 #include					"Camera.h"
 
+#include					<list>
+#include					"Tree.h"
+
 /*
 ** This class is used to procedurally generates Islands with different biomes.
 ** The map is made fully configurable thanks to the init function.
@@ -50,6 +53,8 @@ public:
 
 	int						countAdjacentChunkType(int, int, Cell::Type);
 
+	void					generateTrees();
+
 	// Draw the map.
 	void					draw(sf::RenderWindow *);
 	// Updates the map.
@@ -69,7 +74,7 @@ private:
 private:
 	// THIS CAN HAS A GETTER
 	Chunk					**_map;		  // Map container.
-	Cell					**_cellMap;
+	Cell					**_cellMap;	  // Cell Map container.
 
 	// LATER BE TEXTURE INSTEAD OF COLOR
 	std::map<Cell::Type, sf::Color>				_typeToColor;
@@ -90,6 +95,10 @@ private:
 	*/
 private:
 	sf::RenderTexture		*_miniMapT;
+
+	// A SUPPRIMER LE PLUS VITE POSSIBLE.
+	std::list<Tree *>		_trees;
+
 public:
 	void					createMiniMap();
 	void					drawMiniMap(sf::RenderWindow *);
