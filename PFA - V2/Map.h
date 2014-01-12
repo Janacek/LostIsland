@@ -17,6 +17,7 @@
 
 #include					<list>
 #include					"Tree.h"
+#include <algorithm>
 
 /*
 ** This class is used to procedurally generates Islands with different biomes.

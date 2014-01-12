@@ -212,6 +212,9 @@ void						Map::generate()
 	transformChunkToMap();
 	generateBiomes();
 	generateSand();
+
+	generateTrees();
+
 	createMiniMap();
 }
 
@@ -398,23 +401,43 @@ void						Map::draw(sf::RenderWindow *win)
 			win->draw(tmp);
 		}
 	}
+	std::list<Tree *>::iterator it = _trees.begin();
+	for (; it != _trees.end() ; ++it)
+	{
+		//(*it)->draw();
+		sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
+		int posX = ((*it)->getPosition().y - _camera._position.x) * Chunk::SIZE_OF_CELL;
+		int posY = ((*it)->getPosition().x - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
+		tmp.setPosition(posX, posY);
+		Singleton::getInstance()._window->draw(tmp);
+	}
+}
+
+static bool cmpFunc(Tree *t1, Tree *t2)
+{
+	return (t1->getPosition().x < t2->getPosition().x);
 }
 
 void						Map::generateTrees()
 {
-	for (int i = 0 ; i < 50 ; )
+	for (int i = 0 ; i < 500 ; )
 	{
-		int x = rand() % _size.x;
-		int y = rand() % _size.y;
-		if (_cellMap[x][y]._cellType != Cell::OCEAN)
+		int x = rand() % (_size.x * Chunk::NB_CELLS);
+		int y = rand() % (_size.y  * Chunk::NB_CELLS);
+		//	std::cout << "x : " << x << ", y : " << y << std::endl;
+
+		if (_cellMap[x][y]._cellType == Cell::FOREST)
 		{
 			Tree *tmp;
 			tmp = new Tree();
-			
-			_trees.push_back(new Tree());
+			tmp->setPosition(sf::Vector2f(x, y));
+
+			_trees.push_back(tmp);
 			++i;
 		}
 	}
+	//std::sort(_trees.begin(), _trees.end(), cmpFunc);
+	_trees.sort(cmpFunc);
 }
 
 Chunk						**Map::getMap() const

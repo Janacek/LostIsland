@@ -45,7 +45,7 @@ void GameScreen::draw()
 	_t = Singleton::getInstance()._clock->restart();
 	//updateStatistics(_t);
 	this->_map->draw(Singleton::getInstance()._window);
-	this->_map->drawMiniMap(Singleton::getInstance()._window);
+	//this->_map->drawMiniMap(Singleton::getInstance()._window);
 
 	//Singleton::getInstance()._window->draw(_statisticsText);
 

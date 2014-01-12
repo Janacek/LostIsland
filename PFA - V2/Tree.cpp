@@ -31,6 +31,29 @@ Type Tree::getType() const
 	return TREE;
 }
 
+void Tree::setPosition(sf::Vector2f &pos)
+{
+	_position = pos;
+}
+
+sf::Vector2f const &Tree::getPosition() const
+{
+	return (_position);
+}
+
+void Tree::draw()
+{
+	//std::cout << "zefzef" << std::endl;
+	int posX = _position.x - Singleton::getInstance()._window->getSize().x;
+	int posY = _position.y - Singleton::getInstance()._window->getSize().y;
+
+	//std::cout << posX << std::endl;
+	
+	sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
+	tmp.setPosition(posX, posY);
+	Singleton::getInstance()._window->draw(tmp);
+}
+
 /*sf::Rect & Tree::getCollisionBox(void)
 {
 }*/
