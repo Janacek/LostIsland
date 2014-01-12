@@ -23,7 +23,7 @@ void Player::setCamPos(sf::Vector2f &pos)
 	_rect.setPosition(_posDisp);
 }
 
-ink(Water *water)
+void Player::drink(Water *water)
 {
 	//Ici, nous buvons.
 }
