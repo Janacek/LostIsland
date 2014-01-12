@@ -7,15 +7,16 @@
 class Tree : public IEntity
 {
 public:
-   void doAction(IEntity* other);
-   void getAction(IEntity* other);
-   void Animate(std::string const & string_anim);
-   int getDamage(void) const;
-   //sf::Rect & getCollisionBox(void);
+	void doAction(IEntity* other);
+	void getAction(IEntity* other);
+	void Animate(std::string const & string_anim);
+	void draw();
+	int getDamage(void) const;
+	//sf::Rect & getCollisionBox(void);
 
 protected:
 private:
-   std::list<IEntity *> _inventory;
+	std::list<IEntity *> _inventory;
 
 
 };

@@ -21,7 +21,7 @@ void GameScreen::initialize(void)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		this->_players.push_back(new Player);
+		this->_players.push_back(new Player(sf::Vector2f(100 + i * 8, 100)));
 	}
 	this->_activeInventary = false;
 	this->_inventory = new InventaryWindow(this->_players);
@@ -41,14 +41,6 @@ void GameScreen::initialize(void)
 
 void GameScreen::draw()
 {
-	if (Singleton::getInstance().isMovingLeft)
-		pos.x -= 0.1;
-	if (Singleton::getInstance().isMovingRight)
-		pos.x += 0.1;
-	if (Singleton::getInstance().isMovingUp)
-		pos.y -= 0.1;
-	if (Singleton::getInstance().isMovingDown)
-		pos.y += 0.1;
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
 	//updateStatistics(_t);
@@ -57,10 +49,13 @@ void GameScreen::draw()
 
 	//Singleton::getInstance()._window->draw(_statisticsText);
 
-	sf::RectangleShape tmp(sf::Vector2f(36, 40));
-	tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
+	//tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
+	for (std::vector<Player *>::iterator it = _players.begin() ; it != _players.end() ; ++it)
+	{
+		(*it)->setCamPos(_map->getCamPos()); // tmp wait for class
 
-	Singleton::getInstance()._window->draw(tmp);
+		(*it)->draw();
+	}
 	_physicEngine->setCamPos(_map->getCamPos());
 	//_physicEngine->update(players, entities);
 
@@ -79,6 +74,20 @@ void GameScreen::draw()
 	checkInput();
 
 	Singleton::getInstance()._window->display();
+}
+
+void GameScreen::update(void)
+{
+	if (Singleton::getInstance().isRightClicking)
+	{
+		sf::Vector2i tmp = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+		std::cout << "AVANT CLICK x " << tmp.x << " y " << tmp.y << std::endl; 
+	
+		tmp.x = (tmp.x + _map->getCamPos().x) ;
+		tmp.y = (tmp.y+_map->getCamPos().y) ;
+		std::cout << "CLICK x " << tmp.x << " y " << tmp.y << std::endl; 
+	}
+	_map->update();
 }
 
 stateName GameScreen::getStateName() const
@@ -102,7 +111,7 @@ void GameScreen::checkClicks()
 {
 	static int stillClicking = 0;
 
-	
+
 	if (Singleton::getInstance().isLeftClicking && stillClicking == 0)
 	{
 		saveClick(true);
@@ -127,7 +136,7 @@ void GameScreen::checkClicks()
 
 void GameScreen::updateObjectsPos()
 {
-	
+
 	std::cout << "RELAS : " << this->_leftClickReleased._screen << std::endl;
 	if (this->_leftClickPressed._compartment != NULL)
 		_gc.callFunction(this->_leftClickPressed, this->_leftClickReleased);
@@ -236,7 +245,3 @@ bool GameScreen::isRunning(void) const
 	return this->_isRunning;
 }
 
-void GameScreen::update(void)
-{
-	_map->update();
-}

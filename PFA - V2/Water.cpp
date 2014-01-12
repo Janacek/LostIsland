@@ -15,6 +15,15 @@ void Water::doAction(IEntity* other)
 	//player->drink(this);
 }
 
+void Water::draw()
+{
+}
+
+void Water::setPosition(sf::Vector2f &pos)
+{
+
+}
+
 /// <summary>
 ///GET subit l'action.
 /// Appelle la méthode void getObject(IEntity *other).

@@ -1,10 +1,25 @@
+#include "Chunk.h"
 #include "Player.h"
+#include "Singleton.h"
 #include <iostream>
 
-Player::Player()
+Player::Player(sf::Vector2f &pos) : _pos(pos)
 {
 	this->_name = "Georgette";
 	this->_sizeInventory = 0;
+	_rect.setSize(sf::Vector2f(32, 64));
+	_rect.setPosition(pos);
+	_rect.setFillColor(sf::Color::Red);
+}
+
+void Player::setCamPos(sf::Vector2f &pos)
+{
+	_cam = pos;
+
+	//std::cout << "x " << _cam.x << " y " << _cam.y << std::endl;
+	_posDisp.x = (_pos.x - _cam.x) * Chunk::SIZE_OF_CELL;
+	_posDisp.y = (_pos.y - _cam.y) * Chunk::SIZE_OF_CELL;
+	_rect.setPosition(_posDisp);
 }
 
 void Player::addEntityInInventory(IEntity *entity)
@@ -30,6 +45,25 @@ void Player::addEntityInInventory(IEntity *entity)
 	{
 		std::cout << "Inventaire plein !!!" << std::endl;
 	}
+}
+
+void Player::draw()
+{
+	Singleton::getInstance()._window->draw(_rect);
+}
+
+void Player::move(sf::Vector2f &pos)
+{
+	_pos.x += pos.x;
+	_pos.y += pos.y;
+
+}
+
+void Player::setPosition(sf::Vector2f &pos)
+{
+	_pos.x = (pos.x - _cam.x) * Chunk::SIZE_OF_CELL;
+	_pos.y = (pos.y - _cam.y) * Chunk::SIZE_OF_CELL;
+	_rect.setPosition(_pos);
 }
 
 void Player::addCompartment(sf::RectangleShape &window)
