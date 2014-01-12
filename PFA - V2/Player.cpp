@@ -1,5 +1,6 @@
 #include "Chunk.h"
 #include "Player.h"
+#include "Water.h"
 #include "Singleton.h"
 #include <iostream>
 
@@ -20,6 +21,11 @@ void Player::setCamPos(sf::Vector2f &pos)
 	_posDisp.x = (_pos.x - _cam.x) * Chunk::SIZE_OF_CELL;
 	_posDisp.y = (_pos.y - _cam.y) * Chunk::SIZE_OF_CELL;
 	_rect.setPosition(_posDisp);
+}
+
+ink(Water *water)
+{
+	//Ici, nous buvons.
 }
 
 void Player::addEntityInInventory(IEntity *entity)
@@ -89,10 +95,12 @@ void Player::addCompartment(sf::RectangleShape &window)
 
 void Player::doAction(IEntity* other)
 {
+	other->getAction(this);
 }
 
 void Player::getAction(IEntity* other)
 {
+	this->_damages -= other->getDamage();
 }
 
 void Player::Animate(std::string const & string_anim)

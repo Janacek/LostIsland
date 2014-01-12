@@ -87,7 +87,7 @@ void	GestionClick::createCraftingTable()
 	tmp[STUFF] = &GestionClick::add;
 	tmp[CRAFTING] = &GestionClick::swap;
 	tmp[INVENTORY] = &GestionClick::add;
-	tmp[GAMESCREEN] = &GestionClick::drop;
+	tmp[WINDOW] = &GestionClick::drop;
 	tmp[NONE] = &GestionClick::doNothing;
 
 	this->_correlationTable[CRAFTING] = tmp;
@@ -101,8 +101,8 @@ void	GestionClick::createInventoryTable()
 	tmp[STUFF] = &GestionClick::add;
 	tmp[CRAFTING] = &GestionClick::add;
 	tmp[INVENTORY] = &GestionClick::swap;
-	tmp[GAMESCREEN] = &GestionClick::drop;
-	tmp[NONE] = &GestionClick::doNothing;
+	tmp[NONE] = &GestionClick::drop;
+	tmp[WINDOW] = &GestionClick::doNothing;
 
 	this->_correlationTable[INVENTORY] = tmp;
 }
@@ -114,8 +114,8 @@ void	GestionClick::createStuffTable()
 	tmp[STUFF] = &GestionClick::swap;
 	tmp[CRAFTING] = &GestionClick::add;
 	tmp[INVENTORY] = &GestionClick::add;
-	tmp[GAMESCREEN] = &GestionClick::drop;
-	tmp[NONE] = &GestionClick::doNothing;
+	tmp[NONE] = &GestionClick::drop;
+	tmp[WINDOW] = &GestionClick::doNothing;
 
 	this->_correlationTable[STUFF] = tmp;
 }

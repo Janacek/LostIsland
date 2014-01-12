@@ -13,49 +13,55 @@ enum Screens
 	STUFF,
 	CRAFTING,
 	GAMESCREEN,
-	NONE
+	NONE,
+	WINDOW
 };
 typedef struct	s_action	
 {
 	s_action(bool windows = false) : _compartment(NULL)
 	{
 		if (windows)
-			_screen = NONE;
+			_screen = WINDOW;
 		else
 		{
-			_screen = GAMESCREEN;
+			_screen = NONE;
 		}
 	}
 	void reset()
 	{
-		_screen = GAMESCREEN;
+		_screen = NONE;
 		_compartment = NULL;
 	}
 
 	Screens		_screen;
 	Compartment *_compartment;
+
+
+
 }				s_action;
 
-class					AWindow
-{
-public:
-	AWindow(std::string const &title, float sizeX, float sizeY, float posX = 0, float posY = 0);
+ std::ostream& operator<<(std::ostream &flux, s_action const& a);
 
-	virtual void draw();
-	virtual bool close() = 0;
-	virtual bool clickInWindow(sf::Vector2i &);
-	virtual void swapCompartment(s_action &, s_action &) = 0;
-	virtual void addCompartment(s_action &, s_action &) = 0;
-	virtual s_action clickInCompartment(sf::Vector2i &) = 0;
-	~AWindow(void);
+ class					AWindow
+ {
+ public:
+	 AWindow(std::string const &title, float sizeX, float sizeY, float posX = 0, float posY = 0);
 
-	std::vector<Compartment *> _compartments;
-protected:
-	void checkClose();
-	sf::RectangleShape	_window;
-	sf::RectangleShape	_banner;
-	bool				_close;
-	sf::RectangleShape	_closeButton;
-	sf::Text			_title;
-	sf::Font			*_font;
-};
+	 virtual void draw();
+	 virtual bool close() = 0;
+	 virtual bool clickInWindow(sf::Vector2i &);
+	 virtual void swapCompartment(s_action &, s_action &) = 0;
+	 virtual void addCompartment(s_action &, s_action &) = 0;
+	 virtual s_action clickInCompartment(sf::Vector2i &) = 0;
+	 ~AWindow(void);
+
+	 std::vector<Compartment *> _compartments;
+ protected:
+	 void checkClose();
+	 sf::RectangleShape	_window;
+	 sf::RectangleShape	_banner;
+	 bool				_close;
+	 sf::RectangleShape	_closeButton;
+	 sf::Text			_title;
+	 sf::Font			*_font;
+ };

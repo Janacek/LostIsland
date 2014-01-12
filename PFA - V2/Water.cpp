@@ -1,4 +1,5 @@
 #include "Water.h"
+#include "Player.h"
 
 
 Water::Water(void)
@@ -11,8 +12,9 @@ Water::Water(void)
 /// <param name="other">The other.</param>
 void Water::doAction(IEntity* other)
 {
-	//dynamic  cast en player
-	//player->drink(this);
+	Player *player = dynamic_cast<Player *>(other);
+	
+	player->drink(this);
 }
 
 void Water::draw()
@@ -31,9 +33,9 @@ void Water::setPosition(sf::Vector2f &pos)
 /// <param name="other">The other.</param>
 void Water::getAction(IEntity* other)
 {
-	//dynamic cast
-	//other->getObject(this);
-	// ici player va getObject et le stock dans l'inventaire
+	Player *player = dynamic_cast<Player *>(other);
+
+	player->addEntityInInventory(this);
 }
 
 void Water::Animate(std::string const & string_anim)

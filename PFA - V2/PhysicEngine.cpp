@@ -9,7 +9,7 @@ PhysicEngine::PhysicEngine(Map *&map) : _map(map)
 void PhysicEngine::init()
 {
 	_isLaunch = true;
-	_pathFinding.initPathfinding(_map);
+	//_pathFinding.initPathfinding(_map);
 }
 
 void PhysicEngine::setCamPos(sf::Vector2f &cam)

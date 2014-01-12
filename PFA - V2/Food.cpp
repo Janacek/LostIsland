@@ -8,7 +8,7 @@ Food::Food(void)
 
 void Food::doAction(IEntity* other)
 {
-
+	//De la food sauvage apparait
 }
 
 void Food::getAction(IEntity* other)
