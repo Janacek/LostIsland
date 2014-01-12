@@ -408,7 +408,10 @@ void						Map::generateTrees()
 		int y = rand() % _size.y;
 		if (_cellMap[x][y]._cellType != Cell::OCEAN)
 		{
-			//_trees.push_back(new Tree());
+			Tree *tmp;
+			tmp = new Tree();
+			
+			_trees.push_back(new Tree());
 			++i;
 		}
 	}
