@@ -411,6 +411,32 @@ void						Map::draw(sf::RenderWindow *win)
 		tmp.setPosition(posX, posY);
 		Singleton::getInstance()._window->draw(tmp);
 	}
+
+	it = _bushes.begin();
+	for (; it != _bushes.end() ; ++it)
+	{
+		//(*it)->draw();
+		int posX = ((*it)->getPosition().y - _camera._position.x) * Chunk::SIZE_OF_CELL;
+		int posY = ((*it)->getPosition().x - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
+
+		int sib = (*it)->getPosition().x;
+
+		sf::Sprite tmp((*ImageSingleton::getInstance().get(sib % 2 ? BUSH : BUSH_FRUITS)));
+
+		tmp.setPosition(posX, posY);
+		Singleton::getInstance()._window->draw(tmp);
+	}
+
+	it = _palmtrees.begin();
+	for (; it != _palmtrees.end() ; ++it)
+	{
+		//(*it)->draw();
+		sf::Sprite tmp((*ImageSingleton::getInstance().get(PALMTREE)));
+		int posX = ((*it)->getPosition().y - _camera._position.x) * Chunk::SIZE_OF_CELL;
+		int posY = ((*it)->getPosition().x - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
+		tmp.setPosition(posX, posY);
+		Singleton::getInstance()._window->draw(tmp);
+	}
 }
 
 static bool cmpFunc(Tree *t1, Tree *t2)
@@ -424,8 +450,6 @@ void						Map::generateTrees()
 	{
 		int x = rand() % (_size.x * Chunk::NB_CELLS);
 		int y = rand() % (_size.y  * Chunk::NB_CELLS);
-		//	std::cout << "x : " << x << ", y : " << y << std::endl;
-
 		if (_cellMap[x][y]._cellType == Cell::FOREST)
 		{
 			Tree *tmp;
@@ -436,8 +460,42 @@ void						Map::generateTrees()
 			++i;
 		}
 	}
-	//std::sort(_trees.begin(), _trees.end(), cmpFunc);
 	_trees.sort(cmpFunc);
+
+
+	for (int i = 0 ; i < 50 ; )
+	{
+		int x = rand() % (_size.x * Chunk::NB_CELLS);
+		int y = rand() % (_size.y  * Chunk::NB_CELLS);
+		if (_cellMap[x][y]._cellType == Cell::GRASS)
+		{
+			Tree *tmp;
+			tmp = new Tree();
+			tmp->setPosition(sf::Vector2f(x, y));
+
+			_bushes.push_back(tmp);
+			++i;
+		}
+	}
+	_bushes.sort(cmpFunc);
+
+
+
+	for (int i = 0 ; i < 50 ; )
+	{
+		int x = rand() % (_size.x * Chunk::NB_CELLS);
+		int y = rand() % (_size.y  * Chunk::NB_CELLS);
+		if (_cellMap[x][y]._cellType == Cell::SAND)
+		{
+			Tree *tmp;
+			tmp = new Tree();
+			tmp->setPosition(sf::Vector2f(x, y));
+
+			_palmtrees.push_back(tmp);
+			++i;
+		}
+	}
+	_palmtrees.sort(cmpFunc);
 }
 
 Chunk						**Map::getMap() const

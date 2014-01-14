@@ -18,6 +18,7 @@ enum Type
 	SNOW,
 	BUSH,
 	BUSH_FRUITS,
+	PALMTREE,
 };
 
 class IEntity

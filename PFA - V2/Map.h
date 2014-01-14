@@ -99,6 +99,8 @@ private:
 
 	// A SUPPRIMER LE PLUS VITE POSSIBLE.
 	std::list<Tree *>		_trees;
+	std::list<Tree *>		_bushes;
+	std::list<Tree *>		_palmtrees;
 
 public:
 	void					createMiniMap();
