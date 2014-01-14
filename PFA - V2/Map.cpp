@@ -406,8 +406,8 @@ void						Map::draw(sf::RenderWindow *win)
 	{
 		//(*it)->draw();
 		sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
-		int posX = ((*it)->getPosition().y - _camera._position.x) * Chunk::SIZE_OF_CELL;
-		int posY = ((*it)->getPosition().x - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
+		int posX = (((*it)->getPosition().y / Chunk::SIZE_OF_CELL) - _camera._position.x) * Chunk::SIZE_OF_CELL;
+		int posY = (((*it)->getPosition().x / Chunk::SIZE_OF_CELL) - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
 		tmp.setPosition(posX, posY);
 		Singleton::getInstance()._window->draw(tmp);
 	}
@@ -416,8 +416,8 @@ void						Map::draw(sf::RenderWindow *win)
 	for (; it != _bushes.end() ; ++it)
 	{
 		//(*it)->draw();
-		int posX = ((*it)->getPosition().y - _camera._position.x) * Chunk::SIZE_OF_CELL;
-		int posY = ((*it)->getPosition().x - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
+		int posX = (((*it)->getPosition().y / Chunk::SIZE_OF_CELL) - _camera._position.x) * Chunk::SIZE_OF_CELL;
+		int posY = (((*it)->getPosition().x / Chunk::SIZE_OF_CELL) - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
 
 		int sib = (*it)->getPosition().x;
 
@@ -432,8 +432,8 @@ void						Map::draw(sf::RenderWindow *win)
 	{
 		//(*it)->draw();
 		sf::Sprite tmp((*ImageSingleton::getInstance().get(PALMTREE)));
-		int posX = ((*it)->getPosition().y - _camera._position.x) * Chunk::SIZE_OF_CELL;
-		int posY = ((*it)->getPosition().x - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
+		int posX = (((*it)->getPosition().y / Chunk::SIZE_OF_CELL) - _camera._position.x) * Chunk::SIZE_OF_CELL;
+		int posY = (((*it)->getPosition().x / Chunk::SIZE_OF_CELL) - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
 		tmp.setPosition(posX, posY);
 		Singleton::getInstance()._window->draw(tmp);
 	}
@@ -448,9 +448,9 @@ void						Map::generateTrees()
 {
 	for (int i = 0 ; i < 500 ; )
 	{
-		int x = rand() % (_size.x * Chunk::NB_CELLS);
-		int y = rand() % (_size.y  * Chunk::NB_CELLS);
-		if (_cellMap[x][y]._cellType == Cell::FOREST)
+		int x = rand() % (_size.x * Chunk::NB_CELLS * Chunk::SIZE_OF_CELL);
+		int y = rand() % (_size.y  * Chunk::NB_CELLS * Chunk::SIZE_OF_CELL);
+		if (_cellMap[x / Chunk::SIZE_OF_CELL][y / Chunk::SIZE_OF_CELL]._cellType == Cell::FOREST)
 		{
 			Tree *tmp;
 			tmp = new Tree();
@@ -465,9 +465,9 @@ void						Map::generateTrees()
 
 	for (int i = 0 ; i < 50 ; )
 	{
-		int x = rand() % (_size.x * Chunk::NB_CELLS);
-		int y = rand() % (_size.y  * Chunk::NB_CELLS);
-		if (_cellMap[x][y]._cellType == Cell::GRASS)
+		int x = rand() % (_size.x * Chunk::NB_CELLS * Chunk::SIZE_OF_CELL);
+		int y = rand() % (_size.y  * Chunk::NB_CELLS * Chunk::SIZE_OF_CELL);
+		if (_cellMap[x / Chunk::SIZE_OF_CELL][y / Chunk::SIZE_OF_CELL]._cellType == Cell::GRASS)
 		{
 			Tree *tmp;
 			tmp = new Tree();
@@ -483,9 +483,9 @@ void						Map::generateTrees()
 
 	for (int i = 0 ; i < 50 ; )
 	{
-		int x = rand() % (_size.x * Chunk::NB_CELLS);
-		int y = rand() % (_size.y  * Chunk::NB_CELLS);
-		if (_cellMap[x][y]._cellType == Cell::SAND)
+		int x = rand() % (_size.x * Chunk::NB_CELLS * Chunk::SIZE_OF_CELL);
+		int y = rand() % (_size.y  * Chunk::NB_CELLS * Chunk::SIZE_OF_CELL);
+		if (_cellMap[x / Chunk::SIZE_OF_CELL][y /Chunk::SIZE_OF_CELL]._cellType == Cell::SAND)
 		{
 			Tree *tmp;
 			tmp = new Tree();
