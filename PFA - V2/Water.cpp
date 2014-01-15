@@ -4,6 +4,7 @@
 
 Water::Water(void)
 {
+	_pos = sf::Vector2f(0,0);
 }
 
 /// <summary>
@@ -23,8 +24,19 @@ void Water::draw()
 
 void Water::setPosition(sf::Vector2f &pos)
 {
-
+	_pos = pos;
 }
+
+sf::Vector2f  Water::getPosition() const
+{
+	return _pos;
+}
+
+void Water::setPath(std::list<sf::Vector2f > &path)
+{
+	_path = path;
+}
+
 
 /// <summary>
 ///GET subit l'action.

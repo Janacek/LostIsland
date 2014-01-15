@@ -3,7 +3,7 @@
 
 Food::Food(void)
 {
-
+	_pos = sf::Vector2f(0,0);
 }
 
 void Food::doAction(IEntity* other)
@@ -33,8 +33,19 @@ void Food::draw()
 
 void Food::setPosition(sf::Vector2f &pos)
 {
-
+	_pos = pos;
 }
+
+sf::Vector2f  Food::getPosition() const
+{
+	return _pos;
+}
+
+void Food::setPath(std::list<sf::Vector2f > &path)
+{
+	_path = path;
+}
+
 
 Type Food::getType() const
 {

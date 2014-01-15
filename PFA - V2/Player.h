@@ -17,6 +17,10 @@ public:
 	void draw();
 	void setCamPos(sf::Vector2f &); // TMP LE TEMPS QUON AI LA BONNE CLASS
 	void setPosition(sf::Vector2f &pos);
+	
+	sf::Vector2f  getPosition() const;
+	void setPath(std::list<sf::Vector2f >& );
+	
 	void move(sf::Vector2f & pos);
 	int getDamage(void) const;
 	Type getType() const;
@@ -25,11 +29,13 @@ public:
 	//sf::Rect & getCollisionBox(void);
 
 	//TODO : Changer en compartments pour l'inventaire
+	
 	std::vector<Compartment *> _compartments;
 	// std::vector<IEntity *> _inventary;
 protected:
 private:
-
+	std::list<sf::Vector2f > _path;
+	
 	sf::RectangleShape _rect;
 	sf::Vector2f _cam;
 	sf::Vector2f _pos;

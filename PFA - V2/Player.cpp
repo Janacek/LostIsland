@@ -65,13 +65,6 @@ void Player::move(sf::Vector2f &pos)
 
 }
 
-void Player::setPosition(sf::Vector2f &pos)
-{
-	_pos.x = (pos.x - _cam.x) * Chunk::SIZE_OF_CELL;
-	_pos.y = (pos.y - _cam.y) * Chunk::SIZE_OF_CELL;
-	_rect.setPosition(_pos);
-}
-
 void Player::addCompartment(sf::RectangleShape &window)
 {
 	float posIniX = window.getPosition().x + window.getSize().x / 10; //10% de marge
@@ -126,6 +119,24 @@ Type Player::getType() const
 {
 	return PLAYER;
 }
+
+void Player::setPath(std::list<sf::Vector2f > &path)
+{
+	_path = path;
+}
+
+void Player::setPosition(sf::Vector2f &pos)
+{
+	_pos.x = (pos.x - _cam.x) * Chunk::SIZE_OF_CELL;
+	_pos.y = (pos.y - _cam.y) * Chunk::SIZE_OF_CELL;
+	_rect.setPosition(_pos);
+}
+
+sf::Vector2f  Player::getPosition() const
+{
+	return _pos;
+}
+
 
 /*sf::Rect & Player::getCollisionBox(void)
 {

@@ -4,6 +4,7 @@
 //Le Wood apparait lorsque l'on coupe un arbre
 Wood::Wood(void)
 {
+	_pos = sf::Vector2f(0, 0);
 }
 
 void Wood::doAction(IEntity* other)
@@ -30,7 +31,7 @@ void Wood::draw()
 
 void Wood::setPosition(sf::Vector2f &pos)
 {
-
+	_pos = pos;
 }
 
 int Wood::getDamage() const
@@ -41,6 +42,16 @@ int Wood::getDamage() const
 Type Wood::getType() const
 {
 	return WOOD;
+}
+
+sf::Vector2f  Wood::getPosition() const
+{
+	return _pos;
+}
+
+void Wood::setPath(std::list<sf::Vector2f > &path)
+{
+	_path = path;
 }
 
 Wood::~Wood(void)

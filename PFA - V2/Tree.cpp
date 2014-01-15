@@ -36,9 +36,14 @@ void Tree::setPosition(sf::Vector2f &pos)
 	_position = pos;
 }
 
-sf::Vector2f const &Tree::getPosition() const
+sf::Vector2f Tree::getPosition() const
 {
 	return (_position);
+}
+
+void Tree::setPath(std::list<sf::Vector2f > &path)
+{
+	
 }
 
 void Tree::draw()
@@ -53,6 +58,7 @@ void Tree::draw()
 	tmp.setPosition(posX, posY);
 	Singleton::getInstance()._window->draw(tmp);
 }
+
 
 /*sf::Rect & Tree::getCollisionBox(void)
 {
