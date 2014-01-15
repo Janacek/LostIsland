@@ -57,8 +57,7 @@ bool Crafting::close()
 
 void Crafting::update()
 {
-	/*AWindow::checkClose();
-	AWindow::clickInWindow();*/
+	AWindow::checkClose();
 }
 
 Crafting::~Crafting(void)

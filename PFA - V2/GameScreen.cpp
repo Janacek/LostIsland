@@ -69,8 +69,8 @@ void GameScreen::draw()
 		this->_crafting->update();
 		this->_stuff->update();
 		checkClicks();
+		checkClose();
 	}
-
 	checkInput();
 	Singleton::getInstance()._window->display();
 }
@@ -198,6 +198,15 @@ void GameScreen::saveClick(bool click)
 			return ;
 		}
 		this->_mousePicture.setTexture(NULL);
+	}
+}
+
+void GameScreen::checkClose()
+{
+	if (this->_stuff->close() == true || this->_crafting->close() == true || this->_inventory->close() == true)
+	{
+		this->_activeInventary = false;
+		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
 }
 

@@ -161,8 +161,8 @@ bool InventaryWindow::close()
 void InventaryWindow::update()
 {
 	checkInputOnglet();
-	/*	clickInWindow();
-	AWindow::checkClose();*/
+	//clickInWindow();
+	AWindow::checkClose();
 }
 
 

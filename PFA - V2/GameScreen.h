@@ -29,6 +29,7 @@ private:
 	void				updateStatistics(sf::Time &elapsedTime);
 	void				checkInput();
 	void				drawMouse();
+	void				checkClose();
 	void				checkClicks();
 	void				saveClick(bool click);
 	void				updateObjectsPos();

@@ -56,8 +56,7 @@ bool Stuff::close()
 
 void Stuff::update()
 {
-	/*AWindow::checkClose();
-	AWindow::clickInWindow();*/
+	AWindow::checkClose();
 }
 
 Stuff::~Stuff(void)
