@@ -19,6 +19,7 @@ enum Type
 	BUSH,
 	BUSH_FRUITS,
 	PALMTREE,
+	CLOSE_BUTTON //TMP
 };
 
 class IEntity

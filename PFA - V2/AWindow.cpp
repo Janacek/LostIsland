@@ -27,7 +27,8 @@ AWindow::AWindow(std::string const &title, float sizeX, float sizeY, float posX,
 	//Bouton de fermeture
 	this->_closeButton.setSize(sf::Vector2f(sizeX * 8 / 100, this->_banner.getSize().y));
 	this->_closeButton.setPosition(posX + this->_banner.getSize().x * 92 / 100, this->_banner.getPosition().y);
-	this->_closeButton.setFillColor(sf::Color::Red);
+	//this->_closeButton.setFillColor(sf::Color::Red);
+	this->_closeButton.setTexture(ImageSingleton::getInstance().get(CLOSE_BUTTON));
 	this->_close = false;
 }
 
