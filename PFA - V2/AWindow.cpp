@@ -15,10 +15,7 @@ AWindow::AWindow(std::string const &title, float sizeX, float sizeY, float posX,
 	this->_banner.setFillColor(sf::Color::Cyan);
 
 	//Texte dans la bannière
-	this->_font = new sf::Font;
-	if (this->_font->loadFromFile("./Media/Sansation.ttf") == false)
-		std::cout << "ERROR lors du load de la font" << std::endl;
-	this->_title.setFont(*this->_font);
+	this->_title.setFont((*FontManager::getInstance().getFont(SANSATION)));
 	this->_title.setCharacterSize(19);
 	this->_title.setColor(sf::Color::Magenta);
 	this->_title.setString(title);

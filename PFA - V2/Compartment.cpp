@@ -10,11 +10,10 @@ Compartment::Compartment(const sf::Vector2f &sizeParent, float x, float y)
 	this->_rect.setFillColor(sf::Color::Magenta);
 	this->_rect.setPosition(x, y);
 	this->_rect.setOutlineColor(sf::Color::Red);
-	this->_font.loadFromFile("./Media/Sansation.ttf");
 
 	this->_rect.setTexture(NULL);
 	this->_textNumber.setString("");
-	this->_textNumber.setFont(this->_font);
+	this->_textNumber.setFont((*FontManager::getInstance().getFont(SANSATION)));
 	this->_textNumber.setPosition(x, y);
 	this->_textNumber.setCharacterSize(30);
 	this->_textNumber.setColor(sf::Color::Green);
@@ -26,7 +25,6 @@ Compartment &Compartment::operator=(Compartment const &c)
 	this->_elements.clear();
 	this->_rect.setTexture(NULL);
 	this->_rect.setFillColor(sf::Color::Magenta);
-	this->_font = c._font;
 	for (IEntity *u : c._elements)
 		addElement(u);
 	return *this;
