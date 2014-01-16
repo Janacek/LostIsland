@@ -28,8 +28,7 @@ void GameScreen::initialize(void)
 	this->_inventory->init();
 	this->_crafting = new Crafting;
 	this->_stuff = new Stuff;
-	_font.loadFromFile("./Media/Sansation.ttf");
-	_statisticsText.setFont(_font);
+	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
 	_statisticsText.setPosition(5.f, 5.f);
 	_statisticsText.setCharacterSize(10);
 	_statisticsText.setPosition(0, 30);
@@ -87,6 +86,12 @@ void GameScreen::update(void)
 		std::cout << "CLICK x " << tmp.x << " y " << tmp.y << std::endl; 
 	}
 	_map->update();
+
+	if (Singleton::getInstance().isEscapePressed)
+	{
+		_isRunning = false;
+		_next = new StartScreen();
+	}
 }
 
 stateName GameScreen::getStateName() const

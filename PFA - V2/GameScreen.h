@@ -10,6 +10,8 @@
 #include "Map.h"
 #include "GestionClick.h"
 #include "PhysicEngine.h"
+#include "StartScreen.h"
+#include "FontManager.h"
 
 class GameScreen : public IScreen
 {
@@ -49,7 +51,6 @@ private:
 	sf::Text			_statisticsText;
 	std::size_t			_statisticsNumFrames;
 	sf::Time			_statisticsUpdateTime;
-	sf::Font			_font;
 	bool				_isRunning;
 	IScreen				* _next;
 	sf::Text			* _statisticText;

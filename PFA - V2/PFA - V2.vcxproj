@@ -79,7 +79,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
@@ -99,6 +99,7 @@
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Compartment.cpp" />
     <ClCompile Include="Crafting.cpp" />
+    <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEngine.cpp" />
@@ -111,6 +112,7 @@
     <ClCompile Include="KeyboardControler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="OptionScreen.cpp" />
     <ClCompile Include="Mutex.cpp" />
     <ClCompile Include="MutexWin.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -136,6 +138,7 @@
     <ClInclude Include="Compartment.h" />
     <ClInclude Include="Coordinates.hpp" />
     <ClInclude Include="Crafting.h" />
+    <ClInclude Include="FontManager.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameEngine.h" />
@@ -150,6 +153,7 @@
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="KeyboardControler.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="OptionScreen.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Onglet.h" />
     <ClInclude Include="PathFinding.h" />
@@ -159,6 +163,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="Stuff.h" />
+    <ClInclude Include="SystemDefines.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Water.h" />
     <ClInclude Include="Wood.h" />

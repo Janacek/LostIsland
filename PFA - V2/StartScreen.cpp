@@ -1,12 +1,37 @@
 #include "Singleton.h"
 #include "GameScreen.h"
 #include "StartScreen.h"
+#include "SystemDefines.h"
 
 StartScreen::StartScreen()
 {
 	_isRunning = true;
 	this->_choiceClock = new sf::Clock();
 	_curPos = 0;
+
+	_timeElapsed = sf::Time::Zero;
+	_choiceClock->restart();
+	_isRunning = true;
+	sf::Text *e1 = new sf::Text();
+	e1->setString("Play");
+	sf::Text *e2 = new sf::Text();
+	e2->setString("Option");
+	sf::Text *e3 = new sf::Text();
+	e3->setString("Exit");
+	//	sf::Text *e4 = new sf::Text();
+	//e4->setString("Local Game");
+	//sf::Text *e5 = new sf::Text();
+	//e5->setString("Local Game");
+	e1->setCharacterSize(30);
+	e1->setFont((*FontManager::getInstance().getFont(SANSATION)));
+	e2->setFont((*FontManager::getInstance().getFont(SANSATION)));
+	e3->setFont((*FontManager::getInstance().getFont(SANSATION)));
+
+	_entries.push_back(e1);
+	_entries.push_back(e2);
+	_entries.push_back(e3);
+	
+	_selector = new sf::RectangleShape(sf::Vector2f(40, 10));
 }
 
 stateName StartScreen::getStateName() const
@@ -32,30 +57,7 @@ void StartScreen::draw()
 
 void StartScreen::initialize(void)
 {
-	_timeElapsed = sf::Time::Zero;
-	_choiceClock->restart();
-	_isRunning = true;
-	sf::Text *e1 = new sf::Text();
-	e1->setString("Play");
-	sf::Text *e2 = new sf::Text();
-	e2->setString("Option");
-	sf::Text *e3 = new sf::Text();
-	e3->setString("Exit");
-	//	sf::Text *e4 = new sf::Text();
-	//e4->setString("Local Game");
-	//sf::Text *e5 = new sf::Text();
-	//e5->setString("Local Game");
-	_font.loadFromFile("./Media/Sansation.ttf");
-	e1->setCharacterSize(30);
-	e1->setFont(_font);
-	e2->setFont(_font);
-	e3->setFont(_font);
 
-	_entries.push_back(e1);
-	_entries.push_back(e2);
-	_entries.push_back(e3);
-	
-	_selector = new sf::RectangleShape(sf::Vector2f(40, 10));
 }
 
 void StartScreen::update(void)
@@ -85,7 +87,7 @@ void StartScreen::update(void)
 			_next = new GameScreen();
 		}
 		if (_curPos == 1)
-			_next = NULL; // TODO
+			_next = new OptionScreen(); // TODO
 		_isRunning = false;
 	}
 }

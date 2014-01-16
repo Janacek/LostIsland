@@ -7,7 +7,8 @@
 enum stateName
 {
 	GAME,
-	MENU
+	MENU,
+	OPTIONS,
 };
 
 class IScreen

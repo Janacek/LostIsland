@@ -6,6 +6,7 @@
 #include				<vector>
 
 #include				"Compartment.h"
+#include				"FontManager.h"
 
 enum Screens
 {
@@ -63,5 +64,4 @@ typedef struct	s_action
 	 bool				_close;
 	 sf::RectangleShape	_closeButton;
 	 sf::Text			_title;
-	 sf::Font			*_font;
  };

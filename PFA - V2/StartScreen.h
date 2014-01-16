@@ -1,5 +1,7 @@
 #pragma once
 #include "IScreen.h"
+#include "OptionScreen.h"
+#include "FontManager.h"
 
 class StartScreen : public IScreen
 {
@@ -21,7 +23,6 @@ private:
 	IScreen					* _next;
 	int						_curPos;
 	sf::RectangleShape		*_selector;
-	sf::Font				_font;
 	sf::Time				_timeElapsed;
 	sf::Clock				*_choiceClock;
 };

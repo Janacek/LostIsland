@@ -22,6 +22,10 @@ void KeyboardControler::handlePlayerInput(sf::Keyboard::Key& k, bool isPressed)
 		Singleton::getInstance().isMovingDown = isPressed;
 	else if (k == sf::Keyboard::Return)
 		Singleton::getInstance().isValidating = isPressed;
+	else if (k == sf::Keyboard::Escape)
+		Singleton::getInstance().isEscapePressed = isPressed;
+
+
 	if (k == sf::Keyboard::I && isPressed)
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 }

@@ -3,6 +3,7 @@
 #include "Singleton.h"
 #include "ImageSingleton.h"
 #include "IEntity.h"
+#include "FontManager.h"
 #include <list>
 
 //Attention : Compartment shall be copy-constructible and assignable.
@@ -24,7 +25,6 @@ public:
 	sf::RectangleShape _rect;
 	std::list<IEntity *> _elements;
 	sf::Text			_textNumber;
-	sf::Font			_font;
 	
 
 //private:

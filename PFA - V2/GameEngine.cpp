@@ -28,13 +28,7 @@ void GameEngine::update()
 		switch (event.type)
 		{
 		case sf::Event::KeyPressed:
-			if (event.key.code == sf::Keyboard::Escape)
-			{
-				_isRunning = false;
-				break;
-			}
-			else
-				_controler.handlePlayerInput(event.key.code, true);
+			_controler.handlePlayerInput(event.key.code, true);
 			break;
 		case sf::Event::KeyReleased:
 			_controler.handlePlayerInput(event.key.code, false);
@@ -53,9 +47,17 @@ void GameEngine::update()
 		}
 	}
 
+	//std::cout << _states.size() << std::endl;
 	if (_states.top()->isRunning() == false)
 	{
-		PushState(_states.top()->getNextState());
+		IScreen *tmp = _states.top()->getNextState();
+		if (!_states.empty())
+			PopState();
+		PushState(tmp);
+		Singleton::getInstance().isEscapePressed = false;
+		IScreen *state = _states.top();
+		if (state)
+			state->initialize();	
 	}
 	IScreen *state = _states.top();
 	if (state)
@@ -72,8 +74,8 @@ void GameEngine::PushState(IScreen *state)
 {
 	_states.push( state );
 	_states.top()->initialize();
-	
-	
+
+
 }
 
 void GameEngine::SetState(IScreen* state)
@@ -88,7 +90,8 @@ void GameEngine::PopState(void)
 {
 	if ( !_states.empty() )
 	{
-		_states.top()->release();
+		IScreen *tmp = _states.top();
 		_states.pop();
+		delete tmp;
 	}
 }
