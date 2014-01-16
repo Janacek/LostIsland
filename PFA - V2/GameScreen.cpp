@@ -14,6 +14,7 @@ GameScreen::GameScreen()
 	_map->init(std::string("Babar"), sf::Vector2i(18, 18), 33);
 	_map->generate();
 	this->_physicEngine = new PhysicEngine(_map);
+	this->_isFirst = true;
 	_physicEngine->init();
 }
 
@@ -53,11 +54,10 @@ void GameScreen::draw()
 	for (std::vector<Player *>::iterator it = _players.begin() ; it != _players.end() ; ++it)
 	{
 		(*it)->setCamPos(_map->getCamPos()); // tmp wait for class
-
 		(*it)->draw();
 	}
 	_physicEngine->setCamPos(_map->getCamPos());
-	//_physicEngine->update(players, entities);
+	_physicEngine->update();
 
 	if (this->_activeInventary)
 	{
@@ -77,14 +77,31 @@ void GameScreen::draw()
 
 void GameScreen::update(void)
 {
-	if (Singleton::getInstance().isRightClicking)
+	if (!Singleton::getInstance().isRightClicking)
 	{
-		sf::Vector2i tmp = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-		std::cout << "AVANT CLICK x " << tmp.x << " y " << tmp.y << std::endl; 
-	
-		tmp.x = (tmp.x + _map->getCamPos().x) ;
-		tmp.y = (tmp.y+_map->getCamPos().y) ;
-		std::cout << "CLICK x " << tmp.x << " y " << tmp.y << std::endl; 
+		_isFirst = true;
+	}
+	if (Singleton::getInstance().isRightClicking && this->_isFirst)
+	{
+		this->_isFirst = false;
+		sf::Vector2i tmp_begin = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+		sf::Vector2i tmp_end;
+		//std::cout << "AVANT CLICK x " << tmp.x << " y " << tmp.y << std::endl; 
+		
+		tmp_begin.x = (tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL ; // ISOK
+		tmp_begin.y = (tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL;
+
+		tmp_end.x = _players[0]->getPosition().x ; // player en selec
+		tmp_end.y = _players[0]->getPosition().y ;
+		
+		std::cout << "LE CLICK x "  << tmp_begin.x << " y " << tmp_begin.y << std::endl;
+		std::cout << "LE JOUEUR  x "  << tmp_end.x << " y " << tmp_end.y << std::endl;
+		_physicEngine->findMeAPath(tmp_end, tmp_begin);
+		//_physicEngine->addVertexPoint(tmp);
+
+		//_physicEngine->addVertexPoint(_players.front->getPosition());
+
+		//on click sur une case donc du coup le waypoint existe et pareil pour la pos du player
 	}
 	_map->update();
 }

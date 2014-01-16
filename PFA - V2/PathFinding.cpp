@@ -29,7 +29,7 @@ void PathFinding::initPathfinding(Map* &map)
 				WayPointID wpID = boost::add_vertex(graphe); 
 				graphe[wpID].pos.first = j;
 				graphe[wpID].pos.second = i;
-				for (int u = 0; u < 4 ; ++u)
+				for (int u = 0; u < 4; ++u)
 				{
 					//std::cout << "caca" << std::endl;
 					bool isPass = false;
@@ -51,7 +51,10 @@ void PathFinding::initPathfinding(Map* &map)
 					}
 					else if (u == 2)
 					{
-						tmp_add.first += 1;
+						tmp.first -= 1;
+						tmp_add.first -= 1;
+
+						/*tmp_add.first += 1;
 
 						tmp_add.second += 1;
 
@@ -63,12 +66,14 @@ void PathFinding::initPathfinding(Map* &map)
 
 						}
 						else
-							isOk = true;
+							isOk = true;*/
 					}
 					else if (u == 3)
 					{
+						tmp.second -= 1;
+						tmp_add.second -= 1;
 
-						tmp_add.first -= 1;
+						/*tmp_add.first -= 1;
 
 						tmp_add.second += 1;
 
@@ -80,7 +85,7 @@ void PathFinding::initPathfinding(Map* &map)
 
 						}
 						else
-							isOk = true;
+							isOk = true;*/
 					}
 					//std::cout << " x " << boost::get(boost::vertex_bundle, graphe)[*it].pos.first  << " y " << boost::get(boost::vertex_bundle, graphe)[*it].pos.second << std::endl;		
 					if (tmp.first >= 0 && tmp.second >= 0 && tmp.first <= map->getSize().x  * Chunk::NB_CELLS && tmp.second <= map->getSize().y  * Chunk::NB_CELLS && isOk == false)
@@ -91,7 +96,6 @@ void PathFinding::initPathfinding(Map* &map)
 							if (boost::get(boost::vertex_bundle, graphe)[*it_b].pos == tmp)
 							{
 								isPass = true;
-
 								break;
 							}
 						}
@@ -103,10 +107,12 @@ void PathFinding::initPathfinding(Map* &map)
 							graphe[wpID2].pos = tmp;
 							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN)		
 							{
-								float dx = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first);
-								float dy = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second);
+								float dx = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first) * Chunk::SIZE_OF_CELL;
+								float dy = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second) * Chunk::SIZE_OF_CELL;
 								//std::cout << "Point 1 x " << graphe[wpID].pos.first << " y " << graphe[wpID].pos.second
 								//<< "Point 2 x " << graphe[wpID2].pos.first << " y " << graphe[wpID2].pos.second << std::endl;
+								
+								
 								boost::add_edge(wpID, wpID2, WayPointConnection(sqrt(dx * dx + dy * dy)), graphe);
 							}
 						}
@@ -115,8 +121,8 @@ void PathFinding::initPathfinding(Map* &map)
 							WayPointID wpID2 = (*it_b);
 							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN)		
 							{
-								float dx = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first);
-								float dy = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second);
+								float dx = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second) * Chunk::SIZE_OF_CELL;
+								float dy = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first) * Chunk::SIZE_OF_CELL;
 								//std::cout << "Point 1 x " << graphe[wpID].pos.first << " y " << graphe[wpID].pos.second
 								//<< "Point 2 x " << graphe[wpID2].pos.first << " y " << graphe[wpID2].pos.second << std::endl;
 								boost::add_edge(wpID, wpID2, WayPointConnection(sqrt(dx * dx + dy * dy)), graphe);
@@ -140,51 +146,6 @@ void PathFinding::initPathfinding(Map* &map)
 	std::cout << "TOTAL " << u << "map x " << map->getSize().x << " y " << map->getSize().y << " size cell" << Chunk::NB_CELLS <<  std::endl;
 
 
-	//for (Polygon_ *u : map->_polygons)
-	//{
-	//	if (u->getPolygonType() == u->GROUND)
-	//	{
-	//		WayPointID wpID = boost::add_vertex(graphe); 
-	//		graphe[wpID].pos = u->getCenter();
-	//		for (std::deque<Edge_ *>::iterator it = u->getEdges().begin() ; it != u->getEdges().end() ; ++it)
-	//		{
-	//			bool isPass = false;
-	//			boost::graph_traits<WayPointGraph>::vertex_iterator it_b, it_end;
-
-	//			for (boost::tie(it_b, it_end) = boost::vertices(graphe) ; it_b != it_end ; ++it_b)
-	//			{
-	//				if (boost::get(boost::vertex_bundle, graphe)[*it_b].pos == (*it)->_polygonsOwn.second->getCenter())
-	//				{
-	//					isPass = true;
-
-	//					break;
-	//				}
-	//			}
-	//			std::pair<Polygon_ *, Polygon_ *> t = (*it)->_polygonsOwn;
-	//			if (isPass == false)
-	//			{
-	//				WayPointID wpID2 = boost::add_vertex(graphe);
-
-	//				graphe[wpID2].pos = t.second->getCenter();
-	//			}
-	//			else
-	//			{
-	//				WayPointID wpID2 = (*it_b);
-
-	//				if (t.first->getPolygonType() == t.first->GROUND)
-	//				{
-	//					float dx = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first);
-	//					float dy = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second);
-
-	//					boost::add_edge(wpID, wpID2, WayPointConnection(sqrt(dx * dx + dy * dy)), graphe);				
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-
-
-	//typedef boost::graph_traits <WayPointGraph>::adjacency_iterator adjacency_iterator;
 
 }
 
@@ -193,12 +154,7 @@ void PathFinding::initPathfinding(Map* &map)
 void PathFinding::updatePath(sf::Vector2f &cam)
 {
 
-	sf::RenderTexture rt;
-	rt.clear(sf::Color::Transparent);
-	if (!rt.create((16* Chunk::NB_CELLS) * 8,	(16 * Chunk::NB_CELLS) * 8))
-	{
-		// erreur...
-	}
+
 	typedef boost::graph_traits <WayPointGraph>::edge_iterator edge_iterator_t;
 
 	std::pair<edge_iterator_t, edge_iterator_t> ep;
@@ -206,30 +162,29 @@ void PathFinding::updatePath(sf::Vector2f &cam)
 	edge_iterator_t ei, ei_end;
 
 
-	/*for (boost::tie(ei, ei_end) = boost::edges(graphe); ei != ei_end; ++ei)
+	for (boost::tie(ei, ei_end) = boost::edges(graphe); ei != ei_end; ++ei)
 	{
 
-		sf::Vector2f pt1 ;
-		pt1.x =  get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.first * 8;
-		pt1.y =  get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.second * 8;
+	sf::Vector2f pt1 ;
+	pt1.x =  (get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.first - cam.x) * Chunk::SIZE_OF_CELL;
+	pt1.y =  (get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.second  - cam.y) * Chunk::SIZE_OF_CELL;
 
-		sf::Vector2f pt2 ;
-		pt2.x =  get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.first * 8;
-		pt2.y =  get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.second * 8;
+	sf::Vector2f pt2 ;
+	pt2.x =  (get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.first - cam.x) * Chunk::SIZE_OF_CELL;
+	pt2.y =  (get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.second - cam.y) * Chunk::SIZE_OF_CELL;
 
-		sf::Vertex line[2] = 
-		{
-			sf::Vertex(pt1),
-			sf::Vertex(pt2)
-		};
-		rt.draw(line, 2, sf::Lines);
+	sf::Vertex line[2] = 
+	{
+	sf::Vertex(pt1),
+	sf::Vertex(pt2)
+	};
+	Singleton::getInstance()._window->draw(line, 2, sf::Lines);
 
-		//std::cout << "Point 1 x " <<  pt1.x << " y " << pt1.y << " pt 2 x "<< pt2.x << " y " << pt2.y << std::endl;  
+	//std::cout << "Point 1 x " <<  pt1.x << " y " << pt1.y << " pt 2 x "<< pt2.x << " y " << pt2.y << std::endl;  
 	}
 
-	rt.display();
-	*/
-//sf::Texture texture = rt.getTexture();
+	
+	//sf::Texture texture = rt.getTexture();
 	//map 
 	//sf::Sprite sprite(texture);
 	//std::cout << " camx " << cam.x << " camy " << cam.y << std::endl; 
@@ -237,43 +192,133 @@ void PathFinding::updatePath(sf::Vector2f &cam)
 
 	//Singleton::getInstance()._window->draw(sprite);
 	if (this->shortest_path.empty() == false)
+	{
+		for (std::list<WayPointID>::iterator it = this->shortest_path.begin() ; it != shortest_path.end() ; ++it)
 		{
-			for (std::list<WayPointID>::iterator it = this->shortest_path.begin() ; it != shortest_path.end() ; ++it)
-			{
-				sf::CircleShape circle;
-				circle.setPosition(sf::Vector2f(boost::get(boost::vertex_bundle, graphe)[*it].pos.first, boost::get(boost::vertex_bundle, graphe)[*it].pos.second));
-				circle.setRadius(1.f);
-				circle.setFillColor(sf::Color(0, 0, 250));
+			sf::CircleShape circle;
+		
+			circle.setPosition((sf::Vector2f((boost::get(boost::vertex_bundle, graphe)[*it].pos.first - cam.x) * Chunk::SIZE_OF_CELL - 5, (boost::get(boost::vertex_bundle, graphe)[*it].pos.second- cam.y) * Chunk::SIZE_OF_CELL - 5)));
+			circle.setRadius(10.f);
+			circle.setFillColor(sf::Color(0, 0, 250));
 
-				Singleton::getInstance()._window->draw(circle);
-			}
+			Singleton::getInstance()._window->draw(circle);
 		}
+	}
 	/*if (Singleton::getInstance().isValidating)
 	{
-		boost::mt19937 gen(time(0));
+	boost::mt19937 gen(time(0));
 
-		std::vector<WayPointID> p(boost::num_vertices(graphe)); 
-		std::vector<float>      d(boost::num_vertices(graphe)); 
-		WayPointID start = boost::random_vertex(graphe, gen);
-		WayPointID goal = boost::random_vertex(graphe, gen);
-		shortest_path.clear();
-		try {
-			boost::astar_search
-				(
-				graphe, 
-				start,  
-				boost::astar_heuristic<WayPointGraph, float>(), 
-				boost::predecessor_map(&p[0]).distance_map(&d[0]).visitor(astar_goal_visitor(goal)).weight_map(boost::get(&WayPointConnection::dist, graphe))
-				);
+	std::vector<WayPointID> p(boost::num_vertices(graphe)); 
+	std::vector<float>      d(boost::num_vertices(graphe)); 
+	WayPointID start = boost::random_vertex(graphe, gen);
+	WayPointID goal = boost::random_vertex(graphe, gen);
+	shortest_path.clear();
+	try {
+	boost::astar_search
+	(
+	graphe, 
+	start,  
+	boost::astar_heuristic<WayPointGraph, float>(), 
+	boost::predecessor_map(&p[0]).distance_map(&d[0]).visitor(astar_goal_visitor(goal)).weight_map(boost::get(&WayPointConnection::dist, graphe))
+	);
 
-		} catch(found_goal fg) { 
+	} catch(found_goal fg) { 
 
-			for(WayPointID v = goal;; v = p[v]) {
-				shortest_path.push_front(v);
-				if(p[v] == v)
-					break;
-			}
-		}
+	for(WayPointID v = goal;; v = p[v]) {
+	shortest_path.push_front(v);
+	if(p[v] == v)
+	break;
+	}
+	}
 	*/
 
+}
+
+void PathFinding::find_vertex(const WayPoint& wp, const WayPointGraph& graph)
+{
+	std::cout << "coucou" << std::endl;
+	_vertex_found =  std::make_pair(0, false);
+	for (WayPointID id = 0; id < boost::num_vertices(graph); ++id)
+	{
+		if (equal(graph[id].pos, wp.pos))
+		{
+			std::cout << "YOYOYOYO x " << graphe[id].pos.first << " y " << graphe[id].pos.first << std::endl;
+			_vertex_found = std::make_pair(id, true);
+		}
+			//
+	
+	}
+	
+}
+
+bool PathFinding::equal(const std::pair<float, float>& p1, const std::pair<float, float>& p2)
+{
+  const float EPS = 1e-6;
+  return (std::fabs(p1.first - p2.first) < EPS &&
+          std::fabs(p1.second - p2.second) < EPS);
+}
+
+void PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end)
+{
+	std::vector<WayPointID> p(boost::num_vertices(graphe)); 
+	std::vector<float>      d(boost::num_vertices(graphe)); 
+	bool vertex_start_found;
+	WayPointID start;
+	WayPoint startPoint;
+	startPoint.pos.first = begin.x;
+	startPoint.pos.second = begin.y;
+
+	find_vertex(startPoint, graphe);
+	std::tie (start, vertex_start_found) = _vertex_found;
+	if (vertex_start_found)
+	{
+		
+		std::cout << "start point found !!" << std::endl;
+	}
+	else
+		return;
+
+	bool vertex_goal_found;
+	WayPointID goal;
+	WayPoint goalPoint;
+	goalPoint.pos.first = end.x;
+	goalPoint.pos.second = end.y;
+
+	find_vertex(goalPoint, graphe);
+	std::tie (goal, vertex_goal_found) = _vertex_found;
+	if (vertex_goal_found)
+		std::cout << "Goal point found" << std::endl;
+	else
+		return;
+	std::cout << "debut x " << graphe[start].pos.first << " y " << graphe[start].pos.first << "FIN x" << graphe[goal].pos.first << " y " << graphe[goal].pos.second << std::endl; 
+		//system("pause");
+
+	shortest_path.clear();
+	try {
+		boost::astar_search
+			(
+			graphe, 
+			start,  
+			boost::astar_heuristic<WayPointGraph, float>(), 
+			boost::predecessor_map(&p[0]).distance_map(&d[0]).visitor(astar_goal_visitor(goal)).weight_map(boost::get(&WayPointConnection::dist, graphe))
+			);
+
+	} catch(found_goal fg) { 
+
+		for(WayPointID v = goal;; v = p[v]) {
+			std::cout << "WAY ! x" << graphe[v].pos.first << " y " << graphe[v].pos.second << std::endl;
+			shortest_path.push_front(v);
+			if(p[v] == v)
+				break;
+		}
+	}
+}
+
+
+void PathFinding::addVertexPoint(sf::Vector2i &pos)
+{
+	WayPointID wpID = boost::add_vertex(graphe); 
+	graphe[wpID].pos.first = pos.x / Chunk::SIZE_OF_CELL;
+	graphe[wpID].pos.second = pos.y / Chunk::SIZE_OF_CELL; // Is NOT OK
+	
 }

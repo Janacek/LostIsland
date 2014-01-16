@@ -57,9 +57,12 @@ class PathFinding
 public:
 	void initPathfinding(Map *&map);
 	void updatePath(sf::Vector2f &cam);
+	void addVertexPoint(sf::Vector2i &);
+	void findMeAPath(sf::Vector2i&, sf::Vector2i &);
 
 protected:
 private:
+
 	typedef boost::adjacency_list<  
 		boost::listS,              
 		boost::vecS,                
@@ -72,5 +75,8 @@ private:
 	typedef WayPointGraph::edge_descriptor   WayPointConnectionID;
 	WayPointGraph graphe;
 	std::list<WayPointID> shortest_path;
+	std::pair<WayPointID, bool> _vertex_found;
+	void find_vertex(const WayPoint& wp, const WayPointGraph& graph);
+	bool equal(const std::pair<float, float>& p1, const std::pair<float, float>& p2);
 };
 

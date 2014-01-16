@@ -58,6 +58,6 @@ private:
 	struct s_action			_leftClickReleased;
 	struct s_action			_rightClickPressed;
 	struct s_action			_rightClickReleased;
-
+	bool					_isFirst;
 	GestionClick			_gc;
 };
