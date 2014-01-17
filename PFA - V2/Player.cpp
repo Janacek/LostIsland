@@ -8,7 +8,7 @@ Player::Player(sf::Vector2f &pos) : _pos(pos)
 {
 	this->_name = "Georgette";
 	this->_sizeInventory = 0;
-	_rect.setSize(sf::Vector2f(32, 64));
+	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(pos);
 	_rect.setFillColor(sf::Color::Red);
 }
