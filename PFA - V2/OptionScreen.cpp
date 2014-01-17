@@ -1,6 +1,7 @@
 #include "OptionScreen.h"
 
 OptionScreen::OptionScreen()
+	: _button(ClickableButton(sf::Vector2f(50, 50), sf::Vector2f(300, 400), "T"))
 {
 	_isRunning = true;
 }
@@ -12,6 +13,9 @@ void OptionScreen::initialize()
 void OptionScreen::draw()
 {
 	Singleton::getInstance()._window->clear();
+
+	_button.draw();
+
 	Singleton::getInstance()._window->display();
 }
 
@@ -22,6 +26,8 @@ void OptionScreen::update()
 		_isRunning = false;
 		_next = new StartScreen();
 	}
+
+	_button.update();
 }
 
 stateName OptionScreen::getStateName() const

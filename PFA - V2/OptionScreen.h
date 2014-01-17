@@ -2,6 +2,7 @@
 
 #include "IScreen.h"
 #include "StartScreen.h"
+#include "ClickableButton.h"
 
 class OptionScreen : public IScreen
 {
@@ -20,4 +21,6 @@ public:
 private:
 	bool				_isRunning;
 	IScreen				*_next;
+
+	ClickableButton		_button;
 };
