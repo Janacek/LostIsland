@@ -1,5 +1,9 @@
 #include "OptionScreen.h"
 
+void OptionScreen::adjustmentChange(void)
+{
+}
+
 OptionScreen::OptionScreen()
 {
 	_isRunning = true;
@@ -7,12 +11,26 @@ OptionScreen::OptionScreen()
 	_button = sfg::Button::Create("Hello");
 	_window = sfg::Window::Create();
 
+	_scale = sfg::Scale::Create();
+	_adjustment = sfg::Adjustment::Create(0, 100);
+	_adjustment->SetMinorStep(3.f);
+	_adjustment->SetMajorStep(12.f);
+	_adjustment->SetPageSize(20.f);
+
+	_adjustment->GetSignal(sfg::Adjustment::OnChange).Connect(
+		std::bind(&OptionScreen::adjustmentChange, this));
+
+	_scale->SetRequisition(sf::Vector2f(0, 100));
+
+
 	_button->GetSignal(sfg::Button::OnLeftClick).Connect(
 		std::bind(&OptionScreen::onButtonClick, this)
 		);
 
-	_window->SetTitle("Hello World example");
-	_window->Add(_button);
+	//_window->SetTitle("Hello World example");
+	_window->SetStyle(sfg::Window::NO_STYLE);
+
+	_window->Add(_scale);
 	_desktop.Add(_window);
 }
 

@@ -89,8 +89,13 @@ void StartScreen::update(void)
 		{
 			_next = new GameScreen();
 		}
-		if (_curPos == 1)
+		else if (_curPos == 1)
 			_next = new OptionScreen(); // TODO
+		else if (_curPos == 2)
+		{
+			Singleton::getInstance()._window->close();
+			exit(1);
+		}
 		_isRunning = false;
 	}
 }

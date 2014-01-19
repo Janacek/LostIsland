@@ -27,6 +27,11 @@ private:
 	sfg::Desktop		_desktop;
 	sfg::Button::Ptr	_button;
 
+	sfg::Scale::Ptr		_scale;
+	sfg::Adjustment::Ptr _adjustment;
+
+
 public:
 	void				onButtonClick(void);
+	void				adjustmentChange(void);
 };
