@@ -39,6 +39,9 @@ stateName StartScreen::getStateName() const
 	return MENU;
 }
 
+void StartScreen::events(sf::Event &)
+{
+}
 
 void StartScreen::draw()
 {

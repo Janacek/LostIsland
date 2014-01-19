@@ -17,10 +17,16 @@ public:
 	bool isRunning(void) const;
 	void update(void);
 	stateName getStateName() const;
+	void events(sf::Event &);
 
 private:
 	bool				_isRunning;
 	IScreen				*_next;
 
-	ClickableButton		_button;
+	sfg::Window::Ptr	_window;
+	sfg::Desktop		_desktop;
+	sfg::Button::Ptr	_button;
+
+public:
+	void				onButtonClick(void);
 };

@@ -2,7 +2,7 @@
 
 #include						<SFML/Window.hpp>
 #include						<SFML/Graphics.hpp>
-
+#include						<SFGUI/SFGUI.hpp>
 
 
 class Singleton
@@ -11,6 +11,9 @@ public:
 	static Singleton& getInstance();
 	sf::RenderWindow *_window;
 	sf::Clock *_clock;
+
+	sfg::SFGUI		_sfgui;
+
 	bool isEscapePressed;
 	bool isLeftClicking;
 	bool isRightClicking;

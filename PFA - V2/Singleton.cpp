@@ -1,6 +1,6 @@
 #include "Singleton.h"
 
-Singleton Singleton::m_instance=Singleton();
+Singleton Singleton::m_instance = Singleton();
 
 Singleton::Singleton()
 {

@@ -15,6 +15,7 @@ public:
 	bool isRunning(void) const;
 	void update(void);
 	stateName getStateName() const;
+	void events(sf::Event &);
 
 protected:
 private:

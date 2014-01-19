@@ -18,6 +18,10 @@ GameScreen::GameScreen()
 	_physicEngine->init();
 }
 
+void GameScreen::events(sf::Event &)
+{
+}
+
 void GameScreen::initialize(void)
 {
 	for (int i = 0; i < 2; i++)

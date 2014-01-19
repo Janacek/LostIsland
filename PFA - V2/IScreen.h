@@ -1,6 +1,9 @@
 #pragma once
 
 #include <list>
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include "IEngine.h"
 #include "IEntity.h"
 
@@ -20,6 +23,7 @@ public:
 	virtual void release(void) = 0;
 	virtual  bool isRunning(void) const = 0;
 	virtual void update(void) = 0;
+	virtual void events(sf::Event &) = 0;
 	virtual stateName getStateName() const = 0;
 
 protected:

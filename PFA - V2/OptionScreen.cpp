@@ -1,20 +1,39 @@
 #include "OptionScreen.h"
 
 OptionScreen::OptionScreen()
-	: _button(ClickableButton(sf::Vector2f(50, 50), sf::Vector2f(300, 400), "T"))
 {
 	_isRunning = true;
+
+	_button = sfg::Button::Create("Hello");
+	_window = sfg::Window::Create();
+
+	_button->GetSignal(sfg::Button::OnLeftClick).Connect(
+		std::bind(&OptionScreen::onButtonClick, this)
+		);
+
+	_window->SetTitle("Hello World example");
+	_window->Add(_button);
+	_desktop.Add(_window);
+}
+
+void OptionScreen::events(sf::Event &e)
+{
+	_window->HandleEvent(e);
 }
 
 void OptionScreen::initialize()
 {
 }
 
+void OptionScreen::onButtonClick() {
+	_button->SetLabel("World");
+}
+
 void OptionScreen::draw()
 {
 	Singleton::getInstance()._window->clear();
 
-	_button.draw();
+	Singleton::getInstance()._sfgui.Display(*Singleton::getInstance()._window);
 
 	Singleton::getInstance()._window->display();
 }
@@ -27,7 +46,7 @@ void OptionScreen::update()
 		_next = new StartScreen();
 	}
 
-	_button.update();
+	_desktop.Update(Singleton::getInstance()._clock->restart().asSeconds());
 }
 
 stateName OptionScreen::getStateName() const
@@ -42,7 +61,7 @@ IScreen *OptionScreen::getNextState()
 
 void OptionScreen::release()
 {
-	
+
 }
 
 bool OptionScreen::isRunning() const

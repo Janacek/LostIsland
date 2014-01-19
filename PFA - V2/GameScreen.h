@@ -24,6 +24,7 @@ public:
 	void release(void);
 	bool isRunning(void) const;
 	void update(void);
+	void events(sf::Event &);
 	stateName getStateName() const;
 	sf::Vector2f pos;
 protected:
