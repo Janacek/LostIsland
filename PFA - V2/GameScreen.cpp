@@ -26,7 +26,7 @@ void GameScreen::initialize(void)
 {
 	for (int i = 0; i < 2; i++)
 	{
-		this->_players.push_back(new Player(sf::Vector2f(100 + i * 8, 100)));
+		this->_players.push_back(new Player(sf::Vector2f(60 + i * 3, 100)));
 	}
 	this->_activeInventary = false;
 	this->_inventory = new InventaryWindow(this->_players);
@@ -94,7 +94,7 @@ void GameScreen::update(void)
 		tmp_begin.x = (tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL ; // ISOK
 		tmp_begin.y = (tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL;
 
-		tmp_end.x = _players[0]->getPosition().x ; // player en selec
+		tmp_end.x = _players[0]->getPosition().x  ; // player en selec
 		tmp_end.y = _players[0]->getPosition().y ;
 		
 		std::cout << "LE CLICK x "  << tmp_begin.x << " y " << tmp_begin.y << std::endl;
