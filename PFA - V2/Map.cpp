@@ -1,8 +1,9 @@
 
 #include "Map.h"
 
-Map::Map()
+Map::Map(Camera *cam)
 {
+	_camera = cam;
 	_size = sf::Vector2i(16, 16);
 	_seed = 0xcafe; // OLOL
 	_groundRatio = 33;
@@ -38,8 +39,7 @@ Map::Map()
 
 	// SNOW SAVANNA GRASS FOREST SAND
 
-	_camera._position.x = 0;
-	_camera._position.y = 0;
+	
 }
 
 Map::~Map()
@@ -366,7 +366,7 @@ void						Map::drawMiniMap(sf::RenderWindow *win)
 		tmp.setFillColor(sf::Color::Transparent);
 		tmp.setOutlineThickness(2);
 		tmp.setOutlineColor(sf::Color::Black);
-		tmp.setPosition(_camera._position.x * 2, _camera._position.y * 2);
+		tmp.setPosition(_camera->_position.x * 2, _camera->_position.y * 2);
 		win->draw(tmp);
 	}
 
@@ -382,22 +382,22 @@ void						Map::drawMiniMap(sf::RenderWindow *win)
 
 sf::Vector2f				&Map::getCamPos() 
 {
-	_camPos.x = _camera._position.x;
-	_camPos.y = _camera._position.y;
+	_camPos.x = _camera->_position.x;
+	_camPos.y = _camera->_position.y;
 	return _camPos;
 }
 
 void						Map::draw(sf::RenderWindow *win)
 {
-	for (int i = _camera._position.y ; i < (Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) + 1 + _camera._position.y ; ++i)
+	for (int i = _camera->_position.y ; i < (Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) + 1 + _camera->_position.y ; ++i)
 	{
-		for (int j = _camera._position.x ; j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + _camera._position.x ; ++j)
+		for (int j = _camera->_position.x ; j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + _camera->_position.x ; ++j)
 		{
 			sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL,
 				Chunk::SIZE_OF_CELL));
 			tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
-			tmp.setPosition((j - _camera._position.x) * Chunk::SIZE_OF_CELL,
-				(i -_camera._position.y) * Chunk::SIZE_OF_CELL);
+			tmp.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
+				(i -_camera->_position.y) * Chunk::SIZE_OF_CELL);
 			win->draw(tmp);
 		}
 	}
@@ -406,8 +406,8 @@ void						Map::draw(sf::RenderWindow *win)
 	{
 		//(*it)->draw();
 		sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
-		int posX = (((*it)->getPosition().y) - _camera._position.x) * Chunk::SIZE_OF_CELL;
-		int posY = (((*it)->getPosition().x) - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
+		int posX = (((*it)->getPosition().y) - _camera->_position.x) * Chunk::SIZE_OF_CELL;
+		int posY = (((*it)->getPosition().x) - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20;
 		tmp.setPosition(posX, posY);
 		Singleton::getInstance()._window->draw(tmp);
 	}
@@ -416,8 +416,8 @@ void						Map::draw(sf::RenderWindow *win)
 	for (; it != _bushes.end() ; ++it)
 	{
 		//(*it)->draw();
-		int posX = (((*it)->getPosition().y) - _camera._position.x) * Chunk::SIZE_OF_CELL;
-		int posY = (((*it)->getPosition().x) - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
+		int posX = (((*it)->getPosition().y) - _camera->_position.x) * Chunk::SIZE_OF_CELL;
+		int posY = (((*it)->getPosition().x) - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20;
 
 		int sib = (*it)->getPosition().x;
 
@@ -432,8 +432,8 @@ void						Map::draw(sf::RenderWindow *win)
 	{
 		//(*it)->draw();
 		sf::Sprite tmp((*ImageSingleton::getInstance().get(PALMTREE)));
-		int posX = (((*it)->getPosition().y) - _camera._position.x) * Chunk::SIZE_OF_CELL;
-		int posY = (((*it)->getPosition().x) - _camera._position.y) * Chunk::SIZE_OF_CELL - 20;
+		int posX = (((*it)->getPosition().y) - _camera->_position.x) * Chunk::SIZE_OF_CELL;
+		int posY = (((*it)->getPosition().x) - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20;
 		tmp.setPosition(posX, posY);
 		Singleton::getInstance()._window->draw(tmp);
 	}
@@ -515,5 +515,5 @@ sf::Vector2i				Map::getSize() const
 
 void						Map::update()
 {
-	_camera.moveCamera(_size);
+	_camera->moveCamera(_size);
 }

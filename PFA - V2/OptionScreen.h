@@ -25,13 +25,18 @@ private:
 
 	sfg::Window::Ptr	_window;
 	sfg::Desktop		_desktop;
-	sfg::Button::Ptr	_button;
 
-	sfg::Scale::Ptr		_scale;
-	sfg::Adjustment::Ptr _adjustment;
+	// Music Stuff
+	sfg::Label::Ptr		_musicLabel;
+	sfg::Scale::Ptr		_musicScale;
+	sfg::Adjustment::Ptr _musicAdjustment;
 
+	// SFX Stuff
+	sfg::Label::Ptr		_sfxLabel;
+	sfg::Scale::Ptr		_sfxScale;
+	sfg::Adjustment::Ptr _sfxAdjustment;
 
 public:
-	void				onButtonClick(void);
-	void				adjustmentChange(void);
+	void				musicAdjustmentChange(void);
+	void				sfxAdjustmentChange(void);
 };

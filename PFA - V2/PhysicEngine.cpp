@@ -1,6 +1,6 @@
 #include "PhysicEngine.h"
 
-PhysicEngine::PhysicEngine(Map *&map) : _map(map)
+PhysicEngine::PhysicEngine(Map *&map, Camera *cam) : _map(map), _cam(cam)
 {
 	_isLaunch = false;
 	_isRunning = true;
@@ -9,16 +9,16 @@ PhysicEngine::PhysicEngine(Map *&map) : _map(map)
 void PhysicEngine::init()
 {
 	_isLaunch = true;
-	_pathFinding.initPathfinding(_map);
+	_pathFinding.initPathfinding(_map, _cam);
 }
 
 void PhysicEngine::setCamPos(sf::Vector2f &cam)
 {
-	_cam = cam;
+	//_cam = cam;
 }
-void PhysicEngine::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end)
+void PhysicEngine::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &ent)
 {
-	_pathFinding.findMeAPath(begin, end);
+	_pathFinding.findMeAPath(begin, end, ent);
 }
 
 bool PhysicEngine::getIsLaunch() const
@@ -28,7 +28,7 @@ bool PhysicEngine::getIsLaunch() const
 
 void PhysicEngine::update()
 {
-	_pathFinding.updatePath(_cam);
+	_pathFinding.updatePath();
 }
 
 void PhysicEngine::addVertexPoint(sf::Vector2i &pos)

@@ -30,7 +30,7 @@ public:
 	virtual void getAction(IEntity* other) = 0;
 	virtual void Animate(std::string const & string_anim) = 0;
 	virtual void draw() = 0;
-	virtual void setPath(std::list<sf::Vector2f >&) = 0;
+	virtual void setPath(std::list<std::pair<float, float> >&) = 0;
 	virtual void setPosition(sf::Vector2f &pos) = 0;
 	virtual sf::Vector2f  getPosition() const = 0;
 	virtual int getDamage(void) const = 0;

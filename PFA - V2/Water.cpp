@@ -32,7 +32,7 @@ sf::Vector2f  Water::getPosition() const
 	return _pos;
 }
 
-void Water::setPath(std::list<sf::Vector2f > &path)
+void Water::setPath(std::list<std::pair<float, float> >&path)
 {
 	_path = path;
 }

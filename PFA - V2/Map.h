@@ -27,7 +27,7 @@
 class						Map
 {
 public:
-	Map();
+	Map(Camera *);
 	~Map();
 
 	sf::Vector2f			&getCamPos();
@@ -86,7 +86,7 @@ private:
 
 	Cell					_corTab[100];
 
-	Camera					_camera;
+	Camera					*_camera;
 
 	float hori;
 	float vert;

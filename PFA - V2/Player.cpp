@@ -3,8 +3,9 @@
 #include "Water.h"
 #include "Singleton.h"
 #include <iostream>
+#include <math.h>  
 
-Player::Player(sf::Vector2f &pos) : _pos(pos)
+Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 {
 	this->_name = "Georgette";
 	this->_sizeInventory = 0;
@@ -15,12 +16,9 @@ Player::Player(sf::Vector2f &pos) : _pos(pos)
 
 void Player::setCamPos(sf::Vector2f &pos)
 {
-	_cam = pos;
 
 	//std::cout << "x " << _cam.x << " y " << _cam.y << std::endl;
-	_posDisp.x = (_pos.x - _cam.x) * Chunk::SIZE_OF_CELL;
-	_posDisp.y = (_pos.y - _cam.y) * Chunk::SIZE_OF_CELL;
-	_rect.setPosition(_posDisp);
+	
 }
 
 void Player::drink(Water *water)
@@ -53,8 +51,37 @@ void Player::addEntityInInventory(IEntity *entity)
 	}
 }
 
+void Player::moveToNextWP()
+{
+	if (!_path.empty())
+	{
+		
+		if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y))
+		{
+			std::cout << "coucou" << std::endl;
+			_path.pop_front();
+		}
+
+		if (_pos.x > _path.front().first)
+			_pos.x -= 0.1;
+		if (_pos.x < _path.front().first)
+			_pos.x += 0.1;
+		if (_pos.y > _path.front().second)
+			_pos.y -= 0.1;
+		if (_pos.y < _path.front().second)
+			_pos.y += 0.1;
+		
+		
+	}
+}
+
 void Player::draw()
 {
+	moveToNextWP();
+	_posDisp.x = (_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL;
+	_posDisp.y = (_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL;
+	
+	_rect.setPosition(_posDisp);
 	Singleton::getInstance()._window->draw(_rect);
 }
 
@@ -120,15 +147,15 @@ Type Player::getType() const
 	return PLAYER;
 }
 
-void Player::setPath(std::list<sf::Vector2f > &path)
+void Player::setPath(std::list<std::pair<float, float> > &path)
 {
 	_path = path;
 }
 
 void Player::setPosition(sf::Vector2f &pos)
 {
-	_pos.x = (pos.x - _cam.x) * Chunk::SIZE_OF_CELL;
-	_pos.y = (pos.y - _cam.y) * Chunk::SIZE_OF_CELL;
+	_pos.x = (pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL;
+	_pos.y = (pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL;
 	_rect.setPosition(_pos);
 }
 

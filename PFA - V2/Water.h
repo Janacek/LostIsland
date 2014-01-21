@@ -15,14 +15,14 @@ public:
 	int getDamage(void) const;
 	Type getType() const;
 	~Water(void);
-	void setPath(std::list<sf::Vector2f > &path);
+	void setPath(std::list<std::pair<float, float> > &path);
 
 	sf::Vector2f  getPosition() const;
 
 	//sf::Rect & getCollisionBox(void);
 
 private:
-	std::list<sf::Vector2f > _path;
+	std::list<std::pair<float, float> > _path;
 	sf::Vector2f			_pos;
 };
 
