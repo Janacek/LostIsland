@@ -29,6 +29,7 @@ public:
 	sf::Vector2f pos;
 protected:
 private:
+	Camera				_camera;
 	void				updateStatistics(sf::Time &elapsedTime);
 	void				checkInput();
 	void				drawMouse();

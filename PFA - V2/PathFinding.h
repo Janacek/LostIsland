@@ -55,10 +55,10 @@ private:
 class PathFinding
 {
 public:
-	void initPathfinding(Map *&map);
-	void updatePath(sf::Vector2f &cam);
+	void initPathfinding(Map *&map, Camera *cam);
+	void updatePath();
 	void addVertexPoint(sf::Vector2i &);
-	void findMeAPath(sf::Vector2i&, sf::Vector2i &);
+	void findMeAPath(sf::Vector2i&, sf::Vector2i &, IEntity &);
 
 protected:
 private:
@@ -74,9 +74,9 @@ private:
 	typedef WayPointGraph::vertex_descriptor WayPointID;
 	typedef WayPointGraph::edge_descriptor   WayPointConnectionID;
 	WayPointGraph graphe;
-	std::list<WayPointID> shortest_path;
 	std::pair<WayPointID, bool> _vertex_found;
 	void find_vertex(const WayPoint& wp, const WayPointGraph& graph);
 	bool equal(const std::pair<float, float>& p1, const std::pair<float, float>& p2);
+	Camera *_cam;
 };
 
