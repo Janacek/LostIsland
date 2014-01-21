@@ -8,12 +8,14 @@
 GameScreen::GameScreen()
 {
 	_isRunning = true;
-	_map = new Map();
+	_camera._position.x = 0;
+	_camera._position.y = 0;
+	_map = new Map(&_camera);
 	pos.x = 100;
 	pos.y = 100;
 	_map->init(std::string("Babar"), sf::Vector2i(18, 18), 33);
 	_map->generate();
-	this->_physicEngine = new PhysicEngine(_map);
+	this->_physicEngine = new PhysicEngine(_map, &_camera);
 	this->_isFirst = true;
 	_physicEngine->init();
 }
@@ -26,7 +28,7 @@ void GameScreen::initialize(void)
 {
 	for (int i = 0; i < 2; i++)
 	{
-		this->_players.push_back(new Player(sf::Vector2f(60 + i * 3, 100)));
+		this->_players.push_back(new Player(sf::Vector2f(60 + i * 3, 100), &_camera));
 	}
 	this->_activeInventary = false;
 	this->_inventory = new InventaryWindow(this->_players);
@@ -56,7 +58,7 @@ void GameScreen::draw()
 	//tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
 	for (std::vector<Player *>::iterator it = _players.begin() ; it != _players.end() ; ++it)
 	{
-		(*it)->setCamPos(_map->getCamPos()); // tmp wait for class
+		//(*it)->setCamPos(_map->getCamPos()); // tmp wait for class
 		(*it)->draw();
 	}
 	_physicEngine->setCamPos(_map->getCamPos());
@@ -99,7 +101,7 @@ void GameScreen::update(void)
 		
 		std::cout << "LE CLICK x "  << tmp_begin.x << " y " << tmp_begin.y << std::endl;
 		std::cout << "LE JOUEUR  x "  << tmp_end.x << " y " << tmp_end.y << std::endl;
-		_physicEngine->findMeAPath(tmp_end, tmp_begin);
+		_physicEngine->findMeAPath(tmp_end, tmp_begin, *_players[0]);
 		//_physicEngine->addVertexPoint(tmp);
 
 		//_physicEngine->addVertexPoint(_players.front->getPosition());

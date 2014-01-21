@@ -3,11 +3,12 @@
 #include "IEntity.h"
 #include "Compartment.h"
 #include "Water.h"
+#include "Camera.h"
 
 class Player : public IEntity
 {
 public:
-	Player(sf::Vector2f &pos);
+	Player(sf::Vector2f &pos, Camera *cam);
 	void doAction(IEntity* other);
 	void getAction(IEntity* other);
 	void drink(Water *);
@@ -19,13 +20,14 @@ public:
 	void setPosition(sf::Vector2f &pos);
 	
 	sf::Vector2f  getPosition() const;
-	void setPath(std::list<sf::Vector2f >& );
+	void setPath(std::list<std::pair<float, float> >& );
 	
 	void move(sf::Vector2f & pos);
 	int getDamage(void) const;
 	Type getType() const;
 	void addCompartment(sf::RectangleShape &);
 	void addEntityInInventory(IEntity *entity);
+	void moveToNextWP();
 	//sf::Rect & getCollisionBox(void);
 
 	//TODO : Changer en compartments pour l'inventaire
@@ -34,11 +36,12 @@ public:
 	// std::vector<IEntity *> _inventary;
 protected:
 private:
-	std::list<sf::Vector2f > _path;
 	
-	sf::RectangleShape _rect;
-	sf::Vector2f _cam;
-	sf::Vector2f _pos;
+	Camera						*_camera;
+	std::list<std::pair<float, float> >	_path;
+	
+	sf::RectangleShape			_rect;
+	sf::Vector2f				_pos;
 	sf::Vector2f _posDisp;
 	unsigned int _sizeInventory;
 	std::string _name;

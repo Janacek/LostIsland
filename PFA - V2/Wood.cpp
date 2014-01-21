@@ -49,7 +49,7 @@ sf::Vector2f  Wood::getPosition() const
 	return _pos;
 }
 
-void Wood::setPath(std::list<sf::Vector2f > &path)
+void Wood::setPath(std::list<std::pair<float, float> > &path)
 {
 	_path = path;
 }

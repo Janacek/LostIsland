@@ -16,7 +16,7 @@ public:
 	void draw();
 	Type getType() const;
 	int getDamage(void) const;
-	void setPath(std::list<sf::Vector2f >& path);
+	void setPath(std::list<std::pair<float, float> >&  path);
 	
 	void setPosition(sf::Vector2f &);
 	sf::Vector2f  getPosition() const;
@@ -24,7 +24,7 @@ public:
 	//sf::Rect & getCollisionBox(void);
 
 private:
-	std::list<sf::Vector2f > _path;
+	std::list<std::pair<float, float> > _path;
 	int				_damages;
 	sf::Vector2f	_position;
 

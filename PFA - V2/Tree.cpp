@@ -41,9 +41,9 @@ sf::Vector2f Tree::getPosition() const
 	return (_position);
 }
 
-void Tree::setPath(std::list<sf::Vector2f > &path)
+void Tree::setPath(std::list<std::pair<float, float> >& path)
 {
-	
+		
 }
 
 void Tree::draw()

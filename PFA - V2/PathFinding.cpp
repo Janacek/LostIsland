@@ -3,8 +3,9 @@
 #include "PathFinding.h"
 #include "Map.h"
 
-void PathFinding::initPathfinding(Map* &map)
+void PathFinding::initPathfinding(Map* &map, Camera *cam)
 {
+	_cam = cam;
 	bool isPass = false;
 	int i;
 
@@ -50,6 +51,7 @@ void PathFinding::initPathfinding(Map* &map)
 					{
 						tmp.second += 1;
 						tmp_add.second += 1;
+
 					}
 					else if (u == 2)
 					{
@@ -162,7 +164,7 @@ void PathFinding::initPathfinding(Map* &map)
 						}
 						else
 						{
-							
+
 							WayPointID wpID2 = (*it_b);
 							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN)
 							{
@@ -197,7 +199,7 @@ void PathFinding::initPathfinding(Map* &map)
 
 
 
-void PathFinding::updatePath(sf::Vector2f &cam)
+void PathFinding::updatePath()
 {
 
 
@@ -237,19 +239,19 @@ void PathFinding::updatePath(sf::Vector2f &cam)
 	//sprite.setPosition(0, 0);
 
 	//Singleton::getInstance()._window->draw(sprite);
-	if (this->shortest_path.empty() == false)
+	/*if (this->shortest_path.empty() == false)
 	{
 		for (std::list<WayPointID>::iterator it = this->shortest_path.begin(); it != shortest_path.end(); ++it)
 		{
 			sf::CircleShape circle;
 
-			circle.setPosition((sf::Vector2f((boost::get(boost::vertex_bundle, graphe)[*it].pos.first - cam.x) * Chunk::SIZE_OF_CELL - 5, (boost::get(boost::vertex_bundle, graphe)[*it].pos.second - cam.y) * Chunk::SIZE_OF_CELL - 5)));
+			circle.setPosition((sf::Vector2f((boost::get(boost::vertex_bundle, graphe)[*it].pos.first - _cam->_position.x) * Chunk::SIZE_OF_CELL - 5, (boost::get(boost::vertex_bundle, graphe)[*it].pos.second - _cam->_position.y) * Chunk::SIZE_OF_CELL - 5)));
 			circle.setRadius(10.f);
 			circle.setFillColor(sf::Color(0, 0, 250));
 
 			Singleton::getInstance()._window->draw(circle);
 		}
-	}
+	}*/
 	/*if (Singleton::getInstance().isValidating)
 	{
 	boost::mt19937 gen(time(0));
@@ -304,7 +306,7 @@ bool PathFinding::equal(const std::pair<float, float>& p1, const std::pair<float
 		std::fabs(p1.second - p2.second) < EPS);
 }
 
-void PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end)
+void PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &ent)
 {
 	std::vector<WayPointID> p(boost::num_vertices(graphe));
 	std::vector<float>      d(boost::num_vertices(graphe));
@@ -316,14 +318,11 @@ void PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end)
 
 	find_vertex(startPoint, graphe);
 	std::tie(start, vertex_start_found) = _vertex_found;
-	if (vertex_start_found)
+	if (!vertex_start_found)
 	{
-
-	//	std::cout << "start point found !!" << std::endl;
-	}
-	else
 		return;
-
+	}
+	
 	bool vertex_goal_found;
 	WayPointID goal;
 	WayPoint goalPoint;
@@ -332,10 +331,9 @@ void PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end)
 
 	find_vertex(goalPoint, graphe);
 	std::tie(goal, vertex_goal_found) = _vertex_found;
-	if (vertex_goal_found)
-		std::cout << "Goal point found" << std::endl;
-	else
+	if (!vertex_goal_found)
 		return;
+	std::list<std::pair<float, float>> shortest_path;
 	//std::cout << "debut x " << graphe[start].pos.first << " y " << graphe[start].pos.first << "FIN x" << graphe[goal].pos.first << " y " << graphe[goal].pos.second << std::endl;
 	//system("pause");
 	float weight = 1.f;
@@ -354,10 +352,12 @@ void PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end)
 
 		for (WayPointID v = goal;; v = p[v]) {
 			//std::cout << "WAY ! x" << graphe[v].pos.first << " y " << graphe[v].pos.second << std::endl;
-			shortest_path.push_front(v);
+			shortest_path.push_front(boost::get(boost::vertex_bundle, graphe)[v].pos);
 			if (p[v] == v)
 				break;
 		}
+		ent.setPath(shortest_path);
+
 	}
 }
 

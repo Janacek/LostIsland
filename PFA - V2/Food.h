@@ -9,7 +9,7 @@ public:
 	Food(void);
 	void doAction(IEntity* other);
 	void getAction(IEntity* other);
-	void setPath(std::list<sf::Vector2f > &);
+	void setPath(std::list<std::pair<float, float> >&);
 
 	void Animate(std::string const & string_anim);
 	int getDamage(void) const;
@@ -20,7 +20,7 @@ public:
 	Type getType() const;
 	~Food(void);
 private:
-	std::list<sf::Vector2f > _path;
+	std::list<std::pair<float, float> > _path;
 	sf::Vector2f			_pos;
 
 };

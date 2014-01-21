@@ -41,7 +41,7 @@ sf::Vector2f  Food::getPosition() const
 	return _pos;
 }
 
-void Food::setPath(std::list<sf::Vector2f > &path)
+void Food::setPath(std::list<std::pair<float, float> >& path)
 {
 	_path = path;
 }
