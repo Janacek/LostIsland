@@ -50,7 +50,7 @@ void InventaryWindow::createOnglets()
 	int i = 0;
 	for (Player *p : this->_players)
 	{
-		for (int i = 0; i < 9; i++)
+		for (i = 0; i < 9; i++)
 			p->addCompartment(this->_window);
 		os << i;
 		p->setName("Player " + os.str());

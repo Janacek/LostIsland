@@ -26,9 +26,18 @@ void GameScreen::events(sf::Event &)
 
 void GameScreen::initialize(void)
 {
+	
+	
 	for (int i = 0; i < 2; i++)
 	{
+		
 		this->_players.push_back(new Player(sf::Vector2f(60 + i * 3, 100), &_camera));
+	}
+	for (std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
+	{
+		
+		(*it)->loadAnimation("zelda.png");
+			
 	}
 	this->_activeInventary = false;
 	this->_inventory = new InventaryWindow(this->_players);
@@ -41,7 +50,9 @@ void GameScreen::initialize(void)
 	_statisticsText.setPosition(0, 30);
 
 	//initialisation de l'image du pointeur
+	
 	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
+
 
 }
 
@@ -51,16 +62,16 @@ void GameScreen::draw()
 	_t = Singleton::getInstance()._clock->restart();
 	//updateStatistics(_t);
 	this->_map->draw(Singleton::getInstance()._window);
-	this->_map->drawMiniMap(Singleton::getInstance()._window);
-
+	
 	//Singleton::getInstance()._window->draw(_statisticsText);
 
 	//tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
 	for (std::vector<Player *>::iterator it = _players.begin() ; it != _players.end() ; ++it)
 	{
-		//(*it)->setCamPos(_map->getCamPos()); // tmp wait for class
 		(*it)->draw();
+		break
 	}
+	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());
 	_physicEngine->update();
 
@@ -107,6 +118,10 @@ void GameScreen::update(void)
 		//_physicEngine->addVertexPoint(_players.front->getPosition());
 
 		//on click sur une case donc du coup le waypoint existe et pareil pour la pos du player
+	}
+	for(std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
+	{
+		(*it)->update();
 	}
 	_map->update();
 

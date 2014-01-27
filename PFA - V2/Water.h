@@ -11,9 +11,10 @@ public:
 	void getAction(IEntity* other);
 	void draw();
 	void setPosition(sf::Vector2f &pos);
-	void Animate(std::string const & string_anim);
+	void loadAnimation(std::string const & string_anim);
 	int getDamage(void) const;
 	Type getType() const;
+	void update();
 	~Water(void);
 	void setPath(std::list<std::pair<float, float> > &path);
 

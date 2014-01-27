@@ -16,7 +16,11 @@ void Food::getAction(IEntity* other)
 
 }
 
-void Food::Animate(std::string const & string_anim)
+void Food::loadAnimation(std::string const & string_anim)
+{
+
+}
+void Food::update()
 {
 
 }

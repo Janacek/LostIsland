@@ -11,6 +11,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	this->_sizeInventory = 0;
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(pos);
+	this->_imgAnim = new sf::Texture;
 	_rect.setFillColor(sf::Color::Red);
 }
 
@@ -58,31 +59,51 @@ void Player::moveToNextWP()
 		
 		if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y))
 		{
-			std::cout << "coucou" << std::endl;
 			_path.pop_front();
 		}
 
 		if (_pos.x > _path.front().first)
-			_pos.x -= 0.1;
+			_pos.x -= 0.1f;
 		if (_pos.x < _path.front().first)
-			_pos.x += 0.1;
+			_pos.x += 0.1f;
 		if (_pos.y > _path.front().second)
-			_pos.y -= 0.1;
+			_pos.y -= 0.1f;
 		if (_pos.y < _path.front().second)
-			_pos.y += 0.1;
-		
+			_pos.y += 0.1f;
 		
 	}
 }
 
 void Player::draw()
 {
+
 	moveToNextWP();
 	_posDisp.x = (_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL;
 	_posDisp.y = (_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL;
 	
 	_rect.setPosition(_posDisp);
 	Singleton::getInstance()._window->draw(_rect);
+	this->_anim->play();
+	this->_anim->show(_posDisp);
+}
+
+void Player::update()
+{
+	
+
+}
+
+void Player::loadAnimation(std::string const & string_anim)
+{
+	std::cout << "SHO" << std::endl;
+	sf::Color color(255, 0, 255);
+	if (!_imgAnim->loadFromFile(string_anim))
+		std::cerr << "image non charge" << std::endl;
+	sf::Image img_tmp = this->_imgAnim->copyToImage();
+	img_tmp.createMaskFromColor(color);
+	this->_imgAnim->loadFromImage(img_tmp);
+	this->_anim = new Animation(*this->_imgAnim, 7, 3, (float)0.1);
+	this->_anim->setAnimation(0);
 }
 
 void Player::move(sf::Vector2f &pos)
@@ -123,9 +144,7 @@ void Player::getAction(IEntity* other)
 	this->_damages -= other->getDamage();
 }
 
-void Player::Animate(std::string const & string_anim)
-{
-}
+
 
 void Player::setName(std::string const &name)
 {

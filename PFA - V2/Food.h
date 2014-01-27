@@ -10,8 +10,8 @@ public:
 	void doAction(IEntity* other);
 	void getAction(IEntity* other);
 	void setPath(std::list<std::pair<float, float> >&);
-
-	void Animate(std::string const & string_anim);
+	void update();
+	void loadAnimation(std::string const & string_anim);
 	int getDamage(void) const;
 	void draw();
 	void setPosition(sf::Vector2f &pos);

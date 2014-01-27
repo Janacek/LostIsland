@@ -301,7 +301,7 @@ void PathFinding::find_vertex(const WayPoint& wp, const WayPointGraph& graph)
 
 bool PathFinding::equal(const std::pair<float, float>& p1, const std::pair<float, float>& p2)
 {
-	const float EPS = 1e-6;
+	const float EPS = 1e-6f;
 	return (std::fabs(p1.first - p2.first) < EPS &&
 		std::fabs(p1.second - p2.second) < EPS);
 }

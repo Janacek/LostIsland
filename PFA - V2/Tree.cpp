@@ -16,7 +16,12 @@ void Tree::getAction(IEntity* other)
 	}
 }
 
-void Tree::Animate(std::string const & string_anim)
+void Tree::update()
+{
+	
+}
+
+void Tree::loadAnimation(std::string const & string_anim)
 {
 }
 
