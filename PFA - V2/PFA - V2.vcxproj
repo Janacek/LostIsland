@@ -111,8 +111,7 @@
     <ClCompile Include="GestionClick.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
     <ClCompile Include="ImageSingleton.cpp" />
-    <ClCompile Include="InventaryWindow.cpp" />
-    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="InventoryWindow.cpp" />
     <ClCompile Include="KeyboardControler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -121,7 +120,6 @@
     <ClCompile Include="Mutex.cpp" />
     <ClCompile Include="MutexWin.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Onglet.cpp" />
     <ClCompile Include="PalmTree.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
@@ -158,8 +156,7 @@
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IEntity.h" />
     <ClInclude Include="ImageSingleton.h" />
-    <ClInclude Include="InventaryWindow.h" />
-    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InventoryWindow.h" />
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="KeyboardControler.h" />
     <ClInclude Include="Map.h" />

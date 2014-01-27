@@ -31,10 +31,8 @@ void GameScreen::initialize(void)
 		this->_players.push_back(new Player(sf::Vector2f(60 + i * 3, 100), &_camera));
 	}
 	this->_activeInventary = false;
-	this->_inventory = new InventaryWindow(this->_players);
+	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
-	this->_crafting = new Crafting;
-	this->_stuff = new Stuff;
 	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
 	_statisticsText.setPosition(5.f, 5.f);
 	_statisticsText.setCharacterSize(10);
@@ -67,12 +65,8 @@ void GameScreen::draw()
 	if (this->_activeInventary)
 	{
 		this->_inventory->draw();
-		this->_crafting->draw();
-		this->_stuff->draw();
 		drawMouse();
 		this->_inventory->update();
-		this->_crafting->update();
-		this->_stuff->update();
 		checkClicks();
 		checkClose();
 	}
@@ -185,7 +179,7 @@ void GameScreen::updateObjectsPos()
 
 void GameScreen::saveClick(bool click)
 {
-	if (click)
+	/*if (click)
 	{
 		std::cout << "Je clique : " << Singleton::getInstance().posLeftClickPressed.x << " " << Singleton::getInstance().posLeftClickPressed.y << std::endl;
 		if (this->_inventory->clickInWindow(Singleton::getInstance().posLeftClickPressed))
@@ -226,16 +220,16 @@ void GameScreen::saveClick(bool click)
 			return ;
 		}
 		this->_mousePicture.setTexture(NULL);
-	}
+	}*/
 }
 
 void GameScreen::checkClose()
 {
-	if (this->_stuff->close() == true || this->_crafting->close() == true || this->_inventory->close() == true)
+	/*if (this->_stuff->close() == true || this->_crafting->close() == true || this->_inventory->close() == true)
 	{
 		this->_activeInventary = false;
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
-	}
+	}*/
 }
 
 void GameScreen::checkInput()

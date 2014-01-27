@@ -4,9 +4,8 @@
 #include <functional>
 #include "IScreen.h"
 #include "Player.h"
-#include "InventaryWindow.h"
-#include "Crafting.h"
-#include "Stuff.h"
+#include "InventoryWindow.h"
+#include "AWindow.h"
 #include "Map.h"
 #include "GestionClick.h"
 #include "PhysicEngine.h"
@@ -47,9 +46,7 @@ private:
 	sf::Clock			_clickClock;
 	std::vector<Player *>	_players;
 	std::vector<IEntity *>	_entities;
-	InventaryWindow			*_inventory;
-	Crafting			*_crafting;
-	Stuff				*_stuff;
+	InventoryWindow			*_inventory;
 	sf::Text			_statisticsText;
 	std::size_t			_statisticsNumFrames;
 	sf::Time			_statisticsUpdateTime;
