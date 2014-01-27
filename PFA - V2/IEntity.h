@@ -20,8 +20,7 @@ enum Type
 	BUSH,
 	BUSH_FRUITS,
 	PALMTREE,
-	CLOSE_BUTTON //TMP TU DECONNES REMY
-};
+}; //ok j'ai enlevé le close_button
 
 class IEntity
 {

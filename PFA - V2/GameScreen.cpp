@@ -20,8 +20,9 @@ GameScreen::GameScreen()
 	_physicEngine->init();
 }
 
-void GameScreen::events(sf::Event &)
+void GameScreen::events(sf::Event &e)
 {
+	this->_inventory->_desktop.HandleEvent(e);
 }
 
 void GameScreen::initialize(void)
@@ -33,6 +34,7 @@ void GameScreen::initialize(void)
 	this->_activeInventary = false;
 	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
+	this->_inventory->createTabs(this->_players);
 	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
 	_statisticsText.setPosition(5.f, 5.f);
 	_statisticsText.setCharacterSize(10);
@@ -65,10 +67,6 @@ void GameScreen::draw()
 	if (this->_activeInventary)
 	{
 		this->_inventory->draw();
-		drawMouse();
-		this->_inventory->update();
-		checkClicks();
-		checkClose();
 	}
 	checkInput();
 	Singleton::getInstance()._window->display();
@@ -76,6 +74,8 @@ void GameScreen::draw()
 
 void GameScreen::update(void)
 {
+	if (_activeInventary)
+		this->_inventory->update();
 	if (!Singleton::getInstance().isRightClicking)
 	{
 		_isFirst = true;
