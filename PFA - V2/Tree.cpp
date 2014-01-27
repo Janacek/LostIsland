@@ -53,15 +53,7 @@ void Tree::setPath(std::list<std::pair<float, float> >& path)
 
 void Tree::draw()
 {
-	//std::cout << "zefzef" << std::endl;
-	int posX = _position.x - Singleton::getInstance()._window->getSize().x;
-	int posY = _position.y - Singleton::getInstance()._window->getSize().y;
 
-	//std::cout << posX << std::endl;
-	
-	sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
-	tmp.setPosition(posX, posY);
-	Singleton::getInstance()._window->draw(tmp);
 }
 
 

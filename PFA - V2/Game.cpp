@@ -19,6 +19,7 @@ void Game::init()
 	Singleton& ptr1 = Singleton::getInstance();
 	ImageSingleton::getInstance().start();
 	ptr1._window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Lost Island");
+//	ptr1._window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Lost Island");
 	ptr1._window->setFramerateLimit(60);
 
 	ptr1._window->setActive(false);

@@ -26,21 +26,3 @@ private:
 	~ImageSingleton();
 	std::map<Type,	sf::Texture *> _mapTexture;
 };
-// 
-// class ImageSingleton
-// {
-// public:
-// 	static ImageSingleton& getInstance();
-// 
-// 	void					start();
-//  	sf::Texture				*_waterTexture;
-//  	sf::Texture				*_treeTexture;
-//  	sf::Texture				*_foodTexture;
-//  	sf::Texture				*_woodTexture;
-// 
-// private:
-// 	ImageSingleton(const ImageSingleton&) {};
-// 	static ImageSingleton m_instance;
-// 	ImageSingleton();
-// 	~ImageSingleton();
-// };

@@ -17,6 +17,12 @@
 
 #include					<list>
 #include					"Tree.h"
+
+#include					"MapEnvironment.h"
+#include					"ForestTree.h"
+#include					"Bush.h"
+#include					"PalmTree.h"
+
 #include <algorithm>
 
 /*
@@ -76,6 +82,7 @@ private:
 	// THIS CAN HAS A GETTER
 	Chunk					**_map;		  // Map container.
 	Cell					**_cellMap;	  // Cell Map container.
+	MapEnvironment			**_entitiesMap; // Enitites container.
 
 	// LATER BE TEXTURE INSTEAD OF COLOR
 	std::map<Cell::Type, sf::Color>				_typeToColor;

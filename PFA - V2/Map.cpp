@@ -399,103 +399,82 @@ void						Map::draw(sf::RenderWindow *win)
 			tmp.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
 				(i -_camera->_position.y) * Chunk::SIZE_OF_CELL);
 			win->draw(tmp);
+
+			sf::Vector2f savePos;
+			if (_entitiesMap[i][j]._component != NULL)
+			{
+				savePos = _entitiesMap[i][j]._component->getPosition();
+				_entitiesMap[i][j]._component->setPosition(sf::Vector2f((j - _camera->_position.x) * Chunk::SIZE_OF_CELL
+					, (i - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20));
+				_entitiesMap[i][j]._component->draw();
+				_entitiesMap[i][j]._component->setPosition(savePos);
+			}
 		}
 	}
-	std::list<Tree *>::iterator it = _trees.begin();
-	for (; it != _trees.end() ; ++it)
-	{
-		//(*it)->draw();
-		sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
-		int posX = (((*it)->getPosition().y) - _camera->_position.x) * Chunk::SIZE_OF_CELL;
-		int posY = (((*it)->getPosition().x) - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20;
-		tmp.setPosition(posX, posY);
-		Singleton::getInstance()._window->draw(tmp);
-	}
 
-	it = _bushes.begin();
-	for (; it != _bushes.end() ; ++it)
-	{
-		//(*it)->draw();
-		int posX = (((*it)->getPosition().y) - _camera->_position.x) * Chunk::SIZE_OF_CELL;
-		int posY = (((*it)->getPosition().x) - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20;
-
-		int sib = (*it)->getPosition().x;
-
-		sf::Sprite tmp((*ImageSingleton::getInstance().get(sib % 2 ? BUSH : BUSH_FRUITS)));
-
-		tmp.setPosition(posX, posY);
-		Singleton::getInstance()._window->draw(tmp);
-	}
-
-	it = _palmtrees.begin();
-	for (; it != _palmtrees.end() ; ++it)
-	{
-		//(*it)->draw();
-		sf::Sprite tmp((*ImageSingleton::getInstance().get(PALMTREE)));
-		int posX = (((*it)->getPosition().y) - _camera->_position.x) * Chunk::SIZE_OF_CELL;
-		int posY = (((*it)->getPosition().x) - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20;
-		tmp.setPosition(posX, posY);
-		Singleton::getInstance()._window->draw(tmp);
-	}
-}
-
-static bool cmpFunc(Tree *t1, Tree *t2)
-{
-	return (t1->getPosition().x < t2->getPosition().x);
 }
 
 void						Map::generateTrees()
 {
+
+	_entitiesMap = new MapEnvironment*[_size.y * Chunk::NB_CELLS];
+	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
+		_entitiesMap[i] = new MapEnvironment[_size.x * Chunk::NB_CELLS]();
+
 	for (int i = 0 ; i < 500 ; )
 	{
 		int x = rand() % (_size.x * Chunk::NB_CELLS);
 		int y = rand() % (_size.y  * Chunk::NB_CELLS);
-		if (_cellMap[x][y]._cellType == Cell::FOREST)
+		if (_cellMap[x][y]._cellType == Cell::FOREST &&
+			_entitiesMap[x][y]._component == NULL)
 		{
-			Tree *tmp;
+		/*	Tree *tmp;
 			tmp = new Tree();
-			tmp->setPosition(sf::Vector2f(x, y));
+			tmp->setPosition(sf::Vector2f(x, y));*/
 
-			_trees.push_back(tmp);
+			_entitiesMap[x][y]._component = new ForestTree();
+			_entitiesMap[x][y]._component->setPosition(sf::Vector2f(x, y));
+
 			++i;
 		}
 	}
-	_trees.sort(cmpFunc);
 
 
 	for (int i = 0 ; i < 50 ; )
 	{
 		int x = rand() % (_size.x * Chunk::NB_CELLS);
 		int y = rand() % (_size.y  * Chunk::NB_CELLS);
-		if (_cellMap[x][y]._cellType == Cell::GRASS)
+		if (_cellMap[x][y]._cellType == Cell::GRASS &&
+			_entitiesMap[x][y]._component == NULL)
 		{
-			Tree *tmp;
-			tmp = new Tree();
+			Bush *tmp;
+			tmp = new Bush();
 			tmp->setPosition(sf::Vector2f(x, y));
 
-			_bushes.push_back(tmp);
+			_entitiesMap[x][y]._component = tmp;
+
+
 			++i;
 		}
 	}
-	_bushes.sort(cmpFunc);
-
 
 
 	for (int i = 0 ; i < 50 ; )
 	{
 		int x = rand() % (_size.x * Chunk::NB_CELLS);
 		int y = rand() % (_size.y  * Chunk::NB_CELLS);
-		if (_cellMap[x][y]._cellType == Cell::SAND)
+		if (_cellMap[x][y]._cellType == Cell::SAND &&
+			_entitiesMap[x][y]._component == NULL)
 		{
-			Tree *tmp;
-			tmp = new Tree();
+			PalmTree *tmp;
+			tmp = new PalmTree();
 			tmp->setPosition(sf::Vector2f(x, y));
 
-			_palmtrees.push_back(tmp);
+			_entitiesMap[x][y]._component = tmp;
+
 			++i;
 		}
 	}
-	_palmtrees.sort(cmpFunc);
 }
 
 Chunk						**Map::getMap() const
