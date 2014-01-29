@@ -53,7 +53,7 @@ void Water::getAction(IEntity* other)
 	player->addEntityInInventory(this);
 }
 
-void Water::loadAnimation(std::string const & string_anim)
+void Water::loadAnimation(std::string const & string_anim, float speed)
 {
 
 }

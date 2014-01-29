@@ -9,7 +9,7 @@ public:
 	Wood(void);
 	virtual void doAction(IEntity* other);
 	virtual void getAction(IEntity* other);
-	virtual void loadAnimation(std::string const & string_anim);
+	virtual void loadAnimation(std::string const & string_anim, float speed);
 	virtual int getDamage(void) const;
 	virtual void draw();
 	virtual void setPosition(sf::Vector2f &pos);

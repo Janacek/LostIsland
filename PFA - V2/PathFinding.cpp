@@ -27,10 +27,12 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 			// on doit passer par tous les points adjacent aux points courants
 			// le truc cest que Il ne peut pas y avoir 2 meme points dans la liste
 
-			if (map->getCellMap()[i][j]._cellType != Cell::OCEAN)
+			
+			if (map->getCellMap()[i][j]._cellType != Cell::OCEAN && map->getEntitiesMap()[i][j]._component == NULL)
 			{
+		
 				WayPointID wpID = boost::add_vertex(graphe);
-				graphe[wpID].pos.first = j;
+				graphe[wpID].pos.first = j ;
 				graphe[wpID].pos.second = i;
 				for (int u = 0; u < 8; ++u)
 				{
@@ -46,18 +48,29 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 					{
 						tmp.first += 1;
 						tmp_add.first += 1;
+						if (map->getCellMap()[tmp_add.second][tmp_add.first + 1]._cellType != Cell::OCEAN
+							&& map->getEntitiesMap()[tmp_add.second][tmp_add.first + 1]._component == NULL)
+						{
+							isOk = false;
+						}
 					}
 					else if (u == 1)
 					{
 						tmp.second += 1;
 						tmp_add.second += 1;
+						if (map->getCellMap()[tmp_add.second + 1][tmp_add.first]._cellType != Cell::OCEAN
+							&& map->getEntitiesMap()[tmp_add.second + 1][tmp_add.first]._component == NULL)
+						{
+							isOk = false;
+						}
 
 					}
 					else if (u == 2)
 					{
 						tmp.first -= 1;
 						tmp_add.first -= 1;
-						if (map->getCellMap()[tmp_add.second][tmp_add.first - 1]._cellType != Cell::OCEAN)
+						if (map->getCellMap()[tmp_add.second][tmp_add.first - 1]._cellType != Cell::OCEAN 
+							&& map->getEntitiesMap()[tmp_add.second][tmp_add.first - 1]._component == NULL)
 						{
 							isOk = false;
 						}
@@ -66,17 +79,20 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 					{
 						tmp.second -= 1;
 						tmp_add.second -= 1;
-						if (map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN)
+						if (map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN
+							&& map->getEntitiesMap()[tmp_add.second - 1][tmp_add.first]._component == NULL)
 						{
 							isOk = false;
 						}
 					}
-					else if (u == 4)
+					/*else if (u == 4)
 					{
 						tmp_add.first += 1;
 						tmp_add.second += 1;
-						if (map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN &&
-							map->getCellMap()[tmp_add.second][tmp_add.first - 1]._cellType != Cell::OCEAN)
+						if ((map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN &&
+							map->getCellMap()[tmp_add.second][tmp_add.first - 1]._cellType != Cell::OCEAN)&&
+							(map->getEntitiesMap()[tmp_add.second -1][tmp_add.first]._component == NULL &&
+							map->getEntitiesMap()[tmp_add.second][tmp_add.first - 1]._component == NULL))
 						{
 							tmp.first += 1;
 							tmp.second += 1;
@@ -91,8 +107,10 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 
 						tmp_add.second += 1;
 
-						if (map->getCellMap()[tmp_add.second][tmp_add.first + 1]._cellType != Cell::OCEAN &&
-							map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN)
+						if ((map->getCellMap()[tmp_add.second][tmp_add.first + 1]._cellType != Cell::OCEAN &&
+							map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN) &&
+							(map->getEntitiesMap()[tmp_add.second][tmp_add.first+ 1]._component == NULL &&
+							map->getEntitiesMap()[tmp_add.second - 1][tmp_add.first ]._component == NULL))
 						{
 							tmp.first -= 1;
 							tmp.second += 1;
@@ -107,8 +125,10 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 
 						tmp_add.second -= 1;
 
-						if (map->getCellMap()[tmp_add.second + 1][tmp_add.first]._cellType != Cell::OCEAN &&
-							map->getCellMap()[tmp_add.second][tmp_add.first + 1]._cellType != Cell::OCEAN)
+						if ((map->getCellMap()[tmp_add.second + 1][tmp_add.first]._cellType != Cell::OCEAN &&
+							map->getCellMap()[tmp_add.second][tmp_add.first + 1]._cellType != Cell::OCEAN) &&
+							(map->getEntitiesMap()[tmp_add.second + 1][tmp_add.first]._component == NULL &&
+							map->getEntitiesMap()[tmp_add.second][tmp_add.first + 1]._component == NULL))
 						{
 							tmp.first -= 1;
 							tmp.second -= 1;
@@ -123,8 +143,10 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 
 						tmp_add.second -= 1;
 
-						if (map->getCellMap()[tmp_add.second][tmp_add.first - 1]._cellType != Cell::OCEAN &&
-							map->getCellMap()[tmp_add.second + 1][tmp_add.first]._cellType != Cell::OCEAN)
+						if ((map->getCellMap()[tmp_add.second][tmp_add.first - 1]._cellType != Cell::OCEAN &&
+							map->getCellMap()[tmp_add.second + 1][tmp_add.first]._cellType != Cell::OCEAN) &&
+							(map->getEntitiesMap()[tmp_add.second ][tmp_add.first - 1]._component == NULL &&
+							map->getEntitiesMap()[tmp_add.second + 1][tmp_add.first ]._component == NULL))
 						{
 							tmp.first += 1;
 							tmp.second -= 1;
@@ -132,7 +154,7 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 						}
 						else
 							isOk = true;
-					}
+					}*/
 					//std::cout << " x " << boost::get(boost::vertex_bundle, graphe)[*it].pos.first  << " y " << boost::get(boost::vertex_bundle, graphe)[*it].pos.second << std::endl;		
 					if (tmp.first >= 0 && tmp.second >= 0 && tmp.first <= map->getSize().x  * Chunk::NB_CELLS && tmp.second <= map->getSize().y  * Chunk::NB_CELLS && isOk == false)
 					{
@@ -151,7 +173,7 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 							WayPointID wpID2 = boost::add_vertex(graphe);
 
 							graphe[wpID2].pos = tmp;
-							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN)
+							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN && map->getEntitiesMap()[tmp_add.second][tmp_add.first ]._component == NULL)
 							{
 								float dx = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first) * Chunk::SIZE_OF_CELL;
 								float dy = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second) * Chunk::SIZE_OF_CELL;
@@ -166,7 +188,7 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 						{
 
 							WayPointID wpID2 = (*it_b);
-							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN)
+							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN && map->getEntitiesMap()[tmp_add.second][tmp_add.first - 1]._component == NULL)
 							{
 								float dx = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second) * Chunk::SIZE_OF_CELL;
 								float dy = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first) * Chunk::SIZE_OF_CELL;
@@ -210,26 +232,26 @@ void PathFinding::updatePath()
 	edge_iterator_t ei, ei_end;
 
 
-	//for (boost::tie(ei, ei_end) = boost::edges(graphe); ei != ei_end; ++ei)
-	//{
+	/*for (boost::tie(ei, ei_end) = boost::edges(graphe); ei != ei_end; ++ei)
+	{
 
-	//	sf::vector2f pt1;
-	//	pt1.x = (get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.first - cam.x) * chunk::size_of_cell;
-	//	pt1.y = (get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.second - cam.y) * chunk::size_of_cell;
+		sf::Vector2f pt1;
+		pt1.x = (get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.first - _cam->_position.x) * Chunk::SIZE_OF_CELL;
+		pt1.y = (get(boost::vertex_bundle, graphe)[boost::source(*ei, graphe)].pos.second - _cam->_position.y) * Chunk::SIZE_OF_CELL;
 
-	//	sf::vector2f pt2;
-	//	pt2.x = (get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.first - cam.x) * chunk::size_of_cell;
-	//	pt2.y = (get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.second - cam.y) * chunk::size_of_cell;
+		sf::Vector2f pt2;
+		pt2.x = (get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.first - _cam->_position.x) * Chunk::SIZE_OF_CELL;
+		pt2.y = (get(boost::vertex_bundle, graphe)[boost::target(*ei, graphe)].pos.second - _cam->_position.y) * Chunk::SIZE_OF_CELL;
 
-	//	sf::vertex line[2] =
-	//	{
-	//		sf::vertex(pt1),
-	//		sf::vertex(pt2)
-	//	};
-	//	singleton::getinstance()._window->draw(line, 2, sf::lines);
+		sf::Vertex line[2] =
+		{
+			sf::Vertex(pt1),
+			sf::Vertex(pt2)
+		};
+		Singleton::getInstance()._window->draw(line, 2, sf::Lines);
 
-	//	std::cout << "point 1 x " <<  pt1.x << " y " << pt1.y << " pt 2 x "<< pt2.x << " y " << pt2.y << std::endl;  
-	//}
+		
+	}*/
 
 
 	//sf::Texture texture = rt.getTexture();

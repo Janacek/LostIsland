@@ -11,7 +11,7 @@ public:
 	void getAction(IEntity* other);
 	void draw();
 	void setPosition(sf::Vector2f &pos);
-	void loadAnimation(std::string const & string_anim);
+	void loadAnimation(std::string const & string_anim, float speed);
 	int getDamage(void) const;
 	Type getType() const;
 	void update();

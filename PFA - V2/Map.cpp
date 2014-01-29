@@ -487,6 +487,11 @@ Cell						**Map::getCellMap() const
 	return _cellMap;
 }
 
+MapEnvironment			**Map::getEntitiesMap() const
+{
+	return _entitiesMap;
+}
+
 sf::Vector2i				Map::getSize() const
 {
 	return this->_size;

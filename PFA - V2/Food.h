@@ -11,7 +11,7 @@ public:
 	void getAction(IEntity* other);
 	void setPath(std::list<std::pair<float, float> >&);
 	void update();
-	void loadAnimation(std::string const & string_anim);
+	void loadAnimation(std::string const & string_anim, float speed);
 	int getDamage(void) const;
 	void draw();
 	void setPosition(sf::Vector2f &pos);

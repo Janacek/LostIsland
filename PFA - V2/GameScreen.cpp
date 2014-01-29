@@ -31,15 +31,11 @@ void GameScreen::initialize(void)
 	
 	for (int i = 0; i < 2; i++)
 	{
-		
-		this->_players.push_back(new Player(sf::Vector2f(60 + i * 3, 100), &_camera));
+		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
+		p->loadAnimation("zelda.png", 0.1f);
+		this->_players.push_back(p);
 	}
-	for (std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
-	{
-		
-		(*it)->loadAnimation("zelda.png");
-			
-	}
+	
 	this->_activeInventary = false;
 	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
@@ -60,6 +56,7 @@ void GameScreen::draw()
 {
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
+	Singleton::getInstance()._animClock->restart();
 	//updateStatistics(_t);
 	this->_map->draw(Singleton::getInstance()._window);
 	
@@ -69,7 +66,7 @@ void GameScreen::draw()
 	for (std::vector<Player *>::iterator it = _players.begin() ; it != _players.end() ; ++it)
 	{
 		(*it)->draw();
-		break
+		//break;
 	}
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());

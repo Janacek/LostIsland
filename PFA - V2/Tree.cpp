@@ -21,7 +21,7 @@ void Tree::update()
 	
 }
 
-void Tree::loadAnimation(std::string const & string_anim)
+void Tree::loadAnimation(std::string const & string_anim, float speed)
 {
 }
 

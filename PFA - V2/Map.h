@@ -68,6 +68,7 @@ public:
 	void					update();
 	Chunk					**getMap() const;
 	Cell					**getCellMap() const;
+	MapEnvironment			**getEntitiesMap() const;
 	sf::Vector2i			getSize() const;
 
 

@@ -27,7 +27,7 @@ class IEntity
 public:
 	virtual void doAction(IEntity* other) = 0;
 	virtual void getAction(IEntity* other) = 0;
-	virtual void loadAnimation(std::string const & string_anim) = 0;
+	virtual void loadAnimation(std::string const & string_anim, float speed) = 0;
 	virtual void draw() = 0;
 	virtual void update() = 0;
 	virtual void setPath(std::list<std::pair<float, float> >&) = 0;

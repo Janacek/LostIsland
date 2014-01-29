@@ -15,7 +15,7 @@ public:
 	void drink(Water *);
 	std::string const &getName() const;
 	void setName(std::string const &);
-	void loadAnimation(std::string const & string_anim);
+	void loadAnimation(std::string const & string_anim, float speed);
 	void draw();
 	void setCamPos(sf::Vector2f &); // TMP LE TEMPS QUON AI LA BONNE CLASS
 	void setPosition(sf::Vector2f &pos);

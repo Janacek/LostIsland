@@ -14,7 +14,7 @@ class Tree : public IEntity
 public:
 	void doAction(IEntity* other);
 	void getAction(IEntity* other);
-	void loadAnimation(std::string const & string_anim);
+	void loadAnimation(std::string const & string_anim, float speed);
 	void draw();	void update();
 	Type getType() const;
 	int getDamage(void) const;

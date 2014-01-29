@@ -11,7 +11,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	this->_sizeInventory = 0;
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(pos);
-	this->_imgAnim = new sf::Texture;
+	
 	_rect.setFillColor(sf::Color::Red);
 }
 
@@ -83,7 +83,6 @@ void Player::draw()
 	
 	_rect.setPosition(_posDisp);
 	Singleton::getInstance()._window->draw(_rect);
-	this->_anim->play();
 	this->_anim->show(_posDisp);
 }
 
@@ -93,16 +92,17 @@ void Player::update()
 
 }
 
-void Player::loadAnimation(std::string const & string_anim)
+void Player::loadAnimation(std::string const & string_anim, float speed)
 {
 	std::cout << "SHO" << std::endl;
+	sf::Texture *imgAnim = new sf::Texture;
 	sf::Color color(255, 0, 255);
-	if (!_imgAnim->loadFromFile(string_anim))
+	if (!imgAnim->loadFromFile(string_anim))
 		std::cerr << "image non charge" << std::endl;
-	sf::Image img_tmp = this->_imgAnim->copyToImage();
+	sf::Image img_tmp = imgAnim->copyToImage();
 	img_tmp.createMaskFromColor(color);
-	this->_imgAnim->loadFromImage(img_tmp);
-	this->_anim = new Animation(*this->_imgAnim, 7, 3, (float)0.1);
+	imgAnim->loadFromImage(img_tmp);
+	this->_anim = new Animation(imgAnim, 7, 3,speed);
 	this->_anim->setAnimation(0);
 }
 
