@@ -32,6 +32,7 @@ void GameScreen::initialize(void)
 		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
 		p->loadAnimation("zelda.png", 0.1f);
 		this->_players.push_back(p);
+	
 	}
 	
 	this->_activeInventary = false;

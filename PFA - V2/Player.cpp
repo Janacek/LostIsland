@@ -131,7 +131,7 @@ void Player::draw()
 	
 	sf::Vector2f v(0, -10);
 	_rect.setPosition(_posDisp );
-	//Singleton::getInstance()._window->draw(_rect);
+	Singleton::getInstance()._window->draw(_rect);
 	this->_anim->show(_posDisp + v);
 }
 
