@@ -140,7 +140,7 @@ void GameScreen::checkClicks()
 
 bool GameScreen::checkImpossibleCase() const
 {
-
+	return true;
 }
 
 
