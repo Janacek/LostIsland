@@ -18,9 +18,21 @@ void InventoryWindow::createWindow()
 
 void InventoryWindow::createTabs(std::vector<Player *>&players)
 {
-	this->_noteBook = sfg::Notebook::Create();
+	this->_firstN = sfg::Notebook::Create();
+	this->_secondN = sfg::Notebook::Create();
+	auto box = sfg::Box::Create();
+	auto bout = sfg::Button::Create();
+	box->Add(bout);
+	this->_firstN->AppendPage(sfg::Label::Create(L""), sfg::Label::Create("booout"));
+	this->_secondN->AppendPage(box, sfg::Label::Create("tameree"));
+
+	this->_firstN->AppendPage(this->_secondN, sfg::Label::Create("second"));
+	
+	this->_inventoryWindow->Add(this->_firstN);
+	//this->_inventoryWindow->Add(this->_secondN);
+	/*this->_noteBook = sfg::Notebook::Create();
 	auto bou = sfg::Button::Create();
-	this->_noteBook->AppendPage(bou, sfg::Label::Create("Prout"));
+	//this->_noteBook->AppendPage(players.front()->_book, 
 	for (Player *u : players)
 	{
 		std::cout << "PPPPPPPPPPPPDEKF?EKF?EKF?EKF?EK" << std::endl;
@@ -28,12 +40,12 @@ void InventoryWindow::createTabs(std::vector<Player *>&players)
 	}
 	_noteBook->SetScrollable(true);
 	_noteBook->SetRequisition(sf::Vector2f(200.f, 0.f));
-	this->_inventoryWindow->Add(_noteBook);
+	this->_inventoryWindow->Add(_noteBook);*/
 }
 
 void InventoryWindow::createCompartment(Player *player)
 {
-	//on crée la structure
+	/*//on crée la structure
 	auto boxmain = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
 	auto table = sfg::Table::Create();
 	for (int i = 0; i < 3; i++)
@@ -48,7 +60,7 @@ void InventoryWindow::createCompartment(Player *player)
 	}
 	boxmain->Pack(table, false);
 	_noteBook->AppendPage(boxmain, sfg::Label::Create("New Player"));
-	this->_inventoryWindow->Add(_noteBook);
+	this->_inventoryWindow->Add(_noteBook);*/
 
 }
 void InventoryWindow::init()

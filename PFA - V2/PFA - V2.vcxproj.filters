@@ -84,12 +84,6 @@
     <ClCompile Include="ThreadWin.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Crafting.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Stuff.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Chunk.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -114,12 +108,6 @@
     <ClCompile Include="FontManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="AComponent.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ClickableButton.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="MapEnvironment.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -133,9 +121,6 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="InventoryWindow.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="AWindow.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,12 +188,6 @@
     <ClInclude Include="Map.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Crafting.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Stuff.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Onglet.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -239,12 +218,6 @@
     <ClInclude Include="SystemDefines.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="AComponent.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ClickableButton.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="MapEnvironment.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -258,9 +231,6 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="InventoryWindow.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="AWindow.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

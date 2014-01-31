@@ -92,16 +92,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AComponent.cpp" />
     <ClCompile Include="Area.cpp" />
-    <ClCompile Include="AWindow.cpp" />
     <ClCompile Include="Bush.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Chunk.cpp" />
-    <ClCompile Include="ClickableButton.cpp" />
     <ClCompile Include="Compartment.cpp" />
-    <ClCompile Include="Crafting.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="ForestTree.cpp" />
@@ -127,7 +123,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="StartScreen.cpp" />
-    <ClCompile Include="Stuff.cpp" />
     <ClCompile Include="Thread.cpp" />
     <ClCompile Include="ThreadWin.cpp" />
     <ClCompile Include="Tree.cpp" />
@@ -135,16 +130,12 @@
     <ClCompile Include="Wood.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AComponent.h" />
-    <ClInclude Include="AWindow.h" />
     <ClInclude Include="Bush.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Chunk.h" />
-    <ClInclude Include="ClickableButton.h" />
     <ClInclude Include="Compartment.h" />
     <ClInclude Include="Coordinates.hpp" />
-    <ClInclude Include="Crafting.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="ForestTree.h" />
@@ -171,7 +162,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StartScreen.h" />
-    <ClInclude Include="Stuff.h" />
     <ClInclude Include="SystemDefines.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Water.h" />

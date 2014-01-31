@@ -75,7 +75,7 @@ bool GameEngine::getIsRunning() const
 void GameEngine::PushState(IScreen *state)
 {
 	_states.push(state);
-	_states.top()->initialize();
+	//_states.top()->initialize();
 
 
 }

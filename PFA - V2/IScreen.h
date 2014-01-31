@@ -6,6 +6,40 @@
 #include <SFML/Window.hpp>
 #include "IEngine.h"
 #include "IEntity.h"
+#include "Compartment.h"
+
+enum Screens
+{
+	INVENTORY,
+	STUFF,
+	CRAFTING,
+	GAMESCREEN,
+	NONE,
+	WINDOW
+};
+typedef struct	s_action
+{
+	s_action(bool windows = false) : _compartment(NULL)
+	{
+		if (windows)
+			_screen = WINDOW;
+		else
+		{
+			_screen = NONE;
+		}
+	}
+	void reset()
+	{
+		_screen = NONE;
+		_compartment = NULL;
+	}
+
+	Screens		_screen;
+	Compartment *_compartment;
+
+
+
+}				s_action;
 
 enum stateName
 {
