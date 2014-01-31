@@ -21,7 +21,8 @@ public:
 
 	//attributs
 	sf::Image			_img;
-	sfg::Notebook::Ptr _noteBook;
+	sfg::Notebook::Ptr _secondN;
+	sfg::Notebook::Ptr _firstN;
 	sfg::Window::Ptr _inventoryWindow;
 	sfg::Window::Ptr _numberWindow;
 	

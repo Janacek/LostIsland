@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <SFGUI/SFGUI.hpp>
+
 #include "IEntity.h"
 #include "Compartment.h"
 #include "Water.h"
@@ -26,20 +28,25 @@ public:
 	void move(sf::Vector2f & pos);
 	int getDamage(void) const;
 	Type getType() const;
-	void addCompartment(sf::RectangleShape &);
-	void addEntityInInventory(IEntity *entity);
+	sfg::Box::Ptr getBox();
+	sfg::Notebook::Ptr _book;
+	bool addEntityInInventory(IEntity *entity);
+	bool delEntityInInventory(Type);
+	bool delEntityInInventory(IEntity *);
 	void moveToNextWP();
 	void update();
 	//sf::Rect & getCollisionBox(void);
 
 	//TODO : Changer en compartments pour l'inventaire
-	
-	std::vector<Compartment *> _compartments;
+
+	sf::Image					_img; //TMP
+	std::vector<Compartment *>	_inventoryPlayer;
 	// std::vector<IEntity *> _inventary;
 protected:
 private:
+	void					createBox();
+
 	Animation					*_anim;
-	sf::Texture					*_imgAnim;
 	Camera						*_camera;
 	std::list<std::pair<float, float> >	_path;
 	
@@ -53,5 +60,5 @@ private:
 	int _water;
 	int _food;
 	bool _isSick;
-
+	sfg::Box::Ptr _inventory;
 };

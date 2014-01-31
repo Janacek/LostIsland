@@ -5,7 +5,6 @@
 #include "IScreen.h"
 #include "Player.h"
 #include "InventoryWindow.h"
-#include "AWindow.h"
 #include "Map.h"
 #include "GestionClick.h"
 #include "PhysicEngine.h"

@@ -78,8 +78,7 @@ bool GameEngine::getIsRunning() const
 void GameEngine::PushState(IScreen *state)
 {
 	_states.push(state);
-	std::cout << "lol" << std::endl;
-	_states.top()->initialize();
+	//_states.top()->initialize();
 
 
 }	

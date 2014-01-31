@@ -13,6 +13,32 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_rect.setPosition(pos);
 	
 	_rect.setFillColor(sf::Color::Red);
+	this->_img.loadFromFile("carre.png");
+	createBox();
+}
+
+sfg::Box::Ptr Player::getBox()
+{
+	return this->_inventory;
+}
+
+void Player::createBox()
+{
+	//on crée la structure
+	this->_book = sfg::Notebook::Create();
+	this->_inventory = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
+	auto table = sfg::Table::Create();
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			auto  tmp = sfg::Image::Create();
+			tmp->SetImage(this->_img);
+			table->Attach(tmp, sf::Rect<sf::Uint32>(i, j, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
+		}
+	}
+	this->_inventory->Pack(table, false);
+	this->_book->AppendPage(this->_inventory, sfg::Label::Create(this->_name));
 }
 
 void Player::setCamPos(sf::Vector2f &pos)
@@ -27,29 +53,44 @@ void Player::drink(Water *water)
 	//Ici, nous buvons.
 }
 
-void Player::addEntityInInventory(IEntity *entity)
+bool Player::addEntityInInventory(IEntity *entity)
 {
-	int i = 0;
-
-	Type tmpType = entity->getType();
-	//std::cout << "SIZE : " << this->_mainInventory._compartments.size() << std::endl;
-	for (Compartment *u : this->_compartments)
+	for (Compartment *u : this->_inventoryPlayer)
 	{
-		if (u->_elements.size() != 0 && u->_elements.front()->getType() == tmpType)
+		//on a déja un element de ce type
+		if (u == entity->getType())
 		{
 			u->addElement(entity);
-			return ;
+			return true;
 		}
 	}
-	if (this->_sizeInventory < 6)
+	//nouveau Type d'element
+	this->_inventoryPlayer.push_back(new Compartment(entity));
+}
+
+//peut peut etre servir
+bool Player::delEntityInInventory(Type type)
+{
+	for (Compartment *u : this->_inventoryPlayer)
 	{
-		this->_compartments[this->_sizeInventory]->addElement(entity);
-		++this->_sizeInventory;
+		if (u == type)
+		{
+			return u->delElement();
+		}
 	}
-	else
+	return false;
+}
+
+bool Player::delEntityInInventory(IEntity *entity)
+{
+	for (Compartment *u : this->_inventoryPlayer)
 	{
-		std::cout << "Inventaire plein !!!" << std::endl;
+		if (u == entity->getType())
+		{
+			return u->delElement(entity);
+		}
 	}
+	return false;
 }
 
 void Player::moveToNextWP()
@@ -119,27 +160,6 @@ void Player::move(sf::Vector2f &pos)
 	_pos.x += pos.x;
 	_pos.y += pos.y;
 
-}
-
-void Player::addCompartment(sf::RectangleShape &window)
-{
-	float posIniX = window.getPosition().x + window.getSize().x / 10; //10% de marge
-	if (this->_compartments.size() < 3)
-	{
-		float posRelatX = this->_compartments.size() * (window.getSize().x * 5 / 100) + this->_compartments.size() * (window.getSize().x * 23 / 100); //Calcul savant pour avoir des cases au bon endroit
-		//std::cout << "pos : " << posRelatX << std::endl;
-		this->_compartments.push_back(new Compartment(window.getSize(), posIniX + posRelatX, window.getPosition().y + window.getSize().y / 10)); //10% de marge);
-	}
-	else if (this->_compartments.size() < 6)
-	{
-		float posRelatX = (this->_compartments.size() - 3) * (window.getSize().x * 5 / 100) + (this->_compartments.size() - 3) * (window.getSize().x * 23 / 100); //Calcul savant pour avoir des cases au bon endroit
-		this->_compartments.push_back(new Compartment(window.getSize(), posIniX + posRelatX, window.getPosition().y + window.getSize().y * 2 / 10 + window.getSize().x * 23 / 100)); //10% de marge);
-	}
-	else
-	{
-		float posRelatX = (this->_compartments.size() - 6) * (window.getSize().x * 5 / 100) + (this->_compartments.size() - 6) * (window.getSize().x * 23 / 100); //Calcul savant pour avoir des cases au bon endroit
-		this->_compartments.push_back(new Compartment(window.getSize(), posIniX + posRelatX, window.getPosition().y + window.getSize().y * 3 / 10 + window.getSize().x * 23 / 100 * 2)); //10% de marge);
-	}
 }
 
 void Player::doAction(IEntity* other)
