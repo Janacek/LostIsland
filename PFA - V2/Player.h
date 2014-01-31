@@ -46,7 +46,7 @@ protected:
 private:
 	void					createBox();
 
-
+	Animation					*_anim;
 	Camera						*_camera;
 	std::list<std::pair<float, float> >	_path;
 	
