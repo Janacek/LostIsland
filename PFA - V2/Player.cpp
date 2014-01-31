@@ -56,10 +56,17 @@ void Player::moveToNextWP()
 {
 	if (!_path.empty())
 	{
+		sf::Vector2f tmp(0, 0);
+		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
+		tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
+		//std::cout << "COIN HAUT GAUCHE : x " << floor(_pos.x) << " y " << floor(_pos.y) <<" pos reel droite  x " << floor(tmp.x) << " y "<< floor(tmp.y)  << std::endl;
+
+		if (_path.front().first == floor(_pos.x)  && _path.front().second == floor(_pos.y) &&
+			_path.front().first == floor(tmp.x)  && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
 		
-		if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y))
 		{
 			_path.pop_front();
+			return;
 		}
 
 		if (_pos.x > _path.front().first)
@@ -78,12 +85,13 @@ void Player::draw()
 {
 
 	moveToNextWP();
-	_posDisp.x = (_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL;
-	_posDisp.y = (_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL;
+	_posDisp.x = ((_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
+	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 	
-	_rect.setPosition(_posDisp);
-	Singleton::getInstance()._window->draw(_rect);
-	this->_anim->show(_posDisp);
+	sf::Vector2f v(0, -10);
+	_rect.setPosition(_posDisp );
+	//Singleton::getInstance()._window->draw(_rect);
+	this->_anim->show(_posDisp + v);
 }
 
 void Player::update()

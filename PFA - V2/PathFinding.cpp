@@ -26,14 +26,12 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 
 			// on doit passer par tous les points adjacent aux points courants
 			// le truc cest que Il ne peut pas y avoir 2 meme points dans la liste
-
-			
 			if (map->getCellMap()[i][j]._cellType != Cell::OCEAN && map->getEntitiesMap()[i][j]._component == NULL)
 			{
 		
 				WayPointID wpID = boost::add_vertex(graphe);
-				graphe[wpID].pos.first = j ;
-				graphe[wpID].pos.second = i;
+				graphe[wpID].pos.first = j  ;
+				graphe[wpID].pos.second = i ;
 				for (int u = 0; u < 8; ++u)
 				{
 					//std::cout << "caca" << std::endl;
@@ -41,49 +39,57 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 					bool isOk = false;
 					boost::graph_traits<WayPointGraph>::vertex_iterator it_b, it_end;
 
-					std::pair<float, float> tmp((j), (i));
+					std::pair<float, float> tmp((j  ), (i ));
 					std::pair<int, int> tmp_add((j), (i));
 
 					if (u == 0)
 					{
 						tmp.first += 1;
 						tmp_add.first += 1;
-						if (map->getCellMap()[tmp_add.second][tmp_add.first + 1]._cellType != Cell::OCEAN
-							&& map->getEntitiesMap()[tmp_add.second][tmp_add.first + 1]._component == NULL)
+						if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN
+							&& map->getEntitiesMap()[tmp_add.second][tmp_add.first ]._component == NULL)
 						{
 							isOk = false;
 						}
+						else
+							isOk = true;
 					}
 					else if (u == 1)
 					{
 						tmp.second += 1;
 						tmp_add.second += 1;
-						if (map->getCellMap()[tmp_add.second + 1][tmp_add.first]._cellType != Cell::OCEAN
-							&& map->getEntitiesMap()[tmp_add.second + 1][tmp_add.first]._component == NULL)
+						if (map->getCellMap()[tmp_add.second ][tmp_add.first]._cellType != Cell::OCEAN
+							&& map->getEntitiesMap()[tmp_add.second ][tmp_add.first]._component == NULL)
 						{
 							isOk = false;
 						}
+						else
+							isOk = true;
 
 					}
 					else if (u == 2)
 					{
 						tmp.first -= 1;
 						tmp_add.first -= 1;
-						if (map->getCellMap()[tmp_add.second][tmp_add.first - 1]._cellType != Cell::OCEAN 
-							&& map->getEntitiesMap()[tmp_add.second][tmp_add.first - 1]._component == NULL)
+						if (map->getCellMap()[tmp_add.second][tmp_add.first ]._cellType != Cell::OCEAN 
+							&& map->getEntitiesMap()[tmp_add.second][tmp_add.first ]._component == NULL)
 						{
 							isOk = false;
 						}
+						else
+							isOk = true;
 					}
 					else if (u == 3)
 					{
 						tmp.second -= 1;
 						tmp_add.second -= 1;
-						if (map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN
-							&& map->getEntitiesMap()[tmp_add.second - 1][tmp_add.first]._component == NULL)
+						if (map->getCellMap()[tmp_add.second ][tmp_add.first]._cellType != Cell::OCEAN
+							&& map->getEntitiesMap()[tmp_add.second ][tmp_add.first]._component == NULL)
 						{
 							isOk = false;
 						}
+						else
+							isOk = true;
 					}
 					/*else if (u == 4)
 					{
@@ -251,8 +257,8 @@ void PathFinding::updatePath()
 		Singleton::getInstance()._window->draw(line, 2, sf::Lines);
 
 		
-	}*/
-
+	}
+	*/
 
 	//sf::Texture texture = rt.getTexture();
 	//map 
