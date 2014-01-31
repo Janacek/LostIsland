@@ -33,8 +33,11 @@ void GameEngine::update()
 		PushState(tmp);
 		Singleton::getInstance().isEscapePressed = false;
 		IScreen *state = _states.top();
-		if (state)
-			state->initialize();
+		//if (state)
+		//{
+		//	std::cout << "toto1" << std::endl;
+		//	//state->initialize();
+		//}
 	}
 	IScreen *state = _states.top();
 	if (state)
@@ -78,7 +81,7 @@ void GameEngine::PushState(IScreen *state)
 	//_states.top()->initialize();
 
 
-}
+}	
 
 void GameEngine::SetState(IScreen* state)
 {

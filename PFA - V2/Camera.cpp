@@ -18,8 +18,8 @@ void Camera::update()
 
 bool Camera::moveCameraMouse(sf::Vector2i const &size)
 {
-	float dt = Singleton::getInstance()._clock->getElapsedTime().asMilliseconds();
-	float speed = 0.0001;
+	float dt = (float)Singleton::getInstance()._clock->getElapsedTime().asMilliseconds();
+	float speed = 0.0001f;
 	float calc = dt * speed;
 	bool isChangePosition = false;
 	
@@ -62,8 +62,8 @@ bool Camera::moveCameraMouse(sf::Vector2i const &size)
 
 void Camera::moveCamera(sf::Vector2i const &size)
 {
-	float dt = Singleton::getInstance()._clock->getElapsedTime().asMilliseconds();
-	float speed = 0.0001;
+	float dt = (float)Singleton::getInstance()._clock->getElapsedTime().asMilliseconds();
+	float speed = 0.0001f;
 	float calc = dt * speed;
 
 	if (this->moveCameraMouse(size) == false)

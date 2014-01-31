@@ -37,7 +37,10 @@ void Water::setPath(std::list<std::pair<float, float> >&path)
 	_path = path;
 }
 
+void Water::update()
+{
 
+}
 /// <summary>
 ///GET subit l'action.
 /// Appelle la méthode void getObject(IEntity *other).
@@ -50,7 +53,7 @@ void Water::getAction(IEntity* other)
 	player->addEntityInInventory(this);
 }
 
-void Water::Animate(std::string const & string_anim)
+void Water::loadAnimation(std::string const & string_anim, float speed)
 {
 
 }

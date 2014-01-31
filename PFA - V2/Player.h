@@ -6,6 +6,7 @@
 #include "Compartment.h"
 #include "Water.h"
 #include "Camera.h"
+#include "Animation.h"
 
 class Player : public IEntity
 {
@@ -16,7 +17,7 @@ public:
 	void drink(Water *);
 	std::string const &getName() const;
 	void setName(std::string const &);
-	void Animate(std::string const & string_anim);
+	void loadAnimation(std::string const & string_anim, float speed);
 	void draw();
 	void setCamPos(sf::Vector2f &); // TMP LE TEMPS QUON AI LA BONNE CLASS
 	void setPosition(sf::Vector2f &pos);
@@ -33,6 +34,7 @@ public:
 	bool delEntityInInventory(Type);
 	bool delEntityInInventory(IEntity *);
 	void moveToNextWP();
+	void update();
 	//sf::Rect & getCollisionBox(void);
 
 	//TODO : Changer en compartments pour l'inventaire

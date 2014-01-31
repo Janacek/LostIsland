@@ -19,7 +19,12 @@ void Wood::getAction(IEntity* other)
 	player->addEntityInInventory(this);
 }
 
-void Wood::Animate(std::string const & string_anim)
+void Wood::loadAnimation(std::string const & string_anim, float speed)
+{
+
+}
+
+void Wood::update()
 {
 
 }

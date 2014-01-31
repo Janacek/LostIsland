@@ -11,7 +11,7 @@ public:
 	static Singleton& getInstance();
 	sf::RenderWindow *_window;
 	sf::Clock *_clock;
-
+	
 	sfg::SFGUI		_sfgui;
 
 	bool isEscapePressed;
