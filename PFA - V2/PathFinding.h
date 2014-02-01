@@ -6,7 +6,9 @@
 #include						<boost/config.hpp>
 #include						<boost/graph/random.hpp>
 #include						<boost/random.hpp>
+#include						<math.h> 
 #include						"Map.h"
+
 
 using namespace boost;
 
