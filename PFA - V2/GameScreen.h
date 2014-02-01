@@ -25,10 +25,14 @@ public:
 	void events(sf::Event &);
 	stateName getStateName() const;
 	sf::Vector2f pos;
+	void mouseLeftPress(int index);
+	void validDrop(int);
+	void dropRessource();
 protected:
 private:
 	Camera				_camera;
 	void				updateStatistics(sf::Time &elapsedTime);
+	void				checkDrop(sf::Event &e);
 	void				checkInput();
 	void				drawMouse();
 	void				checkClose();
@@ -58,5 +62,6 @@ private:
 	struct s_action			_rightClickPressed;
 	struct s_action			_rightClickReleased;
 	bool					_isFirst;
+	Compartment				*_dropCompartment;
 	GestionClick			_gc;
 };

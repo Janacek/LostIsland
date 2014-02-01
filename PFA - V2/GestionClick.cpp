@@ -1,134 +1,81 @@
 #include "GestionClick.h"
 
-GestionClick::GestionClick(void)
+GestionClick::GestionClick()
 {
-	this->_enumToString[INVENTORY] = "Inventory";
-	this->_enumToString[STUFF] = "Stuff";
-	this->_enumToString[CRAFTING] = "Crafting";
-	this->_enumToString[GAMESCREEN] = "GameScreen";
-//	createCorrelationTable();
+	this->_canDrop = false;
+	this->_lastCompartment = NULL;
+}
+
+void GestionClick::leftPress(int index, Player *p, sfg::Image::Ptr img)
+{
+	this->_canDrop = false;
+	this->_leftClickPressed._compartment = p->getCompartment(index);
+	if (this->_leftClickPressed._compartment != NULL)
+		this->_lastCompartment = this->_leftClickPressed._compartment;
+	this->_leftClickPressed._img = img;
+}
+
+void GestionClick::leftRelease(int index, Player *p, sfg::Image::Ptr img)
+{
+	//this->_leftClickReleased.reset();
+	this->_leftClickReleased._compartment = p->getCompartment(index);
+	this->_leftClickReleased._img = img;
+	swap();
+}
+
+void GestionClick::dump(int index, Player *p)
+{
+	if (p != NULL && p->getCompartment(index) != NULL)
+		std::cout << "DUMP : index : " << index << " player : " << p->getName() << " ressource : " << p->getCompartment(index)->getType() << std::endl;
+}
+
+void GestionClick::clearLastCompartment()
+{
+	this->_lastCompartment = NULL;
+}
+
+void GestionClick::drop()
+{
+	if (this->_leftClickPressed._compartment != NULL)
+	{
+		std::cout << "La si on lache le click il faut poser la ressource" << std::endl;
+		this->_canDrop = true;
+		return;
+	}
+	this->_leftClickPressed.reset();
+}
+
+void GestionClick::swap()
+{
+	if (this->_leftClickPressed._compartment == NULL || this->_leftClickReleased._compartment == NULL)
+	{
+		this->_leftClickPressed.reset();
+		this->_leftClickReleased.reset();
+		std::cout << "Je ne swap pas, erreur (on ne peux pas swap avec case vide)" << std::endl;
+		return;
+	}
+	Compartment tmp = *this->_leftClickPressed._compartment;
+
+	*this->_leftClickPressed._compartment = *this->_leftClickReleased._compartment;
+	*this->_leftClickReleased._compartment = tmp;
+	
+	this->_leftClickPressed._img->SetImage(this->_leftClickPressed._compartment->getImage());
+	this->_leftClickReleased._img->SetImage(this->_leftClickReleased._compartment->getImage());
+
+	this->_leftClickPressed.reset();
+	this->_leftClickReleased.reset();
+}
+
+s_action GestionClick::canDrop()
+{
+	s_action tmp = this->_leftClickPressed;
+	tmp._compartment = this->_lastCompartment;
+	if (this->_canDrop == false)
+		tmp._compartment = NULL;
+	return tmp;
 }
 
 GestionClick::~GestionClick()
 {
 
-}
-//
-//void	GestionClick::swap(s_action&a, s_action&b)
-//{
-//	//meme type d'objet, on ajoute au lieu de swap
-//	if (a._compartment->_elements.size() > 0 && b._compartment->_elements.size() > 0 && a._compartment->_elements.front()->getType() ==  b._compartment->_elements.front()->getType())
-//	{
-//		*b._compartment += *a._compartment;
-//		a._compartment->emptyCompartment();
-//	}
-//	else
-//	{
-//		Compartment tmp(sf::Vector2f(0, 0));
-//
-//		tmp = *b._compartment;
-//		*b._compartment = *a._compartment;
-//		*a._compartment = tmp;
-//	}
-//	std::cout << "SWAP between " << this->_enumToString[a._screen] << " and " <<  this->_enumToString[b._screen] << std::endl;
-//	a.reset();
-//	b.reset();
-//}
-//
-//void	GestionClick::add(s_action&a, s_action&b)
-//{
-//	//meme type d'objet, on ajoute au lieu de swap
-//	if (a._compartment->_elements.size() > 0 && b._compartment->_elements.size() > 0 && a._compartment->_elements.front()->getType() ==  b._compartment->_elements.front()->getType())
-//	{
-//		*b._compartment += *a._compartment;
-//		a._compartment->emptyCompartment();
-//	}
-//	else
-//	{
-//		Compartment tmp(sf::Vector2f(0, 0));
-//
-//		tmp = *b._compartment;
-//		*b._compartment = *a._compartment;
-//		*a._compartment = tmp;
-//	}
-//	std::cout << "add between " << this->_enumToString[a._screen] << " and " <<  this->_enumToString[b._screen] << std::endl;
-//	a.reset();
-//	b.reset();
-//}
-//
-//void	GestionClick::drop(s_action&a, s_action&b)
-//{
-//	Compartment *tmp = a._compartment;
-//	tmp->emptyCompartment();
-//	std::cout << "drop between " << this->_enumToString[a._screen] << " and " <<  this->_enumToString[b._screen] << std::endl;
-//	a.reset();
-//	b.reset();
-//	std::cout << "Mettre la ressource par terre" << std::endl;
-//}
-//
-//void GestionClick::doNothing(s_action&a, s_action&b)
-//{
-//	std::cout << "Mauvais drag and drop" << std::endl;
-//	a.reset();
-//	b.reset();
-//}
-//
-//GestionClick::~GestionClick(void)
-//{
-//}
-//
-//void	GestionClick::createCorrelationTable()
-//{
-//	createInventoryTable();
-//	createStuffTable();
-//	createCraftingTable();
-//}
-//
-//void	GestionClick::createCraftingTable()
-//{
-//	std::map<Screens, void (GestionClick::*)(s_action&, s_action&)> tmp;
-//
-//
-//	tmp[STUFF] = &GestionClick::add;
-//	tmp[CRAFTING] = &GestionClick::swap;
-//	tmp[INVENTORY] = &GestionClick::add;
-//	tmp[WINDOW] = &GestionClick::drop;
-//	tmp[NONE] = &GestionClick::doNothing;
-//
-//	this->_correlationTable[CRAFTING] = tmp;
-//}
-//
-//void	GestionClick::createInventoryTable()
-//{
-//	std::map<Screens, void (GestionClick::*)(s_action&, s_action&)> tmp;
-//
-//
-//	tmp[STUFF] = &GestionClick::add;
-//	tmp[CRAFTING] = &GestionClick::add;
-//	tmp[INVENTORY] = &GestionClick::swap;
-//	tmp[NONE] = &GestionClick::drop;
-//	tmp[WINDOW] = &GestionClick::doNothing;
-//
-//	this->_correlationTable[INVENTORY] = tmp;
-//}
-//
-//void	GestionClick::createStuffTable()
-//{
-//	std::map<Screens, void (GestionClick::*)(s_action&, s_action&)> tmp;
-//
-//	tmp[STUFF] = &GestionClick::swap;
-//	tmp[CRAFTING] = &GestionClick::add;
-//	tmp[INVENTORY] = &GestionClick::add;
-//	tmp[NONE] = &GestionClick::drop;
-//	tmp[WINDOW] = &GestionClick::doNothing;
-//
-//	this->_correlationTable[STUFF] = tmp;
-//}
-
-void	GestionClick::callFunction(s_action &a1, s_action &a2)
-{
-	std::map<Screens, void (GestionClick::*)(s_action&, s_action&)> tmp;
-	tmp = this->_correlationTable[a1._screen];
-	_caller = tmp[a2._screen];
-	(this->*_caller)(a1, a2);
 }

@@ -8,6 +8,7 @@ GameScreen::GameScreen()
 	_isRunning = true;
 	_camera._position.x = 0;
 	_camera._position.y = 0;
+	_dropCompartment = NULL;
 	_map = new Map(&_camera);
 	pos.x = 100;
 	pos.y = 100;
@@ -20,13 +21,40 @@ GameScreen::GameScreen()
 
 void GameScreen::events(sf::Event &e)
 {
-	//this->_inventory->_desktop.HandleEvent(e);
+	this->_inventory->_desktop.HandleEvent(e);
+	checkDrop(e);
+}
+
+///Ici on obtient la ressource sur laquelle le playeur a appuyé dans l'inventaire
+void GameScreen::checkDrop(sf::Event &e)
+{
+	if (e.type == sf::Event::MouseButtonReleased)
+	{
+		this->_dropCompartment = this->_inventory->dropRessource();
+		if (this->_dropCompartment != NULL)
+		{
+			std::cout << "DROP : " << this->_dropCompartment->getSize() << std::endl;
+			this->validDrop(1);
+			//En cours d'implémentation
+			//if (this->_dropCompartment->getSize() > 1)
+				//this->_inventory->chooseNumber(this);
+		}
+	}
+		
+}
+
+void GameScreen::validDrop(int nbrDrop)
+{
+	std::cout << "Avant de valdierjfirff " << this->_dropCompartment->getSize() << std::endl;
+	std::cout << "Je valide !!!! f!f!eikerjfgerujuj" << std::endl;
+	//Fonction appelée lorsque qu'on a choisi le nbr de ressources qu'on voulait jeter de l'inventaire
+	//list contient mtn le bon nombre de ressources 
+	std::list<IEntity *> list = this->_dropCompartment->getElements(nbrDrop);
+	this->_dropCompartment->delAllElement();
 }
 
 void GameScreen::initialize(void)
 {
-	
-	
 	for (int i = 0; i < 2; i++)
 	{
 		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
@@ -35,10 +63,10 @@ void GameScreen::initialize(void)
 	}
 	
 	this->_activeInventary = false;
-	//Inventaire non fonctionnel
-	/*this->_inventory = new InventoryWindow;
+	
+	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
-	this->_inventory->createTabs(this->_players);*/
+	this->_inventory->createTabs(this->_players);
 	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
 	_statisticsText.setPosition(5.f, 5.f);
 	_statisticsText.setCharacterSize(10);
@@ -51,6 +79,11 @@ void GameScreen::initialize(void)
 
 }
 
+void GameScreen::mouseLeftPress(int index)
+{
+	std::cout << "index du clique !" << std::endl;
+}
+
 void GameScreen::draw()
 {
 	Singleton::getInstance()._window->clear();
@@ -58,6 +91,7 @@ void GameScreen::draw()
 	Singleton::getInstance()._animClock->restart();
 	//updateStatistics(_t);
 	this->_map->draw(Singleton::getInstance()._window);
+
 	
 	//Singleton::getInstance()._window->draw(_statisticsText);
 
@@ -71,13 +105,14 @@ void GameScreen::draw()
 	_physicEngine->setCamPos(_map->getCamPos());
 	_physicEngine->update();
 	static bool test = true;
-	/*if (Singleton::getInstance().isKeyIPressed)
+	if (Singleton::getInstance().isKeyIPressed)
 	{
-		this->_inventory->_firstN->Show(test);
+		this->_inventory->_inventoryWindow->Show(test);
 		test = !test;
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
-	}*/
+	}
 	checkInput();
+	this->_inventory->draw();
 	Singleton::getInstance()._window->display();
 }
 
@@ -115,7 +150,7 @@ void GameScreen::update(void)
 		(*it)->update();
 	}
 	_map->update();
-
+	this->_inventory->update();
 	if (Singleton::getInstance().isEscapePressed)
 	{
 		_isRunning = false;
@@ -146,11 +181,7 @@ bool GameScreen::checkImpossibleCase() const
 
 void GameScreen::updateObjectsPos()
 {
-	if (this->checkImpossibleCase() == true)
-	{
-		if (this->_leftClickPressed._compartment != NULL)
-			_gc.callFunction(this->_leftClickPressed, this->_leftClickReleased);
-	}
+	
 }
 
 void GameScreen::saveClick(bool click)

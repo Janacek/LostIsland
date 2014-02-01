@@ -33,6 +33,7 @@ public:
 	bool addEntityInInventory(IEntity *entity);
 	bool delEntityInInventory(Type);
 	bool delEntityInInventory(IEntity *);
+	Compartment	*getCompartment(int index);
 	void moveToNextWP();
 	void update();
 	//sf::Rect & getCollisionBox(void);
@@ -60,5 +61,5 @@ private:
 	int _water;
 	int _food;
 	bool _isSick;
-	sfg::Box::Ptr _inventory;
+	sfg::Box::Ptr _inventory; //NE PAS UTILISER
 };

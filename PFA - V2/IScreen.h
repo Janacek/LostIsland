@@ -4,6 +4,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <iostream>
 #include "IEngine.h"
 #include "IEntity.h"
 #include "Compartment.h"
@@ -30,15 +31,15 @@ typedef struct	s_action
 	}
 	void reset()
 	{
+		std::cout << "JE SUIS APPELE" << std::endl;
 		_screen = NONE;
 		_compartment = NULL;
+		_img = NULL;
 	}
 
 	Screens		_screen;
 	Compartment *_compartment;
-
-
-
+	sfg::Image::Ptr _img;
 }				s_action;
 
 enum stateName
