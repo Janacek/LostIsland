@@ -52,6 +52,41 @@ void GameScreen::initialize(void)
 
 }
 
+void				GameScreen::checkEntitySelection()
+{
+	int				i = 0;
+
+	//if (!Singleton::getInstance().isLeftClicking)
+	//{
+		/*if (!this->_selectEnable)
+		{
+			this->_selectEnable = true;
+			_savedPostion.x = sf::Mouse::getPosition(*this->_app).x;
+			_savedPostion.y = sf::Mouse::getPosition(*this->_app).y;
+		}
+
+		_rectSelection[0].position = this->_app->mapPixelToCoords(this->_savedPostion);
+		_rectSelection[1].position = this->_app->mapPixelToCoords(sf::Vector2i(sf::Mouse::getPosition(*this->_app).x, _savedPostion.y));
+		_rectSelection[2].position = this->_app->mapPixelToCoords(sf::Vector2i((sf::Mouse::getPosition(*this->_app).x), sf::Mouse::getPosition(*this->_app).y));
+		_rectSelection[3].position = this->_app->mapPixelToCoords(sf::Vector2i(this->_savedPostion.x, sf::Mouse::getPosition(*this->_app).y));
+		while (i < 1)
+		{
+			if (isInSelection(i))
+				dynamic_cast<Human *>(this->_livingEntities[i])->_isSelected = true;
+			else
+				dynamic_cast<Human *>(this->_livingEntities[i])->_isSelected = false;
+			++i;
+		}
+		_rectSelection[0].color = this->_color;
+		_rectSelection[1].color = this->_color;
+		_rectSelection[2].color = this->_color;
+		_rectSelection[3].color = this->_color;
+		this->_app->draw(_rectSelection);
+	}
+	else
+		this->_selectEnable = false;*/
+}
+
 void GameScreen::draw()
 {
 	Singleton::getInstance()._window->clear();
@@ -82,6 +117,11 @@ void GameScreen::draw()
 	Singleton::getInstance()._window->display();
 }
 
+sf::Vector2f lerp(sf::Vector2f a, sf::Vector2f b, float f)
+{
+	return a + f * (b - a);
+}
+
 
 void GameScreen::update(void)
 {
@@ -102,9 +142,17 @@ void GameScreen::update(void)
 		tmp_end.x = _players[0]->getPosition().x  ; // player en selec
 		tmp_end.y = _players[0]->getPosition().y ;
 		
-		std::cout << "LE CLICK x "  << tmp_begin.x << " y " << tmp_begin.y << std::endl;
-		std::cout << "LE JOUEUR  x "  << tmp_end.x << " y " << tmp_end.y << std::endl;
+		//std::cout << "LE CLICK x "  << tmp_begin.x << " y " << tmp_begin.y << std::endl;
+		//std::cout << "LE JOUEUR  x "  << tmp_end.x << " y " << tmp_end.y << std::endl;
 		_physicEngine->findMeAPath(tmp_end, tmp_begin, *_players[0]);
+	
+		/*tmp_end.x = _players[1]->getPosition().x; // player en selec
+		tmp_end.y = _players[1]->getPosition().y;
+
+		//std::cout << "LE CLICK x "  << tmp_begin.x << " y " << tmp_begin.y << std::endl;
+		//std::cout << "LE JOUEUR  x "  << tmp_end.x << " y " << tmp_end.y << std::endl;
+		_physicEngine->findMeAPath(tmp_end, tmp_begin, *_players[1]);
+		*/
 		//_physicEngine->addVertexPoint(tmp);
 
 		//_physicEngine->addVertexPoint(_players.front->getPosition());

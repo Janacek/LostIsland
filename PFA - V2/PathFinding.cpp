@@ -3,6 +3,7 @@
 #include "PathFinding.h"
 #include "Map.h"
 
+
 void PathFinding::initPathfinding(Map* &map, Camera *cam)
 {
 	_cam = cam;
@@ -334,7 +335,7 @@ bool PathFinding::equal(const std::pair<float, float>& p1, const std::pair<float
 		std::fabs(p1.second - p2.second) < EPS);
 }
 
-void PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &ent)
+bool PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &ent)
 {
 	std::vector<WayPointID> p(boost::num_vertices(graphe));
 	std::vector<float>      d(boost::num_vertices(graphe));
@@ -348,7 +349,7 @@ void PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &en
 	std::tie(start, vertex_start_found) = _vertex_found;
 	if (!vertex_start_found)
 	{
-		return;
+		return false;
 	}
 	
 	bool vertex_goal_found;
@@ -360,7 +361,7 @@ void PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &en
 	find_vertex(goalPoint, graphe);
 	std::tie(goal, vertex_goal_found) = _vertex_found;
 	if (!vertex_goal_found)
-		return;
+		return false;
 	std::list<std::pair<float, float>> shortest_path;
 	//std::cout << "debut x " << graphe[start].pos.first << " y " << graphe[start].pos.first << "FIN x" << graphe[goal].pos.first << " y " << graphe[goal].pos.second << std::endl;
 	//system("pause");
@@ -385,8 +386,9 @@ void PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &en
 				break;
 		}
 		ent.setPath(shortest_path);
-
+		return true;
 	}
+	return false;
 }
 
 

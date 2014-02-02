@@ -16,9 +16,9 @@ void PhysicEngine::setCamPos(sf::Vector2f &cam)
 {
 	//_cam = cam;
 }
-void PhysicEngine::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &ent)
+bool PhysicEngine::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &ent)
 {
-	_pathFinding.findMeAPath(begin, end, ent);
+	return _pathFinding.findMeAPath(begin, end, ent);
 }
 
 bool PhysicEngine::getIsLaunch() const

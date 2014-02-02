@@ -36,6 +36,7 @@ private:
 	void				saveClick(bool click);
 	void				updateObjectsPos();
 	bool				checkImpossibleCase() const;
+	void				checkEntitySelection();
 
 	PhysicEngine		*_physicEngine;
 	GestionClick		_gestionClick;
