@@ -7,7 +7,7 @@
 
 Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 {
-	this->_name = "Georgette";
+	this->_name = "Player";
 	this->_sizeInventory = 0;
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(pos);
@@ -15,6 +15,19 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_rect.setFillColor(sf::Color::Red);
 	this->_img.loadFromFile("carre.png");
 	createBox();
+
+	/*
+	** Gestion de la vie / soif / etc...
+	*/
+	_damages = 10;
+	_life = 100;
+	_water = 100;
+	_food = 100;
+	_isSick = false;
+	_hungerClock = 0;
+	_thirstClock = 0;
+	_lifeClock = 0;
+	_oldDt;
 }
 
 sfg::Box::Ptr Player::getBox()
@@ -133,12 +146,62 @@ void Player::draw()
 	_rect.setPosition(_posDisp );
 	Singleton::getInstance()._window->draw(_rect);
 	this->_anim->show(_posDisp + v);
+
+	sf::RectangleShape hungerBar(sf::Vector2f(_food / 2, 5));
+	hungerBar.setFillColor(sf::Color(153, 76, 0));
+	hungerBar.setPosition(_posDisp.x - 5, _posDisp.y - 10);
+	Singleton::getInstance()._window->draw(hungerBar);
+
+	sf::RectangleShape thirstBar(sf::Vector2f(_water / 2, 5));
+	thirstBar.setFillColor(sf::Color::Blue);
+	thirstBar.setPosition(_posDisp.x - 5, _posDisp.y - 15);
+	Singleton::getInstance()._window->draw(thirstBar);
+
+	sf::RectangleShape healthBar(sf::Vector2f(_life / 2, 5));
+	healthBar.setFillColor(sf::Color::Red);
+	healthBar.setPosition(_posDisp.x - 5, _posDisp.y - 20);
+	Singleton::getInstance()._window->draw(healthBar);
 }
 
 void Player::update()
 {
-	
+	double dt = 0;
+	double time;
 
+	time = _referenceClock.getElapsedTime().asSeconds();
+	dt = time - _oldDt;
+
+	_oldDt = time;
+
+
+	_hungerClock += dt;
+	_thirstClock += dt;
+	if (_hungerClock > 6)
+	{
+		_hungerClock = 0.f;
+		_food -= 1;
+	}
+	if (_thirstClock > 3)
+	{
+		_thirstClock = 0.f;
+		_water -= 1;
+	}
+	if (_water <= 0)
+		_water = 0;
+	if (_food <= 0)
+		_food = 0;
+
+	if (_water <= 0 || _food <= 0)
+		_lifeClock += dt;
+	if (_lifeClock > 5)
+	{
+		_lifeClock = 0;
+		_life -= 1;
+	}
+	if (_life <= 0)
+	{
+		// You're supposedly dead here.
+	}
 }
 
 void Player::loadAnimation(std::string const & string_anim, float speed)
