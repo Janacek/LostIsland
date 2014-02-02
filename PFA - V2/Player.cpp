@@ -26,6 +26,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_isSick = false;
 	_hungerClock = 0;
 	_thirstClock = 0;
+	_lifeClock = 0;
 	_oldDt;
 }
 
@@ -168,7 +169,6 @@ void Player::update()
 	double time;
 
 	time = _referenceClock.getElapsedTime().asSeconds();
-	//time = Singleton::getInstance()._clock->getElapsedTime().asMilliseconds();
 	dt = time - _oldDt;
 
 	_oldDt = time;
@@ -186,7 +186,22 @@ void Player::update()
 		_thirstClock = 0.f;
 		_water -= 1;
 	}
+	if (_water <= 0)
+		_water = 0;
+	if (_food <= 0)
+		_food = 0;
 
+	if (_water <= 0 || _food <= 0)
+		_lifeClock += dt;
+	if (_lifeClock > 5)
+	{
+		_lifeClock = 0;
+		_life -= 1;
+	}
+	if (_life <= 0)
+	{
+		// You're supposedly dead here.
+	}
 }
 
 void Player::loadAnimation(std::string const & string_anim, float speed)

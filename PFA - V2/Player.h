@@ -92,5 +92,6 @@ protected:
 
 	double						_hungerClock;
 	double						_thirstClock;
+	double						_lifeClock;
 	double						_oldDt;
 };
