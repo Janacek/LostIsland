@@ -111,7 +111,7 @@ void GameScreen::update(void)
 
 		//on click sur une case donc du coup le waypoint existe et pareil pour la pos du player
 	}
-	for(std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
+	for(auto it = _players.begin(); it != _players.end(); ++it)
 	{
 		(*it)->update();
 	}
