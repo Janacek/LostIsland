@@ -59,5 +59,7 @@ private:
 	s_action				_rightClickPressed;
 	s_action				_rightClickReleased;
 	bool					_isFirst;
+	bool					_isPathNotFound;
+	float					_pathToGo;
 	GestionClick			_gc;
 };
