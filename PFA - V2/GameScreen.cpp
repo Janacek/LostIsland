@@ -14,9 +14,8 @@ GameScreen::GameScreen()
 	_map->init(std::string("Babar"), sf::Vector2i(18, 18), 33);
 	_map->generate();
 	this->_physicEngine = new PhysicEngine(_map, &_camera);
-	this->_isFirst = true;
 	_physicEngine->init();
-	_pathToGo = 0.f;
+	
 }
 
 void GameScreen::events(sf::Event &e)
@@ -26,8 +25,7 @@ void GameScreen::events(sf::Event &e)
 
 void GameScreen::initialize(void)
 {
-	_pathToGo = 0.f;
-
+	
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -50,7 +48,7 @@ void GameScreen::initialize(void)
 	//initialisation de l'image du pointeur
 
 	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
-	_isPathNotFound = false;
+
 
 }
 
@@ -107,7 +105,6 @@ void GameScreen::draw()
 	}
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());
-	_physicEngine->update();
 	static bool test = true;
 	/*if (Singleton::getInstance().isKeyIPressed)
 	{
@@ -119,59 +116,11 @@ void GameScreen::draw()
 	Singleton::getInstance()._window->display();
 }
 
-sf::Vector2f lerp(sf::Vector2f a, sf::Vector2f b, float f)
-{
-	return a + f * (b - a);
-}
-
 
 void GameScreen::update(void)
 {
-	if (!Singleton::getInstance().isRightClicking)
-	{
-		_isFirst = true;
-	}
-	if ((Singleton::getInstance().isRightClicking && this->_isFirst) || _isPathNotFound)
-	{
-		this->_isFirst = false;
-		sf::Vector2i tmp_begin = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-		sf::Vector2i tmp_end;
-		if (_isPathNotFound && _pathToGo <= 1)
-		{
-			sf::Vector2f tmp_lerp_begin;
-			sf::Vector2f tmp_lerp_end;
-			tmp_begin.x = (tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL; // ISOK
-			tmp_begin.y = (tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL;
-			tmp_lerp_begin.x = tmp_begin.x;
-			tmp_lerp_begin.y = tmp_begin.y;
-			tmp_end.x = _players[0]->getPosition().x; // player en selec
-			tmp_end.y = _players[0]->getPosition().y;
-			tmp_lerp_end.x = tmp_end.x;
-			tmp_lerp_end.y = tmp_end.y;
-			tmp_lerp_begin = lerp(tmp_lerp_begin, tmp_lerp_end, _pathToGo);
-			tmp_begin.x = tmp_lerp_begin.x;
-			tmp_begin.y = tmp_lerp_begin.y;
-			_pathToGo += 0.01;		
-			_isPathNotFound = false;
-		}
-		else
-		{
-			tmp_begin.x = (tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL; // ISOK
-			tmp_begin.y = (tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL;
-		}
-		if (_map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN
-			|| _map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component != NULL)
-		{
-			_isPathNotFound = true;
-		}
-		else
-		{
-			_pathToGo = 0;
-			tmp_end.x = _players[0]->getPosition().x; // player en selec
-			tmp_end.y = _players[0]->getPosition().y;
-			_physicEngine->findMeAPath(tmp_end, tmp_begin, *_players[0]);
-		}
-	}
+
+	_physicEngine->updatePos(_players, _entities);
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
 		(*it)->update();

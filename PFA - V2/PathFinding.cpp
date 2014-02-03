@@ -232,12 +232,12 @@ void PathFinding::updatePath()
 {
 
 
-	typedef boost::graph_traits <WayPointGraph>::edge_iterator edge_iterator_t;
+	/*typedef boost::graph_traits <WayPointGraph>::edge_iterator edge_iterator_t;
 
 	std::pair<edge_iterator_t, edge_iterator_t> ep;
 
 	edge_iterator_t ei, ei_end;
-
+	*/
 
 	/*for (boost::tie(ei, ei_end) = boost::edges(graphe); ei != ei_end; ++ei)
 	{
