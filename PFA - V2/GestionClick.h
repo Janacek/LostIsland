@@ -12,6 +12,8 @@ public:
 	void leftPress(int index, Player *p, sfg::Image::Ptr);
 	void dump(int index, Player *p);
 	void clearLastCompartment();
+	void cantDrop();
+	void reset();
 	void leftRelease(int index, Player *p, sfg::Image::Ptr);
 	s_action canDrop();
 	void drop();

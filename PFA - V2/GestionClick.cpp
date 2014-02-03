@@ -6,8 +6,15 @@ GestionClick::GestionClick()
 	this->_lastCompartment = NULL;
 }
 
+
+void GestionClick::cantDrop()
+{
+	this->_canDrop = false;
+}
+
 void GestionClick::leftPress(int index, Player *p, sfg::Image::Ptr img)
 {
+	std::cout << "Press ! " << std::endl;
 	this->_canDrop = false;
 	this->_leftClickPressed._compartment = p->getCompartment(index);
 	if (this->_leftClickPressed._compartment != NULL)
@@ -19,8 +26,8 @@ void GestionClick::leftRelease(int index, Player *p, sfg::Image::Ptr img)
 {
 	//this->_leftClickReleased.reset();
 	this->_leftClickReleased._compartment = p->getCompartment(index);
-	this->_leftClickReleased._img = img;
-	swap();
+//	this->_leftClickReleased._img = img;
+	//swap();
 }
 
 void GestionClick::dump(int index, Player *p)
@@ -58,10 +65,16 @@ void GestionClick::swap()
 
 	*this->_leftClickPressed._compartment = *this->_leftClickReleased._compartment;
 	*this->_leftClickReleased._compartment = tmp;
-	
 	this->_leftClickPressed._img->SetImage(this->_leftClickPressed._compartment->getImage());
 	this->_leftClickReleased._img->SetImage(this->_leftClickReleased._compartment->getImage());
 
+	this->_leftClickPressed.reset();
+	this->_leftClickReleased.reset();
+}
+
+void GestionClick::reset()
+{
+	this->_lastCompartment = NULL;
 	this->_leftClickPressed.reset();
 	this->_leftClickReleased.reset();
 }

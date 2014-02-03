@@ -25,7 +25,7 @@ void GameScreen::events(sf::Event &e)
 	checkDrop(e);
 }
 
-///Ici on obtient la ressource sur laquelle le playeur a appuyé dans l'inventaire
+//Ici on obtient la ressource sur laquelle le playeur a appuyé dans l'inventaire
 void GameScreen::checkDrop(sf::Event &e)
 {
 	if (e.type == sf::Event::MouseButtonReleased)
@@ -36,8 +36,8 @@ void GameScreen::checkDrop(sf::Event &e)
 			std::cout << "DROP : " << this->_dropCompartment->getSize() << std::endl;
 			this->validDrop(1);
 			//En cours d'implémentation
-			//if (this->_dropCompartment->getSize() > 1)
-				//this->_inventory->chooseNumber(this);
+			if (this->_dropCompartment->getSize() > 1)
+				this->_inventory->chooseNumber(this);
 		}
 	}
 		
@@ -45,17 +45,16 @@ void GameScreen::checkDrop(sf::Event &e)
 
 void GameScreen::validDrop(int nbrDrop)
 {
-	std::cout << "Avant de valdierjfirff " << this->_dropCompartment->getSize() << std::endl;
-	std::cout << "Je valide !!!! f!f!eikerjfgerujuj" << std::endl;
 	//Fonction appelée lorsque qu'on a choisi le nbr de ressources qu'on voulait jeter de l'inventaire
 	//list contient mtn le bon nombre de ressources 
 	std::list<IEntity *> list = this->_dropCompartment->getElements(nbrDrop);
 	this->_dropCompartment->delAllElement();
+	this->_inventory->_gestionClick.reset();
 }
 
 void GameScreen::initialize(void)
 {
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
 		p->loadAnimation("zelda.png", 0.1f);
@@ -104,7 +103,6 @@ void GameScreen::draw()
 	}
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());
-	_physicEngine->update();
 	static bool test = true;
 	if (Singleton::getInstance().isKeyIPressed)
 	{
@@ -120,6 +118,8 @@ void GameScreen::draw()
 
 void GameScreen::update(void)
 {
+	//_physicEngine->updatePos(_players, _entities);
+	//_physicEngine->update();
 	if (!Singleton::getInstance().isRightClicking)
 	{
 		_isFirst = true;

@@ -39,7 +39,7 @@ void InventoryWindow::createWindow()
 	this->_inventoryWindow->SetRequisition(sf::Vector2f(500, 300.0f));
 	this->_inventoryWindow->SetTitle("Inventory");
 	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseLeave).Connect(std::bind(&GestionClick::drop, &this->_gestionClick));
-	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseLeftRelease).Connect(std::bind(&GestionClick::drop, &this->_gestionClick));
+	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&GestionClick::cantDrop, &this->_gestionClick));
 	this->_numberWindow = nullptr;
 	//je ne sais pas comment faire pour qu'il se mette juste en bas de la page..
 	/*this->_closeButton = sfg::Button::Create("Close");
@@ -133,8 +133,8 @@ void InventoryWindow::createCompartment(Player *player)
 			auto  tmp = sfg::Image::Create();
 			tmp->SetImage(fillImage(player, compt));
 			tmp->GetSignal(sfg::Widget::OnMouseLeftPress).Connect(std::bind(&GestionClick::leftPress, &this->_gestionClick, compt, player, tmp));
-			tmp->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&GestionClick::dump, &this->_gestionClick, compt, player));
-			tmp->GetSignal(sfg::Widget::OnMouseLeftRelease).Connect(std::bind(&GestionClick::leftRelease, &this->_gestionClick, compt, player, tmp));
+		//	tmp->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&GestionClick::dump, &this->_gestionClick, compt, player));
+		//	tmp->GetSignal(sfg::Widget::OnMouseLeftRelease).Connect(std::bind(&GestionClick::leftRelease, &this->_gestionClick, compt, player, tmp));
 			table->Attach(tmp, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
 			++compt;
 		}

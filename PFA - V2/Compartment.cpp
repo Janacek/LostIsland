@@ -79,10 +79,10 @@ std::list<IEntity *> Compartment::getElements(int nbr)
 		return this->_elements;
 	for (IEntity *u : this->_elements)
 	{
-	/*	list.push_back(u);
+		list.push_back(u);
 		++i;
 		if (i == nbr)
-			return list;	*/	
+			return list;		
 	}
 	return list;
 }

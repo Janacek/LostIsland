@@ -31,7 +31,6 @@ typedef struct	s_action
 	}
 	void reset()
 	{
-		std::cout << "JE SUIS APPELE" << std::endl;
 		_screen = NONE;
 		_compartment = NULL;
 		_img = NULL;
