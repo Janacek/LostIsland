@@ -8,26 +8,53 @@ GameScreen::GameScreen()
 	_isRunning = true;
 	_camera._position.x = 0;
 	_camera._position.y = 0;
+	_dropCompartment = NULL;
 	_map = new Map(&_camera);
 	pos.x = 100;
 	pos.y = 100;
 	_map->init(std::string("Babar"), sf::Vector2i(18, 18), 33);
 	_map->generate();
 	this->_physicEngine = new PhysicEngine(_map, &_camera);
-	this->_isFirst = true;
 	_physicEngine->init();
-	_pathToGo = 0.f;
+	
 }
 
 void GameScreen::events(sf::Event &e)
 {
-	//this->_inventory->_desktop.HandleEvent(e);
+	this->_inventory->_desktop.HandleEvent(e);
+	checkDrop(e);
+}
+
+//Ici on obtient la ressource sur laquelle le playeur a appuyé dans l'inventaire
+void GameScreen::checkDrop(sf::Event &e)
+{
+	if (e.type == sf::Event::MouseButtonReleased)
+	{
+		this->_dropCompartment = this->_inventory->dropRessource();
+		if (this->_dropCompartment != NULL)
+		{
+			std::cout << "DROP : " << this->_dropCompartment->getSize() << std::endl;
+			this->validDrop(1);
+			//En cours d'implémentation
+			if (this->_dropCompartment->getSize() > 1)
+				this->_inventory->chooseNumber(this);
+		}
+	}
+		
+}
+
+void GameScreen::validDrop(int nbrDrop)
+{
+	//Fonction appelée lorsque qu'on a choisi le nbr de ressources qu'on voulait jeter de l'inventaire
+	//list contient mtn le bon nombre de ressources 
+	std::list<IEntity *> list = this->_dropCompartment->getElements(nbrDrop);
+	this->_dropCompartment->delAllElement();
+	this->_inventory->_gestionClick.reset();
 }
 
 void GameScreen::initialize(void)
 {
-	_pathToGo = 0.f;
-
+	
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -38,10 +65,10 @@ void GameScreen::initialize(void)
 	}
 
 	this->_activeInventary = false;
-	//Inventaire non fonctionnel
-	/*this->_inventory = new InventoryWindow;
+	
+	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
-	this->_inventory->createTabs(this->_players);*/
+	this->_inventory->createTabs(this->_players);
 	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
 	_statisticsText.setPosition(5.f, 5.f);
 	_statisticsText.setCharacterSize(10);
@@ -50,43 +77,13 @@ void GameScreen::initialize(void)
 	//initialisation de l'image du pointeur
 
 	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
-	_isPathNotFound = false;
+
 
 }
 
-void				GameScreen::checkEntitySelection()
+void GameScreen::mouseLeftPress(int index)
 {
-	int				i = 0;
-
-	//if (!Singleton::getInstance().isLeftClicking)
-	//{
-		/*if (!this->_selectEnable)
-		{
-			this->_selectEnable = true;
-			_savedPostion.x = sf::Mouse::getPosition(*this->_app).x;
-			_savedPostion.y = sf::Mouse::getPosition(*this->_app).y;
-		}
-
-		_rectSelection[0].position = this->_app->mapPixelToCoords(this->_savedPostion);
-		_rectSelection[1].position = this->_app->mapPixelToCoords(sf::Vector2i(sf::Mouse::getPosition(*this->_app).x, _savedPostion.y));
-		_rectSelection[2].position = this->_app->mapPixelToCoords(sf::Vector2i((sf::Mouse::getPosition(*this->_app).x), sf::Mouse::getPosition(*this->_app).y));
-		_rectSelection[3].position = this->_app->mapPixelToCoords(sf::Vector2i(this->_savedPostion.x, sf::Mouse::getPosition(*this->_app).y));
-		while (i < 1)
-		{
-			if (isInSelection(i))
-				dynamic_cast<Human *>(this->_livingEntities[i])->_isSelected = true;
-			else
-				dynamic_cast<Human *>(this->_livingEntities[i])->_isSelected = false;
-			++i;
-		}
-		_rectSelection[0].color = this->_color;
-		_rectSelection[1].color = this->_color;
-		_rectSelection[2].color = this->_color;
-		_rectSelection[3].color = this->_color;
-		this->_app->draw(_rectSelection);
-	}
-	else
-		this->_selectEnable = false;*/
+	std::cout << "index du clique !" << std::endl;
 }
 
 void GameScreen::draw()
@@ -107,14 +104,13 @@ void GameScreen::draw()
 	}
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());
-	_physicEngine->update();
 	static bool test = true;
-	/*if (Singleton::getInstance().isKeyIPressed)
+	if (Singleton::getInstance().isKeyIPressed)
 	{
-	this->_inventory->_firstN->Show(test);
-	test = !test;
-	Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
-	}*/
+		this->_inventory->_inventoryWindow->Show(test);
+		test = !test;
+		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
+	}
 	checkInput();
 
 	if (Singleton::getInstance().isLeftClicking)
@@ -135,68 +131,19 @@ void GameScreen::draw()
 	}
 
 	Singleton::getInstance()._window->display();
-
-}
-
-sf::Vector2f lerp(sf::Vector2f a, sf::Vector2f b, float f)
-{
-	return a + f * (b - a);
 }
 
 
 void GameScreen::update(void)
 {
-	if (!Singleton::getInstance().isRightClicking)
-	{
-		_isFirst = true;
-	}
-	if ((Singleton::getInstance().isRightClicking && this->_isFirst) || _isPathNotFound)
-	{
-		this->_isFirst = false;
-		sf::Vector2i tmp_begin = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-		sf::Vector2i tmp_end;
-		if (_isPathNotFound && _pathToGo <= 1)
-		{
-			sf::Vector2f tmp_lerp_begin;
-			sf::Vector2f tmp_lerp_end;
-			tmp_begin.x = (tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL; // ISOK
-			tmp_begin.y = (tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL;
-			tmp_lerp_begin.x = tmp_begin.x;
-			tmp_lerp_begin.y = tmp_begin.y;
-			tmp_end.x = _players[0]->getPosition().x; // player en selec
-			tmp_end.y = _players[0]->getPosition().y;
-			tmp_lerp_end.x = tmp_end.x;
-			tmp_lerp_end.y = tmp_end.y;
-			tmp_lerp_begin = lerp(tmp_lerp_begin, tmp_lerp_end, _pathToGo);
-			tmp_begin.x = tmp_lerp_begin.x;
-			tmp_begin.y = tmp_lerp_begin.y;
-			_pathToGo += 0.01;		
-			_isPathNotFound = false;
-		}
-		else
-		{
-			tmp_begin.x = (tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL; // ISOK
-			tmp_begin.y = (tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL;
-		}
-		if (_map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN
-			|| _map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component != NULL)
-		{
-			_isPathNotFound = true;
-		}
-		else
-		{
-			_pathToGo = 0;
-			tmp_end.x = _players[0]->getPosition().x; // player en selec
-			tmp_end.y = _players[0]->getPosition().y;
-			_physicEngine->findMeAPath(tmp_end, tmp_begin, *_players[0]);
-		}
-	}
+
+	_physicEngine->updatePos(_players, _entities);
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
 		(*it)->update();
 	}
 	_map->update();
-
+	this->_inventory->update();
 	if (Singleton::getInstance().isEscapePressed)
 	{
 		_isRunning = false;
@@ -227,11 +174,7 @@ bool GameScreen::checkImpossibleCase() const
 
 void GameScreen::updateObjectsPos()
 {
-	if (this->checkImpossibleCase() == true)
-	{
-		if (this->_leftClickPressed._compartment != NULL)
-			_gc.callFunction(this->_leftClickPressed, this->_leftClickReleased);
-	}
+	
 }
 
 void GameScreen::saveClick(bool click)

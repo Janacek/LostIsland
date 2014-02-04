@@ -1,6 +1,7 @@
 #include "Chunk.h"
 #include "Player.h"
 #include "Water.h"
+#include "Wood.h"
 #include "Singleton.h"
 #include <iostream>
 #include <math.h>  
@@ -13,8 +14,9 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_rect.setPosition(pos);
 	
 	_rect.setFillColor(sf::Color::Red);
-	this->_img.loadFromFile("carre.png");
-	createBox();
+	this->addEntityInInventory(new Water);
+	this->addEntityInInventory(new Water);
+	this->addEntityInInventory(new Wood);
 
 	/*
 	** Gestion de la vie / soif / etc...
@@ -30,11 +32,19 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_oldDt;
 }
 
+Compartment	*Player::getCompartment(int index)
+{
+	if (index >= this->_inventoryPlayer.size())
+		return NULL;
+	return this->_inventoryPlayer[index];
+}
+
 sfg::Box::Ptr Player::getBox()
 {
 	return this->_inventory;
 }
 
+//ON NE S'EN sert pas pour le moment
 void Player::createBox()
 {
 	//on crée la structure
@@ -79,6 +89,7 @@ bool Player::addEntityInInventory(IEntity *entity)
 	}
 	//nouveau Type d'element
 	this->_inventoryPlayer.push_back(new Compartment(entity));
+	return true;
 }
 
 //peut peut etre servir
@@ -206,7 +217,6 @@ void Player::update()
 
 void Player::loadAnimation(std::string const & string_anim, float speed)
 {
-	std::cout << "SHO" << std::endl;
 	sf::Texture *imgAnim = new sf::Texture;
 	sf::Color color(255, 0, 255);
 	if (!imgAnim->loadFromFile(string_anim))

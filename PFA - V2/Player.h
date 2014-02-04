@@ -33,6 +33,7 @@ public:
 	bool addEntityInInventory(IEntity *entity);
 	bool delEntityInInventory(Type);
 	bool delEntityInInventory(IEntity *);
+	Compartment	*getCompartment(int index);
 	void moveToNextWP();
 	void update();
 	//sf::Rect & getCollisionBox(void);
@@ -68,14 +69,15 @@ protected:
 	*/
 	sf::RectangleShape			_rect;
 	sf::Vector2f				_pos;
-	sf::Vector2f				_posDisp;
 
+	sf::Vector2f _posDisp;
+	unsigned int _sizeInventory;
+	
 
 	/*
 	** Player inventory
 	*/
-	sfg::Box::Ptr				_inventory;
-	unsigned int				_sizeInventory;
+
 	std::vector<Compartment *>	_inventoryPlayer;
 
 
@@ -88,6 +90,7 @@ protected:
 	float						_food;
 	bool						_isSick;
 
+	sfg::Box::Ptr				_inventory;
 	sf::Clock					_referenceClock;
 
 	double						_hungerClock;

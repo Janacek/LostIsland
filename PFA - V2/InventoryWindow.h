@@ -2,7 +2,10 @@
 
 #include <SFGUI/SFGUI.hpp>
 #include <vector>
+#include "GestionClick.h"
 #include "Player.h"
+
+class GameScreen;
 
 class InventoryWindow
 {
@@ -12,21 +15,33 @@ public:
 	void update();
 	void draw();
 	void createTabs(std::vector<Player *>&);
+	void close();
 	void createCompartment(Player *);
+	void chooseNumber(GameScreen *);
+	Compartment *dropRessource();
+	void mouseLeftPress(int index);
+	void mouseLeftRelease(int index);
+	const sf::Image&fillImage(Player *player, int index);
 	~InventoryWindow();
 
 	sfg::Desktop _desktop;
 //private:
 	void createWindow();
+	void createNumberWindow();
+	void valideNumber();
+	void onTextChange();
 
 	//attributs
+	int					_dropNbr;
+	GestionClick		_gestionClick;
 	sf::Image			_img;
-	sfg::Notebook::Ptr _secondN;
-	sfg::Notebook::Ptr _firstN;
-	sfg::Window::Ptr _inventoryWindow;
-	sfg::Window::Ptr _numberWindow;
-	
-	sfg::Button::Ptr _button;
-	sfg::Box::Ptr		_box;
+	sf::Image			_test;
+	sfg::Notebook::Ptr		_noteBook;
+	sfg::Window::Ptr	_inventoryWindow;
+	sfg::Window::Ptr	_numberWindow;
+	sfg::Entry::Ptr		_entry;
+	sfg::Label::Ptr		_label;
+	sfg::Button::Ptr	_closeButton;
+	GameScreen			*_gameScreen; //moche ...
 };
 

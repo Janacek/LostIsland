@@ -25,10 +25,14 @@ public:
 	void events(sf::Event &);
 	stateName getStateName() const;
 	sf::Vector2f pos;
+	void mouseLeftPress(int index);
+	void validDrop(int);
+	void dropRessource();
 protected:
 private:
 	Camera				_camera;
 	void				updateStatistics(sf::Time &elapsedTime);
+	void				checkDrop(sf::Event &e);
 	void				checkInput();
 	void				drawMouse();
 	void				checkClose();
@@ -38,28 +42,27 @@ private:
 	bool				checkImpossibleCase() const;
 	void				checkEntitySelection();
 
-	PhysicEngine			*_physicEngine;
-	GestionClick			_gestionClick;
-	bool					_activeInventary;
-	Map						*_map;
-	sf::Time				_t;
-	sf::Clock				_clickClock;
+	PhysicEngine		*_physicEngine;
+	GestionClick		_gestionClick;
+	bool				_activeInventary;
+	Map					*_map;
+	sf::Time			_t;
+	sf::Clock			_clickClock;
 	std::vector<Player *>	_players;
 	std::vector<IEntity *>	_entities;
 	InventoryWindow			*_inventory;
-	sf::Text				_statisticsText;
-	std::size_t				_statisticsNumFrames;
-	sf::Time				_statisticsUpdateTime;
-	bool					_isRunning;
-	IScreen					* _next;
-	sf::Text				* _statisticText;
-	sf::RectangleShape		_mousePicture;
+	sf::Text			_statisticsText;
+	std::size_t			_statisticsNumFrames;
+	sf::Time			_statisticsUpdateTime;
+	bool				_isRunning;
+	IScreen				* _next;
+	sf::Text			* _statisticText;
+	sf::RectangleShape	_mousePicture;
 	s_action				_leftClickPressed;
 	s_action				_leftClickReleased;
 	s_action				_rightClickPressed;
 	s_action				_rightClickReleased;
-	bool					_isFirst;
-	bool					_isPathNotFound;
-	float					_pathToGo;
+	
+	Compartment				*_dropCompartment;
 	GestionClick			_gc;
 };

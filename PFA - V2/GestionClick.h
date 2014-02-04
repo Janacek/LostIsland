@@ -1,29 +1,31 @@
 #pragma once
 
 #include "IScreen.h"
+#include "Compartment.h"
+#include "Player.h"
 
 class		GestionClick
 {
 public:
-	GestionClick(void);
+	GestionClick();
+	~GestionClick();
+	void leftPress(int index, Player *p, sfg::Image::Ptr);
+	void dump(int index, Player *p);
+	void clearLastCompartment();
+	void cantDrop();
+	void reset();
+	void leftRelease(int index, Player *p, sfg::Image::Ptr);
+	s_action canDrop();
+	void drop();
 	
-	/*void	swap(s_action&, s_action&);
-	void	add(s_action&, s_action&);
-	void	drop(s_action&, s_action&);*/
-//	void	doNothing(s_action&, s_action&);
-	std::map<Screens, std::string> _enumToString;
-	~GestionClick(void);
+private:
+	void swap();
 
-	/*void	createCorrelationTable();
-	void	createInventoryTable();
-	void	createStuffTable();
-	void	createCraftingTable();*/
-
-
-	typedef void (GestionClick::*gestionClick)(s_action&, s_action&);
-
-	void												callFunction(s_action&, s_action&);
-	std::map<Screens, std::map<Screens, gestionClick> > _correlationTable;
-	gestionClick										_caller;
+	struct s_action			_leftClickPressed;
+	struct s_action			_leftClickReleased;
+	struct s_action			_rightClickPressed;
+	struct s_action			_rightClickReleased;
+	Compartment				*_lastCompartment;
+	bool					_canDrop;
 };
 
