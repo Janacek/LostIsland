@@ -15,7 +15,8 @@ public:
 	void doAction(IEntity* other);
 	void getAction(IEntity* other);
 	void loadAnimation(std::string const & string_anim, float speed);
-	void draw();	void update();
+	void draw();
+	void update();
 	Type getType() const;
 	int getDamage(void) const;
 	void setPath(std::list<std::pair<float, float> >&  path);

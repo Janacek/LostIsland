@@ -94,7 +94,9 @@ private:
 
 	Cell					_corTab[100];
 
+public:
 	Camera					*_camera;
+private:
 
 	float hori;
 	float vert;
@@ -104,6 +106,8 @@ private:
 	*/
 private:
 	sf::RenderTexture		*_miniMapT;
+
+	sf::RenderTexture		*_mapText;
 
 	// A SUPPRIMER LE PLUS VITE POSSIBLE.
 	std::list<Tree *>		_trees;

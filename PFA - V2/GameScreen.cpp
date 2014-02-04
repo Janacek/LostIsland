@@ -108,7 +108,24 @@ void GameScreen::draw()
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
 	checkInput();
-	this->_inventory->draw();
+
+	if (Singleton::getInstance().isLeftClicking)
+	{
+		sf::Vector2i tmp = Singleton::getInstance().posLeftClickPressed;
+		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+
+		tmp.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
+		tmp.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+
+		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - tmp.x, mousePos.y - tmp.y));
+		selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
+		selectionZone.setOutlineColor(sf::Color::White);
+		selectionZone.setOutlineThickness(2);
+		selectionZone.setPosition(tmp.x,
+			tmp.y);
+		Singleton::getInstance()._window->draw(selectionZone);
+	}
+
 	Singleton::getInstance()._window->display();
 }
 
