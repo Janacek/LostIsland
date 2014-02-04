@@ -398,7 +398,7 @@ void						Map::draw(sf::RenderWindow *win)
 			tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
 			tmp.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
 				(i -_camera->_position.y) * Chunk::SIZE_OF_CELL);
-			win->draw(tmp);
+			Singleton::getInstance()._window->draw(tmp);
 
 			sf::Vector2f savePos;
 			if (_entitiesMap[i][j]._component != NULL)
@@ -411,7 +411,6 @@ void						Map::draw(sf::RenderWindow *win)
 			}
 		}
 	}
-
 }
 
 void						Map::generateTrees()

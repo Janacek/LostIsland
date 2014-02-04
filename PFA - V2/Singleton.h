@@ -27,6 +27,9 @@ public:
 	sf::Vector2i posLeftClickReleased;
 	sf::Vector2i posRightClickPressed;
 	sf::Vector2i posRightClickReleased;
+
+	sf::Vector2f updatePosLeftClickPressed;
+
 	bool isValidating;
 	sf::Clock *_animClock;
 
