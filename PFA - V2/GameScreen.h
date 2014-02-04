@@ -40,6 +40,7 @@ private:
 	void				saveClick(bool click);
 	void				updateObjectsPos();
 	bool				checkImpossibleCase() const;
+	void				checkEntitySelection();
 
 	PhysicEngine		*_physicEngine;
 	GestionClick		_gestionClick;
@@ -57,11 +58,11 @@ private:
 	IScreen				* _next;
 	sf::Text			* _statisticText;
 	sf::RectangleShape	_mousePicture;
-	struct s_action			_leftClickPressed;
-	struct s_action			_leftClickReleased;
-	struct s_action			_rightClickPressed;
-	struct s_action			_rightClickReleased;
-	bool					_isFirst;
+	s_action				_leftClickPressed;
+	s_action				_leftClickReleased;
+	s_action				_rightClickPressed;
+	s_action				_rightClickReleased;
+	
 	Compartment				*_dropCompartment;
 	GestionClick			_gc;
 };

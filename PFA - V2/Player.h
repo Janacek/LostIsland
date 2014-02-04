@@ -41,25 +41,60 @@ public:
 	//TODO : Changer en compartments pour l'inventaire
 
 	sf::Image					_img; //TMP
-	std::vector<Compartment *>	_inventoryPlayer;
 	// std::vector<IEntity *> _inventary;
-protected:
-private:
-	void					createBox();
 
+
+protected:
+
+	/*
+	** Player's camera and misc
+	*/
+	void					createBox();
 	Animation					*_anim;
 	Camera						*_camera;
+
+
+	/*
+	** Player pathfinding
+	*/
 	std::list<std::pair<float, float> >	_path;
 	
+	/*
+	** Player's name (could be with miscs)
+	*/
+	std::string					_name;
+
+	/*
+	** Player position
+	*/
 	sf::RectangleShape			_rect;
 	sf::Vector2f				_pos;
+
 	sf::Vector2f _posDisp;
 	unsigned int _sizeInventory;
-	std::string _name;
-	int _life;
-	int _damages;
-	int _water;
-	int _food;
-	bool _isSick;
-	sfg::Box::Ptr _inventory; //NE PAS UTILISER
+	
+
+	/*
+	** Player inventory
+	*/
+
+	std::vector<Compartment *>	_inventoryPlayer;
+
+
+	/*
+	** Player state
+	*/
+	float						_life;
+	float						_damages;
+	float						_water;
+	float						_food;
+	bool						_isSick;
+
+	sfg::Box::Ptr				_inventory;
+	sf::Clock					_referenceClock;
+
+	double						_hungerClock;
+	double						_thirstClock;
+	double						_lifeClock;
+	double						_oldDt;
 };

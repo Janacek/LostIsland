@@ -157,7 +157,7 @@ void InventoryWindow::close()
 
 void InventoryWindow::update()
 {
-	_desktop.Update(Singleton::getInstance()._clock->restart().asSeconds());
+	_desktop.Update(0.1f);
 }
 
 void InventoryWindow::draw()
