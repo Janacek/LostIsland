@@ -21,6 +21,7 @@ public:
 	Compartment *dropRessource();
 	void mouseLeftPress(int index);
 	void mouseLeftRelease(int index);
+	void addToInventory(Player *, IEntity *);
 	const sf::Image&fillImage(Player *player, int index);
 	~InventoryWindow();
 
@@ -32,6 +33,8 @@ public:
 	void onTextChange();
 
 	//attributs
+	std::vector<Player *> _players;
+	std::vector<sfg::Image::Ptr> _tableImages;
 	int					_dropNbr;
 	GestionClick		_gestionClick;
 	sf::Image			_img;

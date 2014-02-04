@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "GameScreen.h"
+#include "Food.h"
 
 GameScreen::GameScreen()
 {
@@ -36,11 +37,10 @@ void GameScreen::checkDrop(sf::Event &e)
 			std::cout << "DROP : " << this->_dropCompartment->getSize() << std::endl;
 			this->validDrop(1);
 			//En cours d'implémentation
-			if (this->_dropCompartment->getSize() > 1)
-				this->_inventory->chooseNumber(this);
+			//if (this->_dropCompartment->getSize() > 1)
+				//this->_inventory->chooseNumber(this);
 		}
 	}
-		
 }
 
 void GameScreen::validDrop(int nbrDrop)
@@ -54,8 +54,6 @@ void GameScreen::validDrop(int nbrDrop)
 
 void GameScreen::initialize(void)
 {
-	
-
 	for (int i = 0; i < 2; i++)
 	{
 		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
@@ -75,9 +73,7 @@ void GameScreen::initialize(void)
 	_statisticsText.setPosition(0, 30);
 
 	//initialisation de l'image du pointeur
-
 	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
-
 
 }
 
@@ -104,7 +100,7 @@ void GameScreen::draw()
 	}
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());
-	static bool test = true;
+	static bool test = true; //NNNNNNNNuuuuuuuuuuuuul
 	if (Singleton::getInstance().isKeyIPressed)
 	{
 		this->_inventory->_inventoryWindow->Show(test);
