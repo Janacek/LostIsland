@@ -125,7 +125,7 @@ void GameScreen::draw()
 			tmp.y);
 		Singleton::getInstance()._window->draw(selectionZone);
 	}
-
+	this->_inventory->draw();
 	Singleton::getInstance()._window->display();
 }
 
