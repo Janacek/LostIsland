@@ -26,5 +26,5 @@ private:
 	Map *&_map;
 	bool					_isFirst;
 	bool					_isPathNotFound;
-	float					_pathToGo;
+	
 };

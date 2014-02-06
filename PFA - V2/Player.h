@@ -37,6 +37,10 @@ public:
 	int			posInventory(IEntity *);
 	void moveToNextWP();
 	void update();
+	float getPathToGo() const;
+	bool getIsMoving() const;
+	void setPathToGo(float f);
+	void addToPathToGo(float f);
 	//sf::Rect & getCollisionBox(void);
 
 	//TODO : Changer en compartments pour l'inventaire
@@ -60,7 +64,8 @@ protected:
 	** Player pathfinding
 	*/
 	std::list<std::pair<float, float> >	_path;
-
+	float								_pathToGo;
+	bool								_isMoving;
 	/*
 	** Player's name (could be with miscs)
 	*/

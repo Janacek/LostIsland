@@ -17,10 +17,12 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	this->addEntityInInventory(new Water);
 	this->addEntityInInventory(new Water);
 	this->addEntityInInventory(new Wood);
+	_isMoving = false;
 
 	/*
 	** Gestion de la vie / soif / etc...
 	*/
+	_pathToGo = 0.f;
 	_damages = 10;
 	_life = 100;
 	_water = 100;
@@ -119,6 +121,21 @@ bool Player::delEntityInInventory(Type type)
 	return false;
 }
 
+float Player::getPathToGo() const
+{
+	return _pathToGo;
+}
+
+void Player::setPathToGo(float f)
+{
+	_pathToGo = f;
+}
+
+void Player::addToPathToGo(float f)
+{
+	_pathToGo += f;
+}
+
 bool Player::delEntityInInventory(IEntity *entity)
 {
 	for (Compartment *u : this->_inventoryPlayer)
@@ -135,14 +152,15 @@ void Player::moveToNextWP()
 {
 	if (!_path.empty())
 	{
+		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
 		tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
 		//std::cout << "COIN HAUT GAUCHE : x " << floor(_pos.x) << " y " << floor(_pos.y) <<" pos reel droite  x " << floor(tmp.x) << " y "<< floor(tmp.y)  << std::endl;
 
-		if (_path.front().first == floor(_pos.x)  && _path.front().second == floor(_pos.y) &&
-			_path.front().first == floor(tmp.x)  && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
-		
+		if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y) &&
+			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
+
 		{
 			_path.pop_front();
 			return;
@@ -156,13 +174,20 @@ void Player::moveToNextWP()
 			_pos.y -= 0.1f;
 		if (_pos.y < _path.front().second)
 			_pos.y += 0.1f;
-		
+
 	}
+	else
+		_isMoving = false;
 }
 
 void Player::setSelected(bool const s)
 {
 	_isSelected = s;
+}
+
+bool Player::getIsMoving() const
+{
+	return _isMoving;
 }
 
 bool const Player::getSelected() const
