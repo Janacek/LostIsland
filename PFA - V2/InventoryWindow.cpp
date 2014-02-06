@@ -15,6 +15,7 @@ InventoryWindow::InventoryWindow()
 void InventoryWindow::createNumberWindow()
 {
 	this->_numberWindow = sfg::Window::Create();
+	this->_numberWindow->Show(false);
 	this->_numberWindow->SetTitle("Choose number");
 	auto box = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL);
 	auto button = sfg::Button::Create();
@@ -29,13 +30,14 @@ void InventoryWindow::createNumberWindow()
 	box->Pack(this->_label);
 	box->SetSpacing(5.f);
 	this->_numberWindow->Add(box);
-	this->_numberWindow->Show(false);
+
 	this->_desktop.Add(this->_numberWindow);
 }
 
 void InventoryWindow::createWindow()
 {
 	this->_inventoryWindow = sfg::Window::Create(sfg::Window::Style::TITLEBAR | sfg::Window::Style::BACKGROUND);
+	this->_inventoryWindow->Show(false);
 	this->_inventoryWindow->SetRequisition(sf::Vector2f(500, 300.0f));
 	this->_inventoryWindow->SetTitle("Inventory");
 	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseLeave).Connect(std::bind(&GestionClick::drop, &this->_gestionClick));
@@ -45,12 +47,13 @@ void InventoryWindow::createWindow()
 	/*this->_closeButton = sfg::Button::Create("Close");
 	this->_closeButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::close, this));
 	this->_inventoryWindow->Add(this->_closeButton);*/
-	this->_inventoryWindow->Show(false);
+
 	this->_desktop.Add(this->_inventoryWindow);
 }
 
 void InventoryWindow::createTabs(std::vector<Player *>&players)
 {
+	this->_players = players;
 	createCompartment(players.front());
 }
 
@@ -63,6 +66,21 @@ void InventoryWindow::chooseNumber(GameScreen *gameS)
 	this->_entry->SetText("");
 	this->_numberWindow->SetPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*Singleton::getInstance()._window)));
 	this->_numberWindow->Show();
+}
+
+void  InventoryWindow::addToInventory(Player *player, IEntity *entity)
+{
+	for (Player * u : this->_players)
+	{
+		//si c'est ce player
+		if (u == player)
+		{
+			u->addEntityInInventory(entity);
+			int pos = u->posInventory(entity);
+			std::cout << "POS : " << pos << std::endl;
+			this->_tableImages[pos]->SetImage((*ImageSingleton::getInstance().get(entity->getType())).copyToImage());
+		}
+	}
 }
 
 void InventoryWindow::valideNumber()
@@ -124,24 +142,26 @@ const sf::Image&InventoryWindow::fillImage(Player *player, int index)
 void InventoryWindow::createCompartment(Player *player)
 {
 	int compt = 0;
-	this->_noteBook = sfg::Notebook::Create();
+	this->_noteBook1 = sfg::Notebook::Create();
+	this->_noteBook2 = sfg::Notebook::Create();
+	this->_noteBook3 = sfg::Notebook::Create();
 	auto table = sfg::Table::Create();
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			auto  tmp = sfg::Image::Create();
+			auto tmp = sfg::Image::Create();
+			this->_tableImages.push_back(tmp);
 			tmp->SetImage(fillImage(player, compt));
 			tmp->GetSignal(sfg::Widget::OnMouseLeftPress).Connect(std::bind(&GestionClick::leftPress, &this->_gestionClick, compt, player, tmp));
-		//	tmp->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&GestionClick::dump, &this->_gestionClick, compt, player));
-		//	tmp->GetSignal(sfg::Widget::OnMouseLeftRelease).Connect(std::bind(&GestionClick::leftRelease, &this->_gestionClick, compt, player, tmp));
+			//	tmp->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&GestionClick::dump, &this->_gestionClick, compt, player));
+			//	tmp->GetSignal(sfg::Widget::OnMouseLeftRelease).Connect(std::bind(&GestionClick::leftRelease, &this->_gestionClick, compt, player, tmp));
 			table->Attach(tmp, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
 			++compt;
 		}
 	}
-	_noteBook->AppendPage(table, sfg::Label::Create("New Player"));
-	this->_inventoryWindow->Add(_noteBook);
-
+	_noteBook1->AppendPage(table, sfg::Label::Create("New Player"));
+	this->_inventoryWindow->Add(_noteBook1);
 }
 void InventoryWindow::init()
 {

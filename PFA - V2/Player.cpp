@@ -71,6 +71,18 @@ void Player::setCamPos(sf::Vector2f &pos)
 	
 }
 
+int		Player::posInventory(IEntity *entity)
+{
+	int a = 0;
+	for (Compartment *u : this->_inventoryPlayer)
+	{
+		if (u->getType() == entity->getType())
+			return a;
+		++a;
+	}
+	return a;
+}
+
 void Player::drink(Water *water)
 {
 	//Ici, nous buvons.
@@ -78,6 +90,7 @@ void Player::drink(Water *water)
 
 bool Player::addEntityInInventory(IEntity *entity)
 {
+	std::cout << "je passe dans inventaire" << std::endl;
 	for (Compartment *u : this->_inventoryPlayer)
 	{
 		//on a déja un element de ce type
@@ -87,6 +100,7 @@ bool Player::addEntityInInventory(IEntity *entity)
 			return true;
 		}
 	}
+	std::cout << "ajout d'un element " << std::endl;
 	//nouveau Type d'element
 	this->_inventoryPlayer.push_back(new Compartment(entity));
 	return true;

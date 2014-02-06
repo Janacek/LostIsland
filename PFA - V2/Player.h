@@ -34,6 +34,7 @@ public:
 	bool delEntityInInventory(Type);
 	bool delEntityInInventory(IEntity *);
 	Compartment	*getCompartment(int index);
+	int			posInventory(IEntity *);
 	void moveToNextWP();
 	void update();
 	//sf::Rect & getCollisionBox(void);
@@ -50,6 +51,7 @@ protected:
 	** Player's camera and misc
 	*/
 	void					createBox();
+	
 	Animation					*_anim;
 	Camera						*_camera;
 
@@ -79,6 +81,7 @@ protected:
 	*/
 
 	std::vector<Compartment *>	_inventoryPlayer;
+	
 
 
 	/*
