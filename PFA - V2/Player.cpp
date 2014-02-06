@@ -29,7 +29,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_hungerClock = 0;
 	_thirstClock = 0;
 	_lifeClock = 0;
-	_oldDt;
+	_isSelected = false;
 }
 
 Compartment	*Player::getCompartment(int index)
@@ -146,6 +146,16 @@ void Player::moveToNextWP()
 	}
 }
 
+void Player::setSelected(bool const s)
+{
+	_isSelected = s;
+}
+
+bool const Player::getSelected() const
+{
+	return _isSelected;
+}
+
 void Player::draw()
 {
 
@@ -155,6 +165,7 @@ void Player::draw()
 	
 	sf::Vector2f v(0, -10);
 	_rect.setPosition(_posDisp );
+	_rect.setFillColor(_isSelected ? sf::Color::Red : sf::Color::Blue);
 	Singleton::getInstance()._window->draw(_rect);
 	this->_anim->show(_posDisp + v);
 

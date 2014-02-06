@@ -78,7 +78,7 @@ void GameScreen::initialize(void)
 
 	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
 
-
+	Singleton::getInstance().updatePosLeftClickPressed = sf::Vector2f(0, 0);
 }
 
 void GameScreen::mouseLeftPress(int index)
@@ -115,19 +115,22 @@ void GameScreen::draw()
 
 	if (Singleton::getInstance().isLeftClicking)
 	{
-		sf::Vector2i tmp = Singleton::getInstance().posLeftClickPressed;
 		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 
-		tmp.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
-		tmp.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
 
-		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - tmp.x, mousePos.y - tmp.y));
+		_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
+		_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+
+		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
+			mousePos.y - _posSelectedArea.y));
 		selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
 		selectionZone.setOutlineColor(sf::Color::White);
 		selectionZone.setOutlineThickness(2);
-		selectionZone.setPosition(tmp.x,
-			tmp.y);
+		selectionZone.setPosition(_posSelectedArea.x,
+			_posSelectedArea.y);
 		Singleton::getInstance()._window->draw(selectionZone);
+
 	}
 
 	Singleton::getInstance()._window->display();
@@ -138,6 +141,46 @@ void GameScreen::update(void)
 {
 
 	_physicEngine->updatePos(_players, _entities);
+
+	if (Singleton::getInstance().isLeftClicking)
+	{
+		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+
+		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
+
+		_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
+		_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+
+		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
+			mousePos.y - _posSelectedArea.y));
+		selectionZone.setPosition(_posSelectedArea.x,
+			_posSelectedArea.y);
+
+
+		for (auto it = _players.begin(); it != _players.end(); ++it)
+		{
+			sf::RectangleShape tmp(sf::Vector2f(32, 32));
+
+			sf::Vector2f posDisp;
+			posDisp.x = (((*it)->getPosition().x - _map->_camera->_position.x) * Chunk::SIZE_OF_CELL);
+			posDisp.y = (((*it)->getPosition().y - _map->_camera->_position.y) * Chunk::SIZE_OF_CELL);
+
+			tmp.setPosition(posDisp);
+			std::cout << tmp.getGlobalBounds().top << " / " << tmp.getGlobalBounds().left << std::endl;
+
+			if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
+			{
+				(*it)->setSelected(true);
+			}
+			else
+			{
+				(*it)->setSelected(false);
+			}
+		}
+
+		std::cout << _posSelectedArea.x << ", " << std::endl;
+	}
+
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
 		(*it)->update();

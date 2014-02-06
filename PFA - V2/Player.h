@@ -97,4 +97,12 @@ protected:
 	double						_thirstClock;
 	double						_lifeClock;
 	double						_oldDt;
+
+	/*
+	** Selection of the player.
+	*/
+	bool						_isSelected;
+public:
+	void						setSelected(bool const);
+	bool						const getSelected() const;
 };
