@@ -62,6 +62,18 @@ void GameScreen::initialize(void)
 
 	}
 
+	for (int i = 0; i < 15;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
+			this->_entities.push_back(new Bunny(sf::Vector2f(y, x), 100, _map->_camera));
+			++i;
+		}
+
+	}
+
 	this->_activeInventary = false;
 	
 	this->_inventory = new InventoryWindow;
@@ -98,6 +110,12 @@ void GameScreen::draw()
 		(*it)->draw();
 		//break;
 	}
+
+	for (auto it = _entities.begin(); it != _entities.end(); ++it)
+	{
+		(*it)->draw();
+	}
+
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());
 	static bool test = true; //NNNNNNNNuuuuuuuuuuuuul

@@ -11,6 +11,7 @@ enum Type
 	WATER,
 	FOOD,
 	PLAYER,
+	BUNNY,
 	SABLE,
 	LAC,
 	GRASS,

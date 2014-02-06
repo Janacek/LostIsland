@@ -3,7 +3,10 @@
 #include <map>
 #include <functional>
 #include "IScreen.h"
+
 #include "Player.h"
+#include "Bunny.h"
+
 #include "InventoryWindow.h"
 #include "Map.h"
 #include "GestionClick.h"

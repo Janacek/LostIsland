@@ -60,7 +60,7 @@ protected:
 	** Player pathfinding
 	*/
 	std::list<std::pair<float, float> >	_path;
-	
+
 	/*
 	** Player's name (could be with miscs)
 	*/
