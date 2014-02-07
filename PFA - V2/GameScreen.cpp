@@ -54,8 +54,6 @@ void GameScreen::validDrop(int nbrDrop)
 
 void GameScreen::initialize(void)
 {
-	
-
 	for (int i = 0; i < 2; i++)
 	{
 		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
@@ -107,6 +105,7 @@ void GameScreen::draw()
 	static bool test = true;
 	if (Singleton::getInstance().isKeyIPressed)
 	{
+		std::cout << "lol i pressed" << std::endl;
 		this->_inventory->_inventoryWindow->Show(test);
 		test = !test;
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
@@ -129,7 +128,7 @@ void GameScreen::draw()
 			tmp.y);
 		Singleton::getInstance()._window->draw(selectionZone);
 	}
-
+	this->_inventory->draw();
 	Singleton::getInstance()._window->display();
 }
 
@@ -144,6 +143,7 @@ void GameScreen::update(void)
 	}
 	_map->update();
 	this->_inventory->update();
+	
 	if (Singleton::getInstance().isEscapePressed)
 	{
 		_isRunning = false;
