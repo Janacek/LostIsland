@@ -37,6 +37,13 @@ public:
 	virtual sf::Vector2f  getPosition() const = 0;
 	virtual int getDamage(void) const = 0;
 	virtual Type getType() const = 0;
+	virtual bool getIsMoving() const = 0;
+	virtual float getPathToGo() const = 0;
+	virtual void setPathToGo(float f) = 0;
+	virtual void addToPathToGo(float f) = 0;
+	virtual bool const getSelected() const = 0;
+	virtual bool const getIsPathFound() const = 0;
+	virtual void setIsPathFound(bool)  = 0;
 	//sf::Rect &getCollisionBox(void);
 
 protected:

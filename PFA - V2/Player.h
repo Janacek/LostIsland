@@ -38,9 +38,10 @@ public:
 	void moveToNextWP();
 	void update();
 	float getPathToGo() const;
-	bool getIsMoving() const;
 	void setPathToGo(float f);
 	void addToPathToGo(float f);
+	bool getIsMoving() const;
+	
 	//sf::Rect & getCollisionBox(void);
 
 	//TODO : Changer en compartments pour l'inventaire
@@ -63,6 +64,10 @@ protected:
 	/*
 	** Player pathfinding
 	*/
+	sf::Clock					_mvtClock;
+	float						_oldDtMvt;
+
+	float								_speed;
 	std::list<std::pair<float, float> >	_path;
 	float								_pathToGo;
 	bool								_isMoving;
@@ -113,4 +118,7 @@ protected:
 public:
 	void						setSelected(bool const);
 	bool						const getSelected() const;
+	bool const getIsPathFound() const { return false; }
+	void setIsPathFound(bool n) { (void)n; }
+
 };

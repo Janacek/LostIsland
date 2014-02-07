@@ -2,6 +2,7 @@
 
 Bunny::Bunny()
 {
+	_isMoving = false;
 }
 
 Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
@@ -10,6 +11,11 @@ Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(_position);
 	loadAnimation("bunny", 0.1f);
+	_isMoving = false;
+	_pathToGo = 1.f;
+	_speed = 8;
+
+	_isPathFound = false;
 }
 
 Bunny::~Bunny()
@@ -17,6 +23,75 @@ Bunny::~Bunny()
 
 }
 
+void Bunny::moveToNextWP()
+{
+	double dt = 0;
+	double time;
+
+	time = _mvtClock.getElapsedTime().asSeconds();
+	dt = time - _oldDtMvt;
+
+	_oldDtMvt = time;
+	if (!_path.empty())
+	{
+		_isMoving = true;
+		sf::Vector2f tmp(0, 0);
+		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
+		tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
+		//std::cout << "COIN HAUT GAUCHE : x " << floor(_pos.x) << " y " << floor(_pos.y) <<" pos reel droite  x " << floor(tmp.x) << " y "<< floor(tmp.y)  << std::endl;
+
+		if (_path.front().first == floor(_position.x) && _path.front().second == floor(_position.y) &&
+			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
+
+		{
+			_path.pop_front();
+			return;
+		}
+
+		if (_position.x > _path.front().first)
+			_position.x -= dt * _speed;
+		if (_position.x < _path.front().first)
+			_position.x += dt * _speed;
+		if (_position.y > _path.front().second)
+			_position.y -= dt *_speed;
+		if (_position.y < _path.front().second)
+			_position.y += dt * _speed;
+
+	}
+	else
+		_isMoving = false;
+}
+
+
+void Bunny::setIsPathFound(bool p )
+{
+	_isPathFound = p;
+}
+
+bool const Bunny::getIsPathFound() const
+{
+	return _isPathFound;
+}
+
+float Bunny::getPathToGo() const
+{
+	return _pathToGo;
+}
+
+void Bunny::setPathToGo(float p) 
+{
+	_pathToGo = p;
+}
+
+void Bunny::addToPathToGo(float p)
+{
+	_pathToGo += p;
+}
+
+bool Bunny::getIsMoving() const
+{
+	return _isMoving;
+}
 void Bunny::doAction(IEntity *o)
 {
 	o->getAction(this);
@@ -46,7 +121,7 @@ void Bunny::draw()
 
 void Bunny::update()
 {
-
+	moveToNextWP();
 }
 
 void Bunny::setPath(std::list<std::pair<float, float>> &list)

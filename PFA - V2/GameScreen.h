@@ -44,7 +44,6 @@ private:
 	void				updateObjectsPos();
 	bool				checkImpossibleCase() const;
 	void				checkEntitySelection();
-
 	PhysicEngine			*_physicEngine;
 	GestionClick			_gestionClick;
 	bool					_activeInventary;

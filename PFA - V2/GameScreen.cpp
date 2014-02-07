@@ -17,6 +17,11 @@ GameScreen::GameScreen()
 	_map->generate();
 	this->_physicEngine = new PhysicEngine(_map, &_camera);
 	_physicEngine->init();
+	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
+	_statisticsText.setPosition(5.f, 5.f);
+	_statisticsText.setCharacterSize(10);
+	_statisticsText.setPosition(0, 30);
+
 	
 }
 
@@ -79,10 +84,7 @@ void GameScreen::initialize(void)
 	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
 	this->_inventory->createTabs(this->_players);
-	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
-	_statisticsText.setPosition(5.f, 5.f);
-	_statisticsText.setCharacterSize(10);
-	_statisticsText.setPosition(0, 30);
+	
 
 	//initialisation de l'image du pointeur
 	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
@@ -99,7 +101,6 @@ void GameScreen::draw()
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
 	Singleton::getInstance()._animClock->restart();
-	//updateStatistics(_t);
 	this->_map->draw(Singleton::getInstance()._window);
 
 	//Singleton::getInstance()._window->draw(_statisticsText);
@@ -118,7 +119,7 @@ void GameScreen::draw()
 
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());
-	static bool test = true; //NNNNNNNNuuuuuuuuuuuuul
+	static bool test = true; //NNNNNNNNuuuuuuuuuuuuul²
 	if (Singleton::getInstance().isKeyIPressed)
 	{
 		this->_inventory->_inventoryWindow->Show(test);
@@ -147,8 +148,11 @@ void GameScreen::draw()
 
 	}
 	this->_inventory->draw();
+	updateStatistics(_t);
+
 	Singleton::getInstance()._window->display();
 }
+
 
 
 void GameScreen::update(void)
@@ -195,7 +199,12 @@ void GameScreen::update(void)
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
+		
 		(*it)->update();
+	}
+	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
+	{
+		(*it2)->update();
 	}
 	_map->update();
 	this->_inventory->update();
@@ -249,22 +258,21 @@ void GameScreen::checkInput()
 
 void GameScreen::updateStatistics(sf::Time &elapsedTime)
 {
-	//_statisticsUpdateTime += elapsedTime;
-	//_statisticsNumFrames += 1;
+	_statisticsUpdateTime += elapsedTime;
+	_statisticsNumFrames += 1;
 
-	//if (_statisticsUpdateTime >= sf::seconds(1.0f))
-	//{
-	//	std::ostringstream oss;
-	//	std::ostringstream oss2;
-	//	oss << _statisticsNumFrames;
-	//	oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
-	//	_statisticsText.setString(
-	//		"Frames / Second = " + oss.str() + "\n" 
-	//		"Time / Update = " + oss2.str() + "us");
+	if (_statisticsUpdateTime >= sf::seconds(1.0f))
+	{
+		std::ostringstream oss;
+		std::ostringstream oss2;
+		oss << _statisticsNumFrames;
+		oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
+		std::cout << "Frames / Second = " <<  oss.str() << "\n" <<
+			"Time / Update = " << oss2.str() << "us" << std::endl;;
 
-	//	_statisticsUpdateTime -= sf::seconds(1.0f);
-	//	_statisticsNumFrames = 0;
-	//}
+		_statisticsUpdateTime -= sf::seconds(1.0f);
+		_statisticsNumFrames = 0;
+	}
 }
 
 IScreen * GameScreen::getNextState(void)

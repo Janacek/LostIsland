@@ -22,6 +22,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	/*
 	** Gestion de la vie / soif / etc...
 	*/
+	_speed = 10;
 	_pathToGo = 0.f;
 	_damages = 10;
 	_life = 100;
@@ -150,6 +151,13 @@ bool Player::delEntityInInventory(IEntity *entity)
 
 void Player::moveToNextWP()
 {
+	double dt = 0;
+	double time;
+
+	time = _mvtClock.getElapsedTime().asSeconds();
+	dt = time - _oldDtMvt;
+
+	_oldDtMvt = time;
 	if (!_path.empty())
 	{
 		_isMoving = true;
@@ -167,13 +175,13 @@ void Player::moveToNextWP()
 		}
 
 		if (_pos.x > _path.front().first)
-			_pos.x -= 0.1f;
+			_pos.x -= dt * _speed;
 		if (_pos.x < _path.front().first)
-			_pos.x += 0.1f;
+			_pos.x += dt * _speed;
 		if (_pos.y > _path.front().second)
-			_pos.y -= 0.1f;
+			_pos.y -= dt *_speed;
 		if (_pos.y < _path.front().second)
-			_pos.y += 0.1f;
+			_pos.y += dt * _speed;
 
 	}
 	else
@@ -198,7 +206,6 @@ bool const Player::getSelected() const
 void Player::draw()
 {
 
-	moveToNextWP();
 	_posDisp.x = ((_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 	
@@ -263,6 +270,8 @@ void Player::update()
 	{
 		// You're supposedly dead here.
 	}
+	moveToNextWP();
+
 }
 
 void Player::loadAnimation(std::string const & string_anim, float speed)

@@ -23,14 +23,29 @@ public:
 	sf::Vector2f getPosition() const;
 	int getDamage(void) const;
 	Type getType() const;
+	bool getIsMoving() const;
+	float getPathToGo() const;
+	void setPathToGo(float f);
+	void moveToNextWP();
+	void addToPathToGo(float f);
+
+	bool						const getSelected() const{ return true; }
+	bool const getIsPathFound() const;
+	void setIsPathFound(bool);
+
 
 private:
 	Animation				*_anim;
 	Camera					*_camera;
-
+	bool					_isMoving;
+	bool					_isPathFound;
 	// Bunny pathfinding
-	std::list<std::pair<float, float> >	_path;
+	sf::Clock				_mvtClock;
+	float					_speed;
+	double					_oldDtMvt;
 
+	std::list<std::pair<float, float> >	_path;
+	float								_pathToGo; // /!\ il doit partir a 1
 	// Bunny's position
 	sf::RectangleShape		_rect;
 	sf::Vector2f			_position;

@@ -12,6 +12,14 @@ public:
 	void draw();
 	void setPosition(sf::Vector2f &pos);
 	void loadAnimation(std::string const & string_anim, float speed);
+	bool getIsMoving() const { return false; }
+	float getPathToGo() const { return 0.f; }
+	void setPathToGo(float f) { (void)f; }
+	void addToPathToGo(float f) { (void)f; }
+	bool const getSelected() const{ return true; }
+	bool const getIsPathFound() const { return false; }
+	void setIsPathFound(bool n) { (void)n; }
+
 	int getDamage(void) const;
 	Type getType() const;
 	void update();

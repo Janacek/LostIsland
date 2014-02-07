@@ -3,7 +3,6 @@
 #include "PathFinding.h"
 #include "Map.h"
 
-
 void PathFinding::initPathfinding(Map* &map, Camera *cam)
 {
 	_cam = cam;
@@ -20,193 +19,192 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 	int b = 0;
 	for (j = 0; j < map->getSize().x * Chunk::NB_CELLS; ++j)
 	{
-
 		for (i = 0; i < map->getSize().y * Chunk::NB_CELLS; ++i)
 		{
-
-
-			// on doit passer par tous les points adjacent aux points courants
-			// le truc cest que Il ne peut pas y avoir 2 meme points dans la liste
-			if (map->getCellMap()[i][j]._cellType != Cell::OCEAN && map->getEntitiesMap()[i][j]._component == NULL)
-			{
-		
+			if (map->getCellMap()[i][j]._cellType != Cell::OCEAN )
+			{		
 				WayPointID wpID = boost::add_vertex(graphe);
-				graphe[wpID].pos.first = j  ;
-				graphe[wpID].pos.second = i ;
-				for (int u = 0; u < 8; ++u)
+				graphe[wpID].pos.first = j;
+				graphe[wpID].pos.second = i;
+				//on peut add les pts adjacents ici
+				if (map->getEntitiesMap()[i][j]._component == NULL)
 				{
-					//std::cout << "caca" << std::endl;
-					bool isPass = false;
-					bool isOk = false;
-					boost::graph_traits<WayPointGraph>::vertex_iterator it_b, it_end;
+				
+					for (int u = 0; u < 8; ++u)
+					{
+						//std::cout << "caca" << std::endl;
+						bool isPass = false;
+						bool isOk = false;
+						boost::graph_traits<WayPointGraph>::vertex_iterator it_b, it_end;
 
-					std::pair<float, float> tmp((j  ), (i ));
-					std::pair<int, int> tmp_add((j), (i));
+						std::pair<float, float> tmp((j), (i));
+						std::pair<int, int> tmp_add((j), (i));
 
-					if (u == 0)
-					{
-						tmp.first += 1;
-						tmp_add.first += 1;
-						if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN
-							&& map->getEntitiesMap()[tmp_add.second][tmp_add.first ]._component == NULL)
+						if (u == 0)
 						{
-							isOk = false;
+							tmp.first += 1;
+							tmp_add.first += 1;
+							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN
+								&& map->getEntitiesMap()[tmp_add.second][tmp_add.first]._component == NULL)
+							{
+								isOk = false;
+							}
+							else
+								isOk = true;
 						}
-						else
-							isOk = true;
-					}
-					else if (u == 1)
-					{
-						tmp.second += 1;
-						tmp_add.second += 1;
-						if (map->getCellMap()[tmp_add.second ][tmp_add.first]._cellType != Cell::OCEAN
-							&& map->getEntitiesMap()[tmp_add.second ][tmp_add.first]._component == NULL)
+						else if (u == 1)
 						{
-							isOk = false;
-						}
-						else
-							isOk = true;
+							tmp.second += 1;
+							tmp_add.second += 1;
+							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN
+								&& map->getEntitiesMap()[tmp_add.second][tmp_add.first]._component == NULL)
+							{
+								isOk = false;
+							}
+							else
+								isOk = true;
 
-					}
-					else if (u == 2)
-					{
-						tmp.first -= 1;
-						tmp_add.first -= 1;
-						if (map->getCellMap()[tmp_add.second][tmp_add.first ]._cellType != Cell::OCEAN 
-							&& map->getEntitiesMap()[tmp_add.second][tmp_add.first ]._component == NULL)
-						{
-							isOk = false;
 						}
-						else
-							isOk = true;
-					}
-					else if (u == 3)
-					{
-						tmp.second -= 1;
-						tmp_add.second -= 1;
-						if (map->getCellMap()[tmp_add.second ][tmp_add.first]._cellType != Cell::OCEAN
-							&& map->getEntitiesMap()[tmp_add.second ][tmp_add.first]._component == NULL)
+						else if (u == 2)
 						{
-							isOk = false;
+							tmp.first -= 1;
+							tmp_add.first -= 1;
+							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN
+								&& map->getEntitiesMap()[tmp_add.second][tmp_add.first]._component == NULL)
+							{
+								isOk = false;
+							}
+							else
+								isOk = true;
 						}
-						else
-							isOk = true;
-					}
-					/*else if (u == 4)
-					{
+						else if (u == 3)
+						{
+							tmp.second -= 1;
+							tmp_add.second -= 1;
+							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN
+								&& map->getEntitiesMap()[tmp_add.second][tmp_add.first]._component == NULL)
+							{
+								isOk = false;
+							}
+							else
+								isOk = true;
+						}
+						/*else if (u == 4)
+						{
 						tmp_add.first += 1;
 						tmp_add.second += 1;
 						if ((map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN &&
-							map->getCellMap()[tmp_add.second][tmp_add.first - 1]._cellType != Cell::OCEAN)&&
-							(map->getEntitiesMap()[tmp_add.second -1][tmp_add.first]._component == NULL &&
-							map->getEntitiesMap()[tmp_add.second][tmp_add.first - 1]._component == NULL))
+						map->getCellMap()[tmp_add.second][tmp_add.first - 1]._cellType != Cell::OCEAN)&&
+						(map->getEntitiesMap()[tmp_add.second -1][tmp_add.first]._component == NULL &&
+						map->getEntitiesMap()[tmp_add.second][tmp_add.first - 1]._component == NULL))
 						{
-							tmp.first += 1;
-							tmp.second += 1;
+						tmp.first += 1;
+						tmp.second += 1;
 
 						}
 						else
-							isOk = true;
-					}
-					else if (u == 5)
-					{
+						isOk = true;
+						}
+						else if (u == 5)
+						{
 						tmp_add.first -= 1;
 
 						tmp_add.second += 1;
 
 						if ((map->getCellMap()[tmp_add.second][tmp_add.first + 1]._cellType != Cell::OCEAN &&
-							map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN) &&
-							(map->getEntitiesMap()[tmp_add.second][tmp_add.first+ 1]._component == NULL &&
-							map->getEntitiesMap()[tmp_add.second - 1][tmp_add.first ]._component == NULL))
+						map->getCellMap()[tmp_add.second - 1][tmp_add.first]._cellType != Cell::OCEAN) &&
+						(map->getEntitiesMap()[tmp_add.second][tmp_add.first+ 1]._component == NULL &&
+						map->getEntitiesMap()[tmp_add.second - 1][tmp_add.first ]._component == NULL))
 						{
-							tmp.first -= 1;
-							tmp.second += 1;
+						tmp.first -= 1;
+						tmp.second += 1;
 
 						}
 						else
-							isOk = true;
-					}
-					else if (u == 6)
-					{
+						isOk = true;
+						}
+						else if (u == 6)
+						{
 						tmp_add.first -= 1;
 
 						tmp_add.second -= 1;
 
 						if ((map->getCellMap()[tmp_add.second + 1][tmp_add.first]._cellType != Cell::OCEAN &&
-							map->getCellMap()[tmp_add.second][tmp_add.first + 1]._cellType != Cell::OCEAN) &&
-							(map->getEntitiesMap()[tmp_add.second + 1][tmp_add.first]._component == NULL &&
-							map->getEntitiesMap()[tmp_add.second][tmp_add.first + 1]._component == NULL))
+						map->getCellMap()[tmp_add.second][tmp_add.first + 1]._cellType != Cell::OCEAN) &&
+						(map->getEntitiesMap()[tmp_add.second + 1][tmp_add.first]._component == NULL &&
+						map->getEntitiesMap()[tmp_add.second][tmp_add.first + 1]._component == NULL))
 						{
-							tmp.first -= 1;
-							tmp.second -= 1;
+						tmp.first -= 1;
+						tmp.second -= 1;
 
 						}
 						else
-							isOk = true;
-					}
-					else if (u == 7)
-					{
+						isOk = true;
+						}
+						else if (u == 7)
+						{
 						tmp_add.first += 1;
 
 						tmp_add.second -= 1;
 
 						if ((map->getCellMap()[tmp_add.second][tmp_add.first - 1]._cellType != Cell::OCEAN &&
-							map->getCellMap()[tmp_add.second + 1][tmp_add.first]._cellType != Cell::OCEAN) &&
-							(map->getEntitiesMap()[tmp_add.second ][tmp_add.first - 1]._component == NULL &&
-							map->getEntitiesMap()[tmp_add.second + 1][tmp_add.first ]._component == NULL))
+						map->getCellMap()[tmp_add.second + 1][tmp_add.first]._cellType != Cell::OCEAN) &&
+						(map->getEntitiesMap()[tmp_add.second ][tmp_add.first - 1]._component == NULL &&
+						map->getEntitiesMap()[tmp_add.second + 1][tmp_add.first ]._component == NULL))
 						{
-							tmp.first += 1;
-							tmp.second -= 1;
+						tmp.first += 1;
+						tmp.second -= 1;
 
 						}
 						else
-							isOk = true;
-					}*/
-					//std::cout << " x " << boost::get(boost::vertex_bundle, graphe)[*it].pos.first  << " y " << boost::get(boost::vertex_bundle, graphe)[*it].pos.second << std::endl;		
-					if (tmp.first >= 0 && tmp.second >= 0 && tmp.first <= map->getSize().x  * Chunk::NB_CELLS && tmp.second <= map->getSize().y  * Chunk::NB_CELLS && isOk == false)
-					{
-						for (boost::tie(it_b, it_end) = boost::vertices(graphe); it_b != it_end; ++it_b)
+						isOk = true;
+						}*/
+						//std::cout << " x " << boost::get(boost::vertex_bundle, graphe)[*it].pos.first  << " y " << boost::get(boost::vertex_bundle, graphe)[*it].pos.second << std::endl;		
+						if (tmp.first >= 0 && tmp.second >= 0 && tmp.first <= map->getSize().x  * Chunk::NB_CELLS && tmp.second <= map->getSize().y  * Chunk::NB_CELLS && isOk == false)
 						{
-							//std::cout << " x " << boost::get(boost::vertex_bundle, graphe)[*it].pos.first  << " y " << boost::get(boost::vertex_bundle, graphe)[*it].pos.second << std::endl;		
-							if (boost::get(boost::vertex_bundle, graphe)[*it_b].pos == tmp)
+							for (boost::tie(it_b, it_end) = boost::vertices(graphe); it_b != it_end; ++it_b)
 							{
-								isPass = true;
-								break;
+								//std::cout << " x " << boost::get(boost::vertex_bundle, graphe)[*it].pos.first  << " y " << boost::get(boost::vertex_bundle, graphe)[*it].pos.second << std::endl;		
+								if (boost::get(boost::vertex_bundle, graphe)[*it_b].pos == tmp)
+								{
+									isPass = true;
+									break;
+								}
 							}
-						}
 
-						if (isPass == false)
-						{
-							WayPointID wpID2 = boost::add_vertex(graphe);
-
-							graphe[wpID2].pos = tmp;
-							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN && map->getEntitiesMap()[tmp_add.second][tmp_add.first ]._component == NULL)
+							if (isPass == false)
 							{
-								float dx = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first) * Chunk::SIZE_OF_CELL;
-								float dy = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second) * Chunk::SIZE_OF_CELL;
-								//std::cout << "Point 1 x " << graphe[wpID].pos.first << " y " << graphe[wpID].pos.second
-								//<< "Point 2 x " << graphe[wpID2].pos.first << " y " << graphe[wpID2].pos.second << std::endl;
+								WayPointID wpID2 = boost::add_vertex(graphe);
 
-								a++;
-								boost::add_edge(wpID, wpID2, WayPointConnection(sqrt(dx * dx + dy * dy)), graphe);
+								graphe[wpID2].pos = tmp;
+								if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN && map->getEntitiesMap()[tmp_add.second][tmp_add.first]._component == NULL)
+								{
+									float dx = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first) * Chunk::SIZE_OF_CELL;
+									float dy = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second) * Chunk::SIZE_OF_CELL;
+									//std::cout << "Point 1 x " << graphe[wpID].pos.first << " y " << graphe[wpID].pos.second
+									//<< "Point 2 x " << graphe[wpID2].pos.first << " y " << graphe[wpID2].pos.second << std::endl;
+
+									a++;
+									boost::add_edge(wpID, wpID2, WayPointConnection(sqrt(dx * dx + dy * dy)), graphe);
+								}
 							}
-						}
-						else
-						{
-
-							WayPointID wpID2 = (*it_b);
-							if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN && map->getEntitiesMap()[tmp_add.second][tmp_add.first - 1]._component == NULL)
+							else
 							{
-								float dx = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second) * Chunk::SIZE_OF_CELL;
-								float dy = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first) * Chunk::SIZE_OF_CELL;
-								//std::cout << "Point 1 x " << graphe[wpID].pos.first << " y " << graphe[wpID].pos.second
-								//<< "Point 2 x " << graphe[wpID2].pos.first << " y " << graphe[wpID2].pos.second << std::endl;
-								boost::add_edge(wpID, wpID2, WayPointConnection(sqrt(dx * dx + dy * dy)), graphe);
-								b++;
+
+								WayPointID wpID2 = (*it_b);
+								if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN && map->getEntitiesMap()[tmp_add.second][tmp_add.first - 1]._component == NULL)
+								{
+									float dx = abs(graphe[wpID].pos.second - graphe[wpID2].pos.second) * Chunk::SIZE_OF_CELL;
+									float dy = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first) * Chunk::SIZE_OF_CELL;
+									//std::cout << "Point 1 x " << graphe[wpID].pos.first << " y " << graphe[wpID].pos.second
+									//<< "Point 2 x " << graphe[wpID2].pos.first << " y " << graphe[wpID2].pos.second << std::endl;
+									boost::add_edge(wpID, wpID2, WayPointConnection(sqrt(dx * dx + dy * dy)), graphe);
+									b++;
+								}
 							}
+
+
 						}
-
-
 					}
 				}
 
@@ -313,13 +311,12 @@ void PathFinding::updatePath()
 
 void PathFinding::find_vertex(const WayPoint& wp, const WayPointGraph& graph)
 {
-	std::cout << "coucou" << std::endl;
+	
 	_vertex_found = std::make_pair(0, false);
 	for (WayPointID id = 0; id < boost::num_vertices(graph); ++id)
 	{
 		if (equal(graph[id].pos, wp.pos))
 		{
-			std::cout << "YOYOYOYO x " << graphe[id].pos.first << " y " << graphe[id].pos.first << std::endl;
 			_vertex_found = std::make_pair(id, true);
 		}
 		//
