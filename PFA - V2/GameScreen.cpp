@@ -180,8 +180,6 @@ void GameScreen::update(void)
 			posDisp.y = (((*it)->getPosition().y - _map->_camera->_position.y) * Chunk::SIZE_OF_CELL);
 
 			tmp.setPosition(posDisp);
-			std::cout << tmp.getGlobalBounds().top << " / " << tmp.getGlobalBounds().left << std::endl;
-
 			if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
 			{
 				(*it)->setSelected(true);
