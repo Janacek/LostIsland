@@ -19,8 +19,15 @@ public:
 	void update();
 	Type getType() const;
 	int getDamage(void) const;
+	bool getIsMoving() const { return false; }
 	void setPath(std::list<std::pair<float, float> >&  path);
-	
+	float getPathToGo() const { return 0.f; }
+	void setPathToGo(float f) { (void)f; }
+	void addToPathToGo(float f) { (void)f; }
+	bool const getSelected() const{ return true; }
+	bool const getIsPathFound() const { return false; }
+	void setIsPathFound(bool n) { (void)n; }
+
 	void setPosition(sf::Vector2f &);
 	sf::Vector2f  getPosition() const;
 	

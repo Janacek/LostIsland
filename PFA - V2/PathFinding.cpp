@@ -26,6 +26,7 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 				WayPointID wpID = boost::add_vertex(graphe);
 				graphe[wpID].pos.first = j;
 				graphe[wpID].pos.second = i;
+				//on peut add les pts adjacents ici
 				if (map->getEntitiesMap()[i][j]._component == NULL)
 				{
 				
@@ -310,13 +311,12 @@ void PathFinding::updatePath()
 
 void PathFinding::find_vertex(const WayPoint& wp, const WayPointGraph& graph)
 {
-	std::cout << "coucou" << std::endl;
+	
 	_vertex_found = std::make_pair(0, false);
 	for (WayPointID id = 0; id < boost::num_vertices(graph); ++id)
 	{
 		if (equal(graph[id].pos, wp.pos))
 		{
-			std::cout << "YOYOYOYO x " << graphe[id].pos.first << " y " << graphe[id].pos.first << std::endl;
 			_vertex_found = std::make_pair(id, true);
 		}
 		//

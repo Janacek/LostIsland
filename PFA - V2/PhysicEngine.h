@@ -16,9 +16,13 @@ public:
 	bool getIsLaunch() const;
 	void addVertexPoint(sf::Vector2i &) ;
 	bool findMeAPath(sf::Vector2i&, sf::Vector2i & , IEntity &);
+	bool tryFindAPathHuman(sf::Vector2i&, sf::Vector2i &, IEntity &);
+	bool tryFindAPathEntity(sf::Vector2i&, sf::Vector2i &, IEntity &);
 
 protected:
 private:
+	float				diffDist(sf::Vector2f const &, sf::Vector2f const &);
+	sf::Vector2f        lerp(sf::Vector2f a, sf::Vector2f b, float f);
 	Camera		*_cam;
 	bool _isLaunch;
 	bool _isRunning;
@@ -26,5 +30,5 @@ private:
 	Map *&_map;
 	bool					_isFirst;
 	bool					_isPathNotFound;
-	float					_pathToGo;
+	
 };
