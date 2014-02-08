@@ -54,18 +54,18 @@ bool PhysicEngine::tryFindAPathEntity(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_
 		 
 		//tmp_begin.x = (tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL; // ISOK
 		//tmp_begin.y = (tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL;
-		tmp_lerp_begin.x = tmp_begin.x;
-		tmp_lerp_begin.y = tmp_begin.y;
+		tmp_lerp_begin.x = static_cast<float>(tmp_begin.x);
+		tmp_lerp_begin.y = static_cast<float>(tmp_begin.y);
 
-		tmp_end.x = ent.getPosition().x ; // player en selec
-		tmp_end.y = ent.getPosition().y;
-		tmp_lerp_end.x = tmp_end.x;
-		tmp_lerp_end.y = tmp_end.y;
+		tmp_end.x = static_cast<int>(ent.getPosition().x); // player en selec
+		tmp_end.y = static_cast<int>(ent.getPosition().y);
+		tmp_lerp_end.x = static_cast<float>(tmp_end.x);
+		tmp_lerp_end.y = static_cast<float>(tmp_end.y);
 		ent.addToPathToGo(-0.1f);
 
 		tmp_lerp_begin = lerp(tmp_lerp_begin, tmp_lerp_end, ent.getPathToGo());
-		tmp_begin.x = tmp_lerp_begin.x;
-		tmp_begin.y = tmp_lerp_begin.y;
+		tmp_begin.x = static_cast<int>(tmp_lerp_begin.x);
+		tmp_begin.y = static_cast<int>(tmp_lerp_begin.y);
 		ent.setIsPathFound(false);
 		if (_map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN
 			|| _map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component != NULL)
@@ -99,25 +99,25 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_e
 	{
 		sf::Vector2f tmp_lerp_begin;
 		sf::Vector2f tmp_lerp_end;
-		tmp_begin.x = (tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL; // ISOK
-		tmp_begin.y = (tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL;
-		tmp_lerp_begin.x = tmp_begin.x;
-		tmp_lerp_begin.y = tmp_begin.y;
+		tmp_begin.x = (static_cast<int>(tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL; // ISOK
+		tmp_begin.y = (static_cast<int>(tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL;
+		tmp_lerp_begin.x = static_cast<float>(tmp_begin.x);
+		tmp_lerp_begin.y = static_cast<float>(tmp_begin.y);
 
-		tmp_end.x = ent.getPosition().x; // player en selec
-		tmp_end.y = ent.getPosition().y;
-		tmp_lerp_end.x = tmp_end.x;
-		tmp_lerp_end.y = tmp_end.y;
+		tmp_end.x = static_cast<int>(ent.getPosition().x); // player en selec
+		tmp_end.y = static_cast<int>(ent.getPosition().y);
+		tmp_lerp_end.x = static_cast<float>(tmp_end.x);
+		tmp_lerp_end.y = static_cast<float>(tmp_end.y);
 		tmp_lerp_begin = lerp(tmp_lerp_begin, tmp_lerp_end, ent.getPathToGo());
-		tmp_begin.x = tmp_lerp_begin.x;
-		tmp_begin.y = tmp_lerp_begin.y;
-		ent.addToPathToGo(0.01);
+		tmp_begin.x = static_cast<int>(tmp_lerp_begin.x);
+		tmp_begin.y = static_cast<int>(tmp_lerp_begin.y);
+		ent.addToPathToGo(0.01f);
 		_isPathNotFound = false;
 	}
 	else
 	{
-		tmp_begin.x = (tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL; // ISOK
-		tmp_begin.y = (tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL;
+		tmp_begin.x = (static_cast<int>(tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL; // ISOK
+		tmp_begin.y = (static_cast<int>(tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL;
 	}
 	if (_map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN
 		|| _map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component != NULL)
@@ -131,8 +131,8 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_e
 		if (ent.getSelected())
 		{
 
-			tmp_end.x = ent.getPosition().x; // player en selec
-			tmp_end.y = ent.getPosition().y;
+			tmp_end.x = static_cast<int>(ent.getPosition().x); // player en selec
+			tmp_end.y = static_cast<int>(ent.getPosition().y);
 			findMeAPath(tmp_end, tmp_begin, ent);
 			return true;
 		}
@@ -156,7 +156,7 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<IEntity 
 			{
 
 				sf::Vector2i tmp_begin;
-				sf::Vector2i tmp_end((*it2)->getPosition().x, (*it2)->getPosition().y);
+				sf::Vector2i tmp_end(static_cast<int>((*it2)->getPosition().x), static_cast<int>((*it2)->getPosition().y));
 				sf::Vector2f tmp_lerp_begin;
 				sf::Vector2f tmp_lerp_end;
 				if ((*it2)->getPosition().x > (*it)->getPosition().x && (*it2)->getPosition().y < (*it)->getPosition().y)

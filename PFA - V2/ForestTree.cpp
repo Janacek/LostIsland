@@ -8,8 +8,8 @@ void ForestTree::Animate(std::string const &)
 void ForestTree::draw()
 {
 	//std::cout << "zefzef" << std::endl;
-	int posX = _position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL;
-	int posY = _position.y - Singleton::getInstance()._window->getSize().y  * Chunk::SIZE_OF_CELL - 20;
+	int posX = static_cast<int>(_position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL);
+	int posY = static_cast<int>(_position.y - Singleton::getInstance()._window->getSize().y  * Chunk::SIZE_OF_CELL - 20);
 
 	//std::cout << posX << std::endl;
 

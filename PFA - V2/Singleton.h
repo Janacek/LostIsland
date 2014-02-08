@@ -22,6 +22,10 @@ public:
 	bool isMovingRight;
 	bool isMovingLeft;
 	bool isKeyIPressed;
+	bool isKey1Pressed;
+	bool isKey2Pressed;
+	bool isKey3Pressed;
+	bool isKey4Pressed;
 	
 	sf::Vector2i posLeftClickPressed;
 	sf::Vector2i posLeftClickReleased;

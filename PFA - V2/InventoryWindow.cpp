@@ -10,6 +10,9 @@ InventoryWindow::InventoryWindow()
 	createNumberWindow();
 	this->_gameScreen = NULL;
 	this->_dropNbr = 0;
+	this->_tableTest = sfg::Table::Create();
+	auto but = sfg::Button::Create("Prout");
+	this->_tableTest->Add(but);
 }
 
 void InventoryWindow::createNumberWindow()
@@ -30,7 +33,6 @@ void InventoryWindow::createNumberWindow()
 	box->Pack(this->_label);
 	box->SetSpacing(5.f);
 	this->_numberWindow->Add(box);
-
 	this->_desktop.Add(this->_numberWindow);
 }
 
@@ -42,7 +44,6 @@ void InventoryWindow::createWindow()
 	this->_inventoryWindow->SetTitle("Inventory");
 	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseLeave).Connect(std::bind(&GestionClick::drop, &this->_gestionClick));
 	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&GestionClick::cantDrop, &this->_gestionClick));
-	this->_numberWindow = nullptr;
 	//je ne sais pas comment faire pour qu'il se mette juste en bas de la page..
 	/*this->_closeButton = sfg::Button::Create("Close");
 	this->_closeButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::close, this));
@@ -54,7 +55,11 @@ void InventoryWindow::createWindow()
 void InventoryWindow::createTabs(std::vector<Player *>&players)
 {
 	this->_players = players;
-	createCompartment(players.front());
+	this->_notebookfirst = sfg::Notebook::Create();
+	this->_inventoryWindow->Add(this->_notebookfirst);
+	//On crée un onglet pour chaque players
+	for (Player *u : this->_players)
+		createCompartment(u);
 }
 
 void InventoryWindow::chooseNumber(GameScreen *gameS)
@@ -86,8 +91,6 @@ void  InventoryWindow::addToInventory(Player *player, IEntity *entity)
 void InventoryWindow::valideNumber()
 {
 	std::istringstream  ss(this->_entry->GetText());
-
-	int nbr;
 
 	//TODO : faire une vérif
 	ss >> this->_dropNbr;
@@ -141,10 +144,8 @@ const sf::Image&InventoryWindow::fillImage(Player *player, int index)
 
 void InventoryWindow::createCompartment(Player *player)
 {
+	std::cout << "Yeah " << std::endl;
 	int compt = 0;
-	this->_noteBook1 = sfg::Notebook::Create();
-	this->_noteBook2 = sfg::Notebook::Create();
-	this->_noteBook3 = sfg::Notebook::Create();
 	auto table = sfg::Table::Create();
 	for (int i = 0; i < 3; i++)
 	{
@@ -160,8 +161,8 @@ void InventoryWindow::createCompartment(Player *player)
 			++compt;
 		}
 	}
-	_noteBook1->AppendPage(table, sfg::Label::Create("New Player"));
-	this->_inventoryWindow->Add(_noteBook1);
+	this->_tables.push_back(table);
+	//this->_notebookfirst->AppendPage(table, sfg::Label::Create(player->getName()));
 }
 void InventoryWindow::init()
 {

@@ -130,5 +130,5 @@ bool Animation::isStopped() const{
 }
 
 sf::Vector2f Animation::GetHeightPerso() const{
-	return sf::Vector2f(_sprite.getTexture()->getSize().x / (_nbFrame + 1), _sprite.getTexture()->getSize().y / (_nbFrame + 1));
+	return sf::Vector2f(static_cast<float>(_sprite.getTexture()->getSize().x / (_nbFrame + 1)), static_cast<float>(_sprite.getTexture()->getSize().y / (_nbFrame + 1)));
 }

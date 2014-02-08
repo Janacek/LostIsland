@@ -61,7 +61,11 @@ void GameScreen::initialize(void)
 {
 	for (int i = 0; i < 2; i++)
 	{
-		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
+		Player *p = new Player(sf::Vector2f(static_cast<float>(60 + i * 3), static_cast<float>(100)), &_camera);
+		if (i == 0)
+			p->setName("Player 1");
+		else
+			p->setName("Player 2");
 		p->loadAnimation("zelda.png", 0.1f);
 		this->_players.push_back(p);
 
@@ -73,7 +77,7 @@ void GameScreen::initialize(void)
 
 		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
 			_map->getEntitiesMap()[x][y]._component == NULL) {
-			this->_entities.push_back(new Bunny(sf::Vector2f(y, x), 100, _map->_camera));
+			this->_entities.push_back(new Bunny(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 100, _map->_camera));
 			++i;
 		}
 
@@ -87,7 +91,7 @@ void GameScreen::initialize(void)
 	
 
 	//initialisation de l'image du pointeur
-	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
+	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 
 }
 
@@ -120,9 +124,13 @@ void GameScreen::draw()
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());
 	static bool test = true; //NNNNNNNNuuuuuuuuuuuuul²
+	
 	if (Singleton::getInstance().isKeyIPressed)
 	{
 		this->_inventory->_inventoryWindow->Show(test);
+		if (test)
+			switchTabs();
+	
 		test = !test;
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
@@ -134,16 +142,16 @@ void GameScreen::draw()
 
 		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
 
-		_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
-		_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+		_posSelectedArea.x -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL);
+		_posSelectedArea.y -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL);
 
-		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
-			mousePos.y - _posSelectedArea.y));
+		sf::RectangleShape selectionZone(sf::Vector2f(static_cast<float>(mousePos.x - _posSelectedArea.x),
+			static_cast<float>(mousePos.y - _posSelectedArea.y)));
 		selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
 		selectionZone.setOutlineColor(sf::Color::White);
 		selectionZone.setOutlineThickness(2);
-		selectionZone.setPosition(_posSelectedArea.x,
-			_posSelectedArea.y);
+		selectionZone.setPosition(static_cast<float>(_posSelectedArea.x),
+			static_cast<float>(_posSelectedArea.y));
 		Singleton::getInstance()._window->draw(selectionZone);
 
 	}
@@ -153,10 +161,65 @@ void GameScreen::draw()
 	Singleton::getInstance()._window->display();
 }
 
+void GameScreen::switchTabs()
+{
+	int compt = 0;
+	for (Player *u : this->_players)
+	{
+		if (u->getSelected() == true)
+		{
+			if (this->_inventory->_tables[compt]->IsGloballyVisible() == false)
+			{
+				this->_inventory->_notebookfirst->Remove(this->_inventory->_tables[compt]);
+				this->_inventory->_tables[compt]->Show(false);
+				this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tables[compt], sfg::Label::Create(u->getName()), compt);
+				this->_inventory->_tables[compt]->Show(true);
+			}
+		}
+		else
+		{
+			if (this->_inventory->_tables[compt]->IsGloballyVisible() == true)
+			{
+				this->_inventory->_notebookfirst->Remove(this->_inventory->_tables[compt]);
+				this->_inventory->_tables[compt]->Show(false);
+			}
+		}
+		++compt;
+	}
+	/*this->_inventory->_notebookfirst->
+
+		this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tableTest, sfg::Label::Create("label test"), 1);
+
+	
+		this->_inventory->_notebookfirst->Remove(this->_inventory->_tableTest);
+		this->_inventory->_tableTest->Show(false);*/
+	
+	/*if (Singleton::getInstance().isKey1Pressed)
+	{
+		if (this->_inventory->_tableTest->IsGloballyVisible() == true)
+			std::cout << "TRUUUUUUUUUUUUUUUUUUUUUUE" << std::endl;
+		else
+			std::cout << "FALLLLLLLLLLLLLLLLLLLLLLLLLLLLLSE" << std::endl;
+		Singleton::getInstance().isKey1Pressed = !Singleton::getInstance().isKey1Pressed;
+	}
+	else if (Singleton::getInstance().isKey2Pressed)
+	{
+		Singleton::getInstance().isKey2Pressed = !Singleton::getInstance().isKey2Pressed;
+	}
+	else if (Singleton::getInstance().isKey3Pressed)
+	{
+		Singleton::getInstance().isKey3Pressed = !Singleton::getInstance().isKey3Pressed;
+	}
+	else if (Singleton::getInstance().isKey4Pressed)
+	{
+		Singleton::getInstance().isKey4Pressed = !Singleton::getInstance().isKey4Pressed;
+	}*/
+}
 
 
 void GameScreen::update(void)
 {
+
 
 	_physicEngine->updatePos(_players, _entities);
 
@@ -166,17 +229,17 @@ void GameScreen::update(void)
 
 		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
 
-		_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
-		_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+		_posSelectedArea.x -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL);
+		_posSelectedArea.y -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL);
 
-		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
-			mousePos.y - _posSelectedArea.y));
-		selectionZone.setPosition(_posSelectedArea.x,
-			_posSelectedArea.y);
+		sf::RectangleShape selectionZone(sf::Vector2f(static_cast<float>(mousePos.x - _posSelectedArea.x),
+			static_cast<float>(mousePos.y - _posSelectedArea.y)));
+		selectionZone.setPosition(static_cast<float>(_posSelectedArea.x),
+			static_cast<float>(_posSelectedArea.y));
 
 
-		for (auto it = _players.begin(); it != _players.end(); ++it)
-		{
+	for (auto it = _players.begin(); it != _players.end(); ++it)
+	{
 			sf::RectangleShape tmp(sf::Vector2f(32, 32));
 
 			sf::Vector2f posDisp;
