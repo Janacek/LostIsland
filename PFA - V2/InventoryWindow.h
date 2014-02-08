@@ -38,6 +38,7 @@ public:
 	std::vector<sfg::Table::Ptr> _tables;
 	int					_dropNbr;
 	sfg::Table::Ptr		_tableTest;
+	sfg::Label::Ptr			_emptyLabel;
 	GestionClick		_gestionClick;
 	sf::Image			_img;
 	sf::Image			_test;

@@ -40,6 +40,7 @@ private:
 	void				checkInput();
 	void				drawMouse();
 	void				checkClose();
+	void				checkQuit(sf::Event &e);
 	void				checkClicks();
 	void				saveClick(bool click);
 	void				updateObjectsPos();

@@ -44,11 +44,13 @@ void InventoryWindow::createWindow()
 	this->_inventoryWindow->SetTitle("Inventory");
 	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseLeave).Connect(std::bind(&GestionClick::drop, &this->_gestionClick));
 	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&GestionClick::cantDrop, &this->_gestionClick));
+	
+	//this->_inventoryWindow->GetSignal(sfg::Widget::O)
 	//je ne sais pas comment faire pour qu'il se mette juste en bas de la page..
 	/*this->_closeButton = sfg::Button::Create("Close");
 	this->_closeButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::close, this));
 	this->_inventoryWindow->Add(this->_closeButton);*/
-
+	this->_emptyLabel = sfg::Label::Create("Pas de joueur(s) sélectionné(s)."); 
 	this->_desktop.Add(this->_inventoryWindow);
 }
 
@@ -162,7 +164,9 @@ void InventoryWindow::createCompartment(Player *player)
 		}
 	}
 	this->_tables.push_back(table);
+	//this->_notebookfirst->InsertPage(table, sfg::Label::Create("TAMRERE"));
 	this->_notebookfirst->InsertPage(table, sfg::Label::Create(player->getName()), this->_tables.size() - 1);
+	//this->_notebookfirst->Remove(table);
 	table->Show(true);
 }
 void InventoryWindow::init()

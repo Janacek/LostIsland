@@ -25,10 +25,21 @@ GameScreen::GameScreen()
 	
 }
 
+void	GameScreen::checkQuit(sf::Event &e)
+{
+	sf::FloatRect rect = this->_inventory->_inventoryWindow->GetAllocation();
+
+	if (this->_inventory->_inventoryWindow->IsGloballyVisible() && e.type == sf::Event::MouseButtonPressed && rect.contains(sf::Vector2f(sf::Mouse::getPosition(*Singleton::getInstance()._window).x, sf::Mouse::getPosition(*Singleton::getInstance()._window).y)) == false)
+	{
+		this->_inventory->_inventoryWindow->Show(false);
+	}
+}
+
 void GameScreen::events(sf::Event &e)
 {
 	this->_inventory->_desktop.HandleEvent(e);
 	checkDrop(e);
+	checkQuit(e);
 }
 
 //Ici on obtient la ressource sur laquelle le playeur a appuyé dans l'inventaire
@@ -156,7 +167,7 @@ void GameScreen::draw()
 
 	}
 	this->_inventory->draw();
-	updateStatistics(_t);
+	//updateStatistics(_t);
 
 	Singleton::getInstance()._window->display();
 }
@@ -164,6 +175,28 @@ void GameScreen::draw()
 void GameScreen::switchTabs()
 {
 	int compt = 0;
+	//tmp
+	bool select = false;
+	for (Player *u : this->_players)
+	{
+		if (u->getSelected() == true)
+		{
+			select = true;
+			break;
+		}
+	}
+	if (select == false)
+	{
+		this->_inventory->_inventoryWindow->Remove(this->_inventory->_notebookfirst);
+		this->_inventory->_notebookfirst->Show(false);
+		this->_inventory->_inventoryWindow->Add(this->_inventory->_emptyLabel);
+		this->_inventory->_emptyLabel->Show(true);
+		return;
+	}
+	this->_inventory->_inventoryWindow->Remove(this->_inventory->_emptyLabel);
+	this->_inventory->_emptyLabel->Show(false);
+	this->_inventory->_inventoryWindow->Add(this->_inventory->_notebookfirst);
+	this->_inventory->_notebookfirst->Show(true);
 	for (Player *u : this->_players)
 	{
 		if (u->getSelected() == true)
@@ -231,7 +264,7 @@ void GameScreen::update(void)
 			}
 		}
 
-		std::cout << _posSelectedArea.x << ", " << std::endl;
+		//std::cout << _posSelectedArea.x << ", " << std::endl;
 	}
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
