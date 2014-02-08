@@ -186,34 +186,6 @@ void GameScreen::switchTabs()
 		}
 		++compt;
 	}
-	/*this->_inventory->_notebookfirst->
-
-		this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tableTest, sfg::Label::Create("label test"), 1);
-
-	
-		this->_inventory->_notebookfirst->Remove(this->_inventory->_tableTest);
-		this->_inventory->_tableTest->Show(false);*/
-	
-	/*if (Singleton::getInstance().isKey1Pressed)
-	{
-		if (this->_inventory->_tableTest->IsGloballyVisible() == true)
-			std::cout << "TRUUUUUUUUUUUUUUUUUUUUUUE" << std::endl;
-		else
-			std::cout << "FALLLLLLLLLLLLLLLLLLLLLLLLLLLLLSE" << std::endl;
-		Singleton::getInstance().isKey1Pressed = !Singleton::getInstance().isKey1Pressed;
-	}
-	else if (Singleton::getInstance().isKey2Pressed)
-	{
-		Singleton::getInstance().isKey2Pressed = !Singleton::getInstance().isKey2Pressed;
-	}
-	else if (Singleton::getInstance().isKey3Pressed)
-	{
-		Singleton::getInstance().isKey3Pressed = !Singleton::getInstance().isKey3Pressed;
-	}
-	else if (Singleton::getInstance().isKey4Pressed)
-	{
-		Singleton::getInstance().isKey4Pressed = !Singleton::getInstance().isKey4Pressed;
-	}*/
 }
 
 

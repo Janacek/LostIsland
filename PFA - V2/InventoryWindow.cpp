@@ -162,7 +162,8 @@ void InventoryWindow::createCompartment(Player *player)
 		}
 	}
 	this->_tables.push_back(table);
-	//this->_notebookfirst->AppendPage(table, sfg::Label::Create(player->getName()));
+	this->_notebookfirst->InsertPage(table, sfg::Label::Create(player->getName()), this->_tables.size() - 1);
+	table->Show(true);
 }
 void InventoryWindow::init()
 {
