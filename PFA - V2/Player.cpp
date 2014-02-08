@@ -37,7 +37,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 
 Compartment	*Player::getCompartment(int index)
 {
-	if (index >= this->_inventoryPlayer.size())
+	if (static_cast<unsigned int>(index) >= this->_inventoryPlayer.size())
 		return NULL;
 	return this->_inventoryPlayer[index];
 }
@@ -175,13 +175,13 @@ void Player::moveToNextWP()
 		}
 
 		if (_pos.x > _path.front().first)
-			_pos.x -= dt * _speed;
+			_pos.x -= static_cast<float>(dt * _speed);
 		if (_pos.x < _path.front().first)
-			_pos.x += dt * _speed;
+			_pos.x += static_cast<float>(dt * _speed);
 		if (_pos.y > _path.front().second)
-			_pos.y -= dt *_speed;
+			_pos.y -= static_cast<float>(dt *_speed);
 		if (_pos.y < _path.front().second)
-			_pos.y += dt * _speed;
+			_pos.y += static_cast<float>(dt * _speed);
 
 	}
 	else

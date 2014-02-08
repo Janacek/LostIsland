@@ -49,13 +49,13 @@ void Bunny::moveToNextWP()
 		}
 
 		if (_position.x > _path.front().first)
-			_position.x -= dt * _speed;
+			_position.x -= static_cast<float>(dt * _speed);
 		if (_position.x < _path.front().first)
-			_position.x += dt * _speed;
+			_position.x += static_cast<float>(dt * _speed);
 		if (_position.y > _path.front().second)
-			_position.y -= dt *_speed;
+			_position.y -= static_cast<float>(dt *_speed);
 		if (_position.y < _path.front().second)
-			_position.y += dt * _speed;
+			_position.y += static_cast<float>(dt * _speed);
 
 	}
 	else

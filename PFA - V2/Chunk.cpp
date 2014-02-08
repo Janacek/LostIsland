@@ -359,8 +359,8 @@ void					Chunk::draw(sf::RenderWindow *win, int y, int x)
 				tmp.setFillColor(sf::Color(19, 209, 111));
 			else
 				tmp.setFillColor(sf::Color::Yellow);
-			tmp.setPosition((j * (SIZE_OF_CELL / NB_CELLS) + y * Chunk::SIZE_OF_CELL),
-				(i * (SIZE_OF_CELL / NB_CELLS)) + x * Chunk::SIZE_OF_CELL);
+			tmp.setPosition((static_cast<float>(j * (SIZE_OF_CELL / NB_CELLS) + y * Chunk::SIZE_OF_CELL)),
+				static_cast<float>((i * (SIZE_OF_CELL / NB_CELLS)) + x * Chunk::SIZE_OF_CELL));
 			win->draw(tmp);
 		}
 	}
