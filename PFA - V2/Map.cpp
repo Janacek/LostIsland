@@ -301,7 +301,7 @@ void						Map::generateBiomes()
 		{
 			//std::cout << (int)(_temperature->getElevation(i, j, 75)* 0.5 * 100) << std::endl;
 			if (_cellMap[i][j]._cellType != Cell::OCEAN)
-				_cellMap[i][j]._cellType = (_corTab[(int)((_temperature->getElevation(i, j, 10)+1)* 0.5 * 100)])._cellType;
+				_cellMap[i][j]._cellType = (_corTab[(int)((_temperature->getElevation(static_cast<float>(i), static_cast<float>(j), static_cast<float>(10)) + 1)* 0.5 * 100)])._cellType;
 		}
 	}
 }
@@ -347,7 +347,7 @@ void						Map::createMiniMap()
 		{
 			sf::RectangleShape tmp(sf::Vector2f(2, 2));
 			tmp.setFillColor(_typeToColor[_cellMap[i][j]._cellType]);
-			tmp.setPosition(j * 2, i * 2);
+			tmp.setPosition(static_cast<float>(j * 2), static_cast<float>(i * 2));
 			_miniMapT->draw(tmp);
 		}
 	}
@@ -361,8 +361,8 @@ void						Map::drawMiniMap(sf::RenderWindow *win)
 
 	{
 		sf::RectangleShape tmp(sf::Vector2f(
-			(Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL) * 2,
-			(Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) * 2));
+			static_cast<float>(Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL) * 2,
+			static_cast<float>(Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) * 2));
 		tmp.setFillColor(sf::Color::Transparent);
 		tmp.setOutlineThickness(2);
 		tmp.setOutlineColor(sf::Color::Black);
@@ -371,8 +371,8 @@ void						Map::drawMiniMap(sf::RenderWindow *win)
 	}
 
 	sf::RectangleShape tmp(sf::Vector2f(
-		(_size.x * Chunk::NB_CELLS) * 2,
-		(_size.y * Chunk::NB_CELLS) * 2));
+		static_cast<float>(_size.x * Chunk::NB_CELLS) * 2,
+		static_cast<float>(_size.y * Chunk::NB_CELLS) * 2));
 	tmp.setFillColor(sf::Color::Transparent);
 	tmp.setOutlineThickness(2);
 	tmp.setOutlineColor(sf::Color::Black);
@@ -389,12 +389,12 @@ sf::Vector2f				&Map::getCamPos()
 
 void						Map::draw(sf::RenderWindow *win)
 {
-	for (int i = _camera->_position.y ; i < (Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) + 1 + _camera->_position.y ; ++i)
+	for (int i = static_cast<int>(_camera->_position.y); i < static_cast<int>((Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL + 1 + _camera->_position.y)); ++i)
 	{
-		for (int j = _camera->_position.x ; j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + _camera->_position.x ; ++j)
+		for (int j = static_cast<int>(_camera->_position.x); j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + _camera->_position.x; ++j)
 		{
-			sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL,
-				Chunk::SIZE_OF_CELL));
+			sf::RectangleShape tmp(sf::Vector2f(static_cast<float>(Chunk::SIZE_OF_CELL),
+				static_cast<float>(Chunk::SIZE_OF_CELL)));
 			tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
 			tmp.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
 				(i -_camera->_position.y) * Chunk::SIZE_OF_CELL);
@@ -432,7 +432,7 @@ void						Map::generateTrees()
 			tmp->setPosition(sf::Vector2f(x, y));*/
 
 			_entitiesMap[x][y]._component = new ForestTree();
-			_entitiesMap[x][y]._component->setPosition(sf::Vector2f(x, y));
+			_entitiesMap[x][y]._component->setPosition(sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
 
 			++i;
 		}
@@ -448,7 +448,7 @@ void						Map::generateTrees()
 		{
 			Bush *tmp;
 			tmp = new Bush();
-			tmp->setPosition(sf::Vector2f(x, y));
+			tmp->setPosition(sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
 
 			_entitiesMap[x][y]._component = tmp;
 
@@ -467,7 +467,7 @@ void						Map::generateTrees()
 		{
 			PalmTree *tmp;
 			tmp = new PalmTree();
-			tmp->setPosition(sf::Vector2f(x, y));
+			tmp->setPosition(sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
 
 			_entitiesMap[x][y]._component = tmp;
 

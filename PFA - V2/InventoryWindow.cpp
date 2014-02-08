@@ -92,8 +92,6 @@ void InventoryWindow::valideNumber()
 {
 	std::istringstream  ss(this->_entry->GetText());
 
-	int nbr;
-
 	//TODO : faire une vérif
 	ss >> this->_dropNbr;
 	//TODO : vider la case du bon nbr de ressources

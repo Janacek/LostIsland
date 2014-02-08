@@ -98,7 +98,7 @@ protected:
 	** Player state
 	*/
 	float						_life;
-	float						_damages;
+	int							_damages;
 	float						_water;
 	float						_food;
 	bool						_isSick;

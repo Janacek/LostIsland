@@ -2,7 +2,7 @@
 
 PerlinNoise::PerlinNoise(int seed)
 {
-	_unit = 1.0f / sqrt(2);
+	_unit = static_cast<float>(1.0f / sqrt(2));
 	_gradient2[0][0] = _unit;
 	_gradient2[0][1] = _unit;
 

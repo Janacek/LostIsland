@@ -157,7 +157,7 @@ void Player::moveToNextWP()
 	time = _mvtClock.getElapsedTime().asSeconds();
 	dt = time - _oldDtMvt;
 
-	_oldDtMvt = time;
+	_oldDtMvt = static_cast<float>(time);
 	if (!_path.empty())
 	{
 		_isMoving = true;
