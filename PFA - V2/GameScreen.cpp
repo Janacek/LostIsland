@@ -57,6 +57,10 @@ void GameScreen::initialize(void)
 	for (int i = 0; i < 2; i++)
 	{
 		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
+		if (i == 0)
+			p->setName("Player 1");
+		else
+			p->setName("Other player");
 		p->loadAnimation("zelda.png", 0.1f);
 		this->_players.push_back(p);
 
@@ -101,9 +105,16 @@ void GameScreen::draw()
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());
 	static bool test = true; //NNNNNNNNuuuuuuuuuuuuul
+	switchTabs();
 	if (Singleton::getInstance().isKeyIPressed)
 	{
-		this->_inventory->_inventoryWindow->Show(test);
+		if (test)
+			this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tableTest, sfg::Label::Create("label test"), 1);
+		else
+		{
+			this->_inventory->_notebookfirst->Remove(this->_inventory->_tableTest);
+			this->_inventory->_tableTest->Show(false);
+		}
 		test = !test;
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
@@ -129,6 +140,29 @@ void GameScreen::draw()
 	Singleton::getInstance()._window->display();
 }
 
+void GameScreen::switchTabs()
+{
+	if (Singleton::getInstance().isKey1Pressed)
+	{
+		if (this->_inventory->_tableTest->IsGloballyVisible() == true)
+			std::cout << "TRUUUUUUUUUUUUUUUUUUUUUUE" << std::endl;
+		else
+			std::cout << "FALLLLLLLLLLLLLLLLLLLLLLLLLLLLLSE" << std::endl;
+		Singleton::getInstance().isKey1Pressed = !Singleton::getInstance().isKey1Pressed;
+	}
+	else if (Singleton::getInstance().isKey2Pressed)
+	{
+		Singleton::getInstance().isKey2Pressed = !Singleton::getInstance().isKey2Pressed;
+	}
+	else if (Singleton::getInstance().isKey3Pressed)
+	{
+		Singleton::getInstance().isKey3Pressed = !Singleton::getInstance().isKey3Pressed;
+	}
+	else if (Singleton::getInstance().isKey4Pressed)
+	{
+		Singleton::getInstance().isKey4Pressed = !Singleton::getInstance().isKey4Pressed;
+	}
+}
 
 void GameScreen::update(void)
 {

@@ -23,6 +23,7 @@ public:
 	bool isRunning(void) const;
 	void update(void);
 	void events(sf::Event &);
+	void switchTabs();
 	stateName getStateName() const;
 	sf::Vector2f pos;
 	void mouseLeftPress(int index);

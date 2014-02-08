@@ -123,7 +123,7 @@
     <ClCompile Include="PalmTree.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="AWindow.cpp">
+    <ClCompile Include="InventoryWindow.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -221,9 +221,6 @@
     <ClInclude Include="SystemDefines.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="MapEnvironment.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -236,7 +233,7 @@
     <ClInclude Include="PalmTree.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="AWindow.h">
+    <ClInclude Include="InventoryWindow.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
