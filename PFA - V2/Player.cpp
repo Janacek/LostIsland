@@ -17,10 +17,13 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	this->addEntityInInventory(new Water);
 	this->addEntityInInventory(new Water);
 	this->addEntityInInventory(new Wood);
+	_isMoving = false;
 
 	/*
 	** Gestion de la vie / soif / etc...
 	*/
+	_speed = 10;
+	_pathToGo = 0.f;
 	_damages = 10;
 	_life = 100;
 	_water = 100;
@@ -29,7 +32,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_hungerClock = 0;
 	_thirstClock = 0;
 	_lifeClock = 0;
-	_oldDt;
+	_isSelected = false;
 }
 
 Compartment	*Player::getCompartment(int index)
@@ -119,6 +122,21 @@ bool Player::delEntityInInventory(Type type)
 	return false;
 }
 
+float Player::getPathToGo() const
+{
+	return _pathToGo;
+}
+
+void Player::setPathToGo(float f)
+{
+	_pathToGo = f;
+}
+
+void Player::addToPathToGo(float f)
+{
+	_pathToGo += f;
+}
+
 bool Player::delEntityInInventory(IEntity *entity)
 {
 	for (Compartment *u : this->_inventoryPlayer)
@@ -133,42 +151,67 @@ bool Player::delEntityInInventory(IEntity *entity)
 
 void Player::moveToNextWP()
 {
+	double dt = 0;
+	double time;
+
+	time = _mvtClock.getElapsedTime().asSeconds();
+	dt = time - _oldDtMvt;
+
+	_oldDtMvt = time;
 	if (!_path.empty())
 	{
+		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
 		tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
 		//std::cout << "COIN HAUT GAUCHE : x " << floor(_pos.x) << " y " << floor(_pos.y) <<" pos reel droite  x " << floor(tmp.x) << " y "<< floor(tmp.y)  << std::endl;
 
-		if (_path.front().first == floor(_pos.x)  && _path.front().second == floor(_pos.y) &&
-			_path.front().first == floor(tmp.x)  && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
-		
+		if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y) &&
+			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
+
 		{
 			_path.pop_front();
 			return;
 		}
 
 		if (_pos.x > _path.front().first)
-			_pos.x -= 0.1f;
+			_pos.x -= dt * _speed;
 		if (_pos.x < _path.front().first)
-			_pos.x += 0.1f;
+			_pos.x += dt * _speed;
 		if (_pos.y > _path.front().second)
-			_pos.y -= 0.1f;
+			_pos.y -= dt *_speed;
 		if (_pos.y < _path.front().second)
-			_pos.y += 0.1f;
-		
+			_pos.y += dt * _speed;
+
 	}
+	else
+		_isMoving = false;
+}
+
+void Player::setSelected(bool const s)
+{
+	_isSelected = s;
+}
+
+bool Player::getIsMoving() const
+{
+	return _isMoving;
+}
+
+bool const Player::getSelected() const
+{
+	return _isSelected;
 }
 
 void Player::draw()
 {
 
-	moveToNextWP();
 	_posDisp.x = ((_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 	
 	sf::Vector2f v(0, -10);
 	_rect.setPosition(_posDisp );
+	_rect.setFillColor(_isSelected ? sf::Color::Red : sf::Color::Blue);
 	Singleton::getInstance()._window->draw(_rect);
 	this->_anim->show(_posDisp + v);
 
@@ -227,6 +270,8 @@ void Player::update()
 	{
 		// You're supposedly dead here.
 	}
+	moveToNextWP();
+
 }
 
 void Player::loadAnimation(std::string const & string_anim, float speed)

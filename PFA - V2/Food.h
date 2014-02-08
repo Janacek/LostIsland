@@ -12,11 +12,19 @@ public:
 	void setPath(std::list<std::pair<float, float> >&);
 	void update();
 	void loadAnimation(std::string const & string_anim, float speed);
+	bool getIsMoving() const { return false; }
+
 	int getDamage(void) const;
 	void draw();
 	void setPosition(sf::Vector2f &pos);
 	sf::Vector2f  getPosition() const;
-
+	
+	float getPathToGo() const { return 0.f; }
+	void setPathToGo(float f) { (void)f; }
+	void addToPathToGo(float f) { (void)f; }
+	bool const getSelected() const{ return true; }
+	bool const getIsPathFound() const { return false; }
+	void setIsPathFound(bool n) { (void)n; }
 	Type getType() const;
 	~Food(void);
 private:

@@ -61,10 +61,10 @@ public:
 	void updatePath();
 	void addVertexPoint(sf::Vector2i &);
 	bool findMeAPath(sf::Vector2i&, sf::Vector2i &, IEntity &);
-
+	
 protected:
 private:
-
+	bool incNewCell(Map &, std::pair<int, int> add, std::pair<float, float> *tmp, std::pair<int, int> *tmp_add);
 	typedef boost::adjacency_list<  
 		boost::listS,              
 		boost::vecS,                

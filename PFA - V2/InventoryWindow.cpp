@@ -39,7 +39,7 @@ void InventoryWindow::createNumberWindow()
 void InventoryWindow::createWindow()
 {
 	this->_inventoryWindow = sfg::Window::Create(sfg::Window::Style::TITLEBAR | sfg::Window::Style::BACKGROUND);
-	this->_inventoryWindow->Show(true);
+	this->_inventoryWindow->Show(false);
 	this->_inventoryWindow->SetRequisition(sf::Vector2f(500, 300.0f));
 	this->_inventoryWindow->SetTitle("Inventory");
 	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseLeave).Connect(std::bind(&GestionClick::drop, &this->_gestionClick));
@@ -164,7 +164,7 @@ void InventoryWindow::createCompartment(Player *player)
 		}
 	}
 	this->_tables.push_back(table);
-	this->_notebookfirst->AppendPage(table, sfg::Label::Create(player->getName()));
+	//this->_notebookfirst->AppendPage(table, sfg::Label::Create(player->getName()));
 }
 void InventoryWindow::init()
 {

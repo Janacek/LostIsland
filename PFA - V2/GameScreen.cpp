@@ -17,6 +17,11 @@ GameScreen::GameScreen()
 	_map->generate();
 	this->_physicEngine = new PhysicEngine(_map, &_camera);
 	_physicEngine->init();
+	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
+	_statisticsText.setPosition(5.f, 5.f);
+	_statisticsText.setCharacterSize(10);
+	_statisticsText.setPosition(0, 30);
+
 	
 }
 
@@ -60,9 +65,21 @@ void GameScreen::initialize(void)
 		if (i == 0)
 			p->setName("Player 1");
 		else
-			p->setName("Other player");
+			p->setName("Player 2");
 		p->loadAnimation("zelda.png", 0.1f);
 		this->_players.push_back(p);
+
+	}
+
+	for (int i = 0; i < 15;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
+			this->_entities.push_back(new Bunny(sf::Vector2f(y, x), 100, _map->_camera));
+			++i;
+		}
 
 	}
 
@@ -71,10 +88,7 @@ void GameScreen::initialize(void)
 	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
 	this->_inventory->createTabs(this->_players);
-	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
-	_statisticsText.setPosition(5.f, 5.f);
-	_statisticsText.setCharacterSize(10);
-	_statisticsText.setPosition(0, 30);
+	
 
 	//initialisation de l'image du pointeur
 	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
@@ -91,7 +105,6 @@ void GameScreen::draw()
 	Singleton::getInstance()._window->clear();
 	_t = Singleton::getInstance()._clock->restart();
 	Singleton::getInstance()._animClock->restart();
-	//updateStatistics(_t);
 	this->_map->draw(Singleton::getInstance()._window);
 
 	//Singleton::getInstance()._window->draw(_statisticsText);
@@ -102,19 +115,21 @@ void GameScreen::draw()
 		(*it)->draw();
 		//break;
 	}
+
+	for (auto it = _entities.begin(); it != _entities.end(); ++it)
+	{
+		(*it)->draw();
+	}
+
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
 	_physicEngine->setCamPos(_map->getCamPos());
-	static bool test = true; //NNNNNNNNuuuuuuuuuuuuul
-	switchTabs();
+	static bool test = true; //NNNNNNNNuuuuuuuuuuuuul²
+	
 	if (Singleton::getInstance().isKeyIPressed)
 	{
-		if (test)
-			this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tableTest, sfg::Label::Create("label test"), 1);
-		else
-		{
-			this->_inventory->_notebookfirst->Remove(this->_inventory->_tableTest);
-			this->_inventory->_tableTest->Show(false);
-		}
+		this->_inventory->_inventoryWindow->Show(test);
+		switchTabs();
+	
 		test = !test;
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
@@ -122,27 +137,63 @@ void GameScreen::draw()
 
 	if (Singleton::getInstance().isLeftClicking)
 	{
-		sf::Vector2i tmp = Singleton::getInstance().posLeftClickPressed;
 		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 
-		tmp.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
-		tmp.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
 
-		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - tmp.x, mousePos.y - tmp.y));
+		_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
+		_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+
+		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
+			mousePos.y - _posSelectedArea.y));
 		selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
 		selectionZone.setOutlineColor(sf::Color::White);
 		selectionZone.setOutlineThickness(2);
-		selectionZone.setPosition(tmp.x,
-			tmp.y);
+		selectionZone.setPosition(_posSelectedArea.x,
+			_posSelectedArea.y);
 		Singleton::getInstance()._window->draw(selectionZone);
+
 	}
 	this->_inventory->draw();
+	updateStatistics(_t);
+
 	Singleton::getInstance()._window->display();
 }
 
 void GameScreen::switchTabs()
 {
-	if (Singleton::getInstance().isKey1Pressed)
+	int compt = 0;
+	for (Player *u : this->_players)
+	{
+		if (u->getSelected() == true)
+		{
+			if (this->_inventory->_tables[compt]->IsGloballyVisible() == false)
+			{
+				this->_inventory->_notebookfirst->Remove(this->_inventory->_tables[compt]);
+				this->_inventory->_tables[compt]->Show(false);
+				this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tables[compt], sfg::Label::Create(u->getName()), compt);
+				this->_inventory->_tables[compt]->Show(true);
+			}
+		}
+		else
+		{
+			if (this->_inventory->_tables[compt]->IsGloballyVisible() == true)
+			{
+				this->_inventory->_notebookfirst->Remove(this->_inventory->_tables[compt]);
+				this->_inventory->_tables[compt]->Show(false);
+			}
+		}
+		++compt;
+	}
+	/*this->_inventory->_notebookfirst->
+
+		this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tableTest, sfg::Label::Create("label test"), 1);
+
+	
+		this->_inventory->_notebookfirst->Remove(this->_inventory->_tableTest);
+		this->_inventory->_tableTest->Show(false);*/
+	
+	/*if (Singleton::getInstance().isKey1Pressed)
 	{
 		if (this->_inventory->_tableTest->IsGloballyVisible() == true)
 			std::cout << "TRUUUUUUUUUUUUUUUUUUUUUUE" << std::endl;
@@ -161,16 +212,63 @@ void GameScreen::switchTabs()
 	else if (Singleton::getInstance().isKey4Pressed)
 	{
 		Singleton::getInstance().isKey4Pressed = !Singleton::getInstance().isKey4Pressed;
-	}
+	}*/
 }
+
 
 void GameScreen::update(void)
 {
 
+
 	_physicEngine->updatePos(_players, _entities);
+
+	if (Singleton::getInstance().isLeftClicking)
+	{
+		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+
+		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
+
+		_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
+		_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+
+		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
+			mousePos.y - _posSelectedArea.y));
+		selectionZone.setPosition(_posSelectedArea.x,
+			_posSelectedArea.y);
+
+
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
+			sf::RectangleShape tmp(sf::Vector2f(32, 32));
+
+			sf::Vector2f posDisp;
+			posDisp.x = (((*it)->getPosition().x - _map->_camera->_position.x) * Chunk::SIZE_OF_CELL);
+			posDisp.y = (((*it)->getPosition().y - _map->_camera->_position.y) * Chunk::SIZE_OF_CELL);
+
+			tmp.setPosition(posDisp);
+			std::cout << tmp.getGlobalBounds().top << " / " << tmp.getGlobalBounds().left << std::endl;
+
+			if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
+			{
+				(*it)->setSelected(true);
+			}
+			else
+			{
+				(*it)->setSelected(false);
+			}
+		}
+
+		std::cout << _posSelectedArea.x << ", " << std::endl;
+	}
+
+	for (auto it = _players.begin(); it != _players.end(); ++it)
+	{
+		
 		(*it)->update();
+	}
+	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
+	{
+		(*it2)->update();
 	}
 	_map->update();
 	this->_inventory->update();
@@ -224,22 +322,21 @@ void GameScreen::checkInput()
 
 void GameScreen::updateStatistics(sf::Time &elapsedTime)
 {
-	//_statisticsUpdateTime += elapsedTime;
-	//_statisticsNumFrames += 1;
+	_statisticsUpdateTime += elapsedTime;
+	_statisticsNumFrames += 1;
 
-	//if (_statisticsUpdateTime >= sf::seconds(1.0f))
-	//{
-	//	std::ostringstream oss;
-	//	std::ostringstream oss2;
-	//	oss << _statisticsNumFrames;
-	//	oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
-	//	_statisticsText.setString(
-	//		"Frames / Second = " + oss.str() + "\n" 
-	//		"Time / Update = " + oss2.str() + "us");
+	if (_statisticsUpdateTime >= sf::seconds(1.0f))
+	{
+		std::ostringstream oss;
+		std::ostringstream oss2;
+		oss << _statisticsNumFrames;
+		oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
+		std::cout << "Frames / Second = " <<  oss.str() << "\n" <<
+			"Time / Update = " << oss2.str() << "us" << std::endl;;
 
-	//	_statisticsUpdateTime -= sf::seconds(1.0f);
-	//	_statisticsNumFrames = 0;
-	//}
+		_statisticsUpdateTime -= sf::seconds(1.0f);
+		_statisticsNumFrames = 0;
+	}
 }
 
 IScreen * GameScreen::getNextState(void)

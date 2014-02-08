@@ -13,6 +13,13 @@ public:
 	virtual int getDamage(void) const;
 	virtual void draw();
 	virtual void setPosition(sf::Vector2f &pos);
+	virtual bool getIsMoving() const { return false; }
+	virtual float getPathToGo() const { return 0.f; }
+	virtual void setPathToGo(float f) { (void)f; }
+	virtual void addToPathToGo(float f) { (void)f; }
+	virtual bool const getSelected() const{ return true; }
+	bool const getIsPathFound() const { return false; }
+	void setIsPathFound(bool n) { (void)n; }
 	virtual Type getType() const;
 	~Wood(void);
 	void update();

@@ -37,6 +37,11 @@ public:
 	int			posInventory(IEntity *);
 	void moveToNextWP();
 	void update();
+	float getPathToGo() const;
+	void setPathToGo(float f);
+	void addToPathToGo(float f);
+	bool getIsMoving() const;
+	
 	//sf::Rect & getCollisionBox(void);
 
 	//TODO : Changer en compartments pour l'inventaire
@@ -59,8 +64,13 @@ protected:
 	/*
 	** Player pathfinding
 	*/
+	sf::Clock					_mvtClock;
+	float						_oldDtMvt;
+
+	float								_speed;
 	std::list<std::pair<float, float> >	_path;
-	
+	float								_pathToGo;
+	bool								_isMoving;
 	/*
 	** Player's name (could be with miscs)
 	*/
@@ -100,4 +110,15 @@ protected:
 	double						_thirstClock;
 	double						_lifeClock;
 	double						_oldDt;
+
+	/*
+	** Selection of the player.
+	*/
+	bool						_isSelected;
+public:
+	void						setSelected(bool const);
+	bool						const getSelected() const;
+	bool const getIsPathFound() const { return false; }
+	void setIsPathFound(bool n) { (void)n; }
+
 };
