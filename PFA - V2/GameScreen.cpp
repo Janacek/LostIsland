@@ -32,6 +32,7 @@ void	GameScreen::checkQuit(sf::Event &e)
 	if (this->_inventory->_inventoryWindow->IsGloballyVisible() && e.type == sf::Event::MouseButtonPressed && rect.contains(sf::Vector2f(sf::Mouse::getPosition(*Singleton::getInstance()._window).x, sf::Mouse::getPosition(*Singleton::getInstance()._window).y)) == false)
 	{
 		this->_inventory->_inventoryWindow->Show(false);
+		this->_activeInventary = false;
 	}
 }
 
@@ -133,20 +134,7 @@ void GameScreen::draw()
 	}
 
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
-	_physicEngine->setCamPos(_map->getCamPos());
-	static bool test = true; //NNNNNNNNuuuuuuuuuuuuul²
 	
-	if (Singleton::getInstance().isKeyIPressed)
-	{
-		this->_inventory->_inventoryWindow->Show(test);
-		if (test)
-			switchTabs();
-	
-		test = !test;
-		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
-	}
-	checkInput();
-
 	if (Singleton::getInstance().isLeftClicking)
 	{
 		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
@@ -276,11 +264,27 @@ void GameScreen::update(void)
 		(*it2)->update(*_map);
 	}
 	_map->update();
+	checkDrawInventory();
+
 	this->_inventory->update();
 	if (Singleton::getInstance().isEscapePressed)
 	{
 		_isRunning = false;
 		_next = new StartScreen();
+	}
+}
+
+void		GameScreen::checkDrawInventory()
+{
+	
+	if (Singleton::getInstance().isKeyIPressed)
+	{
+		this->_activeInventary = !this->_activeInventary;
+		this->_inventory->_inventoryWindow->Show(this->_activeInventary);
+		if (this->_activeInventary)
+			switchTabs();
+
+		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
 }
 

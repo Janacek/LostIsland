@@ -41,6 +41,7 @@ private:
 	void				drawMouse();
 	void				checkClose();
 	void				checkQuit(sf::Event &e);
+	void				checkDrawInventory();
 	void				checkClicks();
 	void				saveClick(bool click);
 	void				updateObjectsPos();

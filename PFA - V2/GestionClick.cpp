@@ -43,7 +43,6 @@ void GestionClick::clearLastCompartment()
 
 void GestionClick::drop()
 {
-	std::cout << "HORS ECRAN §§§§§§§§§!" << std::endl;
 	if (this->_leftClickPressed._compartment != NULL)
 	{
 		std::cout << "La si on lache le click il faut poser la ressource" << std::endl;
