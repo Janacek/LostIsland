@@ -37,7 +37,7 @@ void Water::setPath(std::list<std::pair<float, float> >&path)
 	_path = path;
 }
 
-void Water::update()
+void Water::update(Map &map)
 {
 
 }

@@ -10,7 +10,7 @@ public:
 	void doAction(IEntity* other);
 	void getAction(IEntity* other);
 	void setPath(std::list<std::pair<float, float> >&);
-	void update();
+	void update(Map &);
 	void loadAnimation(std::string const & string_anim, float speed);
 	bool getIsMoving() const { return false; }
 

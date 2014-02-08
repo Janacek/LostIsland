@@ -16,7 +16,7 @@ public:
 	void getAction(IEntity* other);
 	void loadAnimation(std::string const & string_anim, float speed);
 	void draw();
-	void update();
+	void update(Map &);
 	Type getType() const;
 	int getDamage(void) const;
 	bool getIsMoving() const { return false; }

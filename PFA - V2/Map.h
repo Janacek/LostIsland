@@ -16,13 +16,13 @@
 #include					"Camera.h"
 
 #include					<list>
-#include					"Tree.h"
+
+//#include					"Tree.h"
 
 #include					"MapEnvironment.h"
 #include					"ForestTree.h"
 #include					"Bush.h"
 #include					"PalmTree.h"
-
 #include <algorithm>
 
 /*

@@ -184,7 +184,7 @@ void GameScreen::update(void)
 			posDisp.y = (((*it)->getPosition().y - _map->_camera->_position.y) * Chunk::SIZE_OF_CELL);
 
 			tmp.setPosition(posDisp);
-			std::cout << tmp.getGlobalBounds().top << " / " << tmp.getGlobalBounds().left << std::endl;
+			//std::cout << tmp.getGlobalBounds().top << " / " << tmp.getGlobalBounds().left << std::endl;
 
 			if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
 			{
@@ -201,12 +201,11 @@ void GameScreen::update(void)
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
-		
-		(*it)->update();
+		(*it)->update(*_map);
 	}
 	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
 	{
-		(*it2)->update();
+		(*it2)->update(*_map);
 	}
 	_map->update();
 	this->_inventory->update();

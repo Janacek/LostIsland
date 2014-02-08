@@ -22,7 +22,7 @@ public:
 
 	int getDamage(void) const;
 	Type getType() const;
-	void update();
+	void update(Map &);
 	~Water(void);
 	void setPath(std::list<std::pair<float, float> > &path);
 

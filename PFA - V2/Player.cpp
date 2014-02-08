@@ -231,7 +231,7 @@ void Player::draw()
 	Singleton::getInstance()._window->draw(healthBar);
 }
 
-void Player::update()
+void Player::update(Map & map)
 {
 	double dt = 0;
 	double time;

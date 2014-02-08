@@ -24,7 +24,7 @@ void Wood::loadAnimation(std::string const & string_anim, float speed)
 
 }
 
-void Wood::update()
+void Wood::update(Map &map)
 {
 
 }

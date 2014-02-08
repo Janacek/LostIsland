@@ -1,10 +1,12 @@
 #pragma once
 
-#include	"IEntity.h"
+#include "IEntity.h"
 #include "Animation.h"
 #include "ImageSingleton.h"
 #include "Camera.h"
 #include "Chunk.h"
+#define TIMESTOP 3
+#define IT_BEF_STOP 20
 
 class Bunny : public IEntity
 {
@@ -17,7 +19,7 @@ public:
 	void getAction(IEntity *);
 	void loadAnimation(std::string const &, float);
 	void draw();
-	void update();
+	void update(Map &map);
 	void setPath(std::list<std::pair<float, float>> &);
 	void setPosition(sf::Vector2f &);
 	sf::Vector2f getPosition() const;
@@ -43,6 +45,8 @@ private:
 	sf::Clock				_mvtClock;
 	float					_speed;
 	double					_oldDtMvt;
+	double					_oldTime;
+	int						_iterPath;
 
 	std::list<std::pair<float, float> >	_path;
 	float								_pathToGo; // /!\ il doit partir a 1

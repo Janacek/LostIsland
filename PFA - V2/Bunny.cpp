@@ -14,8 +14,9 @@ Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 	_isMoving = false;
 	_pathToGo = 1.f;
 	_speed = 8;
-
+	_oldTime = 0;
 	_isPathFound = false;
+	_iterPath = 0;
 }
 
 Bunny::~Bunny()
@@ -26,14 +27,29 @@ Bunny::~Bunny()
 void Bunny::moveToNextWP()
 {
 	double dt = 0;
+	double dt2 = 0;
 	double time;
 
 	time = _mvtClock.getElapsedTime().asSeconds();
 	dt = time - _oldDtMvt;
-
 	_oldDtMvt = time;
+	
+	if (_iterPath > IT_BEF_STOP)
+	{
+		
+		_path.clear();
+		if (_oldTime == 0)
+			_oldTime = time;
+		dt2 = time - _oldTime;
+	}
+	if (dt2 > TIMESTOP)
+	{
+		_iterPath = 0;
+		_oldTime = 0;
+	}
 	if (!_path.empty())
 	{
+
 		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
@@ -44,6 +60,7 @@ void Bunny::moveToNextWP()
 			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
 
 		{
+			++_iterPath;
 			_path.pop_front();
 			return;
 		}
@@ -119,7 +136,7 @@ void Bunny::draw()
 	this->_anim->show(_posDisp);
 }
 
-void Bunny::update()
+void Bunny::update(Map &map)
 {
 	moveToNextWP();
 }

@@ -36,7 +36,7 @@ public:
 	Compartment	*getCompartment(int index);
 	int			posInventory(IEntity *);
 	void moveToNextWP();
-	void update();
+	void update(Map &);
 	float getPathToGo() const;
 	void setPathToGo(float f);
 	void addToPathToGo(float f);

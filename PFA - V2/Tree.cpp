@@ -16,7 +16,7 @@ void Tree::getAction(IEntity* other)
 	}
 }
 
-void Tree::update()
+void Tree::update(Map &map)
 {
 	
 }
