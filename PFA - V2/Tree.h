@@ -27,6 +27,7 @@ public:
 	bool const getSelected() const{ return true; }
 	bool const getIsPathFound() const { return false; }
 	void setIsPathFound(bool n) { (void)n; }
+	bool getIsStopped() const{ return false; }
 
 	void setPosition(sf::Vector2f &);
 	sf::Vector2f  getPosition() const;
