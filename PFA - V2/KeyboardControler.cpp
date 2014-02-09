@@ -26,8 +26,18 @@ void KeyboardControler::handlePlayerInput(sf::Keyboard::Key& k, bool isPressed)
 		Singleton::getInstance().isEscapePressed = isPressed;
 
 
+	//1 2 3 4 pour tests
 	if (k == sf::Keyboard::I && isPressed)
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
+	else if (k == sf::Keyboard::Num1 && isPressed)
+		Singleton::getInstance().isKey1Pressed = !Singleton::getInstance().isKey1Pressed;
+	else if (k == sf::Keyboard::Num2 && isPressed)
+		Singleton::getInstance().isKey2Pressed = !Singleton::getInstance().isKey2Pressed;
+	else if (k == sf::Keyboard::Num3 && isPressed)
+		Singleton::getInstance().isKey3Pressed = !Singleton::getInstance().isKey3Pressed;
+	else if (k == sf::Keyboard::Num4 && isPressed)
+		Singleton::getInstance().isKey4Pressed = !Singleton::getInstance().isKey4Pressed;
+
 }
 
 void KeyboardControler::handlePlayerInput(sf::Mouse::Button &k, bool isPressed)

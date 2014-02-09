@@ -27,6 +27,7 @@ public:
 	bool isRunning(void) const;
 	void update(void);
 	void events(sf::Event &);
+	void switchTabs();
 	stateName getStateName() const;
 	sf::Vector2f pos;
 	void mouseLeftPress(int index);
@@ -40,6 +41,8 @@ private:
 	void				checkInput();
 	void				drawMouse();
 	void				checkClose();
+	void				checkQuit(sf::Event &e);
+	void				checkDrawInventory();
 	void				checkClicks();
 	void				saveClick(bool click);
 	void				updateObjectsPos();

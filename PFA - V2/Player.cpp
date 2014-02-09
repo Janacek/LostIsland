@@ -5,6 +5,7 @@
 #include "Singleton.h"
 #include <iostream>
 #include <math.h>  
+#include "Map.h"
 
 Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 {
@@ -12,13 +13,12 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	this->_sizeInventory = 0;
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(pos);
-	
 	_rect.setFillColor(sf::Color::Red);
 	this->addEntityInInventory(new Water);
 	this->addEntityInInventory(new Water);
 	this->addEntityInInventory(new Wood);
 	_isMoving = false;
-
+	_hasAPath = false;
 	/*
 	** Gestion de la vie / soif / etc...
 	*/
@@ -33,11 +33,12 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_thirstClock = 0;
 	_lifeClock = 0;
 	_isSelected = false;
+	_path.clear();
 }
 
 Compartment	*Player::getCompartment(int index)
 {
-	if (index >= this->_inventoryPlayer.size())
+	if (static_cast<unsigned int>(index) >= this->_inventoryPlayer.size())
 		return NULL;
 	return this->_inventoryPlayer[index];
 }
@@ -157,9 +158,11 @@ void Player::moveToNextWP()
 	time = _mvtClock.getElapsedTime().asSeconds();
 	dt = time - _oldDtMvt;
 
-	_oldDtMvt = time;
+	_oldDtMvt = static_cast<float>(time);
+	
 	if (!_path.empty())
 	{
+
 		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
@@ -175,17 +178,19 @@ void Player::moveToNextWP()
 		}
 
 		if (_pos.x > _path.front().first)
-			_pos.x -= dt * _speed;
+			_pos.x -= static_cast<float>(dt * _speed);
 		if (_pos.x < _path.front().first)
-			_pos.x += dt * _speed;
+			_pos.x += static_cast<float>(dt * _speed);
 		if (_pos.y > _path.front().second)
-			_pos.y -= dt *_speed;
+			_pos.y -= static_cast<float>(dt *_speed);
 		if (_pos.y < _path.front().second)
-			_pos.y += dt * _speed;
+			_pos.y += static_cast<float>(dt * _speed);
 
 	}
-	else
+	else {
 		_isMoving = false;
+		_hasAPath = false;
+	}
 }
 
 void Player::setSelected(bool const s)
@@ -231,7 +236,7 @@ void Player::draw()
 	Singleton::getInstance()._window->draw(healthBar);
 }
 
-void Player::update()
+void Player::update(Map & map)
 {
 	double dt = 0;
 	double time;
@@ -241,7 +246,50 @@ void Player::update()
 
 	_oldDt = time;
 
+	/*
+	Si on est en mvt on delete la case ou on était a la base, on set la case d'arrivée
 
+	*/
+	/*if (_isMoving == false && map.getEntitiesMap()[static_cast<int>(floor(_pos.x))][static_cast<int>(floor(_pos.y))]._component == NULL)
+	{
+		std::cout << "Point add : x " << static_cast<int>(floor(_pos.x)) << " y " << static_cast<int>(floor(_pos.y)) << std::endl;
+		map.setEntityMap(this, static_cast<int>(floor(_pos.x)), static_cast<int>(floor(_pos.y)));
+	}*/
+	
+	if (!_path.empty() && _hasAPath == false)
+	{
+		_hasAPath = true;
+		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component &&
+			map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == PLAYER)
+		{
+			map.setEntityMap(NULL, static_cast<int>(floor(_pos.y)), static_cast<int>(floor(_pos.x)));
+		}
+		
+		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
+		{	
+			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
+		}
+		else
+		{
+			for (int x = -1; x < 2; ++x)
+			{
+				for (int y = -1; y < 2; ++y)
+				{
+					if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second + x))][static_cast<int>(floor(_path.back().first + y))]._component == NULL
+						&& map.getCellMap()[static_cast<int>(floor(_path.back().second + x))][static_cast<int>(floor(_path.back().first + y))]._cellType != Cell::OCEAN)
+					{
+						_path.back().first += y;
+						_path.back().second += x;
+
+						//map.setEntityMap(this, static_cast<int>(floor(_path.back().second + x)), static_cast<int>(floor(_path.back().first + y)));
+						x = 3;
+						y = 3;
+						break;
+					}
+				}
+			}
+		}
+	}
 	_hungerClock += dt;
 	_thirstClock += dt;
 	if (_hungerClock > 6)

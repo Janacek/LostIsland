@@ -16,13 +16,13 @@
 #include					"Camera.h"
 
 #include					<list>
-#include					"Tree.h"
+
+//#include					"Tree.h"
 
 #include					"MapEnvironment.h"
 #include					"ForestTree.h"
 #include					"Bush.h"
 #include					"PalmTree.h"
-
 #include <algorithm>
 
 /*
@@ -70,6 +70,7 @@ public:
 	Cell					**getCellMap() const;
 	MapEnvironment			**getEntitiesMap() const;
 	sf::Vector2i			getSize() const;
+	void					setEntityMap(IEntity *, int x, int y);
 
 
 private:

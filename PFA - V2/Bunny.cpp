@@ -1,8 +1,10 @@
 #include "Bunny.h"
+#include "Map.h"
 
 Bunny::Bunny()
 {
 	_isMoving = false;
+	_isStop = false;
 }
 
 Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
@@ -14,8 +16,10 @@ Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 	_isMoving = false;
 	_pathToGo = 1.f;
 	_speed = 8;
-
+	_oldTime = 0;
 	_isPathFound = false;
+	_iterPath = 0;
+	_hasAPath = false;
 }
 
 Bunny::~Bunny()
@@ -26,14 +30,30 @@ Bunny::~Bunny()
 void Bunny::moveToNextWP()
 {
 	double dt = 0;
+	double dt2 = 0;
 	double time;
 
 	time = _mvtClock.getElapsedTime().asSeconds();
 	dt = time - _oldDtMvt;
-
 	_oldDtMvt = time;
+	
+	if (_iterPath > IT_BEF_STOP)
+	{
+		_isStop = true;
+		_path.clear();
+		if (_oldTime == 0)
+			_oldTime = time;
+		dt2 = time - _oldTime;
+	}
+	if (dt2 > TIMESTOP)
+	{
+		_isStop = false;
+		_iterPath = 0;
+		_oldTime = 0;
+	}
 	if (!_path.empty())
 	{
+
 		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
@@ -44,22 +64,25 @@ void Bunny::moveToNextWP()
 			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
 
 		{
+			++_iterPath;
 			_path.pop_front();
 			return;
 		}
 
 		if (_position.x > _path.front().first)
-			_position.x -= dt * _speed;
+			_position.x -= static_cast<float>(dt * _speed);
 		if (_position.x < _path.front().first)
-			_position.x += dt * _speed;
+			_position.x += static_cast<float>(dt * _speed);
 		if (_position.y > _path.front().second)
-			_position.y -= dt *_speed;
+			_position.y -= static_cast<float>(dt *_speed);
 		if (_position.y < _path.front().second)
-			_position.y += dt * _speed;
+			_position.y += static_cast<float>(dt * _speed);
 
 	}
-	else
+	else{
 		_isMoving = false;
+		_hasAPath = false;
+	}
 }
 
 
@@ -119,8 +142,19 @@ void Bunny::draw()
 	this->_anim->show(_posDisp);
 }
 
-void Bunny::update()
+void Bunny::update(Map &map)
 {
+	/*if (!_path.empty() && _hasAPath == false && _path.front() != _path.back()) // on va check tous les draw qui sont en rapport aux lapins
+	{
+		_hasAPath = true;
+		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component && 
+			map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == ANIMAL)
+				map.setEntityMap(NULL, static_cast<int>(floor(_position.y)), static_cast<int>(floor(_position.x)));
+		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
+		{
+			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
+		}
+	}*/
 	moveToNextWP();
 }
 

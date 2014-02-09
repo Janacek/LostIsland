@@ -24,6 +24,17 @@ GameScreen::GameScreen()
 	_loaded = false;
 }
 
+void	GameScreen::checkQuit(sf::Event &e)
+{
+	sf::FloatRect rect = this->_inventory->_inventoryWindow->GetAllocation();
+
+	if (this->_inventory->_inventoryWindow->IsGloballyVisible() && e.type == sf::Event::MouseButtonPressed && rect.contains(sf::Vector2f(sf::Mouse::getPosition(*Singleton::getInstance()._window).x, sf::Mouse::getPosition(*Singleton::getInstance()._window).y)) == false)
+	{
+		this->_inventory->_inventoryWindow->Show(false);
+		this->_activeInventary = false;
+	}
+}
+
 void GameScreen::events(sf::Event &e)
 {
 	this->_inventory->_desktop.HandleEvent(e);
@@ -42,7 +53,6 @@ void GameScreen::checkDrop(sf::Event &e)
 			this->validDrop(1);
 			//En cours d'implémentation
 			//if (this->_dropCompartment->getSize() > 1)
-				//this->_inventory->chooseNumber(this);
 		}
 	}
 }
@@ -58,6 +68,7 @@ void GameScreen::validDrop(int nbrDrop)
 
 void GameScreen::initialize(void)
 {
+<<<<<<< .mine
 	_loaded = false;
 
 	_loadingText = "Initializing map";
@@ -74,8 +85,25 @@ void GameScreen::initialize(void)
 		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
 		p->loadAnimation("zelda.png", 0.1f);
 		this->_players.push_back(p);
+=======
 
-	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> .theirs
+
 
 	_loadingText = "Adding some animals";
 	for (int i = 0; i < 15;) {
@@ -84,22 +112,36 @@ void GameScreen::initialize(void)
 
 		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
 			_map->getEntitiesMap()[x][y]._component == NULL) {
-			this->_entities.push_back(new Bunny(sf::Vector2f(y, x), 100, _map->_camera));
+			this->_entities.push_back(new Bunny(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 100, _map->_camera));
 			++i;
 		}
 
 	}
+	for (int i = 0; i < 2; i++)
+	{
+		Player *p = new Player(sf::Vector2f(static_cast<float>(60 + i * 3), static_cast<float>(100)), &_camera);
+		_map->setEntityMap(p, 60 + i * 3, 100);
+		//
+		//this->_entities.push_back(p);
+		if (i == 0)
+			p->setName("Player 1");
+		else
+			p->setName("Player 2");
+		p->loadAnimation("zelda.png", 0.1f);
+		this->_players.push_back(p);
+
+	}
 
 	this->_activeInventary = false;
-	
+
 	_loadingText = "Generating inventories";
 	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
 	this->_inventory->createTabs(this->_players);
-	
+
 
 	//initialisation de l'image du pointeur
-	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
+	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 	_loaded = true;
 }
 
@@ -111,7 +153,7 @@ void GameScreen::mouseLeftPress(int index)
 void GameScreen::draw()
 {
 	if (!_loaded)
-	{
+<<<<<<< .mine
 		sf::Texture loadingScreen;
 		loadingScreen.loadFromImage(*_loadingScreen);
 		sf::Sprite spriteLoad;
@@ -122,29 +164,97 @@ void GameScreen::draw()
 		_loadingSfText.setString(_loadingText);
 		Singleton::getInstance()._window->draw(_loadingSfText);
 	}
+=======
+		(*it)->draw();
+
+
+
+
+
+
+
+
+
+>>>>>>> .theirs
 	else
 	{
+<<<<<<< .mine
 		/////////////
 
+
+=======
+		//if ((*it)->getType() != PLAYER)
+		(*it)->draw();
+	}
+>>>>>>> .theirs
+
+<<<<<<< .mine
 		Singleton::getInstance()._window->clear();
 		_t = Singleton::getInstance()._clock->restart();
 		Singleton::getInstance()._animClock->restart();
+
+
+
+
+
+
+
+
+
+=======
+	this->_map->drawMiniMap(Singleton::getInstance()._window);
+	static bool test = true;
+	if (Singleton::getInstance().isKeyIPressed)
+	{
+		this->_inventory->_inventoryWindow->Show(test);
+		if (test)
+			switchTabs();
+
+		test = !test;
+		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
+	}
+	checkInput();
+>>>>>>> .theirs
 
 		this->_map->draw(Singleton::getInstance()._window);
 
 		//Singleton::getInstance()._window->draw(_statisticsText);
 
+<<<<<<< .mine
 		//tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
 		for (std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
 		{
 			(*it)->draw();
 			//break;
 		}
+=======
+		_posSelectedArea.x -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL);
+		_posSelectedArea.y -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL);
 
+
+
+
+>>>>>>> .theirs
+
+<<<<<<< .mine
 		for (auto it = _entities.begin(); it != _entities.end(); ++it)
 		{
 			(*it)->draw();
 		}
+
+
+
+
+=======
+		sf::RectangleShape selectionZone(sf::Vector2f(static_cast<float>(mousePos.x - _posSelectedArea.x),
+			static_cast<float>(mousePos.y - _posSelectedArea.y)));
+		selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
+		selectionZone.setOutlineColor(sf::Color::White);
+		selectionZone.setOutlineThickness(2);
+		selectionZone.setPosition(static_cast<float>(_posSelectedArea.x),
+			static_cast<float>(_posSelectedArea.y));
+		Singleton::getInstance()._window->draw(selectionZone);
+>>>>>>> .theirs
 
 		this->_map->drawMiniMap(Singleton::getInstance()._window);
 		_physicEngine->setCamPos(_map->getCamPos());
@@ -181,13 +291,99 @@ void GameScreen::draw()
 
 		OnScreenLogs::getInstance().draw();
 	}
+<<<<<<< .mine
+
+
+
+=======
+	this->_inventory->draw();
+	//updateStatistics(_t);
+
+>>>>>>> .theirs
 	Singleton::getInstance()._window->display();
 }
 
+void GameScreen::switchTabs()
+{
+	int compt = 0;
+	//tmp
+	bool select = false;
+	for (Player *u : this->_players)
+	{
+		if (u->getSelected() == true)
+		{
+			select = true;
+			break;
+		}
+	}
+	if (select == false)
+	{
+		this->_inventory->_inventoryWindow->Remove(this->_inventory->_notebookfirst);
+		this->_inventory->_notebookfirst->Show(false);
+		this->_inventory->_inventoryWindow->Add(this->_inventory->_emptyLabel);
+		this->_inventory->_emptyLabel->Show(true);
+		return;
+	}
+	this->_inventory->_inventoryWindow->Remove(this->_inventory->_emptyLabel);
+	this->_inventory->_emptyLabel->Show(false);
+	this->_inventory->_inventoryWindow->Add(this->_inventory->_notebookfirst);
+	this->_inventory->_notebookfirst->Show(true);
+	for (Player *u : this->_players)
+	{
+		if (u->getSelected() == true)
+		{
+			if (this->_inventory->_tables[compt]->IsGloballyVisible() == false)
+			{
+				this->_inventory->_notebookfirst->Remove(this->_inventory->_tables[compt]);
+				this->_inventory->_tables[compt]->Show(false);
+				this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tables[compt], sfg::Label::Create(u->getName()), compt);
+				this->_inventory->_tables[compt]->Show(true);
+			}
+		}
+		else
+		{
+			if (this->_inventory->_tables[compt]->IsGloballyVisible() == true)
+			{
+				this->_inventory->_notebookfirst->Remove(this->_inventory->_tables[compt]);
+				this->_inventory->_tables[compt]->Show(false);
+			}
+		}
+		++compt;
+	}
+	/*this->_inventory->_notebookfirst->
+
+		this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tableTest, sfg::Label::Create("label test"), 1);
+
+
+		this->_inventory->_notebookfirst->Remove(this->_inventory->_tableTest);
+		this->_inventory->_tableTest->Show(false);*/
+
+	/*if (Singleton::getInstance().isKey1Pressed)
+	{
+	if (this->_inventory->_tableTest->IsGloballyVisible() == true)
+	std::cout << "TRUUUUUUUUUUUUUUUUUUUUUUE" << std::endl;
+	else
+	std::cout << "FALLLLLLLLLLLLLLLLLLLLLLLLLLLLLSE" << std::endl;
+	Singleton::getInstance().isKey1Pressed = !Singleton::getInstance().isKey1Pressed;
+	}
+	else if (Singleton::getInstance().isKey2Pressed)
+	{
+	Singleton::getInstance().isKey2Pressed = !Singleton::getInstance().isKey2Pressed;
+	}
+	else if (Singleton::getInstance().isKey3Pressed)
+	{
+	Singleton::getInstance().isKey3Pressed = !Singleton::getInstance().isKey3Pressed;
+	}
+	else if (Singleton::getInstance().isKey4Pressed)
+	{
+	Singleton::getInstance().isKey4Pressed = !Singleton::getInstance().isKey4Pressed;
+	}*/
+}
 
 
 void GameScreen::update(void)
 {
+
 
 	_physicEngine->updatePos(_players, _entities);
 
@@ -197,13 +393,13 @@ void GameScreen::update(void)
 
 		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
 
-		_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
-		_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+		_posSelectedArea.x -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL);
+		_posSelectedArea.y -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL);
 
-		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
-			mousePos.y - _posSelectedArea.y));
-		selectionZone.setPosition(_posSelectedArea.x,
-			_posSelectedArea.y);
+		sf::RectangleShape selectionZone(sf::Vector2f(static_cast<float>(mousePos.x - _posSelectedArea.x),
+			static_cast<float>(mousePos.y - _posSelectedArea.y)));
+		selectionZone.setPosition(static_cast<float>(_posSelectedArea.x),
+			static_cast<float>(_posSelectedArea.y));
 
 
 		for (auto it = _players.begin(); it != _players.end(); ++it)
@@ -215,6 +411,8 @@ void GameScreen::update(void)
 			posDisp.y = (((*it)->getPosition().y - _map->_camera->_position.y) * Chunk::SIZE_OF_CELL);
 
 			tmp.setPosition(posDisp);
+			//std::cout << tmp.getGlobalBounds().top << " / " << tmp.getGlobalBounds().left << std::endl;
+
 			if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
 			{
 				(*it)->setSelected(true);
@@ -225,23 +423,42 @@ void GameScreen::update(void)
 			}
 		}
 
+		//std::cout << _posSelectedArea.x << ", " << std::endl;
 	}
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
-		
-		(*it)->update();
+		(*it)->update(*_map);
 	}
 	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
 	{
-		(*it2)->update();
+		//if ((*it2)->getType() != PLAYER) // rajouter animal
+		//{
+		(*it2)->update(*_map);
+		//}
 	}
 	_map->update();
+	checkDrawInventory();
+
 	this->_inventory->update();
 	if (Singleton::getInstance().isEscapePressed)
 	{
 		_isRunning = false;
 		_next = new StartScreen();
+	}
+}
+
+void		GameScreen::checkDrawInventory()
+{
+	
+	if (Singleton::getInstance().isKeyIPressed)
+	{
+		this->_activeInventary = !this->_activeInventary;
+		this->_inventory->_inventoryWindow->Show(this->_activeInventary);
+		if (this->_activeInventary)
+			switchTabs();
+
+		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
 }
 
@@ -268,7 +485,7 @@ bool GameScreen::checkImpossibleCase() const
 
 void GameScreen::updateObjectsPos()
 {
-	
+
 }
 
 void GameScreen::saveClick(bool click)
@@ -297,8 +514,8 @@ void GameScreen::updateStatistics(sf::Time &elapsedTime)
 		std::ostringstream oss2;
 		oss << _statisticsNumFrames;
 		oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
-		std::cout << "Frames / Second = " <<  oss.str() << "\n" <<
-			"Time / Update = " << oss2.str() << "us" << std::endl;;
+		//std::cout << "Frames / Second = " <<  oss.str() << "\n" <<
+		//"Time / Update = " << oss2.str() << "us" << std::endl;;
 
 		_statisticsUpdateTime -= sf::seconds(1.0f);
 		_statisticsNumFrames = 0;

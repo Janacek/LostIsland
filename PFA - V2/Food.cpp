@@ -20,7 +20,7 @@ void Food::loadAnimation(std::string const & string_anim, float speed)
 {
 
 }
-void Food::update()
+void Food::update(Map &map)
 {
 
 }

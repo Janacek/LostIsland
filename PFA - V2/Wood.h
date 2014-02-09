@@ -22,8 +22,9 @@ public:
 	void setIsPathFound(bool n) { (void)n; }
 	virtual Type getType() const;
 	~Wood(void);
-	void update();
+	void update(Map &);
 	virtual void setPath(std::list<std::pair<float, float> > &path);
+	virtual bool getIsStopped() const{ return false; }
 
 	virtual sf::Vector2f  getPosition() const;
 

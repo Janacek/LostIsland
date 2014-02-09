@@ -24,8 +24,8 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 			if (map->getCellMap()[i][j]._cellType != Cell::OCEAN )
 			{		
 				WayPointID wpID = boost::add_vertex(graphe);
-				graphe[wpID].pos.first = j;
-				graphe[wpID].pos.second = i;
+				graphe[wpID].pos.first = static_cast<float>(j);
+				graphe[wpID].pos.second = static_cast<float>(i);
 				//on peut add les pts adjacents ici
 				if (map->getEntitiesMap()[i][j]._component == NULL)
 				{
@@ -339,8 +339,8 @@ bool PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &en
 	bool vertex_start_found;
 	WayPointID start;
 	WayPoint startPoint;
-	startPoint.pos.first = begin.x;
-	startPoint.pos.second = begin.y;
+	startPoint.pos.first = static_cast<float>(begin.x);
+	startPoint.pos.second = static_cast<float>(begin.y);
 
 	find_vertex(startPoint, graphe);
 	std::tie(start, vertex_start_found) = _vertex_found;
@@ -352,8 +352,8 @@ bool PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &en
 	bool vertex_goal_found;
 	WayPointID goal;
 	WayPoint goalPoint;
-	goalPoint.pos.first = end.x;
-	goalPoint.pos.second = end.y;
+	goalPoint.pos.first = static_cast<float>(end.x);
+	goalPoint.pos.second = static_cast<float>(end.y);
 
 	find_vertex(goalPoint, graphe);
 	std::tie(goal, vertex_goal_found) = _vertex_found;
@@ -392,7 +392,7 @@ bool PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &en
 void PathFinding::addVertexPoint(sf::Vector2i &pos)
 {
 	WayPointID wpID = boost::add_vertex(graphe);
-	graphe[wpID].pos.first = pos.x / Chunk::SIZE_OF_CELL;
-	graphe[wpID].pos.second = pos.y / Chunk::SIZE_OF_CELL; // Is NOT OK
+	graphe[wpID].pos.first = static_cast<float>(pos.x / Chunk::SIZE_OF_CELL);
+	graphe[wpID].pos.second = static_cast<float>(pos.y / Chunk::SIZE_OF_CELL); // Is NOT OK -> pourquoi ?
 
 }

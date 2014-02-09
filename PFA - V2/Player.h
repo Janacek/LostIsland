@@ -36,12 +36,13 @@ public:
 	Compartment	*getCompartment(int index);
 	int			posInventory(IEntity *);
 	void moveToNextWP();
-	void update();
+	void update(Map &);
 	float getPathToGo() const;
 	void setPathToGo(float f);
 	void addToPathToGo(float f);
 	bool getIsMoving() const;
-	
+	bool getIsStopped() const{ return false; }
+
 	//sf::Rect & getCollisionBox(void);
 
 	//TODO : Changer en compartments pour l'inventaire
@@ -61,6 +62,7 @@ protected:
 	Camera						*_camera;
 
 
+
 	/*
 	** Player pathfinding
 	*/
@@ -71,6 +73,7 @@ protected:
 	std::list<std::pair<float, float> >	_path;
 	float								_pathToGo;
 	bool								_isMoving;
+	bool								_hasAPath;
 	/*
 	** Player's name (could be with miscs)
 	*/
@@ -98,7 +101,7 @@ protected:
 	** Player state
 	*/
 	float						_life;
-	float						_damages;
+	int							_damages;
 	float						_water;
 	float						_food;
 	bool						_isSick;

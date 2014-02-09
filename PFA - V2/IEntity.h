@@ -4,6 +4,8 @@
 #include						<SFML/Graphics.hpp>
 #include						<list>
 
+class Map;
+
 enum Type
 {
 	TREE,
@@ -31,7 +33,7 @@ public:
 	virtual void getAction(IEntity* other) = 0;
 	virtual void loadAnimation(std::string const & string_anim, float speed) = 0;
 	virtual void draw() = 0;
-	virtual void update() = 0;
+	virtual void update(Map &) = 0;
 	virtual void setPath(std::list<std::pair<float, float> >&) = 0;
 	virtual void setPosition(sf::Vector2f &pos) = 0;
 	virtual sf::Vector2f  getPosition() const = 0;
@@ -44,6 +46,7 @@ public:
 	virtual bool const getSelected() const = 0;
 	virtual bool const getIsPathFound() const = 0;
 	virtual void setIsPathFound(bool)  = 0;
+	virtual bool getIsStopped() const = 0;
 	//sf::Rect &getCollisionBox(void);
 
 protected:

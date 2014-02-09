@@ -35,13 +35,14 @@ public:
 	//attributs
 	std::vector<Player *> _players;
 	std::vector<sfg::Image::Ptr> _tableImages;
+	std::vector<sfg::Table::Ptr> _tables;
 	int					_dropNbr;
+	sfg::Table::Ptr		_tableTest;
+	sfg::Label::Ptr			_emptyLabel;
 	GestionClick		_gestionClick;
 	sf::Image			_img;
 	sf::Image			_test;
-	sfg::Notebook::Ptr		_noteBook1;
-	sfg::Notebook::Ptr		_noteBook2;
-	sfg::Notebook::Ptr		_noteBook3;
+	sfg::Notebook::Ptr	_notebookfirst;
 	sfg::Window::Ptr	_inventoryWindow;
 	sfg::Window::Ptr	_numberWindow;
 	sfg::Entry::Ptr		_entry;

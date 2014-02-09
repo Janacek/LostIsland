@@ -8,8 +8,8 @@ void Bush::Animate(std::string const &)
 void Bush::draw()
 {
 	//std::cout << "zefzef" << std::endl;
-	int posX = _position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL;
-	int posY = _position.y - Singleton::getInstance()._window->getSize().y  * Chunk::SIZE_OF_CELL;
+	float posX = _position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL;
+	float posY = _position.y - Singleton::getInstance()._window->getSize().y  * Chunk::SIZE_OF_CELL;
 
 	//std::cout << posX << std::endl;
 
