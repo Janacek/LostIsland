@@ -40,6 +40,7 @@ private:
 	Animation				*_anim;
 	Camera					*_camera;
 	bool					_isMoving;
+	bool					_hasAPath;
 	bool					_isPathFound;
 	// Bunny pathfinding
 	sf::Clock				_mvtClock;

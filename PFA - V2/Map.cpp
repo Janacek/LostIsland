@@ -401,7 +401,7 @@ void						Map::draw(sf::RenderWindow *win)
 			Singleton::getInstance()._window->draw(tmp);
 
 			sf::Vector2f savePos;
-			if (_entitiesMap[i][j]._component != NULL)
+			if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getType() != PLAYER)
 			{
 				savePos = _entitiesMap[i][j]._component->getPosition();
 				_entitiesMap[i][j]._component->setPosition(sf::Vector2f((j - _camera->_position.x) * Chunk::SIZE_OF_CELL
@@ -491,6 +491,10 @@ MapEnvironment			**Map::getEntitiesMap() const
 	return _entitiesMap;
 }
 
+void					Map::setEntityMap(IEntity *ent, int x, int y)
+{
+	_entitiesMap[x][y]._component = ent;
+}
 sf::Vector2i				Map::getSize() const
 {
 	return this->_size;

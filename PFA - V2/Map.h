@@ -70,6 +70,7 @@ public:
 	Cell					**getCellMap() const;
 	MapEnvironment			**getEntitiesMap() const;
 	sf::Vector2i			getSize() const;
+	void					setEntityMap(IEntity *, int x, int y);
 
 
 private:

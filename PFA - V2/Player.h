@@ -61,6 +61,7 @@ protected:
 	Camera						*_camera;
 
 
+
 	/*
 	** Player pathfinding
 	*/
@@ -71,6 +72,7 @@ protected:
 	std::list<std::pair<float, float> >	_path;
 	float								_pathToGo;
 	bool								_isMoving;
+	bool								_hasAPath;
 	/*
 	** Player's name (could be with miscs)
 	*/

@@ -119,9 +119,16 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_e
 		tmp_begin.x = (static_cast<int>(tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL; // ISOK
 		tmp_begin.y = (static_cast<int>(tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL;
 	}
-	if (_map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN
-		|| _map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component != NULL)
+	std::cout << "On veut aller : x " << tmp_begin.y << " y " << tmp_begin.x << std::endl; // x = 100 , y = 63
+	/*if (_map->getEntitiesMap()[100][63]._component->getType() == PLAYER)
 	{
+		std::cout << "YA UN JOUEUR IRRRRRRRRR" << std::endl;
+	}*/
+	if (_map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN
+		|| _map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component != NULL
+		)
+	{
+		std::cout << "YA QUELQUE CHOSE :O :O " << std::endl;
 		_isPathNotFound = true;
 	}
 	else
@@ -130,7 +137,6 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_e
 
 		if (ent.getSelected())
 		{
-
 			tmp_end.x = static_cast<int>(ent.getPosition().x); // player en selec
 			tmp_end.y = static_cast<int>(ent.getPosition().y);
 			findMeAPath(tmp_end, tmp_begin, ent);
@@ -152,40 +158,43 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<IEntity 
 	{
 		for (auto it2 = entities.begin(); it2 != entities.end(); ++it2) // a voir si ca fait pas ramer 
 		{
-			if (diffDist((*it)->getPosition(), (*it2)->getPosition()) < 6 && (*it2)->getIsMoving() == false) // ca a lair de marcher
+			if ((*it2)->getType() != PLAYER)
 			{
+				if (diffDist((*it)->getPosition(), (*it2)->getPosition()) < 6 && (*it2)->getIsMoving() == false) // ca a lair de marcher
+				{
 
-				sf::Vector2i tmp_begin;
-				sf::Vector2i tmp_end(static_cast<int>((*it2)->getPosition().x), static_cast<int>((*it2)->getPosition().y));
-				sf::Vector2f tmp_lerp_begin;
-				sf::Vector2f tmp_lerp_end;
-				if ((*it2)->getPosition().x > (*it)->getPosition().x && (*it2)->getPosition().y < (*it)->getPosition().y)
-				{
-					
-					tmp_begin.x = _map->getSize().x * Chunk::NB_CELLS;
-					tmp_begin.y = 3;
-				}
-				else if ((*it2)->getPosition().x < (*it)->getPosition().x && (*it2)->getPosition().y < (*it)->getPosition().y)
-				{
-					
-					tmp_begin.x = 0;
-					tmp_begin.y = 0;
-				}
-				else if ((*it2)->getPosition().x < (*it)->getPosition().x && (*it2)->getPosition().y >(*it)->getPosition().y)
-				{
-					
-					tmp_begin.x = 0;
-					tmp_begin.y = _map->getSize().y * Chunk::NB_CELLS;
-				}
-				else if ((*it2)->getPosition().x > (*it)->getPosition().x && (*it2)->getPosition().y >(*it)->getPosition().y)
-				{
-					
-					tmp_begin.x = _map->getSize().x * Chunk::NB_CELLS;
-					tmp_begin.y = _map->getSize().y * Chunk::NB_CELLS;
-				}
-				tryFindAPathEntity(tmp_begin, tmp_end, **it2);
+					sf::Vector2i tmp_begin;
+					sf::Vector2i tmp_end(static_cast<int>((*it2)->getPosition().x), static_cast<int>((*it2)->getPosition().y));
+					sf::Vector2f tmp_lerp_begin;
+					sf::Vector2f tmp_lerp_end;
+					if ((*it2)->getPosition().x > (*it)->getPosition().x && (*it2)->getPosition().y < (*it)->getPosition().y)
+					{
+
+						tmp_begin.x = _map->getSize().x * Chunk::NB_CELLS;
+						tmp_begin.y = 3;
+					}
+					else if ((*it2)->getPosition().x < (*it)->getPosition().x && (*it2)->getPosition().y < (*it)->getPosition().y)
+					{
+
+						tmp_begin.x = 0;
+						tmp_begin.y = 0;
+					}
+					else if ((*it2)->getPosition().x < (*it)->getPosition().x && (*it2)->getPosition().y >(*it)->getPosition().y)
+					{
+
+						tmp_begin.x = 0;
+						tmp_begin.y = _map->getSize().y * Chunk::NB_CELLS;
+					}
+					else if ((*it2)->getPosition().x > (*it)->getPosition().x && (*it2)->getPosition().y > (*it)->getPosition().y)
+					{
+
+						tmp_begin.x = _map->getSize().x * Chunk::NB_CELLS;
+						tmp_begin.y = _map->getSize().y * Chunk::NB_CELLS;
+					}
+					tryFindAPathEntity(tmp_begin, tmp_end, **it2);
 
 
+				}
 			}
 		}
 	}
