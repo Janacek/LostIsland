@@ -68,7 +68,6 @@ void GameScreen::validDrop(int nbrDrop)
 
 void GameScreen::initialize(void)
 {
-<<<<<<< .mine
 	_loaded = false;
 
 	_loadingText = "Initializing map";
@@ -78,32 +77,6 @@ void GameScreen::initialize(void)
 	this->_physicEngine = new PhysicEngine(_map, &_camera);
 	_loadingText = "Initializing awesome physics";
 	_physicEngine->init();
-
-	_loadingText = "Adding players";
-	for (int i = 0; i < 2; i++)
-	{
-		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
-		p->loadAnimation("zelda.png", 0.1f);
-		this->_players.push_back(p);
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> .theirs
-
 
 	_loadingText = "Adding some animals";
 	for (int i = 0; i < 15;) {
@@ -115,8 +88,9 @@ void GameScreen::initialize(void)
 			this->_entities.push_back(new Bunny(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 100, _map->_camera));
 			++i;
 		}
-
 	}
+	_loadingText = "Adding players";
+
 	for (int i = 0; i < 2; i++)
 	{
 		Player *p = new Player(sf::Vector2f(static_cast<float>(60 + i * 3), static_cast<float>(100)), &_camera);
@@ -153,7 +127,7 @@ void GameScreen::mouseLeftPress(int index)
 void GameScreen::draw()
 {
 	if (!_loaded)
-<<<<<<< .mine
+	{
 		sf::Texture loadingScreen;
 		loadingScreen.loadFromImage(*_loadingScreen);
 		sf::Sprite spriteLoad;
@@ -164,108 +138,41 @@ void GameScreen::draw()
 		_loadingSfText.setString(_loadingText);
 		Singleton::getInstance()._window->draw(_loadingSfText);
 	}
-=======
-		(*it)->draw();
 
-
-
-
-
-
-
-
-
->>>>>>> .theirs
 	else
 	{
-<<<<<<< .mine
-		/////////////
-
-
-=======
-		//if ((*it)->getType() != PLAYER)
-		(*it)->draw();
-	}
->>>>>>> .theirs
-
-<<<<<<< .mine
 		Singleton::getInstance()._window->clear();
 		_t = Singleton::getInstance()._clock->restart();
 		Singleton::getInstance()._animClock->restart();
 
 
+		static bool test = true;
+		if (Singleton::getInstance().isKeyIPressed)
+		{
+			this->_inventory->_inventoryWindow->Show(test);
+			if (test)
+				switchTabs();
 
-
-
-
-
-
-
-=======
-	this->_map->drawMiniMap(Singleton::getInstance()._window);
-	static bool test = true;
-	if (Singleton::getInstance().isKeyIPressed)
-	{
-		this->_inventory->_inventoryWindow->Show(test);
-		if (test)
-			switchTabs();
-
-		test = !test;
-		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
-	}
-	checkInput();
->>>>>>> .theirs
+			test = !test;
+			Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
+		}
+		checkInput();
 
 		this->_map->draw(Singleton::getInstance()._window);
 
 		//Singleton::getInstance()._window->draw(_statisticsText);
 
-<<<<<<< .mine
 		//tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
 		for (std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
 		{
 			(*it)->draw();
 			//break;
 		}
-=======
-		_posSelectedArea.x -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL);
-		_posSelectedArea.y -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL);
-
-
-
-
->>>>>>> .theirs
-
-<<<<<<< .mine
 		for (auto it = _entities.begin(); it != _entities.end(); ++it)
 		{
 			(*it)->draw();
 		}
 
-
-
-
-=======
-		sf::RectangleShape selectionZone(sf::Vector2f(static_cast<float>(mousePos.x - _posSelectedArea.x),
-			static_cast<float>(mousePos.y - _posSelectedArea.y)));
-		selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
-		selectionZone.setOutlineColor(sf::Color::White);
-		selectionZone.setOutlineThickness(2);
-		selectionZone.setPosition(static_cast<float>(_posSelectedArea.x),
-			static_cast<float>(_posSelectedArea.y));
-		Singleton::getInstance()._window->draw(selectionZone);
->>>>>>> .theirs
-
-		this->_map->drawMiniMap(Singleton::getInstance()._window);
-		_physicEngine->setCamPos(_map->getCamPos());
-		static bool test = true; //NNNNNNNNuuuuuuuuuuuuul²
-		if (Singleton::getInstance().isKeyIPressed)
-		{
-			this->_inventory->_inventoryWindow->Show(test);
-			test = !test;
-			Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
-		}
-		checkInput();
 
 		if (Singleton::getInstance().isLeftClicking)
 		{
@@ -288,18 +195,15 @@ void GameScreen::draw()
 		}
 		this->_inventory->draw();
 		updateStatistics(_t);
-
-		OnScreenLogs::getInstance().draw();
+		
+		this->_map->drawMiniMap(Singleton::getInstance()._window);
 	}
-<<<<<<< .mine
 
 
 
-=======
 	this->_inventory->draw();
 	//updateStatistics(_t);
 
->>>>>>> .theirs
 	Singleton::getInstance()._window->display();
 }
 
@@ -450,7 +354,7 @@ void GameScreen::update(void)
 
 void		GameScreen::checkDrawInventory()
 {
-	
+
 	if (Singleton::getInstance().isKeyIPressed)
 	{
 		this->_activeInventary = !this->_activeInventary;

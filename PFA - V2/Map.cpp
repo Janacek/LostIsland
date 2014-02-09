@@ -313,11 +313,7 @@ void						Map::generateBiomes()
 		{
 			//std::cout << (int)(_temperature->getElevation(i, j, 75)* 0.5 * 100) << std::endl;
 			if (_cellMap[i][j]._cellType != Cell::OCEAN)
-<<<<<<< .mine
-				_cellMap[i][j]._cellType = (_corTab[(int)((_temperature->getElevation(i, j, 10) + 1)* 0.5 * 100)])._cellType;
-=======
 				_cellMap[i][j]._cellType = (_corTab[(int)((_temperature->getElevation(static_cast<float>(i), static_cast<float>(j), static_cast<float>(10)) + 1)* 0.5 * 100)])._cellType;
->>>>>>> .theirs
 		}
 	}
 }
