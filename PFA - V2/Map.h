@@ -33,7 +33,7 @@
 class						Map
 {
 public:
-	Map(Camera *);
+	Map(Camera *, std::string &);
 	~Map();
 
 	sf::Vector2f			&getCamPos();
@@ -117,4 +117,7 @@ private:
 public:
 	void					createMiniMap();
 	void					drawMiniMap(sf::RenderWindow *);
+
+private:
+	std::string				&_loading;
 };

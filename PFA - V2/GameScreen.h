@@ -13,6 +13,7 @@
 #include "PhysicEngine.h"
 #include "StartScreen.h"
 #include "FontManager.h"
+#include "OnScreenLogs.h"
 
 class GameScreen : public IScreen
 {
@@ -69,4 +70,13 @@ private:
 	GestionClick			_gc;
 
 	sf::Vector2i			_posSelectedArea;
+
+
+	/*
+	** Loading screen;
+	*/
+	sf::Image				*_loadingScreen;
+	bool					_loaded;
+	std::string				_loadingText;
+	sf::Text				_loadingSfText;
 };

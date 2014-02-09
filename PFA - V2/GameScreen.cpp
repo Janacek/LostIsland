@@ -10,19 +10,18 @@ GameScreen::GameScreen()
 	_camera._position.x = 0;
 	_camera._position.y = 0;
 	_dropCompartment = NULL;
-	_map = new Map(&_camera);
+	_map = new Map(&_camera, _loadingText);
 	pos.x = 100;
 	pos.y = 100;
-	_map->init(std::string("Babar"), sf::Vector2i(18, 18), 33);
-	_map->generate();
-	this->_physicEngine = new PhysicEngine(_map, &_camera);
-	_physicEngine->init();
+
 	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
 	_statisticsText.setPosition(5.f, 5.f);
 	_statisticsText.setCharacterSize(10);
 	_statisticsText.setPosition(0, 30);
 
-	
+	_loadingScreen = new sf::Image;
+	_loadingScreen->loadFromFile("./loadingScreen.png");
+	_loaded = false;
 }
 
 void GameScreen::events(sf::Event &e)
@@ -59,6 +58,17 @@ void GameScreen::validDrop(int nbrDrop)
 
 void GameScreen::initialize(void)
 {
+	_loaded = false;
+
+	_loadingText = "Initializing map";
+	_map->init(std::string("Babar"), sf::Vector2i(18, 18), 33);
+	_loadingText = "Generating map";
+	_map->generate();
+	this->_physicEngine = new PhysicEngine(_map, &_camera);
+	_loadingText = "Initializing awesome physics";
+	_physicEngine->init();
+
+	_loadingText = "Adding players";
 	for (int i = 0; i < 2; i++)
 	{
 		Player *p = new Player(sf::Vector2f(60 + i * 3, 100), &_camera);
@@ -67,6 +77,7 @@ void GameScreen::initialize(void)
 
 	}
 
+	_loadingText = "Adding some animals";
 	for (int i = 0; i < 15;) {
 		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
 		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
@@ -81,6 +92,7 @@ void GameScreen::initialize(void)
 
 	this->_activeInventary = false;
 	
+	_loadingText = "Generating inventories";
 	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
 	this->_inventory->createTabs(this->_players);
@@ -88,7 +100,7 @@ void GameScreen::initialize(void)
 
 	//initialisation de l'image du pointeur
 	this->_mousePicture.setSize(sf::Vector2f(Singleton::getInstance()._window->getSize().x * 10 / 100, Singleton::getInstance()._window->getSize().x * 10 / 100));
-
+	_loaded = true;
 }
 
 void GameScreen::mouseLeftPress(int index)
@@ -98,58 +110,77 @@ void GameScreen::mouseLeftPress(int index)
 
 void GameScreen::draw()
 {
-	Singleton::getInstance()._window->clear();
-	_t = Singleton::getInstance()._clock->restart();
-	Singleton::getInstance()._animClock->restart();
-	this->_map->draw(Singleton::getInstance()._window);
-
-	//Singleton::getInstance()._window->draw(_statisticsText);
-
-	//tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
-	for (std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
+	if (!_loaded)
 	{
-		(*it)->draw();
-		//break;
+		sf::Texture loadingScreen;
+		loadingScreen.loadFromImage(*_loadingScreen);
+		sf::Sprite spriteLoad;
+		spriteLoad.setTexture(loadingScreen);
+		Singleton::getInstance()._window->draw(spriteLoad);
+		_loadingSfText.setFont(*FontManager::getInstance().getFont(SANSATION));
+		_loadingSfText.setPosition(150, 150);
+		_loadingSfText.setString(_loadingText);
+		Singleton::getInstance()._window->draw(_loadingSfText);
 	}
-
-	for (auto it = _entities.begin(); it != _entities.end(); ++it)
+	else
 	{
-		(*it)->draw();
+		/////////////
+
+		Singleton::getInstance()._window->clear();
+		_t = Singleton::getInstance()._clock->restart();
+		Singleton::getInstance()._animClock->restart();
+
+		this->_map->draw(Singleton::getInstance()._window);
+
+		//Singleton::getInstance()._window->draw(_statisticsText);
+
+		//tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
+		for (std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
+		{
+			(*it)->draw();
+			//break;
+		}
+
+		for (auto it = _entities.begin(); it != _entities.end(); ++it)
+		{
+			(*it)->draw();
+		}
+
+		this->_map->drawMiniMap(Singleton::getInstance()._window);
+		_physicEngine->setCamPos(_map->getCamPos());
+		static bool test = true; //NNNNNNNNuuuuuuuuuuuuul²
+		if (Singleton::getInstance().isKeyIPressed)
+		{
+			this->_inventory->_inventoryWindow->Show(test);
+			test = !test;
+			Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
+		}
+		checkInput();
+
+		if (Singleton::getInstance().isLeftClicking)
+		{
+			sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+
+			sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
+
+			_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
+			_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+
+			sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
+				mousePos.y - _posSelectedArea.y));
+			selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
+			selectionZone.setOutlineColor(sf::Color::White);
+			selectionZone.setOutlineThickness(2);
+			selectionZone.setPosition(_posSelectedArea.x,
+				_posSelectedArea.y);
+			Singleton::getInstance()._window->draw(selectionZone);
+
+		}
+		this->_inventory->draw();
+		updateStatistics(_t);
+
+		OnScreenLogs::getInstance().draw();
 	}
-
-	this->_map->drawMiniMap(Singleton::getInstance()._window);
-	_physicEngine->setCamPos(_map->getCamPos());
-	static bool test = true; //NNNNNNNNuuuuuuuuuuuuul²
-	if (Singleton::getInstance().isKeyIPressed)
-	{
-		this->_inventory->_inventoryWindow->Show(test);
-		test = !test;
-		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
-	}
-	checkInput();
-
-	if (Singleton::getInstance().isLeftClicking)
-	{
-		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-
-		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
-
-		_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
-		_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
-
-		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
-			mousePos.y - _posSelectedArea.y));
-		selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
-		selectionZone.setOutlineColor(sf::Color::White);
-		selectionZone.setOutlineThickness(2);
-		selectionZone.setPosition(_posSelectedArea.x,
-			_posSelectedArea.y);
-		Singleton::getInstance()._window->draw(selectionZone);
-
-	}
-	this->_inventory->draw();
-	updateStatistics(_t);
-
 	Singleton::getInstance()._window->display();
 }
 
@@ -194,7 +225,6 @@ void GameScreen::update(void)
 			}
 		}
 
-		std::cout << _posSelectedArea.x << ", " << std::endl;
 	}
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)

@@ -1,7 +1,8 @@
 
 #include "Map.h"
 
-Map::Map(Camera *cam)
+Map::Map(Camera *cam, std::string &loading)
+: _loading(loading)
 {
 	_camera = cam;
 	_size = sf::Vector2i(16, 16);
@@ -9,6 +10,8 @@ Map::Map(Camera *cam)
 	_groundRatio = 33;
 	_temperature = NULL;
 	_humidity = NULL;
+
+
 
 	_typeToColor[Cell::GRASS] = sf::Color::Green;
 	_typeToColor[Cell::OCEAN] = sf::Color::Blue;
@@ -25,21 +28,20 @@ Map::Map(Camera *cam)
 	_typeToTexture[Cell::SAVANNA] = ImageSingleton::getInstance().get(Type::SAVANNA);
 
 	int i;
-	for (i = 0 ; i < 27 ; ++i)
+	for (i = 0; i < 27; ++i)
 		_corTab[i]._cellType = Cell::SNOW;
-	for ( ; i < 44 ; ++i)
+	for (; i < 44; ++i)
 		_corTab[i]._cellType = Cell::SAVANNA;
-	for ( ; i < 55 ; ++i)
+	for (; i < 55; ++i)
 		_corTab[i]._cellType = Cell::GRASS;
 
-	for ( ; i < 66 ; ++i)
+	for (; i < 66; ++i)
 		_corTab[i]._cellType = Cell::FOREST;
-	for ( ; i < 100 ; ++i)
+	for (; i < 100; ++i)
 		_corTab[i]._cellType = Cell::SAND;
 
 	// SNOW SAVANNA GRASS FOREST SAND
 
-	
 }
 
 Map::~Map()
@@ -49,7 +51,7 @@ Map::~Map()
 static unsigned int generateHash(std::string const & string)
 {
 	unsigned int hash = 0;
-	for(size_t i = 0; i < string.length(); ++i) 
+	for (size_t i = 0; i < string.length(); ++i)
 		hash = 65599 * hash + string.at(i);
 	return hash ^ (hash >> 16);
 }
@@ -75,9 +77,9 @@ void						Map::generateCenterIsland(int ratio)
 	int stopX = (int)(startX + (((float)_size.x * (float)_groundRatio) / (float)100));
 	int stopY = (int)(startY + (((float)_size.x * (float)_groundRatio) / (float)100));
 
-	for (int i = startY ; i <= stopY ; ++i)
-		for (int j = startX ; j <= stopX ; ++j)
-			_map[i][j].setCell(Cell::GRASS);
+	for (int i = startY; i <= stopY; ++i)
+	for (int j = startX; j <= stopX; ++j)
+		_map[i][j].setCell(Cell::GRASS);
 }
 
 void						Map::probabilities(int x, int y)
@@ -96,29 +98,29 @@ void						Map::probabilities(int x, int y)
 }
 
 void						Map::generateHorizontalGrass(int startX,
-														 int startY,
-														 int stopX,
-														 int stopY)
+	int startY,
+	int stopX,
+	int stopY)
 {
 	if (startX < stopX)
-		for (int i = startX ; i <= stopX ; ++i)
-			probabilities(startY, i);
+	for (int i = startX; i <= stopX; ++i)
+		probabilities(startY, i);
 	else if (stopX < startX)
-		for (int i = stopX ; i <= startX ; ++i)
-			probabilities(startY, i);
+	for (int i = stopX; i <= startX; ++i)
+		probabilities(startY, i);
 }
 
 void						Map::generateVerticalGrass(int startX,
-													   int startY,
-													   int stopX,
-													   int stopY)
+	int startY,
+	int stopX,
+	int stopY)
 {
 	if (startY < stopY)
-		for (int i = startY ; i <= stopY ; ++i)
-			probabilities(i, startX);
+	for (int i = startY; i <= stopY; ++i)
+		probabilities(i, startX);
 	else if (stopY < startY)
-		for (int i = stopY ; i <= startY ; ++i)
-			probabilities(i, startX);
+	for (int i = stopY; i <= startY; ++i)
+		probabilities(i, startX);
 }
 
 void						Map::generateExtendedIsland(int ratio)
@@ -129,7 +131,7 @@ void						Map::generateExtendedIsland(int ratio)
 	int stopX = (int)(startX + (((float)_size.x * (float)_groundRatio) / (float)100));
 	int stopY = (int)(startY + (((float)_size.x * (float)_groundRatio) / (float)100));
 
-	for (int i = 1 ; i <= 3 ; ++i)
+	for (int i = 1; i <= 3; ++i)
 	{
 		generateHorizontalGrass(startX, startY - i, stopX + 1, startY - i);
 
@@ -144,9 +146,9 @@ void						Map::generateExtendedIsland(int ratio)
 int							Map::countAdjacentChunkType(int x, int y, Cell::Type type)
 {
 	int nbr = 0;
-	for (int i = y - 1 ; i <= y + 1 ; ++i)
+	for (int i = y - 1; i <= y + 1; ++i)
 	{
-		for (int j = x - 1 ; j <= x + 1 ; ++j)
+		for (int j = x - 1; j <= x + 1; ++j)
 		{
 			if (i >= 0 && i < _size.y && j >= 0 && j < _size.x)
 			{
@@ -161,21 +163,21 @@ int							Map::countAdjacentChunkType(int x, int y, Cell::Type type)
 void						Map::transformChunkToMap()
 {
 	_cellMap = new Cell*[_size.y * Chunk::NB_CELLS];
-	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
+	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
 		_cellMap[i] = new Cell[_size.x * Chunk::NB_CELLS];
-	for (int i = 0 ; i < _size.y ; ++i)
-		for (int j = 0 ; j < _size.x ; ++j)
+	for (int i = 0; i < _size.y; ++i)
+	for (int j = 0; j < _size.x; ++j)
+	{
+		Cell **tmp = _map[i][j].getCells();
+		for (int x = 0; x < Chunk::NB_CELLS; ++x)
 		{
-			Cell **tmp = _map[i][j].getCells();
-			for (int x = 0 ; x < Chunk::NB_CELLS ; ++x)
+			for (int y = 0; y < Chunk::NB_CELLS; ++y)
 			{
-				for (int y = 0 ; y < Chunk::NB_CELLS ; ++y)
-				{
-					_cellMap[(j * Chunk::NB_CELLS) + y][(i * Chunk::NB_CELLS) + x]._cellType =
-						tmp[y][x]._cellType;
-				}
+				_cellMap[(j * Chunk::NB_CELLS) + y][(i * Chunk::NB_CELLS) + x]._cellType =
+					tmp[y][x]._cellType;
 			}
 		}
+	}
 }
 
 bool					Map::isCellTypeAround(int x, int y, Cell::Type type)
@@ -196,33 +198,43 @@ void						Map::generate()
 	srand(_seed);
 
 	_map = new Chunk*[_size.x];
-	for (int i = 0 ; i < _size.x ; ++i)
+	for (int i = 0; i < _size.x; ++i)
 		_map[i] = new Chunk[_size.y];
 
 	int ratio;
 	ratio = (100 - _groundRatio) / 2;
+
+	_loading = "Generating the main island";
 	generateCenterIsland(ratio);
+	_loading = "Adding some more lands";
 	generateExtendedIsland(ratio);
+	_loading = "Adding some magic";
 	divideLands();
 	mergeLands();
+	_loading = "Too much water, should dry some";
 	dryUselessWater();
+	_loading = "Adding some details";
 	addDetails();
 
 	// Transforming the chunk to a map.
 	transformChunkToMap();
+	_loading = "Generating cool biomes";
 	generateBiomes();
+	_loading = "Adding beaches, bitches love beaches";
 	generateSand();
 
+	_loading = "Growing trees";
 	generateTrees();
 
+	_loading = "Adding a mini map";
 	createMiniMap();
 }
 
 void						Map::divideLands()
 {
-	for (int i = 0 ; i < _size.y ; ++i)
+	for (int i = 0; i < _size.y; ++i)
 	{
-		for (int j = 0 ; j < _size.x ; ++j)
+		for (int j = 0; j < _size.x; ++j)
 		{
 			if (_map[i][j].getCell(0, 0)._cellType == Cell::GRASS)
 			{
@@ -234,9 +246,9 @@ void						Map::divideLands()
 
 void						Map::mergeLands()
 {
-	for (int i = 0 ; i < _size.y ; ++i)
+	for (int i = 0; i < _size.y; ++i)
 	{
-		for (int j = 0 ; j < _size.x ; ++j)
+		for (int j = 0; j < _size.x; ++j)
 		{
 			if (_map[i][j].getCell(Chunk::SIZE_OF_CELL / Chunk::NB_CELLS,
 				Chunk::SIZE_OF_CELL / Chunk::NB_CELLS)._cellType == Cell::GRASS &&
@@ -260,9 +272,9 @@ void						Map::mergeLands()
 
 void						Map::dryUselessWater()
 {
-	for (int i = 0 ; i < _size.y ; ++i)
+	for (int i = 0; i < _size.y; ++i)
 	{
-		for (int j = 0 ; j < _size.x ; ++j)
+		for (int j = 0; j < _size.x; ++j)
 		{
 			if (_map[i][j].getCell(Chunk::SIZE_OF_CELL / Chunk::NB_CELLS,
 				Chunk::SIZE_OF_CELL / Chunk::NB_CELLS)._cellType == Cell::GRASS &&
@@ -284,9 +296,9 @@ void						Map::dryUselessWater()
 
 void						Map::addDetails()
 {
-	for (int i = 0 ; i < _size.y ; ++i)
+	for (int i = 0; i < _size.y; ++i)
 	{
-		for (int j = 0 ; j < _size.x ; ++j)
+		for (int j = 0; j < _size.x; ++j)
 		{
 			_map[i][j].addDetails();
 		}
@@ -295,22 +307,22 @@ void						Map::addDetails()
 
 void						Map::generateBiomes()
 {
-	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
+	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
 	{
-		for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
+		for (int j = 0; j < _size.x * Chunk::NB_CELLS; ++j)
 		{
 			//std::cout << (int)(_temperature->getElevation(i, j, 75)* 0.5 * 100) << std::endl;
 			if (_cellMap[i][j]._cellType != Cell::OCEAN)
-				_cellMap[i][j]._cellType = (_corTab[(int)((_temperature->getElevation(i, j, 10)+1)* 0.5 * 100)])._cellType;
+				_cellMap[i][j]._cellType = (_corTab[(int)((_temperature->getElevation(i, j, 10) + 1)* 0.5 * 100)])._cellType;
 		}
 	}
 }
 
 void						Map::generateSand()
 {
-	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
+	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
 	{
-		for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
+		for (int j = 0; j < _size.x * Chunk::NB_CELLS; ++j)
 		{
 			if (_cellMap[i][j]._cellType != Cell::OCEAN && isCellTypeAround(j, i, Cell::OCEAN))
 				_cellMap[i][j]._cellType = Cell::SAND;
@@ -322,7 +334,7 @@ void						Map::generateSand()
 	while (nbLands > 0)
 	{
 		if (stop > Chunk::NB_CELLS * Chunk::NB_CELLS)
-			return ;
+			return;
 		int x = rand() % (Chunk::NB_CELLS * _size.y);
 		int y = rand() % (Chunk::NB_CELLS * _size.x);
 		if (_cellMap[x][y]._cellType != Cell::OCEAN &&
@@ -341,9 +353,9 @@ void						Map::createMiniMap()
 	_miniMapT->create((_size.x * Chunk::NB_CELLS) * 2,
 		(_size.y * Chunk::NB_CELLS) * 2);
 
-	for (int i = 0 ; i < _size.y * Chunk::NB_CELLS ; ++i)
+	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
 	{
-		for (int j = 0 ; j < _size.x * Chunk::NB_CELLS ; ++j)
+		for (int j = 0; j < _size.x * Chunk::NB_CELLS; ++j)
 		{
 			sf::RectangleShape tmp(sf::Vector2f(2, 2));
 			tmp.setFillColor(_typeToColor[_cellMap[i][j]._cellType]);
@@ -380,7 +392,7 @@ void						Map::drawMiniMap(sf::RenderWindow *win)
 	win->draw(tmp);
 }
 
-sf::Vector2f				&Map::getCamPos() 
+sf::Vector2f				&Map::getCamPos()
 {
 	_camPos.x = _camera->_position.x;
 	_camPos.y = _camera->_position.y;
@@ -389,15 +401,15 @@ sf::Vector2f				&Map::getCamPos()
 
 void						Map::draw(sf::RenderWindow *win)
 {
-	for (int i = _camera->_position.y ; i < (Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) + 1 + _camera->_position.y ; ++i)
+	for (int i = _camera->_position.y; i < (Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) + 1 + _camera->_position.y; ++i)
 	{
-		for (int j = _camera->_position.x ; j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + _camera->_position.x ; ++j)
+		for (int j = _camera->_position.x; j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + _camera->_position.x; ++j)
 		{
 			sf::RectangleShape tmp(sf::Vector2f(Chunk::SIZE_OF_CELL,
 				Chunk::SIZE_OF_CELL));
 			tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
 			tmp.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
-				(i -_camera->_position.y) * Chunk::SIZE_OF_CELL);
+				(i - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 			Singleton::getInstance()._window->draw(tmp);
 
 			sf::Vector2f savePos;
@@ -420,16 +432,16 @@ void						Map::generateTrees()
 	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
 		_entitiesMap[i] = new MapEnvironment[_size.x * Chunk::NB_CELLS]();
 
-	for (int i = 0 ; i < 500 ; )
+	for (int i = 0; i < 500;)
 	{
 		int x = rand() % (_size.x * Chunk::NB_CELLS);
 		int y = rand() % (_size.y  * Chunk::NB_CELLS);
 		if (_cellMap[x][y]._cellType == Cell::FOREST &&
 			_entitiesMap[x][y]._component == NULL)
 		{
-		/*	Tree *tmp;
-			tmp = new Tree();
-			tmp->setPosition(sf::Vector2f(x, y));*/
+			/*	Tree *tmp;
+				tmp = new Tree();
+				tmp->setPosition(sf::Vector2f(x, y));*/
 
 			_entitiesMap[x][y]._component = new ForestTree();
 			_entitiesMap[x][y]._component->setPosition(sf::Vector2f(x, y));
@@ -439,7 +451,7 @@ void						Map::generateTrees()
 	}
 
 
-	for (int i = 0 ; i < 50 ; )
+	for (int i = 0; i < 50;)
 	{
 		int x = rand() % (_size.x * Chunk::NB_CELLS);
 		int y = rand() % (_size.y  * Chunk::NB_CELLS);
@@ -458,7 +470,7 @@ void						Map::generateTrees()
 	}
 
 
-	for (int i = 0 ; i < 50 ; )
+	for (int i = 0; i < 50;)
 	{
 		int x = rand() % (_size.x * Chunk::NB_CELLS);
 		int y = rand() % (_size.y  * Chunk::NB_CELLS);
