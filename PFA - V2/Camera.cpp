@@ -69,6 +69,11 @@ bool Camera::moveCameraMouse(sf::Vector2i const &size)
 		if ((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).y >= Singleton::getInstance()._window->getSize().y - 3.0f)
 			sf::Mouse::setPosition(sf::Vector2i((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).x, Singleton::getInstance()._window->getSize().y - 3.0f), *(Singleton::getInstance()._window));*/
 	}
+	if (!Singleton::getInstance().isLeftClicking)
+	{
+		Singleton::getInstance().updatePosLeftClickPressed.x = 0;
+		Singleton::getInstance().updatePosLeftClickPressed.y = 0;
+	}
 	return (isChangePosition);
 }
 
@@ -115,5 +120,10 @@ void Camera::moveCamera(sf::Vector2i const &size)
 				Singleton::getInstance().updatePosLeftClickPressed.y += calc;
 			}
 		}
+	}
+	if (!Singleton::getInstance().isLeftClicking)
+	{
+		Singleton::getInstance().updatePosLeftClickPressed.x = 0;
+		Singleton::getInstance().updatePosLeftClickPressed.y = 0;
 	}
 }
