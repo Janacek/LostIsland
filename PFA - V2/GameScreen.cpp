@@ -136,7 +136,7 @@ void GameScreen::draw()
 	}
 
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
-
+	static bool test = true;
 	if (Singleton::getInstance().isKeyIPressed)
 	{
 		this->_inventory->_inventoryWindow->Show(test);
