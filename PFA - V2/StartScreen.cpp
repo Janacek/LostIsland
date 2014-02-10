@@ -3,11 +3,18 @@
 #include "StartScreen.h"
 #include "SystemDefines.h"
 
+StartScreen::~StartScreen() {
+
+}
+
 StartScreen::StartScreen()
 {
 	_isRunning = true;
 	this->_choiceClock = new sf::Clock();
 	_curPos = 0;
+
+	_menuScreen = new sf::Image;
+	_menuScreen->loadFromFile("./menuScreen.png");
 
 	_timeElapsed = sf::Time::Zero;
 	_choiceClock->restart();
@@ -18,11 +25,8 @@ StartScreen::StartScreen()
 	e2->setString("Option");
 	sf::Text *e3 = new sf::Text();
 	e3->setString("Exit");
-	//	sf::Text *e4 = new sf::Text();
-	//e4->setString("Local Game");
-	//sf::Text *e5 = new sf::Text();
-	//e5->setString("Local Game");
 	e1->setCharacterSize(30);
+
 	e1->setFont((*FontManager::getInstance().getFont(SANSATION)));
 	e2->setFont((*FontManager::getInstance().getFont(SANSATION)));
 	e3->setFont((*FontManager::getInstance().getFont(SANSATION)));
@@ -46,15 +50,41 @@ void StartScreen::events(sf::Event &)
 void StartScreen::draw()
 {
 	Singleton::getInstance()._window->clear();
+
+	sf::Texture menuScreen;
+	menuScreen.loadFromImage(*_menuScreen);
+	sf::Sprite spriteMenu;
+	spriteMenu.setTexture(menuScreen);
+	Singleton::getInstance()._window->draw(spriteMenu);
+
+	sf::Text lostIsland;
+	lostIsland.setFont(*FontManager::getInstance().getFont(SANSATION));
+	lostIsland.setPosition(50, 50);
+	lostIsland.setCharacterSize(60);
+	lostIsland.setString("Lost Island");
+	Singleton::getInstance()._window->draw(lostIsland);
+
+
 	float i = 0;
+	int pos = 0;
 	for (std::vector<sf::Text *>::iterator it = _entries.begin(); it != _entries.end() ; ++it)
 	{
-		(*it)->setPosition((float)Singleton::getInstance()._window->getSize().x / 2, i);
+		if (pos == _curPos)
+		{
+			sf::RectangleShape selection(sf::Vector2f(200, 75));
+			selection.setPosition(_entries[pos]->getPosition().x - 50, _entries[pos]->getPosition().y - 15);
+			selection.setFillColor(sf::Color(255, 255, 255, 150));
+			selection.setOutlineColor(sf::Color::White);
+			selection.setOutlineThickness(2);
+			Singleton::getInstance()._window->draw(selection);
+		}
+		(*it)->setPosition((float)Singleton::getInstance()._window->getSize().x / 2 + 450, i + 250);
 		Singleton::getInstance()._window->draw(*(*it));
-		i += 50;
+		i += 75;
+		++pos;
 	}
-	_selector->setPosition(_entries[_curPos]->getPosition().x - 50, _entries[_curPos]->getPosition().y + 15);
-	Singleton::getInstance()._window->draw(*_selector);
+	/*_selector->setPosition(_entries[_curPos]->getPosition().x - 50, _entries[_curPos]->getPosition().y + 15);
+	Singleton::getInstance()._window->draw(*_selector);*/
 	Singleton::getInstance()._window->display();
 }
 

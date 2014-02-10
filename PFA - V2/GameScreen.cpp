@@ -24,6 +24,14 @@ GameScreen::GameScreen()
 	_loaded = false;
 }
 
+GameScreen::~GameScreen()
+{
+	std::cout << "Deleting Game Screen" << std::endl;
+	/*delete _map;
+	delete _physicEngine;
+	delete _dropCompartment;*/
+}
+
 void	GameScreen::checkQuit(sf::Event &e)
 {
 	sf::FloatRect rect = this->_inventory->_inventoryWindow->GetAllocation();

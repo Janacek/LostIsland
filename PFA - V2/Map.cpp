@@ -46,6 +46,54 @@ Map::Map(Camera *cam, std::string &loading)
 
 Map::~Map()
 {
+	if (_map)
+	{
+		for (int i = 0; i < _size.x; ++i)
+			delete[] _map[i];
+		delete _map;
+		_map = NULL;
+	}
+
+	if (_cellMap)
+	{
+		for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
+			delete[] _cellMap[i];
+		delete _cellMap;
+		_cellMap = NULL;
+	}
+
+	if (_entitiesMap)
+	{
+		for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
+			delete[] _entitiesMap[i];
+		delete _entitiesMap;
+		_entitiesMap = NULL;
+	}
+
+	if (_temperature)
+	{
+		delete _temperature;
+		_temperature = NULL;
+	}
+
+	if (_humidity)
+	{
+		delete _humidity;
+		_humidity = NULL;
+	}
+
+	if (_miniMapT)
+	{
+		delete _miniMapT;
+		_miniMapT = NULL;
+	}
+
+	if (_mapText)
+	{
+		delete _mapText;
+		_mapText = NULL;
+	}
+
 }
 
 static unsigned int generateHash(std::string const & string)
@@ -368,8 +416,11 @@ void						Map::createMiniMap()
 
 void						Map::drawMiniMap(sf::RenderWindow *win)
 {
-	sf::Sprite sprite(_miniMapT->getTexture());
-	win->draw(sprite);
+	if (_miniMapT)
+	{
+		sf::Sprite sprite(_miniMapT->getTexture());
+		win->draw(sprite);
+	}
 
 	{
 		sf::RectangleShape tmp(sf::Vector2f(
@@ -401,6 +452,8 @@ sf::Vector2f				&Map::getCamPos()
 
 void						Map::draw(sf::RenderWindow *win)
 {
+	if (!_cellMap || !_entitiesMap)
+		return;
 	for (int i = static_cast<int>(_camera->_position.y); i < static_cast<int>((Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL + 1 + _camera->_position.y)); ++i)
 	{
 		for (int j = static_cast<int>(_camera->_position.x); j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + _camera->_position.x; ++j)

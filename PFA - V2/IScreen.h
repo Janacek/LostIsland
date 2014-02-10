@@ -51,6 +51,7 @@ enum stateName
 class IScreen
 {
 public:
+	virtual ~IScreen() {};
 	virtual void draw() = 0;
 	virtual void initialize(void) = 0;
 	virtual IScreen * getNextState(void) = 0;

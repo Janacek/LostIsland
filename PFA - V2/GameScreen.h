@@ -19,6 +19,7 @@ class GameScreen : public IScreen
 {
 public:
 	GameScreen();
+	virtual ~GameScreen();
 
 	void draw();
 	void initialize(void);

@@ -32,7 +32,6 @@ void GameEngine::update()
 			PopState();
 		PushState(tmp);
 		Singleton::getInstance().isEscapePressed = false;
-		IScreen *state = _states.top();
 		//if (state)
 		//{
 		//	std::cout << "toto1" << std::endl;
@@ -56,7 +55,7 @@ void GameEngine::update()
 			case sf::Event::Closed:
 				Singleton::getInstance()._window->close();
 				_isRunning = false;
-				exit(42);
+				return;
 				break;
 			case sf::Event::MouseButtonReleased:
 				_controler.handlePlayerInput(event.mouseButton.button, false);
@@ -97,6 +96,7 @@ void GameEngine::PopState(void)
 	{
 		IScreen *tmp = _states.top();
 		_states.pop();
-		delete tmp;
+		std::cout << "On delete" << std::endl;
+		//delete tmp;
 	}
 }
