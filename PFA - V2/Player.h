@@ -41,7 +41,8 @@ public:
 	void setPathToGo(float f);
 	void addToPathToGo(float f);
 	bool getIsMoving() const;
-	
+	bool getIsStopped() const{ return false; }
+
 	//sf::Rect & getCollisionBox(void);
 
 	//TODO : Changer en compartments pour l'inventaire

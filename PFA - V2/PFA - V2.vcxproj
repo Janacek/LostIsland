@@ -114,6 +114,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapEnvironment.cpp" />
+    <ClCompile Include="OnScreenLogs.cpp" />
     <ClCompile Include="OptionScreen.cpp" />
     <ClCompile Include="Mutex.cpp" />
     <ClCompile Include="MutexWin.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="KeyboardControler.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapEnvironment.h" />
+    <ClInclude Include="OnScreenLogs.h" />
     <ClInclude Include="OptionScreen.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Onglet.h" />

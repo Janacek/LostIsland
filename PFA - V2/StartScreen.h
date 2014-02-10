@@ -7,6 +7,7 @@ class StartScreen : public IScreen
 {
 public:
 	StartScreen(); //ALORS, on met un boolean dans chaque state des qu'on veut un new slide on set un ptr IScreen dans se state au next state , dans le gamemanager si il est false on get le state suivant dans le state
+	virtual ~StartScreen();
 
 	void draw();
 	void initialize(void);
@@ -26,4 +27,7 @@ private:
 	sf::RectangleShape		*_selector;
 	sf::Time				_timeElapsed;
 	sf::Clock				*_choiceClock;
+
+
+	sf::Image				*_menuScreen;
 };

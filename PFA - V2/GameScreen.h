@@ -14,12 +14,14 @@
 #include "PhysicEngine.h"
 #include "StartScreen.h"
 #include "FontManager.h"
+#include "OnScreenLogs.h"
 
 class GameScreen : public IScreen
 {
 public:
 	GameScreen();
-	~GameScreen();
+	virtual ~GameScreen();
+
 	void draw();
 	void initialize(void);
 	IScreen					*getNextState(void);
@@ -78,6 +80,15 @@ private:
 	GestionClick			_gc;
 
 	sf::Vector2i			_posSelectedArea;
+
+
+	/*
+	** Loading screen;
+	*/
+	sf::Image				*_loadingScreen;
+	bool					_loaded;
+	std::string				_loadingText;
+	sf::Text				_loadingSfText;
 
 	/*--------TEST---------*/
 	std::vector<IEntity *> _one;

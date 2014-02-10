@@ -129,7 +129,11 @@
     <ClCompile Include="Bunny.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="RessourcesWindow.cpp">
+=======
+    <ClCompile Include="OnScreenLogs.cpp">
+>>>>>>> 1af000431820dd6fd8cef6fbc702baf137e19668
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -245,7 +249,11 @@
     <ClInclude Include="Bunny.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="RessourcesWindow.h">
+=======
+    <ClInclude Include="OnScreenLogs.h">
+>>>>>>> 1af000431820dd6fd8cef6fbc702baf137e19668
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

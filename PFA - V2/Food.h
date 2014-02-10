@@ -26,6 +26,8 @@ public:
 	bool const getIsPathFound() const { return false; }
 	void setIsPathFound(bool n) { (void)n; }
 	Type getType() const;
+	bool getIsStopped() const{ return false; }
+
 	~Food(void);
 private:
 	std::list<std::pair<float, float> > _path;

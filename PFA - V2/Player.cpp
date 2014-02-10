@@ -261,7 +261,10 @@ void Player::update(Map & map)
 		_hasAPath = true;
 		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component &&
 			map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == PLAYER)
+		{
 			map.setEntityMap(NULL, static_cast<int>(floor(_pos.y)), static_cast<int>(floor(_pos.x)));
+		}
+		
 		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
 		{	
 			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
@@ -278,7 +281,7 @@ void Player::update(Map & map)
 						_path.back().first += y;
 						_path.back().second += x;
 
-						map.setEntityMap(this, static_cast<int>(floor(_path.back().second + x)), static_cast<int>(floor(_path.back().first + y)));
+						//map.setEntityMap(this, static_cast<int>(floor(_path.back().second + x)), static_cast<int>(floor(_path.back().first + y)));
 						x = 3;
 						y = 3;
 						break;

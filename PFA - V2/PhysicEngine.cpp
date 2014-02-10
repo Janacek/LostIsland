@@ -158,7 +158,7 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<IEntity 
 	{
 		for (auto it2 = entities.begin(); it2 != entities.end(); ++it2) // a voir si ca fait pas ramer 
 		{
-			if ((*it2)->getType() != PLAYER)
+			if ((*it2)->getType() != PLAYER && (*it2)->getIsStopped() == false)
 			{
 				if (diffDist((*it)->getPosition(), (*it2)->getPosition()) < 6 && (*it2)->getIsMoving() == false) // ca a lair de marcher
 				{

@@ -7,7 +7,7 @@ class OptionScreen : public IScreen
 {
 public:
 	OptionScreen();
-	~OptionScreen();
+	virtual ~OptionScreen();
 
 	void draw();
 	void initialize(void);

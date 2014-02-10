@@ -34,6 +34,7 @@ public:
 	bool						const getSelected() const{ return true; }
 	bool const getIsPathFound() const;
 	void setIsPathFound(bool);
+	bool getIsStopped() const{ return _isStop; }
 
 
 private:
@@ -42,6 +43,7 @@ private:
 	bool					_isMoving;
 	bool					_hasAPath;
 	bool					_isPathFound;
+	bool					_isStop;
 	// Bunny pathfinding
 	sf::Clock				_mvtClock;
 	float					_speed;

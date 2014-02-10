@@ -108,3 +108,7 @@ bool OptionScreen::isRunning() const
 {
 	return this->_isRunning;
 }
+
+OptionScreen::~OptionScreen() {
+
+}

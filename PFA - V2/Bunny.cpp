@@ -4,6 +4,7 @@
 Bunny::Bunny()
 {
 	_isMoving = false;
+	_isStop = false;
 }
 
 Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
@@ -38,7 +39,7 @@ void Bunny::moveToNextWP()
 	
 	if (_iterPath > IT_BEF_STOP)
 	{
-		
+		_isStop = true;
 		_path.clear();
 		if (_oldTime == 0)
 			_oldTime = time;
@@ -46,6 +47,7 @@ void Bunny::moveToNextWP()
 	}
 	if (dt2 > TIMESTOP)
 	{
+		_isStop = false;
 		_iterPath = 0;
 		_oldTime = 0;
 	}

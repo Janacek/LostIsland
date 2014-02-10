@@ -49,7 +49,9 @@ void Game::launch(void)
 	** Instantiation du graphical engine + threading;
 	*/
 
-	Thread *graphicalThread = new Thread(&GraphicEngine::run, _graphicEngine);
+	//Thread *graphicalThread = new Thread(&GraphicEngine::run, _graphicEngine);
+
+	sf::Thread *graphicalThread = new sf::Thread(&GraphicEngine::run, _graphicEngine);
 
 	graphicalThread->launch();
 	while (true)
@@ -58,6 +60,7 @@ void Game::launch(void)
 			break;*/
 		if (_gameEngine->getIsRunning() == false)
 		{
+			std::cout << "Quitting the game" << std::endl;
 			break;
 		}
 		
