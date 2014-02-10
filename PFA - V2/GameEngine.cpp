@@ -3,7 +3,7 @@
 #include "Singleton.h"
 #include "GameScreen.h"
 
-GameEngine::GameEngine(std::stack<IScreen *>&states) : _states(states)
+GameEngine::GameEngine(std::list<IScreen *>&states) : _states(states)
 {
 
 }
@@ -16,20 +16,28 @@ GameEngine::~GameEngine()
 void GameEngine::init()
 {
 	_isRunning = true;
+	this->_stateClock.restart();
+	_timeToLive = 0;
 }
 
 void GameEngine::update()
 {
 	sf::Event	event;
 
-	// OPENGL COULD THROW WARNINGS HERE.
+	static float oldTime = _stateClock.getElapsedTime().asSeconds();
+	float time = _stateClock.getElapsedTime().asSeconds();
+	float dt = time - oldTime;
+	oldTime = time;
+
+	_timeToLive += dt;
+		// OPENGL COULD THROW WARNINGS HERE.
 
 	//std::cout << _states.size() << std::endl;
-	if (_states.top()->isRunning() == false)
+	if (_states.front()->isRunning() == false)
 	{
-		IScreen *tmp = _states.top()->getNextState();
-		if (!_states.empty())
-			PopState();
+		IScreen *tmp = _states.front()->getNextState();
+		/*if (!_states.empty())
+			PopState();*/
 		PushState(tmp);
 		Singleton::getInstance().isEscapePressed = false;
 		//if (state)
@@ -38,7 +46,7 @@ void GameEngine::update()
 		//	//state->initialize();
 		//}
 	}
-	IScreen *state = _states.top();
+	IScreen *state = _states.front();
 	if (state)
 	{
 		while (Singleton::getInstance()._window->pollEvent(event))
@@ -67,6 +75,17 @@ void GameEngine::update()
 		}
 		state->update();
 	}
+
+	if (_timeToLive > 3) {
+		_timeToLive = 0;
+		while (_states.size() > 1) {
+			std::cout << _states.size() << std::endl;
+			IScreen *tmp;
+			tmp = _states.back();
+			_states.pop_back();
+			delete tmp;
+		}
+	}
 }
 
 bool GameEngine::getIsRunning() const
@@ -76,8 +95,8 @@ bool GameEngine::getIsRunning() const
 
 void GameEngine::PushState(IScreen *state)
 {
-	_states.push(state);
-	_states.top()->initialize();
+	_states.push_front(state);
+	_states.front()->initialize();
 
 
 }	
@@ -92,11 +111,12 @@ void GameEngine::SetState(IScreen* state)
 
 void GameEngine::PopState(void)
 {
-	if (!_states.empty())
-	{
-		IScreen *tmp = _states.top();
-		_states.pop();
-		std::cout << "On delete" << std::endl;
-		//delete tmp;
-	}
+	//if (!_states.empty())
+	//{
+	//	IScreen *tmp = _states.top();
+	//	_states.pop();
+	//	tmp = NULL;
+	//	std::cout << "On delete" << std::endl;
+	//	//delete tmp
+	//}
 }

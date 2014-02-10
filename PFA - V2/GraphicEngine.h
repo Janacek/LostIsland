@@ -2,7 +2,7 @@
 
 #include <list>
 #include <vector>
-#include <stack>
+#include <list>
 #include "IEntity.h"
 #include "StartScreen.h"
 #include "GameScreen.h"
@@ -13,7 +13,7 @@
 class GraphicEngine : public IEngine
 {
 public:
-	GraphicEngine(std::stack<IScreen *> &);
+	GraphicEngine(std::list<IScreen *> &);
 
 	void run();
 	void draw();
@@ -24,7 +24,7 @@ public:
 
 	IScreen* GetCurrentState(void) 
 	{
-		return (!_states.empty()) ? _states.top() : NULL;
+		return (!_states.empty()) ? _states.front() : NULL;
 	}
 
 protected:
@@ -34,8 +34,7 @@ private:
 	GameScreen				*_gameScreen;
 	//TODO OptionScreen
 
-	std::stack<IScreen *>	&
-		_states;
+	std::list<IScreen *>	&_states;
 	KeyboardControler		_controler;
 
 };

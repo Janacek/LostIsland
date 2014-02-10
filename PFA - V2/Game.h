@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stack>
+#include <list>
 #include "Singleton.h"
 #include "GameEngine.h"
 #include "GraphicEngine.h"
@@ -20,10 +20,10 @@ private:
 	GameEngine				*_gameEngine;
 	PhysicEngine			*_physicEngine;
 	sf::Clock				_cl;
-	std::stack<IScreen *>	_states;
+	std::list<IScreen *>	_states;
 	IScreen* GetCurrentState(void) 
 	{
-		return (!_states.empty()) ? _states.top() : NULL;
+		return (!_states.empty()) ? _states.front() : NULL;
 	}
 
 };

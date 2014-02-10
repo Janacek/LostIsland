@@ -1,7 +1,7 @@
 #include "GraphicEngine.h"
 #include "Singleton.h"
 
-GraphicEngine::GraphicEngine(std::stack<IScreen *> &states) : _states(states)
+GraphicEngine::GraphicEngine(std::list<IScreen *> &states) : _states(states)
 {
 
 }
@@ -12,13 +12,15 @@ void GraphicEngine::run()
 	this->init();
 	while (true)
 	{
-		this->draw();
+			this->draw();
 	}
 }
 
 void GraphicEngine::draw()
 {
-	IScreen *state = _states.top();
+
+
+	IScreen *state = _states.front();
 	if (state && state->isRunning())
 		state->draw();
 }

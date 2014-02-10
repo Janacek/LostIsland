@@ -15,6 +15,7 @@ Game::~Game(void)
 
 void Game::init()
 {
+	
 	srand((unsigned int)time(NULL));
 	Singleton& ptr1 = Singleton::getInstance();
 	ImageSingleton::getInstance().start();
@@ -28,8 +29,8 @@ void Game::init()
 	ptr1._clock->restart();
 
 	//_states.push()
-	_states.push( new StartScreen() );
-	_states.top()->initialize();
+	_states.push_front( new StartScreen() );
+	_states.front()->initialize();
 	
 	this->_graphicEngine = new GraphicEngine( this->_states);
 	this->_gameEngine = new GameEngine(this->_states);

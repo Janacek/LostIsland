@@ -3,6 +3,7 @@
 #include						<SFML/Window.hpp>
 #include						<SFML/Graphics.hpp>
 #include						<SFGUI/SFGUI.hpp>
+#include <windows.h>
 
 
 class Singleton
@@ -35,6 +36,8 @@ public:
 	sf::Vector2f updatePosLeftClickPressed;
 
 	bool isValidating;
+	bool isRunning;
+	sf::Mutex mutex;
 	sf::Clock *_animClock;
 	sfg::Desktop _desktop;
 

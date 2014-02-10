@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stack>
+#include <list>
 #include "Player.h"
 #include "IEngine.h"
 #include "PathFinding.h"

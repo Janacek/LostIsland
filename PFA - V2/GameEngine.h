@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stack>
+#include <list>
 #include <vector>
 #include "IEntity.h"
 #include "IEngine.h"
@@ -9,7 +9,7 @@
 class GameEngine : public IEngine
 {
 public:
-	GameEngine(std::stack<IScreen *>&);
+	GameEngine(std::list<IScreen *>&);
 	~GameEngine();
 	bool getIsRunning() const;
 	void init();
@@ -24,7 +24,9 @@ private:
 	bool _isRunning;
 	KeyboardControler		_controler;
 	sf::Clock				*_cl;
-	std::stack<IScreen *>	&_states;
+	std::list<IScreen *>	&_states;
 
+	sf::Clock				_stateClock;
+	float					_timeToLive;
 };
 

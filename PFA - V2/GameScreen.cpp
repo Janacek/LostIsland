@@ -9,6 +9,7 @@
 
 GameScreen::GameScreen()
 {
+
 	_isRunning = true;
 	_camera._position.x = 0;
 	_camera._position.y = 0;
@@ -21,27 +22,32 @@ GameScreen::GameScreen()
 	_statisticsText.setPosition(5.f, 5.f);
 	_statisticsText.setCharacterSize(10);
 	_statisticsText.setPosition(0, 30);
-	
+
 	/*TEST*/
 	_one.push_back(new Food);
 
 	_loadingScreen = new sf::Image;
 	_loadingScreen->loadFromFile("./loadingScreen.png");
 	_loaded = false;
-}
 
 	_two.push_back(new Tree);
 	_two.push_back(new Wood);
-	
+
 	_tree.push_back(new Food);
 	_tree.push_back(new Water);
 	_tree.push_back(new Tree);
+}
+
 GameScreen::~GameScreen()
 {
+
+	Singleton::getInstance().isRunning = false;
 	std::cout << "Deleting Game Screen" << std::endl;
-	/*delete _map;
+	delete _map;
 	delete _physicEngine;
-	delete _dropCompartment;*/
+	delete _dropCompartment;
+	delete _inventory;
+	delete _winRessource;
 }
 
 void	GameScreen::checkQuit(sf::Event &e)
@@ -163,15 +169,14 @@ void GameScreen::draw()
 		_loadingSfText.setString(_loadingText);
 		Singleton::getInstance()._window->draw(_loadingSfText);
 	}
-
 	else
 	{
-	Singleton::getInstance()._window->clear();
-	_t = Singleton::getInstance()._clock->restart();
-	Singleton::getInstance()._animClock->restart();
+		Singleton::getInstance()._window->clear();
+		_t = Singleton::getInstance()._clock->restart();
+		Singleton::getInstance()._animClock->restart();
 
 
-	
+
 		this->_map->draw(Singleton::getInstance()._window);
 
 		//Singleton::getInstance()._window->draw(_statisticsText);
@@ -188,31 +193,31 @@ void GameScreen::draw()
 		}
 
 
-	if (Singleton::getInstance().isLeftClicking)
-	{
-		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+		if (Singleton::getInstance().isLeftClicking)
+		{
+			sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 
-		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
+			sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
 
 			_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
 			_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
 
 			sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
 				mousePos.y - _posSelectedArea.y));
-		selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
-		selectionZone.setOutlineColor(sf::Color::White);
-		selectionZone.setOutlineThickness(2);
+			selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
+			selectionZone.setOutlineColor(sf::Color::White);
+			selectionZone.setOutlineThickness(2);
 			selectionZone.setPosition(_posSelectedArea.x,
 				_posSelectedArea.y);
-		Singleton::getInstance()._window->draw(selectionZone);
+			Singleton::getInstance()._window->draw(selectionZone);
 
-	}
-	this->_inventory->draw();
-	this->_winRessource->draw();
+		}
+		this->_inventory->draw();
+		this->_winRessource->draw();
 
 		this->_map->drawMiniMap(Singleton::getInstance()._window);
-	//updateStatistics(_t);
-
+		//updateStatistics(_t);
+	}
 	Singleton::getInstance()._window->display();
 }
 
@@ -438,9 +443,4 @@ void GameScreen::release(void)
 bool GameScreen::isRunning(void) const
 {
 	return this->_isRunning;
-}
-
-GameScreen::~GameScreen()
-{
-	
 }

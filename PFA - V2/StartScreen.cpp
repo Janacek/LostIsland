@@ -4,11 +4,13 @@
 #include "SystemDefines.h"
 
 StartScreen::~StartScreen() {
-
+	Singleton::getInstance().isRunning = false;
 }
 
 StartScreen::StartScreen()
 {
+
+	Singleton::getInstance().isRunning = true;
 	_isRunning = true;
 	this->_choiceClock = new sf::Clock();
 	_curPos = 0;

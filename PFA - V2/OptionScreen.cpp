@@ -13,7 +13,7 @@ void OptionScreen::sfxAdjustmentChange(void)
 OptionScreen::OptionScreen()
 {
 	_isRunning = true;
-
+	Singleton::getInstance().isRunning = true;
 	_window = sfg::Window::Create();
 	_window->SetStyle(sfg::Window::NO_STYLE);
 
@@ -111,4 +111,5 @@ bool OptionScreen::isRunning() const
 
 OptionScreen::~OptionScreen() {
 
+	Singleton::getInstance().isRunning = false;
 }
