@@ -3,6 +3,17 @@
 #include "PathFinding.h"
 #include "Map.h"
 
+PathFinding::~PathFinding()
+{
+	std::cout << "Je delete le pathfinding" << std::endl;
+	while (this->list_line.size() > 0)
+	{
+		sf::Vertex *tmp = this->list_line.back();
+		this->list_line.pop_back();
+		delete tmp;
+	}
+}
+
 void PathFinding::initPathfinding(Map* &map, Camera *cam)
 {
 	_cam = cam;

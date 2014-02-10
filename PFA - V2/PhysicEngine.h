@@ -9,6 +9,7 @@ class PhysicEngine : public IEngine
 {
 public:
 	PhysicEngine(Map *&, Camera *cam);
+	~PhysicEngine();
 	void init();
 	void setCamPos(sf::Vector2f &cam);
 	void update();

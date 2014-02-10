@@ -6,6 +6,11 @@ PhysicEngine::PhysicEngine(Map *&map, Camera *cam) : _map(map), _cam(cam)
 	_isRunning = true;
 }
 
+PhysicEngine::~PhysicEngine()
+{
+
+}
+
 void PhysicEngine::init()
 {
 	

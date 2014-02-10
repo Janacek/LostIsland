@@ -57,6 +57,7 @@ private:
 class PathFinding
 {
 public:
+	~PathFinding();
 	void initPathfinding(Map *&map, Camera *cam);
 	void updatePath();
 	void addVertexPoint(sf::Vector2i &);
