@@ -36,6 +36,7 @@ public:
 
 	bool isValidating;
 	sf::Clock *_animClock;
+	sfg::Desktop _desktop;
 
 	
 private:

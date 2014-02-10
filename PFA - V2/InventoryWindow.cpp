@@ -7,7 +7,7 @@
 InventoryWindow::InventoryWindow()
 {
 	createWindow();
-	createNumberWindow();
+	//createNumberWindow();
 	this->_gameScreen = NULL;
 	this->_dropNbr = 0;
 	this->_tableTest = sfg::Table::Create();
@@ -33,7 +33,7 @@ void InventoryWindow::createNumberWindow()
 	box->Pack(this->_label);
 	box->SetSpacing(5.f);
 	this->_numberWindow->Add(box);
-	this->_desktop.Add(this->_numberWindow);
+	Singleton::getInstance()._desktop.Add(this->_numberWindow);
 }
 
 void InventoryWindow::createWindow()
@@ -51,7 +51,7 @@ void InventoryWindow::createWindow()
 	this->_closeButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::close, this));
 	this->_inventoryWindow->Add(this->_closeButton);*/
 	this->_emptyLabel = sfg::Label::Create("Pas de joueur(s) sélectionné(s)."); 
-	this->_desktop.Add(this->_inventoryWindow);
+	Singleton::getInstance()._desktop.Add(this->_inventoryWindow);
 }
 
 void InventoryWindow::createTabs(std::vector<Player *>&players)
@@ -183,7 +183,7 @@ void InventoryWindow::close()
 
 void InventoryWindow::update()
 {
-	_desktop.Update(0.1f);
+	Singleton::getInstance()._desktop.Update(0.1f);
 }
 
 void InventoryWindow::draw()

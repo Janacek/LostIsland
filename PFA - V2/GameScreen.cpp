@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include "GameScreen.h"
 #include "Food.h"
+#include "Wood.h"
+#include "Water.h"
+#include "Tree.h"
 
 GameScreen::GameScreen()
 {
@@ -21,8 +24,16 @@ GameScreen::GameScreen()
 	_statisticsText.setPosition(5.f, 5.f);
 	_statisticsText.setCharacterSize(10);
 	_statisticsText.setPosition(0, 30);
+	
+	/*TEST*/
+	_one.push_back(new Food);
 
-
+	_two.push_back(new Tree);
+	_two.push_back(new Wood);
+	
+	_tree.push_back(new Food);
+	_tree.push_back(new Water);
+	_tree.push_back(new Tree);
 }
 
 void	GameScreen::checkQuit(sf::Event &e)
@@ -38,7 +49,7 @@ void	GameScreen::checkQuit(sf::Event &e)
 
 void GameScreen::events(sf::Event &e)
 {
-	this->_inventory->_desktop.HandleEvent(e);
+	Singleton::getInstance()._desktop.HandleEvent(e);
 	checkDrop(e);
 	checkQuit(e);
 }
@@ -71,7 +82,7 @@ void GameScreen::validDrop(int nbrDrop)
 
 void GameScreen::initialize(void)
 {
-
+	
 
 	for (int i = 0; i < 15;) {
 		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
@@ -100,15 +111,20 @@ void GameScreen::initialize(void)
 	}
 
 	this->_activeInventary = false;
-
+	this->_activeWinRessources = false;
 	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
 	this->_inventory->createTabs(this->_players);
-
+	this->_winRessource = new RessourcesWindow(this);
 
 	//initialisation de l'image du pointeur
 	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 
+}
+
+std::vector<Player *> &GameScreen::getPlayers()
+{
+	return this->_players;
 }
 
 void GameScreen::mouseLeftPress(int index)
@@ -136,18 +152,7 @@ void GameScreen::draw()
 	}
 
 	this->_map->drawMiniMap(Singleton::getInstance()._window);
-	static bool test = true;
-	if (Singleton::getInstance().isKeyIPressed)
-	{
-		this->_inventory->_inventoryWindow->Show(test);
-		if (test)
-			switchTabs();
-
-		test = !test;
-		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
-	}
-	checkInput();
-
+	
 	if (Singleton::getInstance().isLeftClicking)
 	{
 		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
@@ -168,6 +173,8 @@ void GameScreen::draw()
 
 	}
 	this->_inventory->draw();
+	this->_winRessource->draw();
+
 	//updateStatistics(_t);
 
 	Singleton::getInstance()._window->display();
@@ -220,34 +227,6 @@ void GameScreen::switchTabs()
 		}
 		++compt;
 	}
-	/*this->_inventory->_notebookfirst->
-
-		this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tableTest, sfg::Label::Create("label test"), 1);
-
-
-		this->_inventory->_notebookfirst->Remove(this->_inventory->_tableTest);
-		this->_inventory->_tableTest->Show(false);*/
-
-	/*if (Singleton::getInstance().isKey1Pressed)
-	{
-	if (this->_inventory->_tableTest->IsGloballyVisible() == true)
-	std::cout << "TRUUUUUUUUUUUUUUUUUUUUUUE" << std::endl;
-	else
-	std::cout << "FALLLLLLLLLLLLLLLLLLLLLLLLLLLLLSE" << std::endl;
-	Singleton::getInstance().isKey1Pressed = !Singleton::getInstance().isKey1Pressed;
-	}
-	else if (Singleton::getInstance().isKey2Pressed)
-	{
-	Singleton::getInstance().isKey2Pressed = !Singleton::getInstance().isKey2Pressed;
-	}
-	else if (Singleton::getInstance().isKey3Pressed)
-	{
-	Singleton::getInstance().isKey3Pressed = !Singleton::getInstance().isKey3Pressed;
-	}
-	else if (Singleton::getInstance().isKey4Pressed)
-	{
-	Singleton::getInstance().isKey4Pressed = !Singleton::getInstance().isKey4Pressed;
-	}*/
 }
 
 
@@ -311,6 +290,7 @@ void GameScreen::update(void)
 	checkDrawInventory();
 
 	this->_inventory->update();
+	this->_winRessource->update();
 	if (Singleton::getInstance().isEscapePressed)
 	{
 		_isRunning = false;
@@ -329,6 +309,24 @@ void		GameScreen::checkDrawInventory()
 			switchTabs();
 
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
+	}
+	if (Singleton::getInstance().isKey1Pressed)
+	{
+		static int test = 0;
+		this->_activeWinRessources = !this->_activeWinRessources;
+		if (this->_activeWinRessources == true)
+		{
+			std::cout << "TEST  : " << test << std::endl;
+			if (test == 0)
+				this->_winRessource->updateView(_one);
+			else if (test == 1)
+				this->_winRessource->updateView(_two);
+			else if (test == 2)
+				this->_winRessource->updateView(_tree);
+			++test;
+		}
+		this->_winRessource->Show(this->_activeWinRessources);
+		Singleton::getInstance().isKey1Pressed = !Singleton::getInstance().isKey1Pressed;
 	}
 }
 
@@ -406,3 +404,7 @@ bool GameScreen::isRunning(void) const
 	return this->_isRunning;
 }
 
+GameScreen::~GameScreen()
+{
+	
+}

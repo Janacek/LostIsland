@@ -123,6 +123,7 @@
     <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="PhysicEngine.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RessourcesWindow.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="Thread.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="PhysicEngine.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RessourcesWindow.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="SystemDefines.h" />

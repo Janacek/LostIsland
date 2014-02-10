@@ -25,7 +25,7 @@ public:
 	const sf::Image&fillImage(Player *player, int index);
 	~InventoryWindow();
 
-	sfg::Desktop _desktop;
+	
 //private:
 	void createWindow();
 	void createNumberWindow();
