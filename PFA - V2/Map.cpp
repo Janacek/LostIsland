@@ -45,6 +45,7 @@ Map::Map(Camera *cam, std::string &loading)
 
 	_mapTexture = NULL;
 
+	_spawnPoints.clear();
 }
 
 Map::~Map()
@@ -381,7 +382,10 @@ void						Map::generateSand()
 		for (int j = 0; j < _size.x * Chunk::NB_CELLS; ++j)
 		{
 			if (_cellMap[i][j]._cellType != Cell::OCEAN && isCellTypeAround(j, i, Cell::OCEAN))
+			{
+				_spawnPoints.push_back(sf::Vector2f(j, i));
 				_cellMap[i][j]._cellType = Cell::SAND;
+			}
 		}
 	}
 
@@ -397,6 +401,7 @@ void						Map::generateSand()
 			isCellTypeAround(y, x, Cell::SAND))
 		{
 			_cellMap[x][y]._cellType = Cell::SAND;
+
 			--nbLands;
 		}
 		//++stop;
@@ -405,17 +410,20 @@ void						Map::generateSand()
 
 void						Map::createMiniMap()
 {
+	sf::Vector2f			rapport((_size.x * Chunk::NB_CELLS) / _sizeOfMiniMap,
+									(_size.y * Chunk::NB_CELLS) / _sizeOfMiniMap);
+
 	_miniMapT = new sf::RenderTexture();
-	_miniMapT->create((_size.x * Chunk::NB_CELLS) * 2,
-		(_size.y * Chunk::NB_CELLS) * 2);
+	_miniMapT->create((_size.x * Chunk::NB_CELLS) * rapport.x,
+		(_size.y * Chunk::NB_CELLS) * rapport.y);
 
 	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
 	{
 		for (int j = 0; j < _size.x * Chunk::NB_CELLS; ++j)
 		{
-			sf::RectangleShape tmp(sf::Vector2f(2, 2));
-			tmp.setFillColor(_typeToColor[_cellMap[i][j]._cellType]);
-			tmp.setPosition(static_cast<float>(j * 2), static_cast<float>(i * 2));
+			sf::RectangleShape tmp(sf::Vector2f(rapport.x, rapport.y));
+			tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
+			tmp.setPosition(static_cast<float>(j * rapport.y), static_cast<float>(i * rapport.x));
 			_miniMapT->draw(tmp);
 		}
 	}
@@ -424,6 +432,9 @@ void						Map::createMiniMap()
 
 void						Map::drawMiniMap(sf::RenderWindow *win)
 {
+	sf::Vector2f			rapport((_size.x * Chunk::NB_CELLS) / _sizeOfMiniMap,
+		(_size.y * Chunk::NB_CELLS) / _sizeOfMiniMap);
+
 	if (_miniMapT)
 	{
 		sf::Sprite sprite(_miniMapT->getTexture());
@@ -432,18 +443,18 @@ void						Map::drawMiniMap(sf::RenderWindow *win)
 
 	{
 		sf::RectangleShape tmp(sf::Vector2f(
-			static_cast<float>(Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL) * 2,
-			static_cast<float>(Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) * 2));
+			static_cast<float>(Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL) * rapport.x,
+			static_cast<float>(Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) * rapport.y));
 		tmp.setFillColor(sf::Color::Transparent);
 		tmp.setOutlineThickness(2);
 		tmp.setOutlineColor(sf::Color::Black);
-		tmp.setPosition(_camera->_position.x * 2, _camera->_position.y * 2);
+		tmp.setPosition(_camera->_position.x * rapport.x, _camera->_position.y * rapport.y);
 		win->draw(tmp);
 	}
 
 	sf::RectangleShape tmp(sf::Vector2f(
-		static_cast<float>(_size.x * Chunk::NB_CELLS) * 2,
-		static_cast<float>(_size.y * Chunk::NB_CELLS) * 2));
+		static_cast<float>(_size.x * Chunk::NB_CELLS) * rapport.x,
+		static_cast<float>(_size.y * Chunk::NB_CELLS) * rapport.y));
 	tmp.setFillColor(sf::Color::Transparent);
 	tmp.setOutlineThickness(2);
 	tmp.setOutlineColor(sf::Color::Black);

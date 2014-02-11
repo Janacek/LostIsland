@@ -116,11 +116,13 @@ void GameScreen::initialize(void)
 		}
 	}
 	_loadingText = "Adding players";
-
+	auto spawnPoint = _map->_spawnPoints.begin();
 	for (int i = 0; i < 2; i++)
 	{
-		Player *p = new Player(sf::Vector2f(static_cast<float>(60 + i * 3), static_cast<float>(100)), &_camera);
-		_map->setEntityMap(p, 60 + i * 3, 100);
+		sf::Vector2f pos = *spawnPoint;
+		++spawnPoint;
+		Player *p = new Player(pos, &_camera);
+		_map->setEntityMap(p, pos.x, pos.y);
 		//
 		//this->_entities.push_back(p);
 		if (i == 0)

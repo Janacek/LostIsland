@@ -107,6 +107,7 @@ private:
 	*/
 private:
 	sf::RenderTexture		*_miniMapT;
+	const int				_sizeOfMiniMap = 50;
 
 	sf::RenderTexture		*_mapText;
 
@@ -125,6 +126,8 @@ private:
 public:
 	void					createMiniMap();
 	void					drawMiniMap(sf::RenderWindow *);
+
+	std::vector<sf::Vector2f>		_spawnPoints;
 
 private:
 	std::string				&_loading;

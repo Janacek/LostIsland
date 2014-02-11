@@ -7,9 +7,9 @@ MapEnvironment::MapEnvironment()
 
 MapEnvironment::~MapEnvironment()
 {
-	if (_component)
-	{
-		delete _component;
-		_component = NULL;
-	}
+	//if (_component)
+	//{
+	//	delete _component;
+	//	_component = NULL;
+	//}
 }
