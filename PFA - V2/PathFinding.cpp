@@ -37,6 +37,10 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 				WayPointID wpID = boost::add_vertex(graphe);
 				graphe[wpID].pos.first = static_cast<float>(j);
 				graphe[wpID].pos.second = static_cast<float>(i);
+				graphe[wpID].adjacents.push_back(new sf::Vector2f(j + 1, i));
+				graphe[wpID].adjacents.push_back(new sf::Vector2f(j - 1, i));
+				graphe[wpID].adjacents.push_back(new sf::Vector2f(j, i + 1));
+				graphe[wpID].adjacents.push_back(new sf::Vector2f(j, i - 1));
 				//on peut add les pts adjacents ici
 				if (map->getEntitiesMap()[i][j]._component == NULL)
 				{
@@ -188,6 +192,11 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 								WayPointID wpID2 = boost::add_vertex(graphe);
 
 								graphe[wpID2].pos = tmp;
+								graphe[wpID2].adjacents.push_back(new sf::Vector2f(tmp.first + 1, tmp.second));
+								graphe[wpID2].adjacents.push_back(new sf::Vector2f(tmp.first - 1, tmp.second));
+								graphe[wpID2].adjacents.push_back(new sf::Vector2f(tmp.first, tmp.second + 1));
+								graphe[wpID2].adjacents.push_back(new sf::Vector2f(tmp.first, tmp.second- 1));
+
 								if (map->getCellMap()[tmp_add.second][tmp_add.first]._cellType != Cell::OCEAN && map->getEntitiesMap()[tmp_add.second][tmp_add.first]._component == NULL)
 								{
 									float dx = abs(graphe[wpID].pos.first - graphe[wpID2].pos.first) * Chunk::SIZE_OF_CELL;
@@ -341,6 +350,22 @@ bool PathFinding::equal(const std::pair<float, float>& p1, const std::pair<float
 	const float EPS = 1e-6f;
 	return (std::fabs(p1.first - p2.first) < EPS &&
 		std::fabs(p1.second - p2.second) < EPS);
+}
+
+std::list<sf::Vector2f *> PathFinding::findMeAdjacent(sf::Vector2i&begin)
+{
+	WayPointID start;
+	WayPoint startPoint;
+	bool vertex_start_found;
+	startPoint.pos.first = static_cast<float>(begin.x);
+	startPoint.pos.second = static_cast<float>(begin.y);
+	for (WayPointID id = 0; id < boost::num_vertices(graphe); ++id)
+	{
+		if (equal(graphe[id].pos, startPoint.pos))
+		{
+			return  graphe[id].adjacents;
+		}
+	}
 }
 
 bool PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &ent)

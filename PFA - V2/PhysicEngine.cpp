@@ -13,7 +13,7 @@ PhysicEngine::~PhysicEngine()
 
 void PhysicEngine::init()
 {
-	
+
 	_isPathNotFound = false;
 	this->_isFirst = true;
 
@@ -55,8 +55,8 @@ bool PhysicEngine::tryFindAPathEntity(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_
 	{
 		sf::Vector2f tmp_lerp_begin;
 		sf::Vector2f tmp_lerp_end;
-		
-		 
+
+
 		//tmp_begin.x = (tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL; // ISOK
 		//tmp_begin.y = (tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL) / Chunk::SIZE_OF_CELL;
 		tmp_lerp_begin.x = static_cast<float>(tmp_begin.x);
@@ -93,47 +93,77 @@ bool PhysicEngine::tryFindAPathEntity(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_
 
 		}
 	}
-	
+
 
 	return false;
 }
 
 bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_end, IEntity &ent)
 {
+	//a refaire
 	if (_isPathNotFound && ent.getPathToGo() <= 1)
 	{
 		sf::Vector2f tmp_lerp_begin;
 		sf::Vector2f tmp_lerp_end;
 		tmp_begin.x = (static_cast<int>(tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL; // ISOK
 		tmp_begin.y = (static_cast<int>(tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL;
-		tmp_lerp_begin.x = static_cast<float>(tmp_begin.x);
-		tmp_lerp_begin.y = static_cast<float>(tmp_begin.y);
+		if (_pathFinding.findMeAdjacent(tmp_begin).empty() || _map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN)
+		{
 
-		tmp_end.x = static_cast<int>(ent.getPosition().x); // player en selec
-		tmp_end.y = static_cast<int>(ent.getPosition().y);
-		tmp_lerp_end.x = static_cast<float>(tmp_end.x);
-		tmp_lerp_end.y = static_cast<float>(tmp_end.y);
-		tmp_lerp_begin = lerp(tmp_lerp_begin, tmp_lerp_end, ent.getPathToGo());
-		tmp_begin.x = static_cast<int>(tmp_lerp_begin.x);
-		tmp_begin.y = static_cast<int>(tmp_lerp_begin.y);
-		ent.addToPathToGo(0.01f);
-		_isPathNotFound = false;
+			tmp_lerp_begin.x = static_cast<float>(tmp_begin.x);
+			tmp_lerp_begin.y = static_cast<float>(tmp_begin.y);
+
+			tmp_end.x = static_cast<int>(ent.getPosition().x); // player en selec
+			tmp_end.y = static_cast<int>(ent.getPosition().y);
+			tmp_lerp_end.x = static_cast<float>(tmp_end.x);
+			tmp_lerp_end.y = static_cast<float>(tmp_end.y);
+			tmp_lerp_begin = lerp(tmp_lerp_begin, tmp_lerp_end, ent.getPathToGo());
+			tmp_begin.x = static_cast<int>(tmp_lerp_begin.x);
+			tmp_begin.y = static_cast<int>(tmp_lerp_begin.y);
+			ent.addToPathToGo(0.01f);
+			_isPathNotFound = false;
+		}
+		else
+		{
+
+			for (sf::Vector2f * vect : _pathFinding.findMeAdjacent(tmp_begin))
+			{
+
+				tmp_begin.x = static_cast<int>(vect->x);
+				tmp_begin.y = static_cast<int>(vect->y);
+				if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component == NULL)
+				{
+
+					ent.setPathToGo(0.f);
+					_isPathNotFound = false;
+					if (ent.getSelected())
+					{
+						tmp_end.x = static_cast<int>(ent.getPosition().x); // player en selec
+						tmp_end.y = static_cast<int>(ent.getPosition().y);
+						if (findMeAPath(tmp_end, tmp_begin, ent) == false)
+						{
+							return false;
+						}
+						return true;
+					}
+				}
+
+			}
+		}
 	}
 	else
 	{
 		tmp_begin.x = (static_cast<int>(tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL; // ISOK
 		tmp_begin.y = (static_cast<int>(tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL;
 	}
-	std::cout << "On veut aller : x " << tmp_begin.y << " y " << tmp_begin.x << std::endl; // x = 100 , y = 63
 	/*if (_map->getEntitiesMap()[100][63]._component->getType() == PLAYER)
 	{
-		std::cout << "YA UN JOUEUR IRRRRRRRRR" << std::endl;
+	std::cout << "YA UN JOUEUR IRRRRRRRRR" << std::endl;
 	}*/
 	if (_map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN
 		|| _map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component != NULL
 		)
 	{
-		std::cout << "YA QUELQUE CHOSE :O :O " << std::endl;
 		_isPathNotFound = true;
 	}
 	else
@@ -154,7 +184,7 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_e
 }
 void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<IEntity *> entities)
 {
-	
+
 	if (!Singleton::getInstance().isRightClicking)
 	{
 		_isFirst = true;
@@ -196,28 +226,28 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<IEntity 
 						tmp_begin.x = _map->getSize().x * Chunk::NB_CELLS;
 						tmp_begin.y = _map->getSize().y * Chunk::NB_CELLS;
 					}
-					tryFindAPathEntity(tmp_begin, tmp_end, **it2);
+					//tryFindAPathEntity(tmp_begin, tmp_end, **it2);
 
 
 				}
 			}
 		}
 	}
-	
+
 	if ((Singleton::getInstance().isRightClicking && this->_isFirst) || _isPathNotFound)
 	{
 		this->_isFirst = false;
 
 		for (std::vector<Player *>::iterator it = players.begin(); it != players.end(); ++it)
 		{
-			
+
 			if ((*it)->getSelected())
 			{
 
 				sf::Vector2i tmp_begin = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 				sf::Vector2i tmp_end;
 				tryFindAPathHuman(tmp_begin, tmp_end, **it);
-				
+
 			}
 		}
 	}
@@ -226,7 +256,7 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<IEntity 
 
 void PhysicEngine::update()
 {
-	
+
 	_pathFinding.updatePath();
 }
 
