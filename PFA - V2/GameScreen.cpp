@@ -97,7 +97,7 @@ void GameScreen::initialize(void)
 	_loaded = false;
 
 	_loadingText = "Initializing map";
-	_map->init(std::string("Babar"), sf::Vector2i(18, 18), 33);
+	_map->init(std::string(""), sf::Vector2i(18, 18), 33);
 	_loadingText = "Generating map";
 	_map->generate();
 	this->_physicEngine = new PhysicEngine(_map, &_camera);

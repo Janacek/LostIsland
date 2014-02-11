@@ -1,283 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Fichiers de ressources">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="Wood.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Area.cpp" />
+    <ClCompile Include="Bunny.cpp" />
+    <ClCompile Include="Bush.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Chunk.cpp" />
+    <ClCompile Include="Compartment.cpp" />
+    <ClCompile Include="FontManager.cpp" />
+    <ClCompile Include="Food.cpp" />
+    <ClCompile Include="ForestTree.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameScreen.cpp" />
+    <ClCompile Include="GestionClick.cpp" />
+    <ClCompile Include="GraphicEngine.cpp" />
+    <ClCompile Include="ImageSingleton.cpp" />
+    <ClCompile Include="InventoryWindow.cpp" />
+    <ClCompile Include="KeyboardControler.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapEnvironment.cpp" />
+    <ClCompile Include="Mutex.cpp" />
+    <ClCompile Include="MutexWin.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="OnScreenLogs.cpp" />
+    <ClCompile Include="OptionScreen.cpp" />
+    <ClCompile Include="PalmTree.cpp" />
+    <ClCompile Include="PathFinding.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
+    <ClCompile Include="PhysicEngine.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RessourcesWindow.cpp" />
+    <ClCompile Include="Singleton.cpp" />
+    <ClCompile Include="StartScreen.cpp" />
+    <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="ThreadWin.cpp" />
+    <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Water.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngine.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GameScreen.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicEngine.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyboardControler.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="PathFinding.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicEngine.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Singleton.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="StartScreen.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Tree.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Compartment.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Food.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Wood.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Water.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Area.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Mutex.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="MutexWin.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Thread.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ThreadWin.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Chunk.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Cell.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageSingleton.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GestionClick.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="PerlinNoise.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="OptionScreen.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="FontManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="MapEnvironment.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ForestTree.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Bush.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="PalmTree.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="InventoryWindow.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Bunny.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="RessourcesWindow.cpp">
-=======
-    <ClCompile Include="OnScreenLogs.cpp">
->>>>>>> 1af000431820dd6fd8cef6fbc702baf137e19668
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
+    <ClInclude Include="Bunny.h" />
+    <ClInclude Include="Bush.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cell.h" />
+    <ClInclude Include="Chunk.h" />
+    <ClInclude Include="Compartment.h" />
+    <ClInclude Include="Coordinates.hpp" />
+    <ClInclude Include="FontManager.h" />
+    <ClInclude Include="Food.h" />
+    <ClInclude Include="ForestTree.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="GestionClick.h" />
+    <ClInclude Include="GraphicEngine.h" />
+    <ClInclude Include="IEngine.h" />
+    <ClInclude Include="IEntity.h" />
+    <ClInclude Include="ImageSingleton.h" />
+    <ClInclude Include="InventoryWindow.h" />
+    <ClInclude Include="IScreen.h" />
+    <ClInclude Include="KeyboardControler.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="MapEnvironment.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Onglet.h" />
+    <ClInclude Include="OnScreenLogs.h" />
+    <ClInclude Include="OptionScreen.h" />
+    <ClInclude Include="PalmTree.h" />
+    <ClInclude Include="PathFinding.h" />
+    <ClInclude Include="PerlinNoise.h" />
+    <ClInclude Include="PhysicEngine.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="RessourcesWindow.h" />
+    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="StartScreen.h" />
+    <ClInclude Include="SystemDefines.h" />
+    <ClInclude Include="Tree.h" />
+    <ClInclude Include="Water.h" />
+    <ClInclude Include="Wood.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameEngine.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScreen.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicEngine.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="IEngine.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="IEntity.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="IScreen.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardControler.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="PathFinding.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicEngine.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="StartScreen.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Compartment.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Food.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Wood.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Water.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Coordinates.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Onglet.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageSingleton.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Chunk.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Cell.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="GestionClick.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="PerlinNoise.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="OptionScreen.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="FontManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="SystemDefines.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="MapEnvironment.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ForestTree.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Bush.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="PalmTree.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="InventoryWindow.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Bunny.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="RessourcesWindow.h">
-=======
-    <ClInclude Include="OnScreenLogs.h">
->>>>>>> 1af000431820dd6fd8cef6fbc702baf137e19668
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ThreadWin.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </None>
-    <None Include="IMutex.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </None>
-    <None Include="IThread.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </None>
-    <None Include="Mutex.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </None>
-    <None Include="MutexWin.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </None>
-    <None Include="Thread.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </None>
-    <None Include="CrossType.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </None>
+    <None Include="CrossType.hh" />
+    <None Include="IMutex.hh" />
+    <None Include="IThread.hh" />
+    <None Include="Mutex.hh" />
+    <None Include="MutexWin.hh" />
+    <None Include="Thread.hh" />
+    <None Include="ThreadWin.hh" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

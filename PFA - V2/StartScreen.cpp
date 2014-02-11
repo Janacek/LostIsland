@@ -38,6 +38,8 @@ StartScreen::StartScreen()
 	_entries.push_back(e3);
 	
 	_selector = new sf::RectangleShape(sf::Vector2f(40, 10));
+	_music = new sf::Music;
+	_music->openFromFile("./mainTheme.ogg");
 }
 
 stateName StartScreen::getStateName() const
@@ -92,7 +94,7 @@ void StartScreen::draw()
 
 void StartScreen::initialize(void)
 {
-
+	_music->play();
 }
 
 void StartScreen::update(void)

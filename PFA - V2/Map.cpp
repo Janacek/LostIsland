@@ -6,7 +6,8 @@ Map::Map(Camera *cam, std::string &loading)
 {
 	_camera = cam;
 	_size = sf::Vector2i(16, 16);
-	_seed = 0xcafe; // OLOL
+	_seed = 0xcafe; // Outdated
+	
 	_groundRatio = 33;
 	_temperature = NULL;
 	_humidity = NULL;

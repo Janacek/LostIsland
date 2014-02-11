@@ -3,6 +3,8 @@
 #include "OptionScreen.h"
 #include "FontManager.h"
 
+#include <SFML/Audio/Music.hpp>
+
 class StartScreen : public IScreen
 {
 public:
@@ -30,4 +32,9 @@ private:
 
 
 	sf::Image				*_menuScreen;
+
+	/*
+	** LOL I'M SO DRUNK !§
+	*/
+	sf::Music				*_music;
 };
