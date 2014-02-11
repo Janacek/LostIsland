@@ -107,7 +107,7 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_e
 		sf::Vector2f tmp_lerp_end;
 		tmp_begin.x = (static_cast<int>(tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL; // ISOK
 		tmp_begin.y = (static_cast<int>(tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL;
-		if (_pathFinding.findMeAdjacent(tmp_begin).empty() || _map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN)
+		if (_map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN || _pathFinding.findMeAdjacent(tmp_begin).empty())
 		{
 
 			tmp_lerp_begin.x = static_cast<float>(tmp_begin.x);
