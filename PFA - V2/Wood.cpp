@@ -29,7 +29,7 @@ void Wood::update(Map &map)
 
 }
 
-void Wood::draw()
+void Wood::draw(sf::RenderTexture *)
 {
 
 }

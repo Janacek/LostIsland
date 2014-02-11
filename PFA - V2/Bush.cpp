@@ -5,7 +5,7 @@ void Bush::Animate(std::string const &)
 
 }
 
-void Bush::draw()
+void Bush::draw(sf::RenderTexture *tex)
 {
 	//std::cout << "zefzef" << std::endl;
 	float posX = _position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL;
@@ -15,5 +15,6 @@ void Bush::draw()
 
 	sf::Sprite tmp((*ImageSingleton::getInstance().get(BUSH)));
 	tmp.setPosition(_position.x, _position.y + 20);
-	Singleton::getInstance()._window->draw(tmp);
+	tex->draw(tmp);
+	//Singleton::getInstance()._window->draw(tmp);
 }

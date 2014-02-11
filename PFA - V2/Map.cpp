@@ -43,6 +43,8 @@ Map::Map(Camera *cam, std::string &loading)
 
 	// SNOW SAVANNA GRASS FOREST SAND
 
+	_mapTexture = NULL;
+
 }
 
 Map::~Map()
@@ -116,6 +118,11 @@ void						Map::init(std::string const & seed, sf::Vector2i size, int groundRatio
 	groundRatio = groundRatio > 100 ? 100 : groundRatio;
 	groundRatio = groundRatio < 0 ? 0 : groundRatio;
 	_groundRatio = groundRatio;
+
+	if (_mapTexture)
+		delete _mapTexture;
+	_mapTexture = new sf::RenderTexture;
+	_mapTexture->create(1920, 1080);
 }
 
 void						Map::generateCenterIsland(int ratio)
@@ -455,16 +462,17 @@ void						Map::draw(sf::RenderWindow *win)
 {
 	if (!_cellMap || !_entitiesMap)
 		return;
-	for (int i = static_cast<int>(_camera->_position.y); i < static_cast<int>((Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL + 1 + _camera->_position.y)); ++i)
+	for (int i = static_cast<int>(_camera->_position.y); i < static_cast<int>((Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL + 2 + _camera->_position.y)); ++i)
 	{
-		for (int j = static_cast<int>(_camera->_position.x); j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + _camera->_position.x; ++j)
+		for (int j = static_cast<int>(_camera->_position.x); j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + 1 + _camera->_position.x; ++j)
 		{
 			sf::RectangleShape tmp(sf::Vector2f(static_cast<float>(Chunk::SIZE_OF_CELL),
 				static_cast<float>(Chunk::SIZE_OF_CELL)));
 			tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
 			tmp.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
 				(i - _camera->_position.y) * Chunk::SIZE_OF_CELL);
-			Singleton::getInstance()._window->draw(tmp);
+			_mapTexture->draw(tmp);
+			//Singleton::getInstance()._window->draw(tmp);
 
 			sf::Vector2f savePos;
 			if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getType() != PLAYER)
@@ -472,11 +480,13 @@ void						Map::draw(sf::RenderWindow *win)
 				savePos = _entitiesMap[i][j]._component->getPosition();
 				_entitiesMap[i][j]._component->setPosition(sf::Vector2f((j - _camera->_position.x) * Chunk::SIZE_OF_CELL
 					, (i - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20));
-				_entitiesMap[i][j]._component->draw();
+				_entitiesMap[i][j]._component->draw(_mapTexture);
 				_entitiesMap[i][j]._component->setPosition(savePos);
 			}
 		}
 	}
+	_mapTexture->display();
+	Singleton::getInstance()._window->draw(sf::Sprite(_mapTexture->getTexture()));
 }
 
 void						Map::generateTrees()

@@ -18,7 +18,7 @@ void Water::doAction(IEntity* other)
 	player->drink(this);
 }
 
-void Water::draw()
+void Water::draw(sf::RenderTexture *)
 {
 }
 

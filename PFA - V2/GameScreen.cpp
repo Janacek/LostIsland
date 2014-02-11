@@ -184,12 +184,12 @@ void GameScreen::draw()
 		//tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
 		for (std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
 		{
-			(*it)->draw();
+			(*it)->draw(NULL);
 			//break;
 		}
 		for (auto it = _entities.begin(); it != _entities.end(); ++it)
 		{
-			(*it)->draw();
+			(*it)->draw(NULL);
 		}
 
 

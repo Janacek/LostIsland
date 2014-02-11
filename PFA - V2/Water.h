@@ -9,7 +9,7 @@ public:
 	Water(void);
 	void doAction(IEntity* other);
 	void getAction(IEntity* other);
-	void draw();
+	void draw(sf::RenderTexture *);
 	void setPosition(sf::Vector2f &pos);
 	void loadAnimation(std::string const & string_anim, float speed);
 	bool getIsMoving() const { return false; }

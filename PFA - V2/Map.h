@@ -115,6 +115,13 @@ private:
 	std::list<Tree *>		_bushes;
 	std::list<Tree *>		_palmtrees;
 
+
+	///////////////////////
+	//    MAP TEXTURE	 //
+	///////////////////////
+	sf::RenderTexture		*_mapTexture;
+
+
 public:
 	void					createMiniMap();
 	void					drawMiniMap(sf::RenderWindow *);
