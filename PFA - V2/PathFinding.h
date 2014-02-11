@@ -16,7 +16,7 @@ struct found_goal {};
 
 struct WayPoint{
 	std::pair<float, float> pos;
-	std::deque<std::pair<float, float>> adjacents;
+	std::list<sf::Vector2f*> adjacents;
 	// et éventuellement d'autres informations (crouch, hide, camp, ...)
 };
 
@@ -62,6 +62,7 @@ public:
 	void updatePath();
 	void addVertexPoint(sf::Vector2i &);
 	bool findMeAPath(sf::Vector2i&, sf::Vector2i &, IEntity &);
+	std::list<sf::Vector2f *> findMeAdjacent(sf::Vector2i&);
 	
 protected:
 private:
