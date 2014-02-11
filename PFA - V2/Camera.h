@@ -16,4 +16,9 @@ public:
 public:
 	bool				moveCameraMouse(sf::Vector2i const &size);
 	sf::Vector2f		_position;
+
+	sf::Clock			*_camClock;
+	float				_oldTime;
+	float				_oldTimeMouse;
+	float				_speed;
 };

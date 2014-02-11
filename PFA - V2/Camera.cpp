@@ -5,6 +5,10 @@
 Camera::Camera()
 : _position(sf::Vector2f(0, 0))
 {
+	_camClock = new sf::Clock;
+	_camClock->restart();
+
+	_speed = 25;
 }
 
 Camera::~Camera()
@@ -18,9 +22,15 @@ void Camera::update()
 
 bool Camera::moveCameraMouse(sf::Vector2i const &size)
 {
-	float dt = (float)Singleton::getInstance()._clock->getElapsedTime().asMilliseconds();
-	float speed = 0.0001f;
-	float calc = dt * speed;
+	double dt = 0;
+	double time;
+
+	time = _camClock->getElapsedTime().asSeconds();
+	dt = time - _oldTimeMouse;
+
+	_oldTimeMouse = static_cast<float>(time);
+
+	float calc = dt * _speed;
 	bool isChangePosition = false;
 
 	if ((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).x <= 3.0f)
@@ -36,7 +46,7 @@ bool Camera::moveCameraMouse(sf::Vector2i const &size)
 	}
 	if ((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).x >= Singleton::getInstance()._window->getSize().x - 3.0f)
 	{
-		if (this->_position.x + Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + calc
+		if (this->_position.x + Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + calc + 1
 			< size.x * Chunk::NB_CELLS)
 		{
 			this->_position.x += calc;
@@ -79,15 +89,21 @@ bool Camera::moveCameraMouse(sf::Vector2i const &size)
 
 void Camera::moveCamera(sf::Vector2i const &size)
 {
-	float dt = (float)Singleton::getInstance()._clock->getElapsedTime().asMilliseconds();
-	float speed = 0.0001f;
-	float calc = dt * speed;
+	double dt = 0;
+	double time;
+
+	time = _camClock->getElapsedTime().asSeconds();
+	dt = time - _oldTime;
+
+	_oldTime = static_cast<float>(time);
+
+	float calc = dt * _speed;
 
 	if (this->moveCameraMouse(size) == false)
 	{
 		if (Singleton::getInstance().isMovingRight)
 		{
-			if (_position.x + Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + calc
+			if (_position.x + Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + calc + 1
 				< size.x * Chunk::NB_CELLS)
 			{
 				_position.x += calc;

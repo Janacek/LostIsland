@@ -32,7 +32,7 @@ public:
 	virtual void doAction(IEntity* other) = 0;
 	virtual void getAction(IEntity* other) = 0;
 	virtual void loadAnimation(std::string const & string_anim, float speed) = 0;
-	virtual void draw() = 0;
+	virtual void draw(sf::RenderTexture *) = 0;
 	virtual void update(Map &) = 0;
 	virtual void setPath(std::list<std::pair<float, float> >&) = 0;
 	virtual void setPosition(sf::Vector2f &pos) = 0;

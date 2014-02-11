@@ -175,7 +175,6 @@
     <ClInclude Include="Wood.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="CrossType.hh" />
     <None Include="IMutex.hh" />
     <None Include="IThread.hh" />

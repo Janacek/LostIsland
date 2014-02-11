@@ -18,7 +18,7 @@ public:
 	void doAction(IEntity *);
 	void getAction(IEntity *);
 	void loadAnimation(std::string const &, float);
-	void draw();
+	void draw(sf::RenderTexture *);
 	void update(Map &map);
 	void setPath(std::list<std::pair<float, float>> &);
 	void setPosition(sf::Vector2f &);

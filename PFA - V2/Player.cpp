@@ -208,7 +208,7 @@ bool const Player::getSelected() const
 	return _isSelected;
 }
 
-void Player::draw()
+void Player::draw(sf::RenderTexture *)
 {
 
 	_posDisp.x = ((_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);

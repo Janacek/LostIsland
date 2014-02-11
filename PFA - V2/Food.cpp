@@ -30,7 +30,7 @@ int Food::getDamage() const
 	return 0;
 }
 
-void Food::draw()
+void Food::draw(sf::RenderTexture *)
 {
 
 }

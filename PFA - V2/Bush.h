@@ -4,5 +4,5 @@ class Bush : public Tree
 {
 public:
 	void Animate(std::string const &);
-	void draw();
+	void draw(sf::RenderTexture *);
 };

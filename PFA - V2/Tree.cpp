@@ -51,7 +51,7 @@ void Tree::setPath(std::list<std::pair<float, float> >& path)
 		
 }
 
-void Tree::draw()
+void Tree::draw(sf::RenderTexture *)
 {
 
 }

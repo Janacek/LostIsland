@@ -131,7 +131,7 @@ void Bunny::loadAnimation(std::string const &, float)
 	this->_anim->setAnimation(0);
 }
 
-void Bunny::draw()
+void Bunny::draw(sf::RenderTexture *)
 {
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);

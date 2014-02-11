@@ -3,5 +3,5 @@
 class ForestTree : public Tree
 {
 	void Animate(std::string const &);
-	void draw();
+	void draw(sf::RenderTexture *);
 };

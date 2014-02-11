@@ -15,7 +15,7 @@ public:
 	bool getIsMoving() const { return false; }
 
 	int getDamage(void) const;
-	void draw();
+	void draw(sf::RenderTexture *);
 	void setPosition(sf::Vector2f &pos);
 	sf::Vector2f  getPosition() const;
 	

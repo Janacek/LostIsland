@@ -5,7 +5,7 @@ void ForestTree::Animate(std::string const &)
 
 }
 
-void ForestTree::draw()
+void ForestTree::draw(sf::RenderTexture *tex)
 {
 	//std::cout << "zefzef" << std::endl;
 	int posX = static_cast<int>(_position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL);
@@ -15,5 +15,6 @@ void ForestTree::draw()
 
 	sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
 	tmp.setPosition(_position.x, _position.y);
-	Singleton::getInstance()._window->draw(tmp);
+	tex->draw(tmp);
+	//Singleton::getInstance()._window->draw(tmp);
 }

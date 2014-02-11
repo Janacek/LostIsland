@@ -91,6 +91,5 @@
     <None Include="MutexWin.hh" />
     <None Include="Thread.hh" />
     <None Include="ThreadWin.hh" />
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
