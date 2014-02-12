@@ -226,7 +226,7 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<IEntity 
 						tmp_begin.x = _map->getSize().x * Chunk::NB_CELLS;
 						tmp_begin.y = _map->getSize().y * Chunk::NB_CELLS;
 					}
-					//tryFindAPathEntity(tmp_begin, tmp_end, **it2);
+					tryFindAPathEntity(tmp_begin, tmp_end, **it2);
 
 
 				}
