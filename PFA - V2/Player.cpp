@@ -234,6 +234,7 @@ void Player::draw(sf::RenderTexture *)
 		icon.setTexture(ImageSingleton::getInstance().get(SELECTED_ICON));
 		posIcon.y -= 52;
 		icon.setPosition(posIcon);
+
 		Singleton::getInstance()._selectedShader.setParameter("texture", sf::Shader::CurrentTexture);
 		Singleton::getInstance()._selectedShader.setParameter("wave_phase", _cursorTime);
 		Singleton::getInstance()._selectedShader.setParameter("wave_amplitude", 2, 2);

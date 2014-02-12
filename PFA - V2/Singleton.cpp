@@ -22,7 +22,12 @@ Singleton::Singleton()
 	_clock = new sf::Clock();
 	_animClock = new sf::Clock();
 
+	//_selectedShader.loadFromFile("./shaders/selectedShader.vert", "./shaders/selectedShader.frag");
 	_selectedShader.loadFromFile("./shaders/selectedShader.vert", "./shaders/selectedShader.frag");
+
+	_glowShader.loadFromFile("./shaders/glowShader.vert", "./shaders/glowShader.frag");
+
+	//_selectedShader.loadFromFile("./shaders/selectedShader.frag", sf::Shader::Fragment);
 }
 
 Singleton& Singleton::getInstance()

@@ -15,6 +15,8 @@ void ForestTree::draw(sf::RenderTexture *tex)
 
 	sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
 	tmp.setPosition(_position.x, _position.y);
-	tex->draw(tmp);
+	//Singleton::getInstance()._selectedShader.setParameter("RenderedTexture", sf::Shader::CurrentTexture);
+
+	tex->draw(tmp);//, &Singleton::getInstance()._selectedShader);
 	//Singleton::getInstance()._window->draw(tmp);
 }

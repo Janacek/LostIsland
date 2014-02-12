@@ -182,8 +182,10 @@
     <None Include="IThread.hh" />
     <None Include="Mutex.hh" />
     <None Include="MutexWin.hh" />
-    <None Include="selectedShader.frag" />
-    <None Include="selectedShader.vert" />
+    <None Include="shaders\glowShader.frag" />
+    <None Include="shaders\glowShader.vert" />
+    <None Include="shaders\selectedShader.frag" />
+    <None Include="shaders\selectedShader.vert" />
     <None Include="Thread.hh" />
     <None Include="ThreadWin.hh" />
   </ItemGroup>
