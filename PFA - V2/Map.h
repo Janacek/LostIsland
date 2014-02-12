@@ -59,6 +59,7 @@ public:
 
 	void					generateWalkableWater();
 	void					changeWaterToWalkableWater(int, int);
+	const int				NBR_WALKABLE_WATER = 3;
 
 	int						countAdjacentChunkType(int, int, Cell::Type);
 

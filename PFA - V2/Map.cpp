@@ -381,11 +381,11 @@ void						Map::generateBiomes()
 
 void						Map::changeWaterToWalkableWater(int x, int y)
 {
-	sf::Vector2f			start(x - 3, y - 3);
+	sf::Vector2f			start(x - NBR_WALKABLE_WATER, y - NBR_WALKABLE_WATER);
 
-	for (int i = start.x; i < x + 3; ++i)
+	for (int i = start.x; i < x + NBR_WALKABLE_WATER; ++i)
 	{
-		for (int j = start.y; j < y + 3; ++j)
+		for (int j = start.y; j < y + NBR_WALKABLE_WATER; ++j)
 		{
 			if (_cellMap[i][j]._cellType == Cell::OCEAN)
 			{
@@ -402,7 +402,7 @@ void						Map::generateWalkableWater()
 		for (int j = 0; j < _size.x * Chunk::NB_CELLS; ++j)
 		{
 			if (_cellMap[i][j]._cellType == Cell::SAND &&
-				isCellTypeAround(i, j, Cell::OCEAN))
+				isCellTypeAround(j, i, Cell::OCEAN))
 			{
 				changeWaterToWalkableWater(i, j);
 			}
