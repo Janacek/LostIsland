@@ -23,6 +23,7 @@ enum Type
 	BUSH,
 	BUSH_FRUITS,
 	PALMTREE,
+	PLAYER_INFOS_BACKGROUND,
 	BADTYPE
 }; //ok j'ai enlevé le close_button
 

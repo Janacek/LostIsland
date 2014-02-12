@@ -117,6 +117,16 @@ void GameScreen::initialize(void)
 	}
 	_loadingText = "Adding players";
 	auto spawnPoint = _map->_spawnPoints.begin();
+	sf::Vector2f posCam = *spawnPoint;
+
+	_map->_camera->_position.x = posCam.x - (Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL) / 2;// *Chunk::NB_CELLS;
+	_map->_camera->_position.y = posCam.y - (Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) / 2;// *Chunk::NB_CELLS;
+
+	if (_map->_camera->_position.x < 0)
+		_map->_camera->_position.x;
+	if (_map->_camera->_position.y < 0)
+		_map->_camera->_position.y;
+
 	for (int i = 0; i < 2; i++)
 	{
 		sf::Vector2f pos = *spawnPoint;
@@ -155,6 +165,76 @@ std::vector<Player *> &GameScreen::getPlayers()
 void GameScreen::mouseLeftPress(int index)
 {
 	std::cout << "index du clique !" << std::endl;
+}
+
+void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos) const
+{
+	sf::RectangleShape playerInfo(sf::Vector2f(300, 200));
+	//playerInfo.setFillColor(sf::Color::White);
+	playerInfo.setTexture(ImageSingleton::getInstance().get(PLAYER_INFOS_BACKGROUND));
+	playerInfo.setPosition(pos);
+	playerInfo.setOutlineColor(sf::Color::Black);
+	playerInfo.setOutlineThickness(2.f);
+
+	sf::Text name;
+	name.setCharacterSize(20);
+	name.setString(player->getName());
+	name.setPosition(sf::Vector2f(pos.x + 10, pos.y + 10));
+	name.setColor(sf::Color::Black);
+	name.setFont(*FontManager::getInstance().getFont(SANSATION));
+
+	sf::Text health;
+	health.setCharacterSize(20);
+	health.setString("Health");
+	health.setPosition(sf::Vector2f(pos.x + 10, pos.y + 50));
+	health.setColor(sf::Color::Black);
+	health.setFont(*FontManager::getInstance().getFont(SANSATION));
+
+	sf::Text hunger;
+	hunger.setCharacterSize(20);
+	hunger.setString("Hunger");
+	hunger.setPosition(sf::Vector2f(pos.x + 10, pos.y + 100));
+	hunger.setColor(sf::Color::Black);
+	hunger.setFont(*FontManager::getInstance().getFont(SANSATION));
+
+	sf::Text thirst;
+	thirst.setCharacterSize(20);
+	thirst.setString("Thirst");
+	thirst.setPosition(sf::Vector2f(pos.x + 10, pos.y + 150));
+	thirst.setColor(sf::Color::Black);
+	thirst.setFont(*FontManager::getInstance().getFont(SANSATION));
+
+	sf::RectangleShape hungerBar(sf::Vector2f(player->_food * 1.9, 20));
+	hungerBar.setFillColor(sf::Color::Blue);
+	hungerBar.setPosition(pos.x + 85, pos.y + 155);
+
+	sf::RectangleShape thirstBar(sf::Vector2f(player->_water * 1.9, 20));
+	thirstBar.setFillColor(sf::Color(153, 74, 0));
+	thirstBar.setPosition(pos.x + 85, pos.y + 105);
+
+	sf::RectangleShape healthBar(sf::Vector2f(player->_life * 1.9, 20));
+	healthBar.setFillColor(sf::Color::Red);
+	healthBar.setPosition(pos.x + 85, pos.y + 55);
+
+	//sf::RectangleShape thirstBar(sf::Vector2f(player->_water / 2, 5));
+	//thirstBar.setFillColor(sf::Color::Blue);
+	//thirstBar.setPosition(_posDisp.x - 5, _posDisp.y - 15);
+	//Singleton::getInstance()._window->draw(thirstBar);
+
+	//sf::RectangleShape healthBar(sf::Vector2f(player->_life / 2, 5));
+	//healthBar.setFillColor(sf::Color::Red);
+	//healthBar.setPosition(_posDisp.x - 5, _posDisp.y - 20);
+	//Singleton::getInstance()._window->draw(healthBar);
+
+	Singleton::getInstance()._window->draw(playerInfo);
+	Singleton::getInstance()._window->draw(name);
+	Singleton::getInstance()._window->draw(health);
+	Singleton::getInstance()._window->draw(healthBar);
+	Singleton::getInstance()._window->draw(hunger);
+	Singleton::getInstance()._window->draw(hungerBar);
+	Singleton::getInstance()._window->draw(thirst);
+	Singleton::getInstance()._window->draw(thirstBar);
+
 }
 
 void GameScreen::draw()
@@ -214,6 +294,20 @@ void GameScreen::draw()
 			Singleton::getInstance()._window->draw(selectionZone);
 
 		}
+
+		/*
+		** Draw of the players informations
+		*/
+		sf::Vector2f infosPos(400, 0);
+		for (auto it = _players.begin(); it != _players.end(); ++it)
+		{
+			if ((*it)->_isSelected) {
+				drawPlayerInformations(*it, infosPos);
+				infosPos.x += 320;
+			}
+		}
+
+
 		this->_inventory->draw();
 		this->_winRessource->draw();
 

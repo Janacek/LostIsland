@@ -21,10 +21,10 @@ public:
 	void draw(sf::RenderTexture *);
 	void setCamPos(sf::Vector2f &); // TMP LE TEMPS QUON AI LA BONNE CLASS
 	void setPosition(sf::Vector2f &pos);
-	
+
 	sf::Vector2f  getPosition() const;
-	void setPath(std::list<std::pair<float, float> >& );
-	
+	void setPath(std::list<std::pair<float, float> >&);
+
 	void move(sf::Vector2f & pos);
 	int getDamage(void) const;
 	Type getType() const;
@@ -57,7 +57,7 @@ protected:
 	** Player's camera and misc
 	*/
 	void					createBox();
-	
+
 	Animation					*_anim;
 	Camera						*_camera;
 
@@ -87,19 +87,20 @@ protected:
 
 	sf::Vector2f _posDisp;
 	unsigned int _sizeInventory;
-	
+
 
 	/*
 	** Player inventory
 	*/
 
 	std::vector<Compartment *>	_inventoryPlayer;
-	
+
 
 
 	/*
 	** Player state
 	*/
+public:
 	float						_life;
 	int							_damages;
 	float						_water;

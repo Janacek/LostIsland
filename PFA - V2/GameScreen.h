@@ -81,6 +81,7 @@ private:
 
 	sf::Vector2i			_posSelectedArea;
 
+	void					drawPlayerInformations(Player *, sf::Vector2f const &) const;
 
 	/*
 	** Loading screen;
