@@ -126,6 +126,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RessourcesWindow.cpp" />
     <ClCompile Include="Singleton.cpp" />
+    <ClCompile Include="SourndManager.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="Thread.cpp" />
     <ClCompile Include="ThreadWin.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="RessourcesWindow.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="SystemDefines.h" />
     <ClInclude Include="Tree.h" />
