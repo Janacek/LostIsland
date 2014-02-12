@@ -139,7 +139,7 @@ void GameScreen::initialize(void)
 			p->setName("Player 1");
 		else
 			p->setName("Player 2");
-		p->loadAnimation("zelda.png", 0.1f);
+		p->loadAnimation("zelda.png", 0.05f);
 		this->_players.push_back(p);
 
 	}

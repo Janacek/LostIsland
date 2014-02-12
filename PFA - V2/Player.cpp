@@ -22,7 +22,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	/*
 	** Gestion de la vie / soif / etc...
 	*/
-	_speed = 10;
+	_speed = 7;
 	_pathToGo = 0.f;
 	_damages = 10;
 	_life = 100;
@@ -162,7 +162,7 @@ void Player::moveToNextWP()
 	
 	if (!_path.empty())
 	{
-
+		_anim->play();
 		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
@@ -188,6 +188,7 @@ void Player::moveToNextWP()
 
 	}
 	else {
+		_anim->pause();
 		_isMoving = false;
 		_hasAPath = false;
 	}

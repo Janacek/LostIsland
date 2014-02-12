@@ -53,7 +53,7 @@ void Bunny::moveToNextWP()
 	}
 	if (!_path.empty())
 	{
-
+		_anim->play();
 		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
@@ -80,6 +80,7 @@ void Bunny::moveToNextWP()
 
 	}
 	else{
+		_anim->pause();
 		_isMoving = false;
 		_hasAPath = false;
 	}
@@ -127,7 +128,7 @@ void Bunny::getAction(IEntity *o)
 
 void Bunny::loadAnimation(std::string const &, float)
 {
-	this->_anim = new Animation(ImageSingleton::getInstance().get(BUNNY), 2, 3, 0.1f);
+	this->_anim = new Animation(ImageSingleton::getInstance().get(BUNNY), 2, 3, 0.05f);
 	this->_anim->setAnimation(0);
 }
 
