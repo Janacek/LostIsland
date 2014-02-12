@@ -7,7 +7,7 @@ Map::Map(Camera *cam, std::string &loading)
 	_camera = cam;
 	_size = sf::Vector2i(16, 16);
 	_seed = 0xcafe; // Outdated
-	
+
 	_groundRatio = 33;
 	_temperature = NULL;
 	_humidity = NULL;
@@ -446,7 +446,7 @@ void						Map::generateSand()
 void						Map::createMiniMap()
 {
 	sf::Vector2f			rapport((_size.x * Chunk::NB_CELLS) / _sizeOfMiniMap,
-									(_size.y * Chunk::NB_CELLS) / _sizeOfMiniMap);
+		(_size.y * Chunk::NB_CELLS) / _sizeOfMiniMap);
 
 	_miniMapT = new sf::RenderTexture();
 	_miniMapT->create((_size.x * Chunk::NB_CELLS) * rapport.x,
@@ -518,7 +518,6 @@ void						Map::draw(sf::RenderWindow *win)
 			tmp.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
 				(i - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 			_mapTexture->draw(tmp);
-			//Singleton::getInstance()._window->draw(tmp);
 
 			sf::Vector2f savePos;
 			if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getType() != PLAYER)
@@ -526,7 +525,19 @@ void						Map::draw(sf::RenderWindow *win)
 				savePos = _entitiesMap[i][j]._component->getPosition();
 				_entitiesMap[i][j]._component->setPosition(sf::Vector2f((j - _camera->_position.x) * Chunk::SIZE_OF_CELL
 					, (i - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20));
-				_entitiesMap[i][j]._component->draw(_mapTexture);
+				sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+
+				sf::Vector2f finalPos;
+
+				finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_camera->_position.x);
+				finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_camera->_position.y);
+
+				if ((int)finalPos.x == j && (int)finalPos.y == i)
+				{
+					_entitiesMap[i][j]._component->draw(_mapTexture, Singleton::getInstance()._glowShader);
+				}
+				else
+					_entitiesMap[i][j]._component->draw(_mapTexture);
 				_entitiesMap[i][j]._component->setPosition(savePos);
 			}
 		}

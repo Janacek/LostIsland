@@ -132,6 +132,17 @@ void Bunny::loadAnimation(std::string const &, float)
 	this->_anim->setAnimation(0);
 }
 
+void Bunny::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
+{
+	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
+	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
+
+	/*sf::Vector2f v(0, -10);
+	_rect.setPosition(_posDisp);
+	Singleton::getInstance()._window->draw(_rect);*/
+	this->_anim->show(_posDisp);
+}
+
 void Bunny::draw(sf::RenderTexture *)
 {
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);

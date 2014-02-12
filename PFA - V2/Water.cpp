@@ -18,6 +18,10 @@ void Water::doAction(IEntity* other)
 	player->drink(this);
 }
 
+void Water::draw(sf::RenderTexture *, sf::Shader &)
+{
+}
+
 void Water::draw(sf::RenderTexture *)
 {
 }

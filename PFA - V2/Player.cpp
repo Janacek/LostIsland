@@ -210,6 +210,11 @@ bool const Player::getSelected() const
 	return _isSelected;
 }
 
+void Player::draw(sf::RenderTexture *, sf::Shader &)
+{
+
+}
+
 void Player::draw(sf::RenderTexture *)
 {
 
