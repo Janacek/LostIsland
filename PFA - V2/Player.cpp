@@ -216,25 +216,40 @@ void Player::draw(sf::RenderTexture *)
 	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 	
 	sf::Vector2f v(0, -10);
-	_rect.setPosition(_posDisp );
-	_rect.setFillColor(_isSelected ? sf::Color::Red : sf::Color::Blue);
-	Singleton::getInstance()._window->draw(_rect);
 	this->_anim->show(_posDisp + v);
 
-	sf::RectangleShape hungerBar(sf::Vector2f(_food / 2, 5));
-	hungerBar.setFillColor(sf::Color(153, 76, 0));
-	hungerBar.setPosition(_posDisp.x - 5, _posDisp.y - 10);
-	Singleton::getInstance()._window->draw(hungerBar);
+	sf::Text name;
+	name.setFont(*FontManager::getInstance().getFont(SANSATION));
+	name.setString(_name);
+	name.setCharacterSize(12);
+	name.setColor(sf::Color::Black);
+	name.setPosition(_posDisp.x - (name.getGlobalBounds().width / 8), _posDisp.y - 24);
+	Singleton::getInstance()._window->draw(name);
 
-	sf::RectangleShape thirstBar(sf::Vector2f(_water / 2, 5));
-	thirstBar.setFillColor(sf::Color::Blue);
-	thirstBar.setPosition(_posDisp.x - 5, _posDisp.y - 15);
-	Singleton::getInstance()._window->draw(thirstBar);
+	if (_isSelected)
+	{
+		sf::Vector2f posIcon = _posDisp;
+		sf::RectangleShape icon(sf::Vector2f(32, 32)); 
+		icon.setTexture(ImageSingleton::getInstance().get(SELECTED_ICON));
+		posIcon.y -= 52;
+		icon.setPosition(posIcon);
+		Singleton::getInstance()._window->draw(icon);
+	}
 
-	sf::RectangleShape healthBar(sf::Vector2f(_life / 2, 5));
-	healthBar.setFillColor(sf::Color::Red);
-	healthBar.setPosition(_posDisp.x - 5, _posDisp.y - 20);
-	Singleton::getInstance()._window->draw(healthBar);
+	//sf::RectangleShape hungerBar(sf::Vector2f(_food / 2, 5));
+	//hungerBar.setFillColor(sf::Color(153, 76, 0));
+	//hungerBar.setPosition(_posDisp.x - 5, _posDisp.y - 10);
+	//Singleton::getInstance()._window->draw(hungerBar);
+
+	//sf::RectangleShape thirstBar(sf::Vector2f(_water / 2, 5));
+	//thirstBar.setFillColor(sf::Color::Blue);
+	//thirstBar.setPosition(_posDisp.x - 5, _posDisp.y - 15);
+	//Singleton::getInstance()._window->draw(thirstBar);
+
+	//sf::RectangleShape healthBar(sf::Vector2f(_life / 2, 5));
+	//healthBar.setFillColor(sf::Color::Red);
+	//healthBar.setPosition(_posDisp.x - 5, _posDisp.y - 20);
+	//Singleton::getInstance()._window->draw(healthBar);
 }
 
 void Player::update(Map & map)

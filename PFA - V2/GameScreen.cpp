@@ -115,6 +115,7 @@ void GameScreen::initialize(void)
 			++i;
 		}
 	}
+
 	_loadingText = "Adding players";
 	auto spawnPoint = _map->_spawnPoints.begin();
 	sf::Vector2f posCam = *spawnPoint;
@@ -127,7 +128,7 @@ void GameScreen::initialize(void)
 	if (_map->_camera->_position.y < 0)
 		_map->_camera->_position.y;
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		sf::Vector2f pos = *spawnPoint;
 		++spawnPoint;
@@ -170,11 +171,8 @@ void GameScreen::mouseLeftPress(int index)
 void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos) const
 {
 	sf::RectangleShape playerInfo(sf::Vector2f(300, 200));
-	//playerInfo.setFillColor(sf::Color::White);
 	playerInfo.setTexture(ImageSingleton::getInstance().get(PLAYER_INFOS_BACKGROUND));
 	playerInfo.setPosition(pos);
-	playerInfo.setOutlineColor(sf::Color::Black);
-	playerInfo.setOutlineThickness(2.f);
 
 	sf::Text name;
 	name.setCharacterSize(20);
@@ -204,27 +202,17 @@ void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos)
 	thirst.setColor(sf::Color::Black);
 	thirst.setFont(*FontManager::getInstance().getFont(SANSATION));
 
-	sf::RectangleShape hungerBar(sf::Vector2f(player->_food * 1.9, 20));
-	hungerBar.setFillColor(sf::Color::Blue);
-	hungerBar.setPosition(pos.x + 85, pos.y + 155);
-
 	sf::RectangleShape thirstBar(sf::Vector2f(player->_water * 1.9, 20));
-	thirstBar.setFillColor(sf::Color(153, 74, 0));
-	thirstBar.setPosition(pos.x + 85, pos.y + 105);
+	thirstBar.setFillColor(sf::Color(32, 178, 170));
+	thirstBar.setPosition(pos.x + 85, pos.y + 155);
+
+	sf::RectangleShape hungerBar(sf::Vector2f(player->_food * 1.9, 20));
+	hungerBar.setFillColor(sf::Color(139, 69, 19));
+	hungerBar.setPosition(pos.x + 85, pos.y + 105);
 
 	sf::RectangleShape healthBar(sf::Vector2f(player->_life * 1.9, 20));
-	healthBar.setFillColor(sf::Color::Red);
+	healthBar.setFillColor(sf::Color(196, 0, 0));
 	healthBar.setPosition(pos.x + 85, pos.y + 55);
-
-	//sf::RectangleShape thirstBar(sf::Vector2f(player->_water / 2, 5));
-	//thirstBar.setFillColor(sf::Color::Blue);
-	//thirstBar.setPosition(_posDisp.x - 5, _posDisp.y - 15);
-	//Singleton::getInstance()._window->draw(thirstBar);
-
-	//sf::RectangleShape healthBar(sf::Vector2f(player->_life / 2, 5));
-	//healthBar.setFillColor(sf::Color::Red);
-	//healthBar.setPosition(_posDisp.x - 5, _posDisp.y - 20);
-	//Singleton::getInstance()._window->draw(healthBar);
 
 	Singleton::getInstance()._window->draw(playerInfo);
 	Singleton::getInstance()._window->draw(name);

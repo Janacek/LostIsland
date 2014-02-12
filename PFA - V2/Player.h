@@ -7,6 +7,7 @@
 #include "Water.h"
 #include "Camera.h"
 #include "Animation.h"
+#include "FontManager.h"
 
 class Player : public IEntity
 {

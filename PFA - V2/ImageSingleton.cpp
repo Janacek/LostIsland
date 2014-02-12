@@ -15,6 +15,7 @@ void ImageSingleton::start()
 {
 	this->load(FOOD, "./food.png");
 	this->load(WATER, "./water.png");
+	this->load(WATER_WALKABLE, "./waterWalkable.png");
 	this->load(WOOD, "./wood.png");
 	this->load(SABLE, "./sable.png");
 	this->load(LAC, "./mer.png");
@@ -28,6 +29,7 @@ void ImageSingleton::start()
 	this->load(PALMTREE, "./palmtree.png");
 	this->load(BUNNY, "./bunny.png");
 	this->load(PLAYER_INFOS_BACKGROUND, "woodenPlanks.png");
+	this->load(SELECTED_ICON, "./selected.png");
 }
 
 void ImageSingleton::load(Type id, const std::string& filename)

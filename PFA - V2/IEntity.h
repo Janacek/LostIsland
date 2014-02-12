@@ -11,6 +11,7 @@ enum Type
 	TREE,
 	WOOD,
 	WATER,
+	WATER_WALKABLE,
 	FOOD,
 	PLAYER,
 	BUNNY,
@@ -24,6 +25,7 @@ enum Type
 	BUSH_FRUITS,
 	PALMTREE,
 	PLAYER_INFOS_BACKGROUND,
+	SELECTED_ICON,
 	BADTYPE
 }; //ok j'ai enlevé le close_button
 

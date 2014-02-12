@@ -57,6 +57,8 @@ public:
 	void					generateBiomes();
 	void					generateSand();
 
+	void					generateWalkableWater();
+	void					changeWaterToWalkableWater(int, int);
 
 	int						countAdjacentChunkType(int, int, Cell::Type);
 

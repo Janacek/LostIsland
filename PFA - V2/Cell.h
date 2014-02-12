@@ -15,6 +15,7 @@ public:
 	enum					Type
 	{
 		OCEAN = 0,
+		WALKABLE_WATER,
 		GRASS,
 		SAND,
 		SNOW,

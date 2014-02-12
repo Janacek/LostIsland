@@ -27,6 +27,7 @@ Map::Map(Camera *cam, std::string &loading)
 	_typeToTexture[Cell::FOREST] = ImageSingleton::getInstance().get(Type::FOREST);
 	_typeToTexture[Cell::SNOW] = ImageSingleton::getInstance().get(Type::SNOW);
 	_typeToTexture[Cell::SAVANNA] = ImageSingleton::getInstance().get(Type::SAVANNA);
+	_typeToTexture[Cell::WALKABLE_WATER] = ImageSingleton::getInstance().get(Type::WATER_WALKABLE);
 
 	int i;
 	for (i = 0; i < 27; ++i)
@@ -280,6 +281,9 @@ void						Map::generate()
 	_loading = "Adding beaches, bitches love beaches";
 	generateSand();
 
+	_loading = "Art thou Jesus Christ ?!";
+	generateWalkableWater();
+
 	_loading = "Growing trees";
 	generateTrees();
 
@@ -371,6 +375,37 @@ void						Map::generateBiomes()
 			//std::cout << (int)(_temperature->getElevation(i, j, 75)* 0.5 * 100) << std::endl;
 			if (_cellMap[i][j]._cellType != Cell::OCEAN)
 				_cellMap[i][j]._cellType = (_corTab[(int)((_temperature->getElevation(static_cast<float>(i), static_cast<float>(j), static_cast<float>(10)) + 1)* 0.5 * 100)])._cellType;
+		}
+	}
+}
+
+void						Map::changeWaterToWalkableWater(int x, int y)
+{
+	sf::Vector2f			start(x - 3, y - 3);
+
+	for (int i = start.x; i < x + 3; ++i)
+	{
+		for (int j = start.y; j < y + 3; ++j)
+		{
+			if (_cellMap[i][j]._cellType == Cell::OCEAN)
+			{
+				_cellMap[i][j]._cellType = Cell::WALKABLE_WATER;
+			}
+		}
+	}
+}
+
+void						Map::generateWalkableWater()
+{
+	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
+	{
+		for (int j = 0; j < _size.x * Chunk::NB_CELLS; ++j)
+		{
+			if (_cellMap[i][j]._cellType == Cell::SAND &&
+				isCellTypeAround(i, j, Cell::OCEAN))
+			{
+				changeWaterToWalkableWater(i, j);
+			}
 		}
 	}
 }
