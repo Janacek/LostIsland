@@ -126,4 +126,7 @@ public:
 	bool const getIsPathFound() const { return false; }
 	void setIsPathFound(bool n) { (void)n; }
 
+private:
+	float						_cursorTime;
+
 };

@@ -182,6 +182,8 @@
     <None Include="IThread.hh" />
     <None Include="Mutex.hh" />
     <None Include="MutexWin.hh" />
+    <None Include="selectedShader.frag" />
+    <None Include="selectedShader.vert" />
     <None Include="Thread.hh" />
     <None Include="ThreadWin.hh" />
   </ItemGroup>
