@@ -20,13 +20,32 @@ Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 	_isPathFound = false;
 	_iterPath = 0;
 	_hasAPath = false;
+	_firstPath = true;
 }
 
 Bunny::~Bunny()
 {
 
 }
-
+void Bunny::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
+{
+	if (front.first > floor(pos.x))
+	{
+		_anim->setAnimation(2);
+	}
+	if (front.first < floor(pos.x))
+	{
+		_anim->setAnimation(1);
+	}
+	if (front.second < floor(pos.y))
+	{
+		_anim->setAnimation(3);
+	}
+	if (front.second > floor(pos.y))
+	{
+		_anim->setAnimation(0);
+	}
+}
 void Bunny::moveToNextWP()
 {
 	double dt = 0;
@@ -36,8 +55,8 @@ void Bunny::moveToNextWP()
 	time = _mvtClock.getElapsedTime().asSeconds();
 	dt = time - _oldDtMvt;
 	_oldDtMvt = time;
-	
-	if (_iterPath > IT_BEF_STOP)
+
+	/*if (_iterPath > IT_BEF_STOP)
 	{
 		_isStop = true;
 		_path.clear();
@@ -50,7 +69,7 @@ void Bunny::moveToNextWP()
 		_isStop = false;
 		_iterPath = 0;
 		_oldTime = 0;
-	}
+	}*/
 	if (!_path.empty())
 	{
 		_anim->play();
@@ -64,8 +83,9 @@ void Bunny::moveToNextWP()
 			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
 
 		{
-			++_iterPath;
+			
 			_path.pop_front();
+			changeAnimation(_position, _path.front());
 			return;
 		}
 
@@ -87,7 +107,7 @@ void Bunny::moveToNextWP()
 }
 
 
-void Bunny::setIsPathFound(bool p )
+void Bunny::setIsPathFound(bool p)
 {
 	_isPathFound = p;
 }
@@ -102,7 +122,7 @@ float Bunny::getPathToGo() const
 	return _pathToGo;
 }
 
-void Bunny::setPathToGo(float p) 
+void Bunny::setPathToGo(float p)
 {
 	_pathToGo = p;
 }
@@ -156,17 +176,18 @@ void Bunny::draw(sf::RenderTexture *)
 
 void Bunny::update(Map &map)
 {
-	/*if (!_path.empty() && _hasAPath == false && _path.front() != _path.back()) // on va check tous les draw qui sont en rapport aux lapins
+	if (!_path.empty() && _hasAPath == false) // on va check tous les draw qui sont en rapport aux lapins
 	{
+		std::cout << "OLOL" << std::endl;
 		_hasAPath = true;
-		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component && 
-			map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == ANIMAL)
-				map.setEntityMap(NULL, static_cast<int>(floor(_position.y)), static_cast<int>(floor(_position.x)));
+		//if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component &&
+			//map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == BUNNY)
+			map.setEntityMap(NULL, static_cast<int>(floor(_position.y)), static_cast<int>(floor(_position.x)));
 		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
 		{
 			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
 		}
-	}*/
+	}
 	moveToNextWP();
 }
 

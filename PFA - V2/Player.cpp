@@ -19,6 +19,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	this->addEntityInInventory(new Wood);
 	_isMoving = false;
 	_hasAPath = false;
+	_isPathFound = false;
 	/*
 	** Gestion de la vie / soif / etc...
 	*/
@@ -150,6 +151,25 @@ bool Player::delEntityInInventory(IEntity *entity)
 	}
 	return false;
 }
+void Player::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
+{
+	if (front.first > floor(pos.x))
+	{
+		_anim->setAnimation(1);
+	}
+	if (front.first < floor(pos.x))
+	{
+		_anim->setAnimation(3);
+	}
+	if (front.second < floor(pos.y))
+	{
+		_anim->setAnimation(2);
+	}
+	if (front.second > floor(pos.y))
+	{
+		_anim->setAnimation(0);
+	}
+}
 
 void Player::moveToNextWP()
 {
@@ -175,6 +195,7 @@ void Player::moveToNextWP()
 
 		{
 			_path.pop_front();
+			changeAnimation(_pos, _path.front());
 			return;
 		}
 
@@ -249,6 +270,25 @@ void Player::draw(sf::RenderTexture *)
 	}
 }
 
+void Player::changeMapEntity(Map & map)
+{
+	if (!_path.empty() && _hasAPath == false)
+	{
+		_hasAPath = true;
+		//if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component &&
+		//map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == PLAYER)
+		{
+			map.setEntityMap(NULL, static_cast<int>(floor(_pos.y)), static_cast<int>(floor(_pos.x)));
+		}
+
+		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
+		{
+			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
+		}
+		
+	}
+}
+
 void Player::update(Map & map)
 {
 	double dt = 0;
@@ -269,40 +309,8 @@ void Player::update(Map & map)
 		map.setEntityMap(this, static_cast<int>(floor(_pos.x)), static_cast<int>(floor(_pos.y)));
 	}*/
 	
-	if (!_path.empty() && _hasAPath == false)
-	{
-		_hasAPath = true;
-		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component &&
-			map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == PLAYER)
-		{
-			map.setEntityMap(NULL, static_cast<int>(floor(_pos.y)), static_cast<int>(floor(_pos.x)));
-		}
-		
-		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
-		{	
-			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
-		}
-		else
-		{
-			for (int x = -1; x < 2; ++x)
-			{
-				for (int y = -1; y < 2; ++y)
-				{
-					if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second + x))][static_cast<int>(floor(_path.back().first + y))]._component == NULL
-						&& map.getCellMap()[static_cast<int>(floor(_path.back().second + x))][static_cast<int>(floor(_path.back().first + y))]._cellType != Cell::OCEAN)
-					{
-						_path.back().first += y;
-						_path.back().second += x;
-
-						//map.setEntityMap(this, static_cast<int>(floor(_path.back().second + x)), static_cast<int>(floor(_path.back().first + y)));
-						x = 3;
-						y = 3;
-						break;
-					}
-				}
-			}
-		}
-	}
+	changeMapEntity(map);
+	
 	_hungerClock += dt;
 	_thirstClock += dt;
 	if (_hungerClock > 6)

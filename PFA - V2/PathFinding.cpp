@@ -255,9 +255,9 @@ void PathFinding::updatePath()
 	std::pair<edge_iterator_t, edge_iterator_t> ep;
 
 	edge_iterator_t ei, ei_end;
-	*/
+	
 
-	/*for (boost::tie(ei, ei_end) = boost::edges(graphe); ei != ei_end; ++ei)
+	for (boost::tie(ei, ei_end) = boost::edges(graphe); ei != ei_end; ++ei)
 	{
 
 		sf::Vector2f pt1;

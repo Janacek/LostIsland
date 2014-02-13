@@ -26,6 +26,7 @@ public:
 	void update(Map &);
 	virtual void setPath(std::list<std::pair<float, float> > &path);
 	virtual bool getIsStopped() const{ return false; }
+	virtual bool getIsAMovingEntity() const{ return false; }
 
 	virtual sf::Vector2f  getPosition() const;
 

@@ -51,6 +51,7 @@ public:
 	virtual bool const getIsPathFound() const = 0;
 	virtual void setIsPathFound(bool)  = 0;
 	virtual bool getIsStopped() const = 0;
+	virtual bool getIsAMovingEntity() const = 0;
 	//sf::Rect &getCollisionBox(void);
 
 protected:

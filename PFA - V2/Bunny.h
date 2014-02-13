@@ -36,15 +36,18 @@ public:
 	bool const getIsPathFound() const;
 	void setIsPathFound(bool);
 	bool getIsStopped() const{ return _isStop; }
-
+	bool getIsAMovingEntity() const{ return true; }
 
 private:
+	void					changeAnimation(sf::Vector2f&, std::pair<float, float>);
+
 	Animation				*_anim;
 	Camera					*_camera;
 	bool					_isMoving;
 	bool					_hasAPath;
 	bool					_isPathFound;
 	bool					_isStop;
+	bool					_firstPath;
 	// Bunny pathfinding
 	sf::Clock				_mvtClock;
 	float					_speed;

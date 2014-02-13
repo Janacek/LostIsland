@@ -28,6 +28,7 @@ public:
 	void setIsPathFound(bool n) { (void)n; }
 	Type getType() const;
 	bool getIsStopped() const{ return false; }
+	bool getIsAMovingEntity() const{ return false; }
 
 	~Food(void);
 private:

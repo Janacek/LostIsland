@@ -10,6 +10,14 @@
 #include "FontManager.h"
 #include "ShadersManager.h"
 
+enum Direction
+{
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT
+};
+
 class Player : public IEntity
 {
 public:
@@ -45,6 +53,8 @@ public:
 	void addToPathToGo(float f);
 	bool getIsMoving() const;
 	bool getIsStopped() const{ return false; }
+	bool getIsAMovingEntity() const{ return true; }
+	
 
 	//sf::Rect & getCollisionBox(void);
 
@@ -77,6 +87,7 @@ protected:
 	float								_pathToGo;
 	bool								_isMoving;
 	bool								_hasAPath;
+	bool								_isPathNotFound;
 	/*
 	** Player's name (could be with miscs)
 	*/
@@ -109,7 +120,7 @@ public:
 	float						_water;
 	float						_food;
 	bool						_isSick;
-
+	bool						_isPathFound;
 	sfg::Box::Ptr				_inventory;
 	sf::Clock					_referenceClock;
 
@@ -123,12 +134,13 @@ public:
 	*/
 	bool						_isSelected;
 public:
+	void						changeMapEntity(Map&);
 	void						setSelected(bool const);
 	bool						const getSelected() const;
-	bool const getIsPathFound() const { return false; }
-	void setIsPathFound(bool n) { (void)n; }
+	bool const getIsPathFound() const { return _isPathFound; }
+	void setIsPathFound(bool n) { _isPathFound = n; }
 
 private:
 	float						_cursorTime;
-
+	void						changeAnimation(sf::Vector2f&, std::pair<float, float>);
 };

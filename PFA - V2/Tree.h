@@ -32,6 +32,8 @@ public:
 
 	void setPosition(sf::Vector2f &);
 	sf::Vector2f  getPosition() const;
+	bool getIsAMovingEntity() const{ return false; }
+
 	
 	//sf::Rect & getCollisionBox(void);
 
