@@ -145,17 +145,17 @@ void Bunny::draw(sf::RenderTexture *)
 
 void Bunny::update(Map &map)
 {
-	/*if (!_path.empty() && _hasAPath == false && _path.front() != _path.back()) // on va check tous les draw qui sont en rapport aux lapins
+	if (!_path.empty() && _hasAPath == false && _path.front() != _path.back()) // on va check tous les draw qui sont en rapport aux lapins
 	{
 		_hasAPath = true;
 		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component && 
-			map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == ANIMAL)
+			map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == BUNNY)
 				map.setEntityMap(NULL, static_cast<int>(floor(_position.y)), static_cast<int>(floor(_position.x)));
 		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
 		{
 			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
-		}
-	}*/
+	 	}
+	}
 	moveToNextWP();
 }
 
