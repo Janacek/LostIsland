@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Animation.h"
 #include "FontManager.h"
+#include "ShadersManager.h"
 
 class Player : public IEntity
 {

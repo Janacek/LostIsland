@@ -16,8 +16,8 @@ void Bush::draw(sf::RenderTexture *tex, sf::Shader &shader)
 	sf::Sprite tmp((*ImageSingleton::getInstance().get(BUSH)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	//Singleton::getInstance()._window->draw(tmp, &shader);
-	Singleton::getInstance()._glowShader.setParameter("RenderedTexture", sf::Shader::CurrentTexture);
-	tex->draw(tmp, &Singleton::getInstance()._glowShader);
+	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
+	tex->draw(tmp, ShadersManager::getInstance().get(BLOOM));
 }
 
 void Bush::draw(sf::RenderTexture *tex)

@@ -1,4 +1,5 @@
 #include "Tree.h"
+#include "ShadersManager.h"
 
 class Bush : public Tree
 {

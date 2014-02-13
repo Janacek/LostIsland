@@ -42,6 +42,7 @@
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="SourndManager.cpp" />
+    <ClCompile Include="ShadersManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="Water.h" />
     <ClInclude Include="Wood.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="ShadersManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />
