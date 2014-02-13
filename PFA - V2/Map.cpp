@@ -125,6 +125,8 @@ void						Map::init(std::string const & seed, sf::Vector2i size, int groundRatio
 		delete _mapTexture;
 	_mapTexture = new sf::RenderTexture;
 	_mapTexture->create(1920, 1080);
+	_waterTexture = new sf::RenderTexture;
+	_waterTexture->create(1920, 1080);
 }
 
 void						Map::generateCenterIsland(int ratio)
@@ -506,18 +508,37 @@ sf::Vector2f				&Map::getCamPos()
 
 void						Map::draw(sf::RenderWindow *win)
 {
+	static float time = 0;
+
+	//_mapTexture->clear();
+	//_waterTexture->clear(sf::Color::Black);
+	sf::RectangleShape tmp(sf::Vector2f(static_cast<float>(Chunk::SIZE_OF_CELL),
+		static_cast<float>(Chunk::SIZE_OF_CELL)));
+	//sf::RectangleShape trp(sf::Vector2f(static_cast<float>(Chunk::SIZE_OF_CELL),
+	//	static_cast<float>(Chunk::SIZE_OF_CELL)));
+
 	if (!_cellMap || !_entitiesMap)
 		return;
 	for (int i = static_cast<int>(_camera->_position.y); i < static_cast<int>((Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL + 2 + _camera->_position.y)); ++i)
 	{
 		for (int j = static_cast<int>(_camera->_position.x); j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + 1 + _camera->_position.x; ++j)
 		{
-			sf::RectangleShape tmp(sf::Vector2f(static_cast<float>(Chunk::SIZE_OF_CELL),
-				static_cast<float>(Chunk::SIZE_OF_CELL)));
 			tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
 			tmp.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
 				(i - _camera->_position.y) * Chunk::SIZE_OF_CELL);
-			_mapTexture->draw(tmp);
+			//if (_cellMap[i][j]._cellType == Cell::OCEAN) {
+			//	//ShadersManager::getInstance().get(FLAG)->setParameter("texture", sf::Shader::CurrentTexture);
+			//	//ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", time);
+			//	//ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 5, 0);
+
+			//	//time += 0.000025;
+			//	_waterTexture->draw(tmp);
+
+
+
+			//}
+			//else
+				_mapTexture->draw(tmp);
 
 			sf::Vector2f savePos;
 			if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getType() != PLAYER)
@@ -542,7 +563,15 @@ void						Map::draw(sf::RenderWindow *win)
 			}
 		}
 	}
+//	_waterTexture->display();
 	_mapTexture->display();
+
+	//ShadersManager::getInstance().get(FLAG)->setParameter("texture", sf::Shader::CurrentTexture);
+	//ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", time);
+	//ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 3, 3);
+
+	//time += 0.025;
+	//Singleton::getInstance()._window->draw(sf::Sprite(_waterTexture->getTexture()), ShadersManager::getInstance().get(FLAG));
 	Singleton::getInstance()._window->draw(sf::Sprite(_mapTexture->getTexture()));
 }
 

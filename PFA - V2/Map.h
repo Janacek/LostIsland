@@ -124,7 +124,7 @@ private:
 	//    MAP TEXTURE	 //
 	///////////////////////
 	sf::RenderTexture		*_mapTexture;
-
+	sf::RenderTexture		*_waterTexture;
 
 public:
 	void					createMiniMap();

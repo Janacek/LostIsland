@@ -188,6 +188,8 @@
     <None Include="shaders\glowShader.vert" />
     <None Include="shaders\selectedShader.frag" />
     <None Include="shaders\selectedShader.vert" />
+    <None Include="shaders\waveShader.frag" />
+    <None Include="shaders\waveShader.vert" />
     <None Include="Thread.hh" />
     <None Include="ThreadWin.hh" />
   </ItemGroup>

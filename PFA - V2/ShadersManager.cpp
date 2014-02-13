@@ -18,6 +18,11 @@ void ShadersManager::start()
 	bloom = new sf::Shader();
 	bloom->loadFromFile("./shaders/glowShader.vert", "./shaders/glowShader.frag");
 	_mapShaders[BLOOM] = bloom;
+
+	sf::Shader *wave;
+	wave = new sf::Shader();
+	wave->loadFromFile("./shaders/waveShader.vert", "./shaders/waveShader.frag");
+	_mapShaders[WAVE] = wave;
 }
 
 sf::Shader *ShadersManager::get(ShaderType id)

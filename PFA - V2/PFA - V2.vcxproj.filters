@@ -99,5 +99,7 @@
     <None Include="shaders\selectedShader.vert" />
     <None Include="shaders\glowShader.frag" />
     <None Include="shaders\glowShader.vert" />
+    <None Include="shaders\waveShader.frag" />
+    <None Include="shaders\waveShader.vert" />
   </ItemGroup>
 </Project>

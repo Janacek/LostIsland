@@ -9,6 +9,7 @@ enum ShaderType
 {
 	FLAG= 0,
 	BLOOM,
+	WAVE,
 };
 
 class ShadersManager
