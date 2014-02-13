@@ -15,9 +15,9 @@ void ForestTree::draw(sf::RenderTexture *tex, sf::Shader &shader)
 
 	sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
 	tmp.setPosition(_position.x, _position.y);
-	Singleton::getInstance()._glowShader.setParameter("RenderedTexture", sf::Shader::CurrentTexture);
+	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 
-	tex->draw(tmp, &Singleton::getInstance()._glowShader);
+	tex->draw(tmp, ShadersManager::getInstance().get(BLOOM));
 	//Singleton::getInstance()._window->draw(tmp);
 }
 

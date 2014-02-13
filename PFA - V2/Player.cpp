@@ -261,11 +261,12 @@ void Player::draw(sf::RenderTexture *)
 		posIcon.y -= 52;
 		icon.setPosition(posIcon);
 
-		Singleton::getInstance()._selectedShader.setParameter("texture", sf::Shader::CurrentTexture);
-		Singleton::getInstance()._selectedShader.setParameter("wave_phase", _cursorTime);
-		Singleton::getInstance()._selectedShader.setParameter("wave_amplitude", 2, 2);
-		_cursorTime += 0.05f;
-		Singleton::getInstance()._window->draw(icon, &Singleton::getInstance()._selectedShader);
+		ShadersManager::getInstance().get(FLAG)->setParameter("texture", sf::Shader::CurrentTexture);
+		ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", _cursorTime);
+		ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 2, 2);
+
+		_cursorTime += 0.025f;
+		Singleton::getInstance()._window->draw(icon, ShadersManager::getInstance().get(FLAG));
 	}
 }
 

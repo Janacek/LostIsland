@@ -534,7 +534,7 @@ void						Map::draw(sf::RenderWindow *win)
 
 				if ((int)finalPos.x == j && (int)finalPos.y == i)
 				{
-					_entitiesMap[i][j]._component->draw(_mapTexture, Singleton::getInstance()._glowShader);
+					_entitiesMap[i][j]._component->draw(_mapTexture, *ShadersManager::getInstance().get(BLOOM));
 				}
 				else
 					_entitiesMap[i][j]._component->draw(_mapTexture);
