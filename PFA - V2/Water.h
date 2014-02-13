@@ -27,6 +27,8 @@ public:
 	~Water(void);
 	void setPath(std::list<std::pair<float, float> > &path);
 	bool getIsStopped() const{ return false; }
+	bool getIsAMovingEntity() const{ return false; }
+
 
 	sf::Vector2f  getPosition() const;
 

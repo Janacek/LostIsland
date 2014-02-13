@@ -520,7 +520,7 @@ void						Map::draw(sf::RenderWindow *win)
 			_mapTexture->draw(tmp);
 
 			sf::Vector2f savePos;
-			if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getType() != PLAYER)
+			if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getIsAMovingEntity() == false)
 			{
 				savePos = _entitiesMap[i][j]._component->getPosition();
 				_entitiesMap[i][j]._component->setPosition(sf::Vector2f((j - _camera->_position.x) * Chunk::SIZE_OF_CELL
