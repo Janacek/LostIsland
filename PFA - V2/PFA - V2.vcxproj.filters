@@ -93,5 +93,9 @@
     <None Include="MutexWin.hh" />
     <None Include="Thread.hh" />
     <None Include="ThreadWin.hh" />
+    <None Include="shaders\selectedShader.frag" />
+    <None Include="shaders\selectedShader.vert" />
+    <None Include="shaders\glowShader.frag" />
+    <None Include="shaders\glowShader.vert" />
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 #include						<SFML/Window.hpp>
 #include						<SFML/Graphics.hpp>
 #include						<SFGUI/SFGUI.hpp>
-#include <windows.h>
+#include						<windows.h>
 
 
 class Singleton
@@ -28,6 +28,12 @@ public:
 	bool isKey3Pressed;
 	bool isKey4Pressed;
 	
+	////////////////////////////////////////
+	//          SHADERS                   //
+	////////////////////////////////////////
+	sf::Shader				_selectedShader;
+	sf::Shader				_glowShader;
+
 	sf::Vector2i posLeftClickPressed;
 	sf::Vector2i posLeftClickReleased;
 	sf::Vector2i posRightClickPressed;

@@ -15,6 +15,7 @@ public:
 	void doAction(IEntity* other);
 	void getAction(IEntity* other);
 	void loadAnimation(std::string const & string_anim, float speed);
+	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);
 	void update(Map &);
 	Type getType() const;

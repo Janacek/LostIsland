@@ -29,6 +29,11 @@ void Wood::update(Map &map)
 
 }
 
+void Wood::draw(sf::RenderTexture *, sf::Shader &)
+{
+
+}
+
 void Wood::draw(sf::RenderTexture *)
 {
 

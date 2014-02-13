@@ -30,6 +30,11 @@ int Food::getDamage() const
 	return 0;
 }
 
+void Food::draw(sf::RenderTexture *, sf::Shader &)
+{
+
+}
+
 void Food::draw(sf::RenderTexture *)
 {
 

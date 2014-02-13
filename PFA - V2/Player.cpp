@@ -34,6 +34,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_lifeClock = 0;
 	_isSelected = false;
 	_path.clear();
+	_cursorTime = 0;
 }
 
 Compartment	*Player::getCompartment(int index)
@@ -209,6 +210,11 @@ bool const Player::getSelected() const
 	return _isSelected;
 }
 
+void Player::draw(sf::RenderTexture *, sf::Shader &)
+{
+
+}
+
 void Player::draw(sf::RenderTexture *)
 {
 
@@ -233,23 +239,13 @@ void Player::draw(sf::RenderTexture *)
 		icon.setTexture(ImageSingleton::getInstance().get(SELECTED_ICON));
 		posIcon.y -= 52;
 		icon.setPosition(posIcon);
-		Singleton::getInstance()._window->draw(icon);
+
+		Singleton::getInstance()._selectedShader.setParameter("texture", sf::Shader::CurrentTexture);
+		Singleton::getInstance()._selectedShader.setParameter("wave_phase", _cursorTime);
+		Singleton::getInstance()._selectedShader.setParameter("wave_amplitude", 2, 2);
+		_cursorTime += 0.05f;
+		Singleton::getInstance()._window->draw(icon, &Singleton::getInstance()._selectedShader);
 	}
-
-	//sf::RectangleShape hungerBar(sf::Vector2f(_food / 2, 5));
-	//hungerBar.setFillColor(sf::Color(153, 76, 0));
-	//hungerBar.setPosition(_posDisp.x - 5, _posDisp.y - 10);
-	//Singleton::getInstance()._window->draw(hungerBar);
-
-	//sf::RectangleShape thirstBar(sf::Vector2f(_water / 2, 5));
-	//thirstBar.setFillColor(sf::Color::Blue);
-	//thirstBar.setPosition(_posDisp.x - 5, _posDisp.y - 15);
-	//Singleton::getInstance()._window->draw(thirstBar);
-
-	//sf::RectangleShape healthBar(sf::Vector2f(_life / 2, 5));
-	//healthBar.setFillColor(sf::Color::Red);
-	//healthBar.setPosition(_posDisp.x - 5, _posDisp.y - 20);
-	//Singleton::getInstance()._window->draw(healthBar);
 }
 
 void Player::update(Map & map)

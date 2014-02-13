@@ -19,6 +19,7 @@ public:
 	std::string const &getName() const;
 	void setName(std::string const &);
 	void loadAnimation(std::string const & string_anim, float speed);
+	void draw(sf::RenderTexture *, sf::Shader &);
 	void draw(sf::RenderTexture *);
 	void setCamPos(sf::Vector2f &); // TMP LE TEMPS QUON AI LA BONNE CLASS
 	void setPosition(sf::Vector2f &pos);
@@ -125,5 +126,8 @@ public:
 	bool						const getSelected() const;
 	bool const getIsPathFound() const { return false; }
 	void setIsPathFound(bool n) { (void)n; }
+
+private:
+	float						_cursorTime;
 
 };

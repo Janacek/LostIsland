@@ -11,6 +11,7 @@ public:
 	virtual void getAction(IEntity* other);
 	virtual void loadAnimation(std::string const & string_anim, float speed);
 	virtual int getDamage(void) const;
+	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);
 	virtual void setPosition(sf::Vector2f &pos);
 	virtual bool getIsMoving() const { return false; }
