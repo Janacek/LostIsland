@@ -23,7 +23,6 @@ void PhysicEngine::init()
 
 void PhysicEngine::setCamPos(sf::Vector2f &cam)
 {
-	//_cam = cam;
 }
 bool PhysicEngine::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &ent)
 {

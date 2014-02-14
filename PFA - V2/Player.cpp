@@ -36,6 +36,8 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_isSelected = false;
 	_path.clear();
 	_cursorTime = 0;
+
+	_objective = NULL;
 }
 
 Compartment	*Player::getCompartment(int index)
@@ -188,7 +190,6 @@ void Player::moveToNextWP()
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
 		tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
-		//std::cout << "COIN HAUT GAUCHE : x " << floor(_pos.x) << " y " << floor(_pos.y) <<" pos reel droite  x " << floor(tmp.x) << " y "<< floor(tmp.y)  << std::endl;
 
 		if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y) &&
 			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
@@ -313,12 +314,12 @@ void Player::update(Map & map)
 	
 	_hungerClock += dt;
 	_thirstClock += dt;
-	if (_hungerClock > 6)
+	if (_hungerClock > HUNGER_CLOCK)
 	{
 		_hungerClock = 0.f;
 		_food -= 1;
 	}
-	if (_thirstClock > 3)
+	if (_thirstClock > THIRST_CLOCK)
 	{
 		_thirstClock = 0.f;
 		_water -= 1;
@@ -330,7 +331,7 @@ void Player::update(Map & map)
 
 	if (_water <= 0 || _food <= 0)
 		_lifeClock += dt;
-	if (_lifeClock > 5)
+	if (_lifeClock > HEALTH_CLOCK)
 	{
 		_lifeClock = 0;
 		_life -= 1;

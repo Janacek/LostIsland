@@ -157,9 +157,6 @@ void Bunny::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
-	/*sf::Vector2f v(0, -10);
-	_rect.setPosition(_posDisp);
-	Singleton::getInstance()._window->draw(_rect);*/
 	this->_anim->show(_posDisp);
 }
 
@@ -168,9 +165,6 @@ void Bunny::draw(sf::RenderTexture *)
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
-	/*sf::Vector2f v(0, -10);
-	_rect.setPosition(_posDisp);
-	Singleton::getInstance()._window->draw(_rect);*/
 	this->_anim->show(_posDisp);
 }
 
@@ -180,8 +174,6 @@ void Bunny::update(Map &map)
 	{
 		std::cout << "OLOL" << std::endl;
 		_hasAPath = true;
-		//if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component &&
-			//map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == BUNNY)
 			map.setEntityMap(NULL, static_cast<int>(floor(_position.y)), static_cast<int>(floor(_position.x)));
 		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
 		{

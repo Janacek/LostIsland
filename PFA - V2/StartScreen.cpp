@@ -94,7 +94,7 @@ void StartScreen::draw()
 
 void StartScreen::initialize(void)
 {
-	_music->play();
+	//_music->play();
 }
 
 void StartScreen::update(void)

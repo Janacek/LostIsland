@@ -11,6 +11,4 @@ public:
 	void		print() const;
 	void		draw(sf::RenderWindow *);
 	void		update(sf::Event *);
-private:
-	//sf::image ou sf::sprite ?
 };

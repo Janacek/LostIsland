@@ -27,7 +27,7 @@ enum Type
 	PLAYER_INFOS_BACKGROUND,
 	SELECTED_ICON,
 	BADTYPE
-}; //ok j'ai enlevé le close_button
+};
 
 class IEntity
 {
@@ -52,7 +52,6 @@ public:
 	virtual void setIsPathFound(bool)  = 0;
 	virtual bool getIsStopped() const = 0;
 	virtual bool getIsAMovingEntity() const = 0;
-	//sf::Rect &getCollisionBox(void);
 
 protected:
 private:

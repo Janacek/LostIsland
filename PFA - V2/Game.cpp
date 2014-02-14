@@ -29,15 +29,11 @@ void Game::init()
 	ptr1._clock = new sf::Clock();
 	ptr1._clock->restart();
 
-	//_states.push()
 	_states.push_front( new StartScreen() );
 	_states.front()->initialize();
 	
 	this->_graphicEngine = new GraphicEngine( this->_states);
 	this->_gameEngine = new GameEngine(this->_states);
-	//this->_physicEngine = new PhysicEngine(map, this->_states);
-
-	//this->_graphicEngine->init();
 	this->_gameEngine->init();
 	
 }
@@ -51,25 +47,17 @@ void Game::launch(void)
 	** Instantiation du graphical engine + threading;
 	*/
 
-	//Thread *graphicalThread = new Thread(&GraphicEngine::run, _graphicEngine);
-
 	sf::Thread *graphicalThread = new sf::Thread(&GraphicEngine::run, _graphicEngine);
 
 	graphicalThread->launch();
 	while (true)
 	{
-		/*if (_graphicEngine->getIsRunning() == false)
-			break;*/
 		if (_gameEngine->getIsRunning() == false)
 		{
 			std::cout << "Quitting the game" << std::endl;
 			break;
 		}
 		
-		//j'aimerais savoir si on est en jeu ou pas 
-		
-		//_graphicEngine->update(_players, _entities);
-		//_graphicEngine->draw(_players, _entities);
 		_gameEngine->update();
 		
 	}

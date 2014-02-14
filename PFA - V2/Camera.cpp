@@ -40,9 +40,6 @@ bool Camera::moveCameraMouse(sf::Vector2i const &size)
 			this->_position.x -= calc;
 			Singleton::getInstance().updatePosLeftClickPressed.x -= calc;
 		}
-		//isChangePosition = true;
-		//if ((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).x <= 3.0f)
-		//	sf::Mouse::setPosition(sf::Vector2i(3, (Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).y), *(Singleton::getInstance()._window));
 	}
 	if ((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).x >= Singleton::getInstance()._window->getSize().x - 3.0f)
 	{
@@ -52,9 +49,6 @@ bool Camera::moveCameraMouse(sf::Vector2i const &size)
 			this->_position.x += calc;
 			Singleton::getInstance().updatePosLeftClickPressed.x += calc;
 		}
-		//isChangePosition = true;
-		//if ((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).x >= Singleton::getInstance()._window->getSize().x - 3.0f)
-		//	sf::Mouse::setPosition(sf::Vector2i(Singleton::getInstance()._window->getSize().x - 3.0f, (Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).y), *(Singleton::getInstance()._window));
 	}
 	if ((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).y <= 3.0f)
 	{
@@ -63,9 +57,6 @@ bool Camera::moveCameraMouse(sf::Vector2i const &size)
 			this->_position.y -= calc;
 			Singleton::getInstance().updatePosLeftClickPressed.y -= calc;
 		}
-		//isChangePosition = true;
-		//if ((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).y <= 3.0f)
-		//	sf::Mouse::setPosition(sf::Vector2i((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).x, 3), *(Singleton::getInstance()._window));
 	}
 	if ((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).y >= Singleton::getInstance()._window->getSize().y - 3.0f)
 	{
@@ -75,9 +66,6 @@ bool Camera::moveCameraMouse(sf::Vector2i const &size)
 			this->_position.y += calc;
 			Singleton::getInstance().updatePosLeftClickPressed.y += calc;
 		}
-		/*isChangePosition = true;
-		if ((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).y >= Singleton::getInstance()._window->getSize().y - 3.0f)
-			sf::Mouse::setPosition(sf::Vector2i((Singleton::getInstance()._window)->mapPixelToCoords(sf::Mouse::getPosition(*(Singleton::getInstance()._window))).x, Singleton::getInstance()._window->getSize().y - 3.0f), *(Singleton::getInstance()._window));*/
 	}
 	if (!Singleton::getInstance().isLeftClicking)
 	{

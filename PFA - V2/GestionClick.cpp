@@ -24,10 +24,7 @@ void GestionClick::leftPress(int index, Player *p, sfg::Image::Ptr img)
 
 void GestionClick::leftRelease(int index, Player *p, sfg::Image::Ptr img)
 {
-	//this->_leftClickReleased.reset();
 	this->_leftClickReleased._compartment = p->getCompartment(index);
-//	this->_leftClickReleased._img = img;
-	//swap();
 }
 
 void GestionClick::dump(int index, Player *p)

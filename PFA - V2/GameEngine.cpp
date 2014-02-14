@@ -30,21 +30,12 @@ void GameEngine::update()
 	oldTime = time;
 
 	_timeToLive += dt;
-		// OPENGL COULD THROW WARNINGS HERE.
 
-	//std::cout << _states.size() << std::endl;
 	if (_states.front()->isRunning() == false)
 	{
 		IScreen *tmp = _states.front()->getNextState();
-		/*if (!_states.empty())
-			PopState();*/
 		PushState(tmp);
 		Singleton::getInstance().isEscapePressed = false;
-		//if (state)
-		//{
-		//	std::cout << "toto1" << std::endl;
-		//	//state->initialize();
-		//}
 	}
 	IScreen *state = _states.front();
 	if (state)

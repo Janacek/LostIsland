@@ -122,8 +122,8 @@ void GameScreen::initialize(void)
 	auto spawnPoint = _map->_spawnPoints.begin();
 	sf::Vector2f posCam = *spawnPoint;
 
-	_map->_camera->_position.x = posCam.x - (Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL) / 2;// *Chunk::NB_CELLS;
-	_map->_camera->_position.y = posCam.y - (Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) / 2;// *Chunk::NB_CELLS;
+	_map->_camera->_position.x = posCam.x - (Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL) / 2;
+	_map->_camera->_position.y = posCam.y - (Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL) / 2;
 
 	if (_map->_camera->_position.x < 0)
 		_map->_camera->_position.x;
@@ -136,8 +136,6 @@ void GameScreen::initialize(void)
 		++spawnPoint;
 		Player *p = new Player(pos, &_camera);
 		_map->setEntityMap(p, pos.x, pos.y);
-		//
-		//this->_entities.push_back(p);
 		if (i == 0)
 			p->setName("Player 1");
 		else
@@ -208,22 +206,46 @@ void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos)
 	thirstBar.setFillColor(sf::Color(32, 178, 170));
 	thirstBar.setPosition(pos.x + 85, pos.y + 155);
 
+	sf::Text thirstNbr;
+	thirstNbr.setCharacterSize(20);
+	thirstNbr.setString(std::to_string((int)player->_water) + " %");
+	thirstNbr.setPosition(sf::Vector2f(pos.x + 85 + 70, pos.y + 152));
+	thirstNbr.setColor(sf::Color::Black);
+	thirstNbr.setFont(*FontManager::getInstance().getFont(SANSATION));
+
 	sf::RectangleShape hungerBar(sf::Vector2f(player->_food * 1.9, 20));
 	hungerBar.setFillColor(sf::Color(139, 69, 19));
 	hungerBar.setPosition(pos.x + 85, pos.y + 105);
+
+	sf::Text hungerNbr;
+	hungerNbr.setCharacterSize(20);
+	hungerNbr.setString(std::to_string((int)player->_food) + " %");
+	hungerNbr.setPosition(sf::Vector2f(pos.x + 85 + 70, pos.y + 102));
+	hungerNbr.setColor(sf::Color::Black);
+	hungerNbr.setFont(*FontManager::getInstance().getFont(SANSATION));
 
 	sf::RectangleShape healthBar(sf::Vector2f(player->_life * 1.9, 20));
 	healthBar.setFillColor(sf::Color(196, 0, 0));
 	healthBar.setPosition(pos.x + 85, pos.y + 55);
 
+	sf::Text healthNbr;
+	healthNbr.setCharacterSize(20);
+	healthNbr.setString(std::to_string((int)player->_life) + " %");
+	healthNbr.setPosition(sf::Vector2f(pos.x + 85 + 70, pos.y + 52));
+	healthNbr.setColor(sf::Color::Black);
+	healthNbr.setFont(*FontManager::getInstance().getFont(SANSATION));
+
 	Singleton::getInstance()._window->draw(playerInfo);
 	Singleton::getInstance()._window->draw(name);
 	Singleton::getInstance()._window->draw(health);
 	Singleton::getInstance()._window->draw(healthBar);
+	Singleton::getInstance()._window->draw(healthNbr);
 	Singleton::getInstance()._window->draw(hunger);
 	Singleton::getInstance()._window->draw(hungerBar);
+	Singleton::getInstance()._window->draw(hungerNbr);
 	Singleton::getInstance()._window->draw(thirst);
 	Singleton::getInstance()._window->draw(thirstBar);
+	Singleton::getInstance()._window->draw(thirstNbr);
 
 }
 
@@ -251,13 +273,9 @@ void GameScreen::draw()
 
 		this->_map->draw(Singleton::getInstance()._window);
 
-		//Singleton::getInstance()._window->draw(_statisticsText);
-
-		//tmp.setPosition((pos.x-_map->getCamPos().x) * Chunk::SIZE_OF_CELL,(pos.y-_map->getCamPos().y) * Chunk::SIZE_OF_CELL);
 		for (std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
 		{
 			(*it)->draw(NULL);
-			//break;
 		}
 		for (auto it = _entities.begin(); it != _entities.end(); ++it)
 		{
@@ -302,7 +320,6 @@ void GameScreen::draw()
 		this->_winRessource->draw();
 
 		this->_map->drawMiniMap(Singleton::getInstance()._window);
-		//updateStatistics(_t);
 	}
 	Singleton::getInstance()._window->display();
 }
@@ -310,7 +327,6 @@ void GameScreen::draw()
 void GameScreen::switchTabs()
 {
 	int compt = 0;
-	//tmp
 	bool select = false;
 	for (Player *u : this->_players)
 	{
@@ -387,7 +403,6 @@ void GameScreen::update(void)
 			posDisp.y = (((*it)->getPosition().y - _map->_camera->_position.y) * Chunk::SIZE_OF_CELL);
 
 			tmp.setPosition(posDisp);
-			//std::cout << tmp.getGlobalBounds().top << " / " << tmp.getGlobalBounds().left << std::endl;
 
 			if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
 			{
@@ -399,7 +414,6 @@ void GameScreen::update(void)
 			}
 		}
 
-		//std::cout << _posSelectedArea.x << ", " << std::endl;
 	}
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
@@ -408,10 +422,7 @@ void GameScreen::update(void)
 	}
 	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
 	{
-		//if ((*it2)->getType() != PLAYER) // rajouter animal
-		//{
 		(*it2)->update(*_map);
-		//}
 	}
 	_map->update();
 	checkDrawInventory();
@@ -509,8 +520,6 @@ void GameScreen::updateStatistics(sf::Time &elapsedTime)
 		std::ostringstream oss2;
 		oss << _statisticsNumFrames;
 		oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
-		//std::cout << "Frames / Second = " <<  oss.str() << "\n" <<
-		//"Time / Update = " << oss2.str() << "us" << std::endl;;
 
 		_statisticsUpdateTime -= sf::seconds(1.0f);
 		_statisticsNumFrames = 0;

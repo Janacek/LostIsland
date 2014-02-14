@@ -34,9 +34,6 @@ void Compartment::delAllElement()
 
 bool Compartment::delElement(IEntity *entity)
 {
-	/*if (this->_elements.end == std::remove(this->_elements.begin(), this->_elements.end(), entity))
-		return false;
-	this->_numberElements--;*/
 	return true;
 }
 

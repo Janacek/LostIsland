@@ -16,12 +16,12 @@ enum Fonts
 class FontManager
 {
 public:
-	static FontManager &getInstance();
-	sf::Font *getFont(Fonts);
+	static FontManager				&getInstance();
+	sf::Font						*getFont(Fonts);
 
 private:
 	FontManager(const FontManager&) {};
-	static FontManager _instance;
+	static FontManager				_instance;
 	FontManager();
 	~FontManager();
 

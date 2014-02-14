@@ -47,7 +47,6 @@ void PathFinding::initPathfinding(Map* &map, Camera *cam)
 				
 					for (int u = 0; u < 8; ++u)
 					{
-						//std::cout << "caca" << std::endl;
 						bool isPass = false;
 						bool isOk = false;
 						boost::graph_traits<WayPointGraph>::vertex_iterator it_b, it_end;

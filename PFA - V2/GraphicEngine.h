@@ -32,7 +32,6 @@ private:
 	bool					_isRunning;
 	StartScreen				*_startScreen;
 	GameScreen				*_gameScreen;
-	//TODO OptionScreen
 
 	std::list<IScreen *>	&_states;
 	KeyboardControler		_controler;

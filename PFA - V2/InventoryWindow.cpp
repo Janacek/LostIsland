@@ -7,7 +7,6 @@
 InventoryWindow::InventoryWindow()
 {
 	createWindow();
-	//createNumberWindow();
 	this->_gameScreen = NULL;
 	this->_dropNbr = 0;
 	this->_tableTest = sfg::Table::Create();

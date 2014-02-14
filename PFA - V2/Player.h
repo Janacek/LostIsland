@@ -54,7 +54,7 @@ public:
 	bool getIsMoving() const;
 	bool getIsStopped() const{ return false; }
 	bool getIsAMovingEntity() const{ return true; }
-	
+
 
 	//sf::Rect & getCollisionBox(void);
 
@@ -129,6 +129,11 @@ public:
 	double						_lifeClock;
 	double						_oldDt;
 
+	//////////////////////////
+	//  PLAYER'S OBJECTIVE
+	//////////////////////////
+	IEntity						*_objective;
+
 	/*
 	** Selection of the player.
 	*/
@@ -143,4 +148,10 @@ public:
 private:
 	float						_cursorTime;
 	void						changeAnimation(sf::Vector2f&, std::pair<float, float>);
+
+
+public:
+	const float					HUNGER_CLOCK = 6.f;
+	const float					THIRST_CLOCK = 3.f;
+	const float					HEALTH_CLOCK = 5.f;
 };
