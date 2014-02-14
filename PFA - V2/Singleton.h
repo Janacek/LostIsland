@@ -3,7 +3,6 @@
 #include						<SFML/Window.hpp>
 #include						<SFML/Graphics.hpp>
 #include						<SFGUI/SFGUI.hpp>
-#include						<windows.h>
 
 
 class Singleton
