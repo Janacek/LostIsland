@@ -180,7 +180,7 @@ void Player::moveToNextWP()
 
 	time = _mvtClock.getElapsedTime().asSeconds();
 	dt = time - _oldDtMvt;
-
+	
 	_oldDtMvt = static_cast<float>(time);
 	
 	if (!_path.empty())
@@ -398,6 +398,8 @@ Type Player::getType() const
 
 void Player::setPath(std::list<std::pair<float, float> > &path)
 {
+	_isMoving = false;
+	_hasAPath = false;
 	_path = path;
 }
 
