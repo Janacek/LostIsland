@@ -24,8 +24,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapEnvironment.cpp" />
-    <ClCompile Include="Mutex.cpp" />
-    <ClCompile Include="MutexWin.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="OnScreenLogs.cpp" />
     <ClCompile Include="OptionScreen.cpp" />
@@ -37,8 +35,6 @@
     <ClCompile Include="RessourcesWindow.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="StartScreen.cpp" />
-    <ClCompile Include="Thread.cpp" />
-    <ClCompile Include="ThreadWin.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="SourndManager.cpp" />
@@ -89,12 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />
-    <None Include="IMutex.hh" />
-    <None Include="IThread.hh" />
-    <None Include="Mutex.hh" />
-    <None Include="MutexWin.hh" />
-    <None Include="Thread.hh" />
-    <None Include="ThreadWin.hh" />
     <None Include="shaders\selectedShader.frag" />
     <None Include="shaders\selectedShader.vert" />
     <None Include="shaders\glowShader.frag" />

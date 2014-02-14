@@ -116,8 +116,6 @@
     <ClCompile Include="MapEnvironment.cpp" />
     <ClCompile Include="OnScreenLogs.cpp" />
     <ClCompile Include="OptionScreen.cpp" />
-    <ClCompile Include="Mutex.cpp" />
-    <ClCompile Include="MutexWin.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="PalmTree.cpp" />
     <ClCompile Include="PathFinding.cpp" />
@@ -129,8 +127,6 @@
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="SourndManager.cpp" />
     <ClCompile Include="StartScreen.cpp" />
-    <ClCompile Include="Thread.cpp" />
-    <ClCompile Include="ThreadWin.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="Wood.cpp" />
@@ -180,18 +176,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />
-    <None Include="IMutex.hh" />
-    <None Include="IThread.hh" />
-    <None Include="Mutex.hh" />
-    <None Include="MutexWin.hh" />
     <None Include="shaders\glowShader.frag" />
     <None Include="shaders\glowShader.vert" />
     <None Include="shaders\selectedShader.frag" />
     <None Include="shaders\selectedShader.vert" />
     <None Include="shaders\waveShader.frag" />
     <None Include="shaders\waveShader.vert" />
-    <None Include="Thread.hh" />
-    <None Include="ThreadWin.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

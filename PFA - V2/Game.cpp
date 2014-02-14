@@ -2,7 +2,6 @@
 #include "Singleton.h"
 #include "ImageSingleton.h"
 #include "Game.h"
-#include "Thread.hh"
 
 Game::Game(void) 
 {
