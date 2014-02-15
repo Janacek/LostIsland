@@ -93,12 +93,11 @@ int		Player::posInventory(IEntity *entity)
 
 void Player::drink(Water *water)
 {
-	//Ici, nous buvons.
+	this->_water + 20 > 100 ? this->_water = 100 : this->_water += 20;
 }
 
 bool Player::addEntityInInventory(IEntity *entity)
 {
-	std::cout << "je passe dans inventaire" << std::endl;
 	for (Compartment *u : this->_inventoryPlayer)
 	{
 		//on a déja un element de ce type
@@ -108,7 +107,6 @@ bool Player::addEntityInInventory(IEntity *entity)
 			return true;
 		}
 	}
-	std::cout << "ajout d'un element " << std::endl;
 	//nouveau Type d'element
 	this->_inventoryPlayer.push_back(new Compartment(entity));
 	return true;

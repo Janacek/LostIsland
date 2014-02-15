@@ -7,71 +7,56 @@
 InventoryWindow::InventoryWindow()
 {
 	createWindow();
+	createToolbar();
 	this->_gameScreen = NULL;
-	this->_dropNbr = 0;
-	this->_tableTest = sfg::Table::Create();
-	auto but = sfg::Button::Create("Prout");
-	this->_tableTest->Add(but);
+	this->_selectedRessource = NULL;
 }
 
-void InventoryWindow::createNumberWindow()
+void InventoryWindow::createToolbar()
 {
-	this->_numberWindow = sfg::Window::Create();
-	this->_numberWindow->Show(false);
-	this->_numberWindow->SetTitle("Choose number");
-	auto box = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL);
-	auto button = sfg::Button::Create();
-	button->SetLabel("Valider");
-	button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::valideNumber, this));
-	this->_label = sfg::Label::Create();
-	this->_entry = sfg::Entry::Create();
-	this->_entry->GetSignal(sfg::Widget::OnText).Connect(std::bind(&InventoryWindow::onTextChange, this));
-	this->_entry->SetRequisition(sf::Vector2f(80.f, 0.f));
-	box->Pack(this->_entry);
-	box->Pack(button);
-	box->Pack(this->_label);
-	box->SetSpacing(5.f);
-	this->_numberWindow->Add(box);
-	Singleton::getInstance()._desktop.Add(this->_numberWindow);
+	this->_spinButton = sfg::SpinButton::Create(-2.f, 18.f, 1.f);
+	this->_spinButton->SetValue(0);
+	this->_spinButton->SetRange(0, 0);
+	this->_toolbar = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL);
+	auto useButton = sfg::Button::Create("Use");
+	useButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::useClick, this));
+	auto dropButton = sfg::Button::Create("Drop");
+	auto craftButton = sfg::Button::Create("Craft");
+	auto stuffButton = sfg::Button::Create("Stuff");
+	/*TODO signaux*/
+	this->_toolbar->Pack(useButton);
+	this->_toolbar->Pack(this->_spinButton);
+	this->_toolbar->Pack(dropButton);
+	this->_toolbar->Pack(craftButton);
+	this->_toolbar->Pack(stuffButton);
+	this->_mainBox->PackEnd(this->_toolbar);
 }
 
 void InventoryWindow::createWindow()
 {
 	this->_inventoryWindow = sfg::Window::Create(sfg::Window::Style::TITLEBAR | sfg::Window::Style::BACKGROUND);
 	this->_inventoryWindow->Show(false);
-	this->_inventoryWindow->SetRequisition(sf::Vector2f(500, 300.0f));
 	this->_inventoryWindow->SetTitle("Inventory");
-	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseLeave).Connect(std::bind(&GestionClick::drop, &this->_gestionClick));
-	this->_inventoryWindow->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&GestionClick::cantDrop, &this->_gestionClick));
-	
-	//this->_inventoryWindow->GetSignal(sfg::Widget::O)
-	//je ne sais pas comment faire pour qu'il se mette juste en bas de la page..
-	/*this->_closeButton = sfg::Button::Create("Close");
-	this->_closeButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::close, this));
-	this->_inventoryWindow->Add(this->_closeButton);*/
-	this->_emptyLabel = sfg::Label::Create("Pas de joueur(s) sélectionné(s)."); 
+	this->_inventoryWindow->SetPosition(sf::Vector2f(150, 100));
+	this->_emptyLabel = sfg::Label::Create("Pas de joueur(s) sélectionné(s).");
+	this->_mainBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
+	this->_inventoryBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
+	this->_scroll = sfg::ScrolledWindow::Create();
+
+	this->_scroll->SetScrollbarPolicy(sfg::ScrolledWindow::VERTICAL_AUTOMATIC | sfg::ScrolledWindow::HORIZONTAL_NEVER);
+	this->_scroll->AddWithViewport(this->_inventoryBox);
+
+	// Always remember to set the minimum size of a ScrolledWindow.
+	this->_scroll->SetRequisition(sf::Vector2f(280.f, 550.f));
+	this->_mainBox->Pack(this->_scroll, true, true);
+	this->_inventoryWindow->Add(this->_mainBox);
 	Singleton::getInstance()._desktop.Add(this->_inventoryWindow);
 }
 
-void InventoryWindow::createTabs(std::vector<Player *>&players)
+void InventoryWindow::createZones(std::vector<Player *>& players)
 {
-	this->_players = players;
-	this->_notebookfirst = sfg::Notebook::Create();
-	this->_inventoryWindow->Add(this->_notebookfirst);
-	//On crée un onglet pour chaque players
-	for (Player *u : this->_players)
+	for (Player *u : players)
 		createCompartment(u);
-}
-
-void InventoryWindow::chooseNumber(GameScreen *gameS)
-{
-	if (this->_numberWindow->IsLocallyVisible())
-		return;
-	this->_gameScreen = gameS;
-	std::cout << "choose Nummmmber " << std::endl;
-	this->_entry->SetText("");
-	this->_numberWindow->SetPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*Singleton::getInstance()._window)));
-	this->_numberWindow->Show();
 }
 
 void  InventoryWindow::addToInventory(Player *player, IEntity *entity)
@@ -89,90 +74,127 @@ void  InventoryWindow::addToInventory(Player *player, IEntity *entity)
 	}
 }
 
-void InventoryWindow::valideNumber()
-{
-	std::istringstream  ss(this->_entry->GetText());
-
-	//TODO : faire une vérif
-	ss >> this->_dropNbr;
-	//TODO : vider la case du bon nbr de ressources
-	s_action tmp = this->dropRessource();
-	if (tmp._compartment == NULL)
-		std::cout << "NULLLLLLLLLLLLLLLLLLLL dans la verif" << std::endl;
-	system("pause");
-	tmp._img->SetImage(this->_img);
-	tmp._compartment->delElement();
-	this->_gestionClick.clearLastCompartment();
-	this->_numberWindow->Show(false);
-	this->_gameScreen->validDrop(this->_dropNbr);
-}
-
-void InventoryWindow::onTextChange()
-{
-	//Il faudra vérifier que c'est bien des nombres, et pas un nombre au dessus du nombre de ressources
-}
-
-Compartment  *InventoryWindow::dropRessource()
-{
-	s_action tmp = this->_gestionClick.canDrop();
-	if (tmp._compartment != NULL)
-	{
-		//TODO ne pas faire ça si y'a plusieurs ressources
-		tmp._img->SetImage(this->_img);
-		//gerer affichage
-	}
-	return tmp._compartment;
-}
-
-void InventoryWindow::mouseLeftPress(int index)
-{
-	std::cout << "press : index : " << index << std::endl;
-}
-
-void InventoryWindow::mouseLeftRelease(int index)
-{
-	std::cout << "release : index " << index << std::endl;
-}
-
-const sf::Image&InventoryWindow::fillImage(Player *player, int index)
+void InventoryWindow::fillImage(Player *player, int index, sfg::ToggleButton::Ptr but)
 {
 	Compartment *compartment = player->getCompartment(index);
-	if (compartment == NULL)
-		return this->_img;
+	if (compartment != NULL)
+	{
+		but->SetImage(sfg::Image::Create(compartment->getImage()));
+	}
+}
+
+void	InventoryWindow::showBox(std::vector<Player *>&players)
+{
+	int compt = 0;
+	while (compt < players.size())
+	{
+		if (this->_tableBox[compt]->IsLocallyVisible() == true && players[compt]->getSelected() == false)
+		{
+			this->_inventoryBox->Remove(this->_tableBox[compt]);
+			this->_tableBox[compt]->Show(false);
+		}
+		else if (this->_tableBox[compt]->IsLocallyVisible() == false && players[compt]->getSelected() == true)
+		{
+			this->_inventoryBox->Pack(this->_tableBox[compt]);
+			this->_tableBox[compt]->Show(true);
+		}
+		++compt;
+	}
+	this->_scroll->Refresh();
+}
+
+void InventoryWindow::useClick()
+{
+	for (CustomToggleButton *u : this->_tableButtons)
+	{
+		if (u->_button->IsActive() == true)
+		{
+			std::list<IEntity *> list = u->getEntities();
+			int compt = this->_spinButton->GetValue();
+			while (compt > 0)
+			{
+				list.front()->doAction(u->getPlayer());
+				compt--;
+			}
+			compt = this->_spinButton->GetValue();
+			u->_button->SetActive(false);
+			this->_spinButton->SetValue(0);
+			this->_spinButton->SetRange(0, 0);
+			if (compt == u->getCompartment()->getSize())
+			{
+				u->getCompartment()->delAllElement();
+				u->_button->ClearImage();
+			}
+			else
+			{
+				while (compt > 0)
+				{
+					u->getCompartment()->delElement();
+					compt--;
+				}
+			}
+			break;
+		}
+	}
+}
+
+void InventoryWindow::mouseLeftPress(CustomToggleButton *but)
+{
+	if (but->_button->IsActive() == true && but->isEmpty() == true)
+	{
+	//	this->_spinButton->SetValue(0);
+		but->_button->SetActive(false);
+		return;
+	}
+	else if (but->_button->IsActive() == false)
+	{
+		this->_spinButton->SetValue(0);
+		this->_spinButton->SetRange(0, 0);
+
+	}
 	else
-		return compartment->getImage();
+	{
+		this->_spinButton->SetRange(0, but->getCompartment()->getSize());
+		this->_spinButton->SetValue(but->getCompartment()->getSize());
+	}
+	for (CustomToggleButton *u : this->_tableButtons)
+	{
+		if (u->_button->IsActive() == true && (but != u))
+		{
+			u->_button->SetActive(false);
+			return;
+		}
+	}
 }
 
 void InventoryWindow::createCompartment(Player *player)
 {
-	std::cout << "Yeah " << std::endl;
 	int compt = 0;
+	auto box = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
+
 	auto table = sfg::Table::Create();
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < 4; j++)
 		{
-			auto tmp = sfg::Image::Create();
-			this->_tableImages.push_back(tmp);
-			tmp->SetImage(fillImage(player, compt));
-			tmp->GetSignal(sfg::Widget::OnMouseLeftPress).Connect(std::bind(&GestionClick::leftPress, &this->_gestionClick, compt, player, tmp));
-			//	tmp->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&GestionClick::dump, &this->_gestionClick, compt, player));
-			//	tmp->GetSignal(sfg::Widget::OnMouseLeftRelease).Connect(std::bind(&GestionClick::leftRelease, &this->_gestionClick, compt, player, tmp));
-			table->Attach(tmp, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
+			CustomToggleButton *but = new CustomToggleButton(player, player->getCompartment(compt));
+			but->_button->SetRequisition(sf::Vector2f(180.f, 166.f));
+			but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::mouseLeftPress, this, but));
+			this->_tableButtons.push_back(but);
+			table->Attach(but->_button, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
 			++compt;
 		}
 	}
+	box->Pack(sfg::Label::Create(player->getName()));
+	box->Pack(table);
 	this->_tables.push_back(table);
-	//this->_notebookfirst->InsertPage(table, sfg::Label::Create("TAMRERE"));
-	this->_notebookfirst->InsertPage(table, sfg::Label::Create(player->getName()), this->_tables.size() - 1);
-	//this->_notebookfirst->Remove(table);
-	table->Show(true);
+	this->_tableBox.push_back(box);
+	this->_inventoryBox->PackEnd(box);
 }
 void InventoryWindow::init()
 {
 	//A mettre dans le singleton 
 	this->_img.loadFromFile("carre.png");
-	this->_test.loadFromFile("water.png");
 }
 
 void InventoryWindow::close()

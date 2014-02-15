@@ -64,33 +64,9 @@ void	GameScreen::checkQuit(sf::Event &e)
 void GameScreen::events(sf::Event &e)
 {
 	Singleton::getInstance()._desktop.HandleEvent(e);
-	checkDrop(e);
+	
 }
 
-//Ici on obtient la ressource sur laquelle le playeur a appuyé dans l'inventaire
-void GameScreen::checkDrop(sf::Event &e)
-{
-	if (e.type == sf::Event::MouseButtonReleased)
-	{
-		this->_dropCompartment = this->_inventory->dropRessource();
-		if (this->_dropCompartment != NULL)
-		{
-			std::cout << "DROP : " << this->_dropCompartment->getSize() << std::endl;
-			this->validDrop(1);
-			//En cours d'implémentation
-			//if (this->_dropCompartment->getSize() > 1)
-		}
-	}
-}
-
-void GameScreen::validDrop(int nbrDrop)
-{
-	//Fonction appelée lorsque qu'on a choisi le nbr de ressources qu'on voulait jeter de l'inventaire
-	//list contient mtn le bon nombre de ressources 
-	std::list<IEntity *> list = this->_dropCompartment->getElements(nbrDrop);
-	this->_dropCompartment->delAllElement();
-	this->_inventory->_gestionClick.reset();
-}
 
 void GameScreen::initialize(void)
 {
@@ -150,7 +126,7 @@ void GameScreen::initialize(void)
 	_loadingText = "Generating inventories";
 	this->_inventory = new InventoryWindow;
 	this->_inventory->init();
-	this->_inventory->createTabs(this->_players);
+	this->_inventory->createZones(this->_players);
 	this->_winRessource = new RessourcesWindow(this);
 
 	//initialisation de l'image du pointeur
@@ -165,7 +141,7 @@ std::vector<Player *> &GameScreen::getPlayers()
 
 void GameScreen::mouseLeftPress(int index)
 {
-	std::cout << "index du clique !" << std::endl;
+	
 }
 
 void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos) const
@@ -282,27 +258,8 @@ void GameScreen::draw()
 			(*it)->draw(NULL);
 		}
 
-
-		if (Singleton::getInstance().isLeftClicking)
-		{
-			sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-
-			sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
-
-			_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
-			_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
-
-			sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
-				mousePos.y - _posSelectedArea.y));
-			selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
-			selectionZone.setOutlineColor(sf::Color::White);
-			selectionZone.setOutlineThickness(2);
-			selectionZone.setPosition(_posSelectedArea.x,
-				_posSelectedArea.y);
-			Singleton::getInstance()._window->draw(selectionZone);
-
-		}
-
+		drawSelectionZone();
+		
 		/*
 		** Draw of the players informations
 		*/
@@ -314,72 +271,41 @@ void GameScreen::draw()
 				infosPos.x += 320;
 			}
 		}
-
-
-		this->_inventory->draw();
-		this->_winRessource->draw();
-
+	
 		this->_map->drawMiniMap(Singleton::getInstance()._window);
+		checkDrawInventory();
+		this->_inventory->update();
+		this->_inventory->draw();
 	}
 	Singleton::getInstance()._window->display();
 }
 
-void GameScreen::switchTabs()
+void	GameScreen::drawSelectionZone()
 {
-	int compt = 0;
-	bool select = false;
-	for (Player *u : this->_players)
+	if (Singleton::getInstance().isLeftClicking && this->_activeInventary == false)
 	{
-		if (u->getSelected() == true)
-		{
-			select = true;
-			break;
-		}
-	}
-	if (select == false)
-	{
-		this->_inventory->_inventoryWindow->Remove(this->_inventory->_notebookfirst);
-		this->_inventory->_notebookfirst->Show(false);
-		this->_inventory->_inventoryWindow->Add(this->_inventory->_emptyLabel);
-		this->_inventory->_emptyLabel->Show(true);
-		return;
-	}
-	this->_inventory->_inventoryWindow->Remove(this->_inventory->_emptyLabel);
-	this->_inventory->_emptyLabel->Show(false);
-	this->_inventory->_inventoryWindow->Add(this->_inventory->_notebookfirst);
-	this->_inventory->_notebookfirst->Show(true);
-	for (Player *u : this->_players)
-	{
-		if (u->getSelected() == true)
-		{
-			if (this->_inventory->_tables[compt]->IsGloballyVisible() == false)
-			{
-				this->_inventory->_notebookfirst->Remove(this->_inventory->_tables[compt]);
-				this->_inventory->_tables[compt]->Show(false);
-				this->_inventory->_notebookfirst->InsertPage(this->_inventory->_tables[compt], sfg::Label::Create(u->getName()), compt);
-				this->_inventory->_tables[compt]->Show(true);
-			}
-		}
-		else
-		{
-			if (this->_inventory->_tables[compt]->IsGloballyVisible() == true)
-			{
-				this->_inventory->_notebookfirst->Remove(this->_inventory->_tables[compt]);
-				this->_inventory->_tables[compt]->Show(false);
-			}
-		}
-		++compt;
+		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+
+		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
+
+		_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
+		_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+
+		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
+			mousePos.y - _posSelectedArea.y));
+		selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
+		selectionZone.setOutlineColor(sf::Color::White);
+		selectionZone.setOutlineThickness(2);
+		selectionZone.setPosition(_posSelectedArea.x,
+			_posSelectedArea.y);
+		Singleton::getInstance()._window->draw(selectionZone);
+
 	}
 }
 
-
-void GameScreen::update(void)
+void	GameScreen::updateSelectionZone()
 {
-
-
-	_physicEngine->updatePos(_players, _entities);
-
-	if (Singleton::getInstance().isLeftClicking)
+	if (Singleton::getInstance().isLeftClicking && this->_activeInventary == false)
 	{
 		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 
@@ -413,8 +339,16 @@ void GameScreen::update(void)
 				(*it)->setSelected(false);
 			}
 		}
-
 	}
+}
+
+void GameScreen::update(void)
+{
+
+
+	_physicEngine->updatePos(_players, _entities);
+
+	updateSelectionZone();
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
@@ -425,10 +359,6 @@ void GameScreen::update(void)
 		(*it2)->update(*_map);
 	}
 	_map->update();
-	checkDrawInventory();
-
-	this->_inventory->update();
-	this->_winRessource->update();
 	if (Singleton::getInstance().isEscapePressed)
 	{
 		_isRunning = false;
@@ -442,29 +372,10 @@ void		GameScreen::checkDrawInventory()
 	if (Singleton::getInstance().isKeyIPressed)
 	{
 		this->_activeInventary = !this->_activeInventary;
+		if (this->_activeInventary == true)
+			this->_inventory->showBox(this->_players);
 		this->_inventory->_inventoryWindow->Show(this->_activeInventary);
-		if (this->_activeInventary)
-			switchTabs();
-
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
-	}
-	if (Singleton::getInstance().isKey1Pressed)
-	{
-		static int test = 0;
-		this->_activeWinRessources = !this->_activeWinRessources;
-		if (this->_activeWinRessources == true)
-		{
-			std::cout << "TEST  : " << test << std::endl;
-			if (test == 0)
-				this->_winRessource->updateView(_one);
-			else if (test == 1)
-				this->_winRessource->updateView(_two);
-			else if (test == 2)
-				this->_winRessource->updateView(_tree);
-			++test;
-		}
-		this->_winRessource->Show(this->_activeWinRessources);
-		Singleton::getInstance().isKey1Pressed = !Singleton::getInstance().isKey1Pressed;
 	}
 }
 

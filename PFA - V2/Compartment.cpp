@@ -29,7 +29,6 @@ void Compartment::delAllElement()
 {
 	this->_elements.clear();
 	this->_numberElements = 0;
-	//l'image est setter par l'inventaire .. 
 }
 
 bool Compartment::delElement(IEntity *entity)

@@ -53,6 +53,8 @@ private:
 	void				updateObjectsPos();
 	bool				checkImpossibleCase() const;
 	void				checkEntitySelection();
+	void				drawSelectionZone();
+	void				updateSelectionZone();
 	PhysicEngine			*_physicEngine;
 	GestionClick			_gestionClick;
 	bool					_activeInventary;
