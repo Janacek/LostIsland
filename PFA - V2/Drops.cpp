@@ -55,6 +55,10 @@ void Drops::draw(sf::RenderTexture *tex)
 	tex->draw(tmp);
 }
 
+void Drops::addDrop(IEntity *drop)
+{
+	_drops.push_back(drop);
+}
 
 std::vector<IEntity *> &Drops::getDrops()
 {

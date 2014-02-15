@@ -30,6 +30,7 @@ public:
 	bool getIsAMovingEntity() const{ return false; }
 
 	std::vector<IEntity *>				&getDrops();
+	void								addDrop(IEntity *);
 
 	//sf::Rect & getCollisionBox(void);
 
