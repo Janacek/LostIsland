@@ -40,6 +40,7 @@
     <ClCompile Include="SourndManager.cpp" />
     <ClCompile Include="ShadersManager.cpp" />
     <ClCompile Include="Rock.cpp" />
+    <ClCompile Include="Drops.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="ShadersManager.h" />
     <ClInclude Include="Rock.h" />
+    <ClInclude Include="Drops.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />
