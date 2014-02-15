@@ -94,6 +94,7 @@ void GameScreen::validDrop(int nbrDrop)
 
 void GameScreen::initialize(void)
 {
+	std::ostringstream os;
 	_loaded = false;
 
 	_loadingText = "Initializing map";
@@ -136,10 +137,9 @@ void GameScreen::initialize(void)
 		++spawnPoint;
 		Player *p = new Player(pos, &_camera);
 		_map->setEntityMap(p, pos.x, pos.y);
-		if (i == 0)
-			p->setName("Player 1");
-		else
-			p->setName("Player 2");
+		os << (i + 1);
+		p->setName("Player " + os.str());
+		os.str("");
 		p->loadAnimation("zelda.png", 0.05f);
 		this->_players.push_back(p);
 
