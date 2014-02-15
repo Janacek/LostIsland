@@ -41,6 +41,7 @@
     <ClCompile Include="ShadersManager.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Drops.cpp" />
+    <ClCompile Include="CustomToggleButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -86,6 +87,7 @@
     <ClInclude Include="ShadersManager.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Drops.h" />
+    <ClInclude Include="CustomToggleButton.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />

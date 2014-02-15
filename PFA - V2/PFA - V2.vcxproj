@@ -100,6 +100,7 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Compartment.cpp" />
+    <ClCompile Include="CustomToggleButton.cpp" />
     <ClCompile Include="Drops.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Food.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="Chunk.h" />
     <ClInclude Include="Compartment.h" />
     <ClInclude Include="Coordinates.hpp" />
+    <ClInclude Include="CustomToggleButton.h" />
     <ClInclude Include="Drops.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="Food.h" />
