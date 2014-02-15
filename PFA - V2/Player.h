@@ -18,6 +18,8 @@ enum Direction
 	LEFT
 };
 
+
+
 class Player : public IEntity
 {
 public:
@@ -133,7 +135,7 @@ public:
 	//  PLAYER'S OBJECTIVE
 	//////////////////////////
 	IEntity						*_objective;
-
+	Type						_target;
 	/*
 	** Selection of the player.
 	*/
@@ -144,6 +146,7 @@ public:
 	bool						const getSelected() const;
 	bool const getIsPathFound() const { return _isPathFound; }
 	void setIsPathFound(bool n) { _isPathFound = n; }
+	void setTarget(Type );
 
 private:
 	float						_cursorTime;

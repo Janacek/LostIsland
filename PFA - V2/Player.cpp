@@ -9,6 +9,7 @@
 
 Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 {
+	_target = BADTYPE;
 	this->_name = "Player";
 	this->_sizeInventory = 0;
 	_rect.setSize(sf::Vector2f(32, 32));
@@ -36,7 +37,6 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_isSelected = false;
 	_path.clear();
 	_cursorTime = 0;
-
 	_objective = NULL;
 }
 
@@ -153,6 +153,12 @@ bool Player::delEntityInInventory(IEntity *entity)
 	}
 	return false;
 }
+
+void Player::setTarget(Type t)
+{
+	_target = t;
+}
+
 void Player::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
 {
 	if (front.first > floor(pos.x))

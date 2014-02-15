@@ -145,14 +145,14 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 			}
 			else
 			{
-
+				sf::Vector2i tmp_target = tmp_begin;
 				for (sf::Vector2f * vect : _pathFinding.findMeAdjacent(tmp_begin))
 				{
 					tmp_begin.x = static_cast<int>(vect->x);
 					tmp_begin.y = static_cast<int>(vect->y);
 					if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component == NULL)
 					{
-						// DO SOME SHIT HERE
+						//ent.setTarget(_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component->getType());
 						return (launchPf(tmp_begin, tmp_end, ent));
 					}
 
