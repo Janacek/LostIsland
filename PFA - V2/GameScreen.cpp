@@ -282,27 +282,8 @@ void GameScreen::draw()
 			(*it)->draw(NULL);
 		}
 
-
-		if (Singleton::getInstance().isLeftClicking)
-		{
-			sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-
-			sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
-
-			_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
-			_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
-
-			sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
-				mousePos.y - _posSelectedArea.y));
-			selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
-			selectionZone.setOutlineColor(sf::Color::White);
-			selectionZone.setOutlineThickness(2);
-			selectionZone.setPosition(_posSelectedArea.x,
-				_posSelectedArea.y);
-			Singleton::getInstance()._window->draw(selectionZone);
-
-		}
-
+		drawSelectionZone();
+		
 		/*
 		** Draw of the players informations
 		*/
@@ -322,6 +303,29 @@ void GameScreen::draw()
 		this->_map->drawMiniMap(Singleton::getInstance()._window);
 	}
 	Singleton::getInstance()._window->display();
+}
+
+void	GameScreen::drawSelectionZone()
+{
+	if (Singleton::getInstance().isLeftClicking && this->_activeInventary == false)
+	{
+		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+
+		sf::Vector2i _posSelectedArea = Singleton::getInstance().posLeftClickPressed;
+
+		_posSelectedArea.x -= Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL;
+		_posSelectedArea.y -= Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL;
+
+		sf::RectangleShape selectionZone(sf::Vector2f(mousePos.x - _posSelectedArea.x,
+			mousePos.y - _posSelectedArea.y));
+		selectionZone.setFillColor(sf::Color(255, 255, 255, 100));
+		selectionZone.setOutlineColor(sf::Color::White);
+		selectionZone.setOutlineThickness(2);
+		selectionZone.setPosition(_posSelectedArea.x,
+			_posSelectedArea.y);
+		Singleton::getInstance()._window->draw(selectionZone);
+
+	}
 }
 
 void GameScreen::switchTabs()
@@ -372,14 +376,9 @@ void GameScreen::switchTabs()
 	}
 }
 
-
-void GameScreen::update(void)
+void	GameScreen::updateSelectionZone()
 {
-
-
-	_physicEngine->updatePos(_players, _entities);
-
-	if (Singleton::getInstance().isLeftClicking)
+	if (Singleton::getInstance().isLeftClicking && this->_activeInventary == false)
 	{
 		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 
@@ -413,8 +412,16 @@ void GameScreen::update(void)
 				(*it)->setSelected(false);
 			}
 		}
-
 	}
+}
+
+void GameScreen::update(void)
+{
+
+
+	_physicEngine->updatePos(_players, _entities);
+
+	updateSelectionZone();
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
