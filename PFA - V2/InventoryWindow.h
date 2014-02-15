@@ -42,6 +42,7 @@ public:
 	std::vector<sfg::Table::Ptr> _tables;
 	std::vector<CustomToggleButton *> _tableButtons;
 	sfg::Label::Ptr			_emptyLabel;
+	sfg::SpinButton::Ptr	_spinButton;
 	sfg::Box::Ptr			_toolbar;
 	sfg::Box::Ptr			_mainBox;
 	sfg::ScrolledWindow::Ptr	_scroll;
