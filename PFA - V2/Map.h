@@ -23,6 +23,7 @@
 #include					"ForestTree.h"
 #include					"Bush.h"
 #include					"PalmTree.h"
+#include					"Rock.h"
 #include <algorithm>
 
 /*
@@ -66,6 +67,7 @@ public:
 	int						countAdjacentChunkType(int, int, Cell::Type);
 
 	void					generateTrees();
+	void					generateRocks();
 
 	// Draw the map.
 	void					draw(sf::RenderWindow *);

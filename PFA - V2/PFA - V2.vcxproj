@@ -123,6 +123,7 @@
     <ClCompile Include="PhysicEngine.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RessourcesWindow.cpp" />
+    <ClCompile Include="Rock.cpp" />
     <ClCompile Include="ShadersManager.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="SourndManager.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="PhysicEngine.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RessourcesWindow.h" />
+    <ClInclude Include="Rock.h" />
     <ClInclude Include="ShadersManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundManager.h" />

@@ -293,6 +293,9 @@ void						Map::generate()
 	_loading = "Growing trees";
 	generateTrees();
 
+	_loading = "Adding rocks";
+	generateRocks();
+
 	setTextures();
 
 	_loading = "Adding a mini map";
@@ -585,6 +588,23 @@ void						Map::draw(sf::RenderWindow *win)
 	time += 0.025;
 	Singleton::getInstance()._window->draw(sf::Sprite(_waterTexture->getTexture()), ShadersManager::getInstance().get(FLAG));*/
 	Singleton::getInstance()._window->draw(sf::Sprite(_mapTexture->getTexture()));
+}
+
+void						Map::generateRocks()
+{
+	for (int i = 0; i < 45;)
+	{
+		int x = rand() % (_size.x * Chunk::NB_CELLS);
+		int y = rand() % (_size.y  * Chunk::NB_CELLS);
+		if ((_cellMap[x][y]._cellType == Cell::GRASS || _cellMap[x][y]._cellType == Cell::SAVANNA)
+			&& _entitiesMap[x][y]._component == NULL)
+		{
+			_entitiesMap[x][y]._component = new Rock();
+			_entitiesMap[x][y]._component->setPosition(sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
+
+			++i;
+		}
+	}
 }
 
 void						Map::generateTrees()

@@ -30,6 +30,7 @@ void ImageSingleton::start()
 	this->load(BUNNY, "./bunny.png");
 	this->load(PLAYER_INFOS_BACKGROUND, "woodenPlanks.png");
 	this->load(SELECTED_ICON, "./selected.png");
+	this->load(ROCK, "./rock.png");
 }
 
 void ImageSingleton::load(Type id, const std::string& filename)
