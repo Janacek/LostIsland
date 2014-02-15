@@ -58,6 +58,6 @@ void Game::launch(void)
 		}
 		
 		_gameEngine->update();
-		
+		sf::sleep(sf::Time(sf::microseconds(200)));
 	}
 }

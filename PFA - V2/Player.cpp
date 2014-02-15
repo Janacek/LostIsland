@@ -371,7 +371,7 @@ void Player::doAction(IEntity* other)
 
 void Player::getAction(IEntity* other)
 {
-	this->_damages -= other->getDamage();
+	this->_life -= other->getDamage();
 }
 
 
