@@ -521,6 +521,8 @@ void GameScreen::updateStatistics(sf::Time &elapsedTime)
 		oss << _statisticsNumFrames;
 		oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
 
+		std::cout << oss2.str() << std::endl;
+
 		_statisticsUpdateTime -= sf::seconds(1.0f);
 		_statisticsNumFrames = 0;
 	}

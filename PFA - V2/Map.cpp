@@ -138,8 +138,12 @@ void						Map::generateCenterIsland(int ratio)
 	int stopY = (int)(startY + (((float)_size.x * (float)_groundRatio) / (float)100));
 
 	for (int i = startY; i <= stopY; ++i)
-	for (int j = startX; j <= stopX; ++j)
-		_map[i][j].setCell(Cell::GRASS);
+	{
+		for (int j = startX; j <= stopX; ++j)
+		{
+			_map[i][j].setCell(Cell::GRASS);
+		}
+	}
 }
 
 void						Map::probabilities(int x, int y)
@@ -288,6 +292,8 @@ void						Map::generate()
 
 	_loading = "Growing trees";
 	generateTrees();
+
+	setTextures();
 
 	_loading = "Adding a mini map";
 	createMiniMap();
@@ -510,10 +516,10 @@ void						Map::draw(sf::RenderWindow *win)
 {
 	static float time = 0;
 
-	//_mapTexture->clear();
+	//_mapTexture->clear(sf::Color::Transparent);
 	//_waterTexture->clear(sf::Color::Black);
-	sf::RectangleShape tmp(sf::Vector2f(static_cast<float>(Chunk::SIZE_OF_CELL),
-		static_cast<float>(Chunk::SIZE_OF_CELL)));
+	/*sf::RectangleShape tmp(sf::Vector2f(static_cast<float>(Chunk::SIZE_OF_CELL),
+		static_cast<float>(Chunk::SIZE_OF_CELL)));*/
 	//sf::RectangleShape trp(sf::Vector2f(static_cast<float>(Chunk::SIZE_OF_CELL),
 	//	static_cast<float>(Chunk::SIZE_OF_CELL)));
 
@@ -523,22 +529,28 @@ void						Map::draw(sf::RenderWindow *win)
 	{
 		for (int j = static_cast<int>(_camera->_position.x); j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + 1 + _camera->_position.x; ++j)
 		{
-			tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
-			tmp.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
+			//tmp.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
+			/*tmp.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
+				(i - _camera->_position.y) * Chunk::SIZE_OF_CELL);*/
+
+			_cellMap[i][j]._shape.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
 				(i - _camera->_position.y) * Chunk::SIZE_OF_CELL);
+
+			//_cellMap[i][j]._shape.setScale(sf::Vector2f(1.2f, 1.2f));
+
 			//if (_cellMap[i][j]._cellType == Cell::OCEAN) {
 			//	//ShadersManager::getInstance().get(FLAG)->setParameter("texture", sf::Shader::CurrentTexture);
 			//	//ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", time);
 			//	//ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 5, 0);
 
 			//	//time += 0.000025;
-			//	_waterTexture->draw(tmp);
+			//	_waterTexture->draw(_cellMap[i][j]._shape);
 
 
 
 			//}
 			//else
-				_mapTexture->draw(tmp);
+			_mapTexture->draw(_cellMap[i][j]._shape);
 
 			sf::Vector2f savePos;
 			if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getIsAMovingEntity() == false)
@@ -563,15 +575,15 @@ void						Map::draw(sf::RenderWindow *win)
 			}
 		}
 	}
-//	_waterTexture->display();
+	//	_waterTexture->display();
 	_mapTexture->display();
 
-	//ShadersManager::getInstance().get(FLAG)->setParameter("texture", sf::Shader::CurrentTexture);
-	//ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", time);
-	//ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 3, 3);
+	/*ShadersManager::getInstance().get(FLAG)->setParameter("texture", sf::Shader::CurrentTexture);
+	ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", time);
+	ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 7, 0);
 
-	//time += 0.025;
-	//Singleton::getInstance()._window->draw(sf::Sprite(_waterTexture->getTexture()), ShadersManager::getInstance().get(FLAG));
+	time += 0.025;
+	Singleton::getInstance()._window->draw(sf::Sprite(_waterTexture->getTexture()), ShadersManager::getInstance().get(FLAG));*/
 	Singleton::getInstance()._window->draw(sf::Sprite(_mapTexture->getTexture()));
 }
 
@@ -638,6 +650,17 @@ void						Map::generateTrees()
 	}
 }
 
+void						Map::setTextures()
+{
+	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
+	{
+		for (int j = 0; j < _size.x * Chunk::NB_CELLS; ++j)
+		{
+			_cellMap[i][j]._shape.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
+		}
+	}
+}
+
 Chunk						**Map::getMap() const
 {
 	return _map;
@@ -665,4 +688,13 @@ sf::Vector2i				Map::getSize() const
 void						Map::update()
 {
 	_camera->moveCamera(_size);
+
+	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
+	{
+		for (int j = 0; j < _size.x * Chunk::NB_CELLS; ++j)
+		{
+			if (_entitiesMap[i][j]._component)
+				_entitiesMap[i][j]._component->update(*this);
+		}
+	}
 }

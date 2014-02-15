@@ -25,3 +25,18 @@ void PalmTree::draw(sf::RenderTexture *tex)
 	tmp.setPosition(_position.x, _position.y);
 	tex->draw(tmp);
 }
+
+void PalmTree::doAction(IEntity *)
+{
+	// Do nothing
+}
+
+void PalmTree::getAction(IEntity *other)
+{
+	if (this->_damages < other->getDamage())
+		this->_damages = 0;
+	if (this->_damages == 0)
+	{
+		//On doit faire apparaitre de la Wood
+	}
+}

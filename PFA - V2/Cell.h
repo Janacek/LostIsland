@@ -29,4 +29,5 @@ public:
 	
 	// Cell type.
 	Type					_cellType;
+	sf::RectangleShape		_shape;
 };

@@ -61,6 +61,8 @@ public:
 	void					changeWaterToWalkableWater(int, int);
 	const int				NBR_WALKABLE_WATER = 3;
 
+	void					setTextures();
+
 	int						countAdjacentChunkType(int, int, Cell::Type);
 
 	void					generateTrees();

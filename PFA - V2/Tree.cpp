@@ -8,17 +8,11 @@ void Tree::doAction(IEntity* other)
 
 void Tree::getAction(IEntity* other)
 {
-	if (this->_damages < other->getDamage())
-		this->_damages = 0;
-	if (this->_damages == 0)
-	{
-		//On doit faire apparaitre de la Wood
-	}
+
 }
 
 void Tree::update(Map &map)
 {
-	
 }
 
 void Tree::loadAnimation(std::string const & string_anim, float speed)

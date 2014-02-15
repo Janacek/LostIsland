@@ -12,12 +12,12 @@
 class Tree : public IEntity
 {
 public:
-	void doAction(IEntity* other);
-	void getAction(IEntity* other);
+	virtual void doAction(IEntity* other);
+	virtual void getAction(IEntity* other);
 	void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);
-	void update(Map &);
+	virtual void update(Map &);
 	Type getType() const;
 	int getDamage(void) const;
 	bool getIsMoving() const { return false; }

@@ -26,3 +26,18 @@ void ForestTree::draw(sf::RenderTexture *tex)
 	tmp.setPosition(_position.x, _position.y);
 	tex->draw(tmp);
 }
+
+void ForestTree::doAction(IEntity *other)
+{
+	// Do nothing
+}
+
+void ForestTree::getAction(IEntity *other)
+{
+	if (this->_damages < other->getDamage())
+		this->_damages = 0;
+	if (this->_damages == 0)
+	{
+		//On doit faire apparaitre de la Wood
+	}
+}
