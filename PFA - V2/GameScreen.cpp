@@ -319,6 +319,9 @@ void	GameScreen::updateSelectionZone()
 		selectionZone.setPosition(static_cast<float>(_posSelectedArea.x),
 			static_cast<float>(_posSelectedArea.y));
 
+		if (selectionZone.getSize().x == 0 && selectionZone.getSize().y == 0) {
+			selectionZone.setSize(sf::Vector2f(1, 1));
+		}
 
 		for (auto it = _players.begin(); it != _players.end(); ++it)
 		{
