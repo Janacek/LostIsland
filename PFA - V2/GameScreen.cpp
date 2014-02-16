@@ -272,7 +272,7 @@ void GameScreen::draw()
 			}
 		}
 	
-		this->_map->drawMiniMap(Singleton::getInstance()._window);
+		this->_map->drawMiniMap(Singleton::getInstance()._window, _players);
 		checkDrawInventory();
 		this->_inventory->update();
 		this->_inventory->draw();
@@ -334,7 +334,7 @@ void	GameScreen::updateSelectionZone()
 			{
 				(*it)->setSelected(true);
 			}
-			else
+			else if (!Singleton::getInstance().isShiftPressed)
 			{
 				(*it)->setSelected(false);
 			}

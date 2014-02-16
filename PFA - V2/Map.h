@@ -24,6 +24,7 @@
 #include					"Bush.h"
 #include					"PalmTree.h"
 #include					"Rock.h"
+#include					"Player.h"
 #include <algorithm>
 
 /*
@@ -132,7 +133,7 @@ private:
 
 public:
 	void					createMiniMap();
-	void					drawMiniMap(sf::RenderWindow *);
+	void					drawMiniMap(sf::RenderWindow *, std::vector<Player *> &);
 
 	std::vector<sf::Vector2f>		_spawnPoints;
 
