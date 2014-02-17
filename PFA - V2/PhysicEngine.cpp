@@ -142,6 +142,7 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 				tmp_begin.y = static_cast<int>(tmp_lerp_begin.y);
 				ent.addToPathToGo(0.01f);
 				ent.setIsPathFound(false);
+
 			}
 			else
 			{
@@ -152,7 +153,7 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 					tmp_begin.y = static_cast<int>(vect->y);
 					if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component == NULL)
 					{
-						//ent.setTarget(_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component->getType());
+						ent.setTarget(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getType());
 						return (launchPf(tmp_begin, tmp_end, ent));
 					}
 
@@ -177,6 +178,7 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 		}
 		else
 		{
+			ent.setTarget(Type::BADTYPE);
 			return (launchPf(tmp_begin, tmp_end, ent));
 			
 		}

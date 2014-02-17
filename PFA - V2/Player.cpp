@@ -177,6 +177,15 @@ void Player::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
 	}
 }
 
+void Player::doActionOnEntity()
+{
+	if (_target == TREE)
+		std::cout << "ARBRE ARBRE ARBRE " << std::endl;
+	if (_target == ROCK)
+		std::cout << "CAILLOUX CAILLOUX" << std::endl;
+
+}
+
 void Player::moveToNextWP()
 {
 	double dt = 0;
@@ -215,6 +224,7 @@ void Player::moveToNextWP()
 
 	}
 	else {
+		doActionOnEntity();
 		_anim->pause();
 		_isMoving = false;
 		_hasAPath = false;
@@ -344,6 +354,7 @@ void Player::update(Map & map)
 	{
 		// You're supposedly dead here.
 	}
+	
 	moveToNextWP();
 
 }

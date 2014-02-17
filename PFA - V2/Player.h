@@ -141,6 +141,7 @@ public:
 	*/
 	bool						_isSelected;
 public:
+	void						doActionOnEntity();
 	void						changeMapEntity(Map&);
 	void						setSelected(bool const);
 	bool						const getSelected() const;
