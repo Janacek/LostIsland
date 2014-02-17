@@ -42,6 +42,7 @@
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Drops.cpp" />
     <ClCompile Include="CustomToggleButton.cpp" />
+    <ClCompile Include="Crafting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -88,6 +89,7 @@
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Drops.h" />
     <ClInclude Include="CustomToggleButton.h" />
+    <ClInclude Include="Crafting.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />

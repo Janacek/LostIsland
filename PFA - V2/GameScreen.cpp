@@ -129,6 +129,8 @@ void GameScreen::initialize(void)
 	this->_inventory->createZones(this->_players);
 	this->_winRessource = new RessourcesWindow(this);
 
+	_loadingText = "Generating Crafting Window";
+	this->_crafting = new Crafting;
 	//initialisation de l'image du pointeur
 	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 	_loaded = true;
@@ -378,6 +380,7 @@ void		GameScreen::checkDrawInventory()
 		if (this->_activeInventary == true)
 			this->_inventory->showBox(this->_players);
 		this->_inventory->_inventoryWindow->Show(this->_activeInventary);
+		this->_crafting->Show(this->_activeInventary);
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
 }

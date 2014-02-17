@@ -44,7 +44,7 @@ void InventoryWindow::createWindow()
 	this->_inventoryWindow = sfg::Window::Create(sfg::Window::Style::TITLEBAR | sfg::Window::Style::BACKGROUND);
 	this->_inventoryWindow->Show(false);
 	this->_inventoryWindow->SetTitle("Inventory");
-	this->_inventoryWindow->SetPosition(sf::Vector2f(150, 100));
+	this->_inventoryWindow->SetPosition(sf::Vector2f(150.f, 100.f));
 	this->_emptyLabel = sfg::Label::Create("Pas de joueur(s) sélectionné(s).");
 	this->_mainBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
 	this->_inventoryBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
