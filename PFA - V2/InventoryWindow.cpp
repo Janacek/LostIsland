@@ -10,14 +10,21 @@ InventoryWindow::InventoryWindow()
 	createToolbar();
 	this->_gameScreen = NULL;
 	this->_selectedRessource = NULL;
+	_isInInventoryScroll = false;
+	_isInSpinButton = false;
 }
 
 void InventoryWindow::createToolbar()
 {
-	this->_spinButton = sfg::SpinButton::Create(-2.f, 18.f, 1.f);
+	this->_spinButton = sfg::SpinButton::Create(0.f, 18.f, 1.f);
 	this->_spinButton->SetValue(0);
 	this->_spinButton->SetRange(0, 0);
+	this->_spinButton->SetId("_spinButton");
+	this->_spinButton->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&InventoryWindow::mouseEnter, this, this->_spinButton->GetId()));
+	this->_spinButton->GetSignal(sfg::Widget::OnMouseLeave).Connect(std::bind(&InventoryWindow::mouseLeave, this, this->_spinButton->GetId()));
+
 	this->_toolbar = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL);
+	this->_toolbar->SetRequisition(sf::Vector2f(100.f, 50.f));
 	auto useButton = sfg::Button::Create("Use");
 	useButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::useClick, this));
 	auto dropButton = sfg::Button::Create("Drop");
@@ -41,10 +48,14 @@ void InventoryWindow::createWindow()
 	this->_emptyLabel = sfg::Label::Create("Pas de joueur(s) sélectionné(s).");
 	this->_mainBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
 	this->_inventoryBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
+	
 	this->_scroll = sfg::ScrolledWindow::Create();
 
-	this->_scroll->SetScrollbarPolicy(sfg::ScrolledWindow::VERTICAL_AUTOMATIC | sfg::ScrolledWindow::HORIZONTAL_NEVER);
+	this->_scroll->SetScrollbarPolicy(sfg::ScrolledWindow::VERTICAL_ALWAYS | sfg::ScrolledWindow::HORIZONTAL_NEVER);
 	this->_scroll->AddWithViewport(this->_inventoryBox);
+	this->_scroll->SetId("_inventoryScroll");
+	this->_scroll->GetSignal(sfg::Widget::OnMouseEnter).Connect(std::bind(&InventoryWindow::mouseEnter, this, this->_scroll->GetId()));
+	this->_scroll->GetSignal(sfg::Widget::OnMouseLeave).Connect(std::bind(&InventoryWindow::mouseLeave, this, this->_scroll->GetId()));
 
 	// Always remember to set the minimum size of a ScrolledWindow.
 	this->_scroll->SetRequisition(sf::Vector2f(280.f, 550.f));
@@ -52,6 +63,23 @@ void InventoryWindow::createWindow()
 	this->_inventoryWindow->Add(this->_mainBox);
 	Singleton::getInstance()._desktop.Add(this->_inventoryWindow);
 }
+
+void InventoryWindow::mouseEnter(std::string const&id)
+{
+	if (id == "_inventoryScroll")
+		this->_isInInventoryScroll = true;
+	else if (id == "_spinButton")
+		this->_isInSpinButton = true;
+}
+
+void InventoryWindow::mouseLeave(std::string const&id)
+{
+	if (id == "_inventoryScroll")
+		this->_isInInventoryScroll = false;
+	else if (id == "_spinButton")
+		this->_isInSpinButton = false;
+}
+
 
 void InventoryWindow::createZones(std::vector<Player *>& players)
 {
@@ -201,9 +229,27 @@ void InventoryWindow::close()
 {
 	this->_inventoryWindow->Show(false);
 }
+ 
+void InventoryWindow::checkScrollEvent()
+{
+	if (this->_isInInventoryScroll == true && Singleton::getInstance().deltaMouseWeel != 0)
+	{
+		if (Singleton::getInstance().deltaMouseWeel > 0)
+			this->_scroll->GetVerticalAdjustment()->SetValue(this->_scroll->GetVerticalAdjustment()->GetValue() - 60);
+		else
+			this->_scroll->GetVerticalAdjustment()->SetValue(this->_scroll->GetVerticalAdjustment()->GetValue() + 60);
+	}
+	else if (this->_isInSpinButton == true && Singleton::getInstance().deltaMouseWeel != 0)
+	{
+		int value = this->_spinButton->GetValue();
+		this->_spinButton->SetValue(value + Singleton::getInstance().deltaMouseWeel);
+	}
+	Singleton::getInstance().deltaMouseWeel = 0;
+}
 
 void InventoryWindow::update()
 {
+	checkScrollEvent();
 	Singleton::getInstance()._desktop.Update(0.1f);
 }
 
