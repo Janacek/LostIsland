@@ -502,7 +502,9 @@ void						Map::drawMiniMap(sf::RenderWindow *win, std::vector<Player *> &players
 		sf::RectangleShape tmp(sf::Vector2f(
 			static_cast<float>(3 * rapport.x),
 			static_cast<float>(3 * rapport.y)));
-		tmp.setFillColor((*it)->_isSelected ? sf::Color::Red : sf::Color::Blue);
+		tmp.setFillColor(sf::Color::Red);
+		tmp.setOutlineColor(sf::Color::Black);
+		tmp.setOutlineThickness(1.f);
 		tmp.setPosition((*it)->getPosition().x * rapport.x, (*it)->getPosition().y * rapport.y);
 		win->draw(tmp);
 	}
