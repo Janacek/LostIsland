@@ -129,6 +129,8 @@ void GameScreen::initialize(void)
 	this->_inventory->createZones(this->_players);
 	this->_winRessource = new RessourcesWindow(this);
 
+	_loadingText = "Generating Crafting Window";
+	this->_crafting = new Crafting;
 	//initialisation de l'image du pointeur
 	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 	_loaded = true;
@@ -272,7 +274,7 @@ void GameScreen::draw()
 			}
 		}
 	
-		this->_map->drawMiniMap(Singleton::getInstance()._window);
+		this->_map->drawMiniMap(Singleton::getInstance()._window, _players);
 		checkDrawInventory();
 		this->_inventory->update();
 		this->_inventory->draw();
@@ -319,6 +321,9 @@ void	GameScreen::updateSelectionZone()
 		selectionZone.setPosition(static_cast<float>(_posSelectedArea.x),
 			static_cast<float>(_posSelectedArea.y));
 
+		if (selectionZone.getSize().x == 0 && selectionZone.getSize().y == 0) {
+			selectionZone.setSize(sf::Vector2f(1, 1));
+		}
 
 		for (auto it = _players.begin(); it != _players.end(); ++it)
 		{
@@ -334,7 +339,7 @@ void	GameScreen::updateSelectionZone()
 			{
 				(*it)->setSelected(true);
 			}
-			else
+			else if (!Singleton::getInstance().isShiftPressed)
 			{
 				(*it)->setSelected(false);
 			}
@@ -375,6 +380,7 @@ void		GameScreen::checkDrawInventory()
 		if (this->_activeInventary == true)
 			this->_inventory->showBox(this->_players);
 		this->_inventory->_inventoryWindow->Show(this->_activeInventary);
+		this->_crafting->Show(this->_activeInventary);
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
 }

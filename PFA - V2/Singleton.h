@@ -14,6 +14,7 @@ public:
 	
 	sfg::SFGUI		_sfgui;
 
+	int deltaMouseWeel;
 	bool isEscapePressed;
 	bool isLeftClicking;
 	bool isRightClicking;
@@ -26,6 +27,7 @@ public:
 	bool isKey2Pressed;
 	bool isKey3Pressed;
 	bool isKey4Pressed;
+	bool isShiftPressed;
 	
 	sf::Vector2i posLeftClickPressed;
 	sf::Vector2i posLeftClickReleased;

@@ -34,8 +34,14 @@ public:
 	void valideNumber();
 	void useClick();
 	void onTextChange();
+	void checkScrollEvent();
+	void mouseEnter(std::string const&);
+	void mouseLeave(std::string const&);
+
 
 	//attributs
+	bool				_isInInventoryScroll;
+	bool				_isInSpinButton;
 	std::vector<Player *> _players;
 	std::vector<sfg::Box::Ptr>	_tableBox;
 	std::vector<sfg::Image::Ptr> _tableImages;
@@ -46,6 +52,7 @@ public:
 	sfg::Box::Ptr			_toolbar;
 	sfg::Box::Ptr			_mainBox;
 	sfg::ScrolledWindow::Ptr	_scroll;
+	sfg::Adjustment::Ptr		_adjustment;
 	sfg::Box::Ptr			_inventoryBox;
 	GestionClick		_gestionClick;
 	sf::Image			_img;

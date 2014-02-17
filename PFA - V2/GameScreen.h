@@ -8,6 +8,7 @@
 #include "Bunny.h"
 
 #include "InventoryWindow.h"
+#include "Crafting.h"
 #include "RessourcesWindow.h"
 #include "Map.h"
 #include "GestionClick.h"
@@ -40,6 +41,7 @@ public:
 	InventoryWindow			*_inventory; //Oups
 protected:
 private:
+	Crafting			*_crafting;
 	Camera				_camera;
 	void				updateStatistics(sf::Time &elapsedTime);
 	void				checkDrop(sf::Event &e);

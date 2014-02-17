@@ -476,7 +476,7 @@ void						Map::createMiniMap()
 	_miniMapT->display();
 }
 
-void						Map::drawMiniMap(sf::RenderWindow *win)
+void						Map::drawMiniMap(sf::RenderWindow *win, std::vector<Player *> &players)
 {
 	sf::Vector2f			rapport((_size.x * Chunk::NB_CELLS) / _sizeOfMiniMap,
 		(_size.y * Chunk::NB_CELLS) / _sizeOfMiniMap);
@@ -495,6 +495,17 @@ void						Map::drawMiniMap(sf::RenderWindow *win)
 		tmp.setOutlineThickness(2);
 		tmp.setOutlineColor(sf::Color::Black);
 		tmp.setPosition(_camera->_position.x * rapport.x, _camera->_position.y * rapport.y);
+		win->draw(tmp);
+	}
+
+	for (auto it = players.begin(); it != players.end(); ++it) {
+		sf::RectangleShape tmp(sf::Vector2f(
+			static_cast<float>(3 * rapport.x),
+			static_cast<float>(3 * rapport.y)));
+		tmp.setFillColor(sf::Color::Red);
+		tmp.setOutlineColor(sf::Color::Black);
+		tmp.setOutlineThickness(1.f);
+		tmp.setPosition((*it)->getPosition().x * rapport.x, (*it)->getPosition().y * rapport.y);
 		win->draw(tmp);
 	}
 

@@ -51,6 +51,10 @@ void GameEngine::update()
 			case sf::Event::KeyReleased:
 				_controler.handlePlayerInput(event.key.code, false);
 				break;
+
+			case sf::Event::MouseWheelMoved:
+				Singleton::getInstance().deltaMouseWeel = event.mouseWheel.delta;
+				break;
 			case sf::Event::Closed:
 				Singleton::getInstance()._window->close();
 				_isRunning = false;
