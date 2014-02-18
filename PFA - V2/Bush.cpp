@@ -68,5 +68,7 @@ void Bush::doAction(IEntity *other)
 
 void Bush::getAction(IEntity *other)
 {
-	// pick fruits
+	_grown = false;
+	_growthTime = 0.f;
+	// GIVE FOOD TO THE OTHER ENTITY
 }

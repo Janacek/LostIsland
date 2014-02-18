@@ -2,6 +2,7 @@
 #include "Singleton.h"
 #include "ImageSingleton.h"
 #include "Map.h"
+#include "MapEnvironment.h"
 
 void ForestTree::Animate(std::string const &)
 {
@@ -13,7 +14,11 @@ void ForestTree::draw(sf::RenderTexture *tex, sf::Shader &shader)
 	int posX = static_cast<int>(_position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL);
 	int posY = static_cast<int>(_position.y - Singleton::getInstance()._window->getSize().y  * Chunk::SIZE_OF_CELL - 20);
 
-	sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
+	sf::Sprite tmp;
+	if (!_isCut)
+		tmp.setTexture((*ImageSingleton::getInstance().get(TREE)));
+	else
+		tmp.setTexture((*ImageSingleton::getInstance().get(CUT_TREE)));
 	tmp.setPosition(_position.x, _position.y);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 
@@ -25,16 +30,21 @@ void ForestTree::draw(sf::RenderTexture *tex)
 	int posX = static_cast<int>(_position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL);
 	int posY = static_cast<int>(_position.y - Singleton::getInstance()._window->getSize().y  * Chunk::SIZE_OF_CELL - 20);
 
-	sf::Sprite tmp((*ImageSingleton::getInstance().get(TREE)));
+	sf::Sprite tmp;
+	if (!_isCut)
+		tmp.setTexture((*ImageSingleton::getInstance().get(TREE)));
+	else
+		tmp.setTexture((*ImageSingleton::getInstance().get(CUT_TREE)));
 	tmp.setPosition(_position.x, _position.y);
 	tex->draw(tmp);
 }
 
 void ForestTree::update(Map &map)
 {
-	if (_duration <= 0)
+	if (_duration <= 0 && !_isCut)
 	{
-		//map.getEntitiesMap[_position.x][_position.y] = NULL;
+		_isCut = true;
+		// ICI ON DROP DU BOIS
 	}
 }
 

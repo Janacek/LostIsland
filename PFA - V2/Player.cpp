@@ -184,7 +184,13 @@ void Player::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
 void Player::doActionOnEntity()
 {
 	if (_objective)
-		doAction(_objective);
+	{
+		if (_actionClock >= 0.5)
+		{
+			doAction(_objective);
+			_actionClock = 0;
+		}
+	}
 }
 
 void Player::moveToNextWP()
@@ -329,6 +335,7 @@ void Player::update(Map & map)
 
 	_hungerClock += dt;
 	_thirstClock += dt;
+	_actionClock += dt;
 	if (_hungerClock > HUNGER_CLOCK)
 	{
 		_hungerClock = 0.f;

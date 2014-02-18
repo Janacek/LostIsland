@@ -42,4 +42,5 @@ protected:
 	int				_damages;
 	int				_duration;
 	sf::Vector2f	_position;
+	bool			_isCut;
 };

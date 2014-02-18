@@ -126,6 +126,7 @@ public:
 	double						_hungerClock;
 	double						_thirstClock;
 	double						_lifeClock;
+	double						_actionClock;
 	double						_oldDt;
 
 	//////////////////////////

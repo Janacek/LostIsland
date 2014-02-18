@@ -690,13 +690,25 @@ void						Map::generateTrees()
 	}
 }
 
+void						Map::checkWaterAroundSand(int y, int x)
+{
+	std::cout << "y : " << _cellMap[y - 1][x - 1]._cellType << std::endl;
+	if (_cellMap[y - 1][x - 1]._cellType == Cell::WALKABLE_WATER)
+		_cellMap[y][x]._shape.setTexture(ImageSingleton::getInstance().get(SAND_WATER_UP_LEFT));
+	else
+		_cellMap[y][x]._shape.setTexture(ImageSingleton::getInstance().get(SABLE));
+}
+
 void						Map::setTextures()
 {
 	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
 	{
 		for (int j = 0; j < _size.x * Chunk::NB_CELLS; ++j)
 		{
-			_cellMap[i][j]._shape.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
+			if (_cellMap[i][j]._cellType == Cell::SAND)
+				checkWaterAroundSand(i, j);
+			else
+				_cellMap[i][j]._shape.setTexture(_typeToTexture[_cellMap[i][j]._cellType]);
 		}
 	}
 }
@@ -711,7 +723,7 @@ Cell						**Map::getCellMap() const
 	return _cellMap;
 }
 
-MapEnvironment			**Map::getEntitiesMap() const
+MapEnvironment			**Map::getEntitiesMap()
 {
 	return _entitiesMap;
 }

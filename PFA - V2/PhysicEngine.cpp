@@ -154,8 +154,12 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 					tmp_begin.y = static_cast<int>(vect->y);
 					if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component == NULL)
 					{
-						ent.setTarget(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getType());
-						ent._objective = _map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component;
+					/*	if (_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component)
+						{
+*/
+							ent.setTarget(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getType());
+							ent._objective = _map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component;
+					/*	}*/
 						return (launchPf(tmp_begin, tmp_end, ent));
 					}
 
