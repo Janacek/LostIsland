@@ -360,7 +360,6 @@ void Player::update(Map & map)
 	}
 	if (_life <= 0)
 	{
-		// You're supposedly dead here.
 	}
 
 	moveToNextWP();
@@ -389,7 +388,8 @@ void Player::move(sf::Vector2f &pos)
 
 void Player::doAction(IEntity* other)
 {
-	other->getAction(this);
+	if (other->getType() != PLAYER)
+		other->getAction(this);
 }
 
 void Player::getAction(IEntity* other)
