@@ -53,6 +53,8 @@ public:
 	bool getIsMoving() const;
 	bool getIsStopped() const{ return false; }
 	bool getIsAMovingEntity() const{ return true; }
+	void setMap(Map *map) { _map = map; };
+	Map *getMap() { return _map; };
 
 
 	//sf::Rect & getCollisionBox(void);
@@ -150,8 +152,7 @@ public:
 private:
 	float						_cursorTime;
 	void						changeAnimation(sf::Vector2f&, std::pair<float, float>);
-
-
+	Map							*_map;
 public:
 	const float					HUNGER_CLOCK = 6.f;
 	const float					THIRST_CLOCK = 3.f;

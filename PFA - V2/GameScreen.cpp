@@ -115,6 +115,7 @@ void GameScreen::initialize(void)
 		sf::Vector2f pos = *spawnPoint;
 		++spawnPoint;
 		Player *p = new Player(pos, &_camera);
+		p->setMap(_map);
 		_map->setEntityMap(p, pos.x, pos.y);
 		os << (i + 1);
 		p->setName("Player " + os.str());

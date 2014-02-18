@@ -4,6 +4,8 @@
 #include "Singleton.h"
 #include <iostream>
 #include <sstream>
+#include "Drops.h"
+#include "MapEnvironment.h"
 
 
 InventoryWindow::InventoryWindow()
@@ -12,6 +14,7 @@ InventoryWindow::InventoryWindow()
 	createToolbar();
 	this->_gameScreen = NULL;
 	this->_selectedRessource = NULL;
+	this->_crafting = NULL;
 	_isInInventoryScroll = false;
 	_isInSpinButton = false;
 }
@@ -30,7 +33,9 @@ void InventoryWindow::createToolbar()
 	auto useButton = sfg::Button::Create("Use");
 	useButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::useClick, this));
 	auto dropButton = sfg::Button::Create("Drop");
+	dropButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::dropClick, this));
 	auto craftButton = sfg::Button::Create("Craft");
+	craftButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::craftClick, this));
 	auto stuffButton = sfg::Button::Create("Stuff");
 	/*TODO signaux*/
 	this->_toolbar->Pack(useButton);
@@ -50,7 +55,7 @@ void InventoryWindow::createWindow()
 	this->_emptyLabel = sfg::Label::Create("Pas de joueur(s) sélectionné(s).");
 	this->_mainBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
 	this->_inventoryBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
-	
+
 	this->_scroll = sfg::ScrolledWindow::Create();
 
 	this->_scroll->SetScrollbarPolicy(sfg::ScrolledWindow::VERTICAL_ALWAYS | sfg::ScrolledWindow::HORIZONTAL_NEVER);
@@ -64,6 +69,28 @@ void InventoryWindow::createWindow()
 	this->_mainBox->Pack(this->_scroll, true, true);
 	this->_inventoryWindow->Add(this->_mainBox);
 	Singleton::getInstance()._desktop.Add(this->_inventoryWindow);
+}
+
+void InventoryWindow::dropClick()
+{
+	Drops *drop = new Drops;
+	if (this->_selectedRessource != NULL)
+	{
+		if (this->_selectedRessource->_button->IsActive() == true)
+		{
+			//TODO le supprimer de l'inventaire, et mettre le coffre a coté de nous
+			drop->addDrop(this->_selectedRessource->getCompartment()->getElements(this->_spinButton->GetValue()));
+			this->_selectedRessource->getPlayer()->getMap()->getEntitiesMap()[(int)this->_selectedRessource->getPlayer()->getPosition().y][(int)this->_selectedRessource->getPlayer()->getPosition().x]._component = drop;
+			this->_selectedRessource->_button->SetActive(false);
+			this->_spinButton->SetValue(0);
+			this->_spinButton->SetRange(0, 0);
+		}
+	}
+}
+
+void InventoryWindow::craftClick()
+{
+
 }
 
 void InventoryWindow::mouseEnter(std::string const&id)
@@ -88,6 +115,12 @@ void InventoryWindow::createZones(std::vector<Player *>& players)
 	for (Player *u : players)
 		createCompartment(u);
 }
+
+void InventoryWindow::setCraftingClass(Crafting *craft)
+{
+	this->_crafting = craft;
+}
+
 
 void  InventoryWindow::addToInventory(Player *player, IEntity *entity)
 {
@@ -135,35 +168,32 @@ void	InventoryWindow::showBox(std::vector<Player *>&players)
 
 void InventoryWindow::useClick()
 {
-	for (CustomToggleButton *u : this->_tableButtons)
+	if (this->_selectedRessource != NULL)
 	{
-		if (u->_button->IsActive() == true)
+		std::list<IEntity *> list = this->_selectedRessource->getEntities();
+		int compt = this->_spinButton->GetValue();
+		while (compt > 0)
 		{
-			std::list<IEntity *> list = u->getEntities();
-			int compt = this->_spinButton->GetValue();
+			list.front()->doAction(this->_selectedRessource->getPlayer());
+			compt--;
+		}
+		compt = this->_spinButton->GetValue();
+		this->_selectedRessource->_button->SetActive(false);
+		this->_spinButton->SetValue(0);
+		this->_spinButton->SetRange(0, 0);
+		if (compt == this->_selectedRessource->getCompartment()->getSize())
+		{
+			this->_selectedRessource->getCompartment()->delAllElement();
+			this->_selectedRessource->_button->ClearImage();
+			this->_selectedRessource = NULL;
+		}
+		else
+		{
 			while (compt > 0)
 			{
-				list.front()->doAction(u->getPlayer());
+				this->_selectedRessource->getCompartment()->delElement();
 				compt--;
 			}
-			compt = this->_spinButton->GetValue();
-			u->_button->SetActive(false);
-			this->_spinButton->SetValue(0);
-			this->_spinButton->SetRange(0, 0);
-			if (compt == u->getCompartment()->getSize())
-			{
-				u->getCompartment()->delAllElement();
-				u->_button->ClearImage();
-			}
-			else
-			{
-				while (compt > 0)
-				{
-					u->getCompartment()->delElement();
-					compt--;
-				}
-			}
-			break;
 		}
 	}
 }
@@ -172,18 +202,20 @@ void InventoryWindow::mouseLeftPress(CustomToggleButton *but)
 {
 	if (but->_button->IsActive() == true && but->isEmpty() == true)
 	{
-	//	this->_spinButton->SetValue(0);
+		//	this->_spinButton->SetValue(0);
 		but->_button->SetActive(false);
 		return;
 	}
 	else if (but->_button->IsActive() == false)
 	{
+		this->_selectedRessource = NULL;
 		this->_spinButton->SetValue(0);
 		this->_spinButton->SetRange(0, 0);
 
 	}
 	else
 	{
+		this->_selectedRessource = but;
 		this->_spinButton->SetRange(0, but->getCompartment()->getSize());
 		this->_spinButton->SetValue(but->getCompartment()->getSize());
 	}
@@ -231,7 +263,7 @@ void InventoryWindow::close()
 {
 	this->_inventoryWindow->Show(false);
 }
- 
+
 void InventoryWindow::checkScrollEvent()
 {
 	if (this->_isInInventoryScroll == true && Singleton::getInstance().deltaMouseWeel != 0)

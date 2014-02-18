@@ -9,6 +9,7 @@ class Drops : public IEntity
 public:
 	virtual void doAction(IEntity* other);
 	virtual void getAction(IEntity* other);
+	virtual int getDamage(void) const { return 0; };
 	void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);
@@ -28,13 +29,13 @@ public:
 	sf::Vector2f  getPosition() const;
 	bool getIsAMovingEntity() const{ return false; }
 
-	std::vector<IEntity *>				&getDrops();
+	std::list<IEntity *>				&getDrops();
 	void								addDrop(IEntity *);
-
+	void								addDrop(std::list<IEntity *>);
 	//sf::Rect & getCollisionBox(void);
 
 protected:
 	std::list<std::pair<float, float> > _path;
 	sf::Vector2f						_position;
-	std::vector<IEntity *>				_drops;
+	std::list<IEntity *>				_drops;
 };
