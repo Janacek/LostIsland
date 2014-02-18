@@ -5,6 +5,7 @@
 Tree::Tree()
 {
 	_duration = 100;
+	_isCut = false;
 }
 
 void Tree::doAction(IEntity* other)

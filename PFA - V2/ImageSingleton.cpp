@@ -24,14 +24,18 @@ void ImageSingleton::start()
 	this->load(FOREST, "./forest.png");
 	this->load(SNOW, "./snow.png");
 	this->load(TREE, "./tree.png");
+	this->load(CUT_TREE, "./cut_tree.png");
 	this->load(BUSH, "./bushes.png");
 	this->load(BUSH_FRUITS, "./bush_fruits.png");
 	this->load(PALMTREE, "./palmtree.png");
+	this->load(CUT_PALMTREE, "./cut_palmtree.png");
 	this->load(BUNNY, "./bunny.png");
 	this->load(PLAYER_INFOS_BACKGROUND, "woodenPlanks.png");
 	this->load(SELECTED_ICON, "./selected.png");
 	this->load(ROCK, "./rock.png");
 	this->load(DROPS, "./drops.png");
+
+
 }
 
 void ImageSingleton::load(Type id, const std::string& filename)

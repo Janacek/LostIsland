@@ -15,7 +15,7 @@ PhysicEngine::~PhysicEngine()
 void PhysicEngine::init()
 {
 
-	
+
 	this->_isFirst = true;
 
 	_isLaunch = true;
@@ -105,10 +105,10 @@ bool PhysicEngine::launchPf(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_end, Playe
 	{
 		tmp_end.x = static_cast<int>(ent.getPosition().x); // player en selec
 		tmp_end.y = static_cast<int>(ent.getPosition().y);
-		
+
 		ent.setIsPathFound(false);
 
-		findMeAPath(tmp_end, tmp_begin, ent);		
+		findMeAPath(tmp_end, tmp_begin, ent);
 		ent.changeMapEntity(*_map);
 		return true;
 	}
@@ -121,7 +121,7 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 	while (/*ent.getIsPathFound() == false ||*/ ent.getPathToGo() <= 1)
 	{
 		sf::Vector2i tmp_begin = tmp_begin2;
-		
+
 		if (ent.getIsPathFound() && ent.getPathToGo() <= 1)
 		{
 			sf::Vector2f tmp_lerp_begin;
@@ -147,7 +147,7 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 			}
 			else
 			{
-			
+
 				sf::Vector2i tmp_target = tmp_begin;
 				//if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component != NULL)
 				{
@@ -157,17 +157,14 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 						tmp_begin.y = static_cast<int>(vect->y);
 						if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component == NULL)
 						{
-
 							ent.setTarget(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getType());
 							ent._objective = _map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component;
-							if (_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getIsAMovingEntity() == true)
-							{
-								if (!_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getPath().empty())
-									ent.setPath(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getPath());
-								else
-									return (launchPf(tmp_begin, tmp_end, ent));
-								return true;
-							}
+							/*	if (_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component)
+							+						{
+							+*/
+							ent.setTarget(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getType());
+							ent._objective = _map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component;
+							/*	}*/
 							return (launchPf(tmp_begin, tmp_end, ent));
 						}
 
@@ -196,11 +193,12 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 			ent.setTarget(Type::BADTYPE);
 			ent._objective = NULL;
 			return (launchPf(tmp_begin, tmp_end, ent));
-			
+
 		}
-		
+
 	}
 }
+
 void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<IEntity *> entities)
 {
 
@@ -270,7 +268,7 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<IEntity 
 			}
 		}
 	}
-	
+
 }
 
 void PhysicEngine::update()

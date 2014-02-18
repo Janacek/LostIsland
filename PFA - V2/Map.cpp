@@ -711,7 +711,7 @@ Cell						**Map::getCellMap() const
 	return _cellMap;
 }
 
-MapEnvironment			**Map::getEntitiesMap() const
+MapEnvironment			**Map::getEntitiesMap()
 {
 	return _entitiesMap;
 }
