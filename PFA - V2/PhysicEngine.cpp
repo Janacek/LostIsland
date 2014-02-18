@@ -1,4 +1,5 @@
 #include "PhysicEngine.h"
+#include "MapEnvironment.h"
 
 PhysicEngine::PhysicEngine(Map *&map, Camera *cam) : _map(map), _cam(cam)
 {
@@ -142,17 +143,19 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 				tmp_begin.y = static_cast<int>(tmp_lerp_begin.y);
 				ent.addToPathToGo(0.01f);
 				ent.setIsPathFound(false);
+
 			}
 			else
 			{
-
+				sf::Vector2i tmp_target = tmp_begin;
 				for (sf::Vector2f * vect : _pathFinding.findMeAdjacent(tmp_begin))
 				{
 					tmp_begin.x = static_cast<int>(vect->x);
 					tmp_begin.y = static_cast<int>(vect->y);
 					if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component == NULL)
 					{
-						// DO SOME SHIT HERE
+						ent.setTarget(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getType());
+						ent._objective = _map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component;
 						return (launchPf(tmp_begin, tmp_end, ent));
 					}
 
@@ -177,6 +180,8 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 		}
 		else
 		{
+			ent.setTarget(Type::BADTYPE);
+			ent._objective = NULL;
 			return (launchPf(tmp_begin, tmp_end, ent));
 			
 		}

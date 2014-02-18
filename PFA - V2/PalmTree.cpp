@@ -1,4 +1,6 @@
 #include "PalmTree.h"
+#include					"Singleton.h"
+#include					"ImageSingleton.h"
 
 void PalmTree::Animate(std::string const &)
 {

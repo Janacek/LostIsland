@@ -2,8 +2,7 @@
 
 #include <list>
 #include "IEntity.h"
-#include "Singleton.h"
-#include "ImageSingleton.h"
+
 #include "Chunk.h"
 
 #include <iostream>
@@ -12,13 +11,14 @@
 class Tree : public IEntity
 {
 public:
+	Tree();
 	virtual void doAction(IEntity* other);
 	virtual void getAction(IEntity* other);
 	void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);
 	virtual void update(Map &);
-	Type getType() const;
+	virtual Type getType() const;
 	int getDamage(void) const;
 	bool getIsMoving() const { return false; }
 	void setPath(std::list<std::pair<float, float> >&  path);
@@ -40,5 +40,6 @@ public:
 protected:
 	std::list<std::pair<float, float> > _path;
 	int				_damages;
+	int				_duration;
 	sf::Vector2f	_position;
 };

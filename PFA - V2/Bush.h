@@ -12,6 +12,7 @@ public:
 	void				draw(sf::RenderTexture *, sf::Shader &);
 	void				draw(sf::RenderTexture *);
 	void				update(Map &);
+	Type				getType() const { return BUSH; };
 
 	sf::Clock			_bushClock;
 	float				_oldDt;

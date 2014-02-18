@@ -1,4 +1,7 @@
 #include "ForestTree.h"
+#include "Singleton.h"
+#include "ImageSingleton.h"
+#include "Map.h"
 
 void ForestTree::Animate(std::string const &)
 {
@@ -27,6 +30,14 @@ void ForestTree::draw(sf::RenderTexture *tex)
 	tex->draw(tmp);
 }
 
+void ForestTree::update(Map &map)
+{
+	if (_duration <= 0)
+	{
+		//map.getEntitiesMap[_position.x][_position.y] = NULL;
+	}
+}
+
 void ForestTree::doAction(IEntity *other)
 {
 	// Do nothing
@@ -34,10 +45,5 @@ void ForestTree::doAction(IEntity *other)
 
 void ForestTree::getAction(IEntity *other)
 {
-	if (this->_damages < other->getDamage())
-		this->_damages = 0;
-	if (this->_damages == 0)
-	{
-		//On doit faire apparaitre de la Wood
-	}
+	_duration -= other->getDamage();
 }

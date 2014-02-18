@@ -1,14 +1,11 @@
 #pragma once
 #include <vector>
 #include <SFGUI/SFGUI.hpp>
-
-#include "IEntity.h"
 #include "Compartment.h"
-#include "Water.h"
 #include "Camera.h"
 #include "Animation.h"
-#include "FontManager.h"
-#include "ShadersManager.h"
+
+class Water;
 
 enum Direction
 {
@@ -17,6 +14,8 @@ enum Direction
 	RIGHT,
 	LEFT
 };
+
+
 
 class Player : public IEntity
 {
@@ -133,17 +132,19 @@ public:
 	//  PLAYER'S OBJECTIVE
 	//////////////////////////
 	IEntity						*_objective;
-
+	Type						_target;
 	/*
 	** Selection of the player.
 	*/
 	bool						_isSelected;
 public:
+	void						doActionOnEntity();
 	void						changeMapEntity(Map&);
 	void						setSelected(bool const);
 	bool						const getSelected() const;
 	bool const getIsPathFound() const { return _isPathFound; }
 	void setIsPathFound(bool n) { _isPathFound = n; }
+	void setTarget(Type );
 
 private:
 	float						_cursorTime;

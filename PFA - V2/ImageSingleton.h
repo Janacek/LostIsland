@@ -8,6 +8,7 @@
 #include <memory>
 #include <stdexcept>
 #include <cassert>
+
 #include "IEntity.h"
 
 class ImageSingleton

@@ -1,6 +1,7 @@
 #include "InventoryWindow.h"
 #include "GameScreen.h"
-#include "Drops.h"
+#include "ImageSingleton.h"
+#include "Singleton.h"
 #include <iostream>
 #include <sstream>
 
