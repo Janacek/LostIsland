@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include "Drops.h"
+#include "MapEnvironment.h"
 
 
 InventoryWindow::InventoryWindow()
@@ -73,13 +74,13 @@ void InventoryWindow::createWindow()
 void InventoryWindow::dropClick()
 {
 	Drops *drop = new Drops;
-
 	if (this->_selectedRessource != NULL)
 	{
 		if (this->_selectedRessource->_button->IsActive() == true)
 		{
+			//TODO le supprimer de l'inventaire, et mettre le coffre a coté de nous
 			drop->addDrop(this->_selectedRessource->getCompartment()->getElements(this->_spinButton->GetValue()));
-
+			this->_selectedRessource->getPlayer()->getMap()->getEntitiesMap()[(int)this->_selectedRessource->getPlayer()->getPosition().y][(int)this->_selectedRessource->getPlayer()->getPosition().x]._component = drop;
 			this->_selectedRessource->_button->SetActive(false);
 			this->_spinButton->SetValue(0);
 			this->_spinButton->SetRange(0, 0);
