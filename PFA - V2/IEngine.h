@@ -3,7 +3,6 @@
 #include <list>
 #include "IScreen.h"
 #include "Map.h"
-#include "IEntity.h"
 
 class IEngine
 {

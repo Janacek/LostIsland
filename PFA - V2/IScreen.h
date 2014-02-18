@@ -5,8 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
-#include "IEngine.h"
-#include "IEntity.h"
+#include <SFGUI/SFGUI.hpp>
 #include "Compartment.h"
 
 enum Screens

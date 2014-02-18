@@ -3,9 +3,13 @@
 #include "Water.h"
 #include "Wood.h"
 #include "Singleton.h"
+#include "ImageSingleton.h"
 #include <iostream>
 #include <math.h>  
 #include "Map.h"
+#include "FontManager.h"
+#include "ShadersManager.h"
+#include "MapEnvironment.h"
 
 Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 {
@@ -76,7 +80,7 @@ void Player::setCamPos(sf::Vector2f &pos)
 {
 
 	//std::cout << "x " << _cam.x << " y " << _cam.y << std::endl;
-	
+
 }
 
 int		Player::posInventory(IEntity *entity)
@@ -179,11 +183,8 @@ void Player::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
 
 void Player::doActionOnEntity()
 {
-	if (_target == TREE)
-		std::cout << "ARBRE ARBRE ARBRE " << std::endl;
-	if (_target == ROCK)
-		std::cout << "CAILLOUX CAILLOUX" << std::endl;
-
+	if (_objective)
+		doAction(_objective);
 }
 
 void Player::moveToNextWP()
@@ -193,9 +194,9 @@ void Player::moveToNextWP()
 
 	time = _mvtClock.getElapsedTime().asSeconds();
 	dt = time - _oldDtMvt;
-	
+
 	_oldDtMvt = static_cast<float>(time);
-	
+
 	if (!_path.empty())
 	{
 		_anim->play();
@@ -256,7 +257,7 @@ void Player::draw(sf::RenderTexture *)
 
 	_posDisp.x = ((_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
-	
+
 	sf::Vector2f v(0, -10);
 	this->_anim->show(_posDisp + v);
 
@@ -271,7 +272,7 @@ void Player::draw(sf::RenderTexture *)
 	if (_isSelected)
 	{
 		sf::Vector2f posIcon = _posDisp;
-		sf::RectangleShape icon(sf::Vector2f(32, 32)); 
+		sf::RectangleShape icon(sf::Vector2f(32, 32));
 		icon.setTexture(ImageSingleton::getInstance().get(SELECTED_ICON));
 		posIcon.y -= 52;
 		icon.setPosition(posIcon);
@@ -300,7 +301,7 @@ void Player::changeMapEntity(Map & map)
 		{
 			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
 		}
-		
+
 	}
 }
 
@@ -320,12 +321,12 @@ void Player::update(Map & map)
 	*/
 	/*if (_isMoving == false && map.getEntitiesMap()[static_cast<int>(floor(_pos.x))][static_cast<int>(floor(_pos.y))]._component == NULL)
 	{
-		std::cout << "Point add : x " << static_cast<int>(floor(_pos.x)) << " y " << static_cast<int>(floor(_pos.y)) << std::endl;
-		map.setEntityMap(this, static_cast<int>(floor(_pos.x)), static_cast<int>(floor(_pos.y)));
+	std::cout << "Point add : x " << static_cast<int>(floor(_pos.x)) << " y " << static_cast<int>(floor(_pos.y)) << std::endl;
+	map.setEntityMap(this, static_cast<int>(floor(_pos.x)), static_cast<int>(floor(_pos.y)));
 	}*/
-	
+
 	changeMapEntity(map);
-	
+
 	_hungerClock += dt;
 	_thirstClock += dt;
 	if (_hungerClock > HUNGER_CLOCK)
@@ -354,7 +355,7 @@ void Player::update(Map & map)
 	{
 		// You're supposedly dead here.
 	}
-	
+
 	moveToNextWP();
 
 }
@@ -368,7 +369,7 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 	sf::Image img_tmp = imgAnim->copyToImage();
 	img_tmp.createMaskFromColor(color);
 	imgAnim->loadFromImage(img_tmp);
-	this->_anim = new Animation(imgAnim, 7, 3,speed);
+	this->_anim = new Animation(imgAnim, 7, 3, speed);
 	this->_anim->setAnimation(0);
 }
 

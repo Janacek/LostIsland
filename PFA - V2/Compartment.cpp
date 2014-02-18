@@ -1,5 +1,6 @@
 #include "Compartment.h"
 #include "ImageSingleton.h"
+#include "Singleton.h"
 #include <sstream>
 #include <algorithm>
 #include <iostream>

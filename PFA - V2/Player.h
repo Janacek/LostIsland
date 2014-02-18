@@ -1,14 +1,11 @@
 #pragma once
 #include <vector>
 #include <SFGUI/SFGUI.hpp>
-
-#include "IEntity.h"
 #include "Compartment.h"
-#include "Water.h"
 #include "Camera.h"
 #include "Animation.h"
-#include "FontManager.h"
-#include "ShadersManager.h"
+
+class Water;
 
 enum Direction
 {

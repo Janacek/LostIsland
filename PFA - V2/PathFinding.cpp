@@ -2,6 +2,7 @@
 #include "PhysicEngine.h"
 #include "PathFinding.h"
 #include "Map.h"
+#include "MapEnvironment.h"
 
 PathFinding::~PathFinding()
 {

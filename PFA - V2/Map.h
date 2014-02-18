@@ -1,30 +1,24 @@
 #pragma once
 #include					<iostream>
-
 #include					<map>
-
-#include					<SFML/Graphics.hpp>
-#include					<SFML/System.hpp>
-#include					<SFML/Window.hpp>
-
-#include					"Singleton.h"
-#include					"ImageSingleton.h"
 #include					"Chunk.h"
-
 #include					"PerlinNoise.h"
 
 #include					"Camera.h"
 
 #include					<list>
 
-//#include					"Tree.h"
 
-#include					"MapEnvironment.h"
-#include					"ForestTree.h"
-#include					"Bush.h"
-#include					"PalmTree.h"
-#include					"Rock.h"
-#include					"Player.h"
+//#include					"ForestTree.h"
+//#include					"Bush.h"
+//#include					"PalmTree.h"
+//#include					"Rock.h"
+
+class MapEnvironment;
+class Player;
+class IEntity;
+class Tree;
+
 #include <algorithm>
 
 /*

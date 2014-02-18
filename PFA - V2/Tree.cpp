@@ -1,4 +1,11 @@
 #include "Tree.h"
+#include "Singleton.h"
+#include "ImageSingleton.h"
+
+Tree::Tree()
+{
+	_duration = 100;
+}
 
 void Tree::doAction(IEntity* other)
 {

@@ -2,8 +2,7 @@
 
 #include		<vector>
 #include		"IEntity.h"
-#include		"ImageSingleton.h"
-#include		"ShadersManager.h"
+
 
 class Drops : public IEntity
 {

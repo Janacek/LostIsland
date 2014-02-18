@@ -1,5 +1,14 @@
 
 #include "Map.h"
+#include					"Singleton.h"
+#include					"ImageSingleton.h"
+#include					"MapEnvironment.h"
+#include					"ShadersManager.h"
+#include					"Player.h"
+#include					"ForestTree.h"
+#include					"Rock.h"
+#include					"Bush.h"
+#include					"PalmTree.h"
 
 Map::Map(Camera *cam, std::string &loading)
 : _loading(loading)

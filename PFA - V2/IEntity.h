@@ -3,8 +3,7 @@
 #include						<SFML/Window.hpp>
 #include						<SFML/Graphics.hpp>
 #include						<list>
-
-class Map;
+#include						"Map.h"
 
 enum Type
 {

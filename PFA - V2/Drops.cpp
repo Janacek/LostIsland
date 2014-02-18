@@ -1,4 +1,6 @@
 #include "Drops.h"
+#include		"ImageSingleton.h"
+#include		"ShadersManager.h"
 
 void Drops::doAction(IEntity* other)
 {

@@ -2,9 +2,8 @@
 
 #include "IEntity.h"
 #include "Animation.h"
-#include "ImageSingleton.h"
 #include "Camera.h"
-#include "Chunk.h"
+
 #define TIMESTOP 3
 #define IT_BEF_STOP 20
 

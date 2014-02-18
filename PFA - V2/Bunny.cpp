@@ -1,5 +1,8 @@
 #include "Bunny.h"
+#include "ImageSingleton.h"
 #include "Map.h"
+#include "Chunk.h"
+#include "MapEnvironment.h"
 
 Bunny::Bunny()
 {

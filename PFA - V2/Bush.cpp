@@ -1,4 +1,6 @@
 #include "Bush.h"
+#include "Singleton.h"
+#include "ImageSingleton.h"
 
 Bush::Bush()
 {

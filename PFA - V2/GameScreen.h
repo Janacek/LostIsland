@@ -5,13 +5,11 @@
 #include "IScreen.h"
 
 #include "Player.h"
-#include "Bunny.h"
+
 
 #include "InventoryWindow.h"
 #include "Crafting.h"
 #include "RessourcesWindow.h"
-#include "Map.h"
-#include "GestionClick.h"
 #include "PhysicEngine.h"
 #include "StartScreen.h"
 #include "FontManager.h"
@@ -81,7 +79,6 @@ private:
 	s_action				_rightClickReleased;
 	
 	Compartment				*_dropCompartment;
-	GestionClick			_gc;
 
 	sf::Vector2i			_posSelectedArea;
 

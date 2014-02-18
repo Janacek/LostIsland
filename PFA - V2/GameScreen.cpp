@@ -4,9 +4,12 @@
 #include "GameScreen.h"
 #include "Food.h"
 #include "Wood.h"
+#include "Bunny.h"
 #include "Water.h"
 #include "Tree.h"
-
+#include "MapEnvironment.h"
+#include					"Singleton.h"
+#include					"ImageSingleton.h"
 GameScreen::GameScreen()
 {
 

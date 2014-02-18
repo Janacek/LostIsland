@@ -1,4 +1,5 @@
 #include "OptionScreen.h"
+#include "Singleton.h"
 
 void OptionScreen::musicAdjustmentChange(void)
 {
