@@ -147,6 +147,7 @@ public:
 	bool const getIsPathFound() const { return _isPathFound; }
 	void setIsPathFound(bool n) { _isPathFound = n; }
 	void setTarget(Type );
+	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 
 private:
 	float						_cursorTime;

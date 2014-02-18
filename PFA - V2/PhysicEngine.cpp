@@ -147,18 +147,31 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 			}
 			else
 			{
+			
 				sf::Vector2i tmp_target = tmp_begin;
-				for (sf::Vector2f * vect : _pathFinding.findMeAdjacent(tmp_begin))
+				//if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component != NULL)
 				{
-					tmp_begin.x = static_cast<int>(vect->x);
-					tmp_begin.y = static_cast<int>(vect->y);
-					if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component == NULL)
+					for (sf::Vector2f * vect : _pathFinding.findMeAdjacent(tmp_begin))
 					{
-						ent.setTarget(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getType());
-						ent._objective = _map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component;
-						return (launchPf(tmp_begin, tmp_end, ent));
-					}
+						tmp_begin.x = static_cast<int>(vect->x);
+						tmp_begin.y = static_cast<int>(vect->y);
+						if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component == NULL)
+						{
 
+							ent.setTarget(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getType());
+							ent._objective = _map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component;
+							if (_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getIsAMovingEntity() == true)
+							{
+								if (!_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getPath().empty())
+									ent.setPath(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getPath());
+								else
+									return (launchPf(tmp_begin, tmp_end, ent));
+								return true;
+							}
+							return (launchPf(tmp_begin, tmp_end, ent));
+						}
+
+					}
 				}
 				return false;
 			}

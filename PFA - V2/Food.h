@@ -28,6 +28,7 @@ public:
 	void setIsPathFound(bool n) { (void)n; }
 	Type getType() const;
 	bool getIsStopped() const{ return false; }
+	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 	bool getIsAMovingEntity() const
 	{
 		return false; 

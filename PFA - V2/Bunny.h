@@ -30,7 +30,7 @@ public:
 	void								setPathToGo(float f);
 	void								moveToNextWP();
 	void								addToPathToGo(float f);
-
+	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 	bool const							getSelected() const
 	{ 
 		return true;

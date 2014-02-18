@@ -40,6 +40,7 @@ public:
 	virtual void draw(sf::RenderTexture *, sf::Shader &) = 0;
 	virtual void update(Map &) = 0;
 	virtual void setPath(std::list<std::pair<float, float> >&) = 0;
+	virtual std::list<std::pair<float, float> > getPath() const = 0;
 	virtual void setPosition(sf::Vector2f &pos) = 0;
 	virtual sf::Vector2f  getPosition() const = 0;
 	virtual int getDamage(void) const = 0;

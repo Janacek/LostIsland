@@ -33,6 +33,7 @@ public:
 	void setPosition(sf::Vector2f &);
 	sf::Vector2f  getPosition() const;
 	bool getIsAMovingEntity() const{ return false; }
+	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 
 	
 	//sf::Rect & getCollisionBox(void);
