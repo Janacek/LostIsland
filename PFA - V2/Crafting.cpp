@@ -1,5 +1,5 @@
 #include "Crafting.h"
-
+#include "ImageSingleton.h"
 
 Crafting::Crafting()
 {
@@ -20,41 +20,56 @@ void Crafting::createWindow()
 }
 
 void Crafting::createTables()
-{
-	int compt = 0; 
+{ 
 	auto craftButton = sfg::Button::Create("Craft");
 	craftButton->SetRequisition(sf::Vector2f(100.f, 50.f));
+	craftButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::craft, this));
 	this->_boxButtons = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
 	this->_smallTable = sfg::Table::Create();
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i += 2)
 	{
-		for (int j = 0; j < 2; j++)
+		for (int j = 0; j < 3; j += 2)
 		{
 			CustomToggleButton *but = new CustomToggleButton(NULL, NULL);
 			but->_button->SetRequisition(sf::Vector2f(180.f, 166.f));
 			but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::mouseLeftPress, this));
 			this->_smallTable->Attach(but->_button, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
-			++compt;
 		}
 	}
-	this->_boxButtons->Pack(this->_smallTable);
+	auto img = sfg::Image::Create();
+	img->SetRequisition(sf::Vector2f(180.f, 166.f));
+	this->_smallTable->Attach(img, sf::Rect<sf::Uint32>(1, 1, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
+	/*this->_boxButtons->Pack(this->_smallTable);*/
 	this->_mainBox->Pack(this->_boxButtons);
 	this->_mainBox->PackEnd(craftButton);
-	compt = 0;
 	this->_largeTable = sfg::Table::Create();
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			CustomToggleButton *but = new CustomToggleButton(NULL, NULL);
-			but->_button->SetRequisition(sf::Vector2f(180.f, 166.f));
-			but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::mouseLeftPress, this));
-			this->_largeTable->Attach(but->_button, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
-			++compt;
+			if (i == 1 && j == 1)
+			{
+				auto img2 = sfg::Image::Create();
+				img2->SetRequisition(sf::Vector2f(180.f, 166.f));
+				this->_largeTable->Attach(img2, sf::Rect<sf::Uint32>(1, 1, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
+			}
+			else
+			{
+				CustomToggleButton *but = new CustomToggleButton(NULL, NULL);
+				but->_button->SetRequisition(sf::Vector2f(180.f, 166.f));
+				but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::mouseLeftPress, this));
+				this->_largeTable->Attach(but->_button, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
+			}
 		}
+		this->_boxButtons->Pack(this->_largeTable);
 	}
+}
+
+void Crafting::craft()
+{
+
 }
 
 void Crafting::chooseDistance(Crafting::Distance dist)

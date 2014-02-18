@@ -2,7 +2,7 @@
 
 void Drops::doAction(IEntity* other)
 {
-	//L'arbre ne fait rien
+	
 }
 
 
@@ -13,6 +13,7 @@ void Drops::getAction(IEntity* other)
 
 void Drops::update(Map &map)
 {
+	
 }
 
 void Drops::loadAnimation(std::string const & string_anim, float speed)
@@ -60,7 +61,12 @@ void Drops::addDrop(IEntity *drop)
 	_drops.push_back(drop);
 }
 
-std::vector<IEntity *> &Drops::getDrops()
+void Drops::addDrop(std::list<IEntity *>list)
+{
+	this->_drops = list;
+}
+
+std::list<IEntity *> &Drops::getDrops()
 {
 	return _drops;
 }

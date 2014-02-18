@@ -5,6 +5,7 @@
 #include "CustomToggleButton.h"
 #include "GestionClick.h"
 #include "Player.h"
+#include "Crafting.h"
 
 class GameScreen;
 
@@ -20,6 +21,7 @@ public:
 	void createCompartment(Player *);
 	void chooseNumber(GameScreen *);
 	Compartment *dropRessource();
+	void setCraftingClass(Crafting *);
 	void mouseLeftPress(CustomToggleButton *);
 	void showBox(std::vector<Player *>&);
 	void addToInventory(Player *, IEntity *);
@@ -33,10 +35,12 @@ public:
 	void createNumberWindow();
 	void valideNumber();
 	void useClick();
+	void craftClick();
 	void onTextChange();
 	void checkScrollEvent();
 	void mouseEnter(std::string const&);
 	void mouseLeave(std::string const&);
+	void dropClick();
 
 
 	//attributs
@@ -56,6 +60,7 @@ public:
 	sfg::Box::Ptr			_inventoryBox;
 	GestionClick		_gestionClick;
 	sf::Image			_img;
+	Crafting			*_crafting;
 	sfg::Window::Ptr	_inventoryWindow;
 	CustomToggleButton	*_selectedRessource;
 	GameScreen			*_gameScreen; //moche ...

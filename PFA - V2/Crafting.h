@@ -22,8 +22,10 @@ public:
 	void draw();
 	~Crafting();
 private:
-	bool								_isNearTable;
 	void								mouseLeftPress();
+	void								craft();
+
+	bool								_isNearTable;
 	sfg::Window::Ptr					_craftingWindow;
 	std::vector<sfg::ToggleButton::Ptr> _tableButton;
 	sfg::Table::Ptr						_smallTable;
