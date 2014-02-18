@@ -4,6 +4,7 @@
 #include "Singleton.h"
 #include <iostream>
 #include <sstream>
+#include "Drops.h"
 
 
 InventoryWindow::InventoryWindow()
