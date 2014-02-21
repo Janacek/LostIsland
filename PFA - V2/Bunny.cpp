@@ -103,6 +103,7 @@ void Bunny::moveToNextWP()
 
 	}
 	else{
+		
 		_anim->pause();
 		_isMoving = false;
 		_hasAPath = false;
@@ -189,6 +190,7 @@ void Bunny::update(Map &map)
 void Bunny::setPath(std::list<std::pair<float, float>> &list)
 {
 	_path = list;
+	_originalPath = list;
 }
 
 void Bunny::setPosition(sf::Vector2f &vec)

@@ -56,9 +56,9 @@ public:
 	void setMap(Map *map) { _map = map; };
 	Map *getMap() { return _map; };
 
-
-	//sf::Rect & getCollisionBox(void);
-
+	
+	sf::IntRect & getCollisionBox(void);
+	
 	//TODO : Changer en compartments pour l'inventaire
 
 	sf::Image					_img; //TMP
@@ -71,10 +71,10 @@ protected:
 	** Player's camera and misc
 	*/
 	void					createBox();
-
+	
 	Animation					*_anim;
 	Camera						*_camera;
-
+	sf::IntRect				_boxCollider;
 
 
 	/*

@@ -183,12 +183,20 @@ void Player::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
 
 void Player::doActionOnEntity()
 {
-	if (_objective)
+	if (_objective && _objective->getType() != PLAYER)
 	{
-		if (_actionClock >= 0.5)
+		if (_objective->getIsAMovingEntity())
 		{
-			doAction(_objective);
-			_actionClock = 0;
+			_path = _objective->getPath();
+		}
+		else
+		{
+
+			if (_actionClock >= 0.5)
+			{
+				doAction(_objective);
+				_actionClock = 0;
+			}
 		}
 	}
 }
@@ -439,7 +447,7 @@ sf::Vector2f  Player::getPosition() const
 }
 
 
-/*sf::Rect & Player::getCollisionBox(void)
+sf::IntRect & Player::getCollisionBox(void)
 {
+	return _boxCollider;
 }
-*/
