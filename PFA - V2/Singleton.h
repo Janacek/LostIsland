@@ -15,6 +15,7 @@ public:
 	sfg::SFGUI		_sfgui;
 
 	int deltaMouseWeel;
+	bool isKeyPressed;
 	bool isEscapePressed;
 	bool isLeftClicking;
 	bool isRightClicking;

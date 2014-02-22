@@ -380,7 +380,6 @@ void Player::update(Map & map)
 	}
 
 	moveToNextWP();
-
 }
 
 void Player::loadAnimation(std::string const & string_anim, float speed)

@@ -590,6 +590,13 @@ void						Map::draw(sf::RenderWindow *win)
 	Singleton::getInstance()._window->draw(sf::Sprite(_waterTexture->getTexture()), ShadersManager::getInstance().get(FLAG));*/
 	Singleton::getInstance()._window->draw(sf::Sprite(_mapTexture->getTexture()));
 	//Singleton::getInstance()._window->draw(sf::Sprite(_entitiesTexture->getTexture()));
+
+	/*sf::RectangleShape tmp(sf::Vector2f(250, 250));
+	tmp.setPosition(500, 500);
+	tmp.setTextureRect(sf::Rect<int>(250, 250, 250, 250));
+	tmp.setTexture(&_mapTexture->getTexture());
+	Singleton::getInstance()._window->draw(tmp);*/
+
 }
 
 void						Map::generateRocks()

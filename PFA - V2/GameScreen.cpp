@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "GameScreen.h"
+#include "GameOverScreen.h"
 #include "Food.h"
 #include "Wood.h"
 #include "Bunny.h"
@@ -379,7 +380,6 @@ void GameScreen::update(void)
 					{
 						_map->getEntitiesMap()[i][j]._component->_id = -1;
 						_map->getEntitiesMap()[i][j]._component = NULL;
-						std::cout << "JE NE SUIS PAS CON, JE MET UN MESSAGE : " << (*it)->_id << std::endl;
 						Player *tmp = (*it);
 						it = _players.erase(it);
 						delete tmp;
@@ -387,10 +387,9 @@ void GameScreen::update(void)
 				}
 			}
 		}
-		std::cout << "vector size : " << _players.size() << std::endl;
 		if (_players.size() <= 0)
 		{
-			_next = new StartScreen;
+			_next = new GameOverScreen;
 			_isRunning = false;
 			return;
 		}
