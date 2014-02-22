@@ -3,7 +3,7 @@
 #include <SFGUI/SFGUI.hpp>
 #include "Compartment.h"
 #include "Camera.h"
-#include "Animation.h"
+#include "AnimatedSprite.h"
 
 class Water;
 
@@ -72,7 +72,18 @@ protected:
 	*/
 	void					createBox();
 	
-	Animation					*_anim;
+	Animation					*_curAnim;
+	Animation					*_walkDownAnim;
+	Animation					*_walkRightAnim;
+	Animation					*_walkLeftAnim;
+	Animation					*_walkUpAnim;
+	Animation					*_idleDownAnim;
+	Animation					*_idleRightAnim;
+	Animation					*_idleLeftAnim;
+	Animation					*_idleUpAnim;
+	AnimatedSprite				*_animatedSprite;
+
+
 	Camera						*_camera;
 	sf::IntRect				_boxCollider;
 

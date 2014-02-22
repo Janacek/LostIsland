@@ -120,7 +120,7 @@ void GameScreen::initialize(void)
 		os << (i + 1);
 		p->setName("Player " + os.str());
 		os.str("");
-		p->loadAnimation("zelda.png", 0.05f);
+		p->loadAnimation("finn.png", 0.05f);
 		this->_players.push_back(p);
 
 	}
