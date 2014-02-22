@@ -6,6 +6,7 @@ Tree::Tree()
 {
 	_duration = 100;
 	_isCut = false;
+	_id = IEntityId++;
 }
 
 void Tree::doAction(IEntity* other)

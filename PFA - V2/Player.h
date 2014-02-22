@@ -15,8 +15,6 @@ enum Direction
 	LEFT
 };
 
-
-
 class Player : public IEntity
 {
 public:
@@ -63,7 +61,6 @@ public:
 
 	sf::Image					_img; //TMP
 	// std::vector<IEntity *> _inventary;
-
 
 protected:
 

@@ -26,11 +26,14 @@ enum Type
 	CUT_PALMTREE,
 	PALMTREE,
 	ROCK,
+	ROCK_BROKEN,
 	DROPS,
 	PLAYER_INFOS_BACKGROUND,
 	SELECTED_ICON,
 	BADTYPE,
 };
+
+static int IEntityId = 0;
 
 class IEntity
 {
@@ -56,6 +59,8 @@ public:
 	virtual void setIsPathFound(bool)  = 0;
 	virtual bool getIsStopped() const = 0;
 	virtual bool getIsAMovingEntity() const = 0;
+
+	int								_id;
 
 protected:
 private:

@@ -4,6 +4,7 @@
 Food::Food(void)
 {
 	_pos = sf::Vector2f(0,0);
+	_id = IEntityId++;
 }
 
 void Food::doAction(IEntity* other)

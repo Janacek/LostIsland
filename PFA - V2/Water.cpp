@@ -5,6 +5,7 @@
 Water::Water(void)
 {
 	_pos = sf::Vector2f(0,0);
+	_id = IEntityId++;
 }
 
 /// <summary>

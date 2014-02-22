@@ -33,6 +33,7 @@ void ImageSingleton::start()
 	this->load(PLAYER_INFOS_BACKGROUND, "woodenPlanks.png");
 	this->load(SELECTED_ICON, "./selected.png");
 	this->load(ROCK, "./rock.png");
+	this->load(ROCK_BROKEN, "./rock_broken.png");
 	this->load(DROPS, "./drops.png");
 
 

@@ -42,6 +42,8 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_path.clear();
 	_cursorTime = 0;
 	_objective = NULL;
+	_id = IEntityId++;
+
 }
 
 Compartment	*Player::getCompartment(int index)
@@ -185,7 +187,7 @@ void Player::doActionOnEntity()
 {
 	if (_objective)
 	{
-		if (_actionClock >= 0.5)
+		if (_actionClock >= 0.5f)
 		{
 			doAction(_objective);
 			_actionClock = 0;
