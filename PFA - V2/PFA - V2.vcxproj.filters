@@ -43,6 +43,7 @@
     <ClCompile Include="Drops.cpp" />
     <ClCompile Include="CustomToggleButton.cpp" />
     <ClCompile Include="Crafting.cpp" />
+    <ClCompile Include="AnimatedSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -90,6 +91,8 @@
     <ClInclude Include="Drops.h" />
     <ClInclude Include="CustomToggleButton.h" />
     <ClInclude Include="Crafting.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimatedSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />

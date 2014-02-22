@@ -151,6 +151,9 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 				sf::Vector2i tmp_target = tmp_begin;
 				//if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component != NULL)
 				{
+					/*Si click sur entity qui bouge : 
+					-on peut filer au perso son ptr ???
+					*/
 					for (sf::Vector2f * vect : _pathFinding.findMeAdjacent(tmp_begin))
 					{
 						tmp_begin.x = static_cast<int>(vect->x);

@@ -167,30 +167,39 @@ void Player::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
 {
 	if (front.first > floor(pos.x))
 	{
-		_anim->setAnimation(1);
+		_curAnim = _walkRightAnim;
 	}
 	if (front.first < floor(pos.x))
 	{
-		_anim->setAnimation(3);
+		_curAnim = _walkLeftAnim;
 	}
 	if (front.second < floor(pos.y))
 	{
-		_anim->setAnimation(2);
+		_curAnim = _walkUpAnim;
 	}
 	if (front.second > floor(pos.y))
 	{
-		_anim->setAnimation(0);
+		_curAnim = _walkDownAnim;
 	}
 }
 
 void Player::doActionOnEntity()
 {
-	if (_objective)
+	if (_objective && _objective->getType() != PLAYER)
 	{
-		if (_actionClock >= 0.5f)
+
+		if (_objective->getIsAMovingEntity())
 		{
-			doAction(_objective);
-			_actionClock = 0;
+			_path = _objective->getPath();
+		}
+		else
+		{
+
+			if (_actionClock >= 0.5)
+			{
+				doAction(_objective);
+				_actionClock = 0;
+			}
 		}
 	}
 }
@@ -204,10 +213,12 @@ void Player::moveToNextWP()
 	dt = time - _oldDtMvt;
 
 	_oldDtMvt = static_cast<float>(time);
+	_animatedSprite->play(*_curAnim);
 
 	if (!_path.empty())
 	{
-		_anim->play();
+		
+		_animatedSprite->play(*_curAnim);
 		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
@@ -218,7 +229,7 @@ void Player::moveToNextWP()
 
 		{
 			_path.pop_front();
-			changeAnimation(_pos, _path.front());
+			//changeAnimation(_pos, _path.front());
 			return;
 		}
 
@@ -234,10 +245,12 @@ void Player::moveToNextWP()
 	}
 	else {
 		doActionOnEntity();
-		_anim->pause();
+		//_animatedSprite->stop();
 		_isMoving = false;
 		_hasAPath = false;
 	}
+	sf::Time t = sf::seconds(dt);;
+	_animatedSprite->update(t);
 }
 
 void Player::setSelected(bool const s)
@@ -266,8 +279,10 @@ void Player::draw(sf::RenderTexture *)
 	_posDisp.x = ((_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
-	sf::Vector2f v(0, -10);
-	this->_anim->show(_posDisp + v);
+	sf::Vector2f v(-10, -10);
+	//this->_anim->show(_posDisp + v);
+	_animatedSprite->setPosition(_posDisp + v);
+	Singleton::getInstance()._window->draw(*_animatedSprite);
 
 	sf::Text name;
 	name.setFont(*FontManager::getInstance().getFont(SANSATION));
@@ -377,8 +392,40 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 	sf::Image img_tmp = imgAnim->copyToImage();
 	img_tmp.createMaskFromColor(color);
 	imgAnim->loadFromImage(img_tmp);
-	this->_anim = new Animation(imgAnim, 7, 3, speed);
-	this->_anim->setAnimation(0);
+	//std::cout << string_anim << std::endl;
+	_idleUpAnim = new Animation();
+	_idleUpAnim->setSpriteSheet(*imgAnim);
+	_idleUpAnim->addFrame(sf::IntRect(2, 3, 38, 53));
+	_idleUpAnim->addFrame(sf::IntRect(41, 2, 38, 52));
+	_idleUpAnim->addFrame(sf::IntRect(81, 2, 40, 52));
+	_idleUpAnim->addFrame(sf::IntRect(122, 2, 43, 52));
+	_idleUpAnim->addFrame(sf::IntRect(167, 4, 42, 50));
+	_idleUpAnim->addFrame(sf::IntRect(211, 5, 40, 49));
+	_idleUpAnim->addFrame(sf::IntRect(253, 5, 37, 49));
+
+	_walkDownAnim = new Animation();
+	_walkDownAnim->setSpriteSheet(*imgAnim);
+	/*_walkDownAnim->addFrame(sf::IntRect(7, 245, 18, 29));
+	_walkDownAnim->addFrame(sf::IntRect(38, 243, 18, 28));
+	_walkDownAnim->addFrame(sf::IntRect(68, 246, 18, 25));
+	_walkDownAnim->addFrame(sf::IntRect(102, 246, 18, 29));
+	_walkDownAnim->addFrame(sf::IntRect(134, 245, 18, 28));
+	_walkDownAnim->addFrame(sf::IntRect(171, 248, 18, 25));
+	*/
+	_curAnim = _idleUpAnim;
+	
+	_animatedSprite = new AnimatedSprite(sf::seconds(0.2), true, false);
+	//_animatedSprite->setScale(0.6, 0.6);
+	//
+	_animatedSprite->play(*_curAnim);
+	_walkUpAnim = new Animation();
+
+	_walkRightAnim = new Animation();
+
+	_walkLeftAnim = new Animation();
+
+	
+
 }
 
 void Player::move(sf::Vector2f &pos)
@@ -441,7 +488,7 @@ sf::Vector2f  Player::getPosition() const
 }
 
 
-/*sf::Rect & Player::getCollisionBox(void)
+sf::IntRect & Player::getCollisionBox(void)
 {
+	return _boxCollider;
 }
-*/

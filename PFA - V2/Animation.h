@@ -1,41 +1,25 @@
 #pragma once
 
-#include				"Singleton.h"
+#ifndef ANIMATION_INCLUDE
+#define ANIMATION_INCLUDE
+
+#include <vector>
+#include "Singleton.h"
 
 class Animation
 {
 public:
-	Animation(sf::Texture *image, int nbFrame, int nbAnimation, float time);
+	Animation();
 
-	void					setFrameTime(float temps);
-	float					getFrameTime() const;
-	bool					setAnimation(int animation);
-	int					getActualAnimation() const;
-	int					getActualFrame() const;
-	void					setLoop(bool boucle);
-	bool					getLoop() const;
-	void					play();
-	void					pause();
-	void					stop();
-	bool					isPaused() const;
-	bool					isStopped() const;
-	void					show(sf::Vector2f position = sf::Vector2f(0, 0));
-
-	sf::Vector2f			GetHeightPerso() const;
+	void addFrame(sf::IntRect rect);
+	void setSpriteSheet(const sf::Texture& texture);
+	const sf::Texture* getSpriteSheet() const;
+	std::size_t getSize() const;
+	const sf::IntRect& getFrame(std::size_t n) const;
 
 private:
-	bool					setFrame(int frame);
-	void					animate();
-
-	
-	sf::Sprite			_sprite;
-	int					_nbAnimation;
-	int					_actualAnimation;
-	int					_nbFrame;
-	int					_actualFrame;
-	float					_timeFrame;
-	float					_timeLeft;
-	bool					_pause;
-	bool					_loop;
+	std::vector<sf::IntRect> m_frames;
+	const sf::Texture* m_texture;
 };
 
+#endif // ANIMATION_INCLUDE
