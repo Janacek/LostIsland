@@ -164,6 +164,7 @@ public:
 private:
 	float						_cursorTime;
 	void						changeAnimation(sf::Vector2f&, std::pair<float, float>);
+	void						changeToIdleAnim();
 	Map							*_map;
 public:
 	const float					HUNGER_CLOCK = 6.f;
