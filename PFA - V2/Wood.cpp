@@ -5,6 +5,7 @@
 Wood::Wood(void)
 {
 	_pos = sf::Vector2f(0, 0);
+	_id = IEntityId++;
 }
 
 void Wood::doAction(IEntity* other)

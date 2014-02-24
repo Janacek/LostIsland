@@ -7,6 +7,7 @@
 class Drops : public IEntity
 {
 public:
+	Drops();
 	virtual void doAction(IEntity* other);
 	virtual void getAction(IEntity* other);
 	virtual int getDamage(void) const { return 0; };

@@ -14,6 +14,7 @@ Singleton::Singleton()
 	this->isKeyIPressed = false;
 	this->isEscapePressed = false;
 	this->isShiftPressed = false;
+	this->isKeyPressed = false;
 
 	this->deltaMouseWeel = 0;
 	this->posLeftClickPressed = sf::Vector2i(0, 0);

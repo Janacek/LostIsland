@@ -13,6 +13,7 @@
 class Rock : public IEntity
 {
 public:
+	Rock();
 	virtual void doAction(IEntity* other);
 	virtual void getAction(IEntity* other);
 	void loadAnimation(std::string const & string_anim, float speed);
@@ -43,4 +44,7 @@ protected:
 	std::list<std::pair<float, float> > _path;
 	int				_damages;
 	sf::Vector2f	_position;
+
+	int				_duration;
+	bool			_isMined;
 };

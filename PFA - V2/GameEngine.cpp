@@ -46,6 +46,7 @@ void GameEngine::update()
 			switch (event.type)
 			{
 			case sf::Event::KeyPressed:
+				Singleton::getInstance().isKeyPressed = true;
 				_controler.handlePlayerInput(event.key.code, true);
 				break;
 			case sf::Event::KeyReleased:
@@ -65,6 +66,9 @@ void GameEngine::update()
 				break;
 			case sf::Event::MouseButtonPressed:
 				_controler.handlePlayerInput(event.mouseButton.button, true);
+				break;
+			default:
+				Singleton::getInstance().isKeyPressed = false;
 				break;
 			}
 		}

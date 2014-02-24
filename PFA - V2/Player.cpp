@@ -42,6 +42,8 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_path.clear();
 	_cursorTime = 0;
 	_objective = NULL;
+	_id = IEntityId++;
+
 }
 
 Compartment	*Player::getCompartment(int index)
@@ -185,6 +187,7 @@ void Player::doActionOnEntity()
 {
 	if (_objective && _objective->getType() != PLAYER)
 	{
+
 		if (_objective->getIsAMovingEntity())
 		{
 			_path = _objective->getPath();
@@ -390,7 +393,6 @@ void Player::update(Map & map)
 	}
 
 	moveToNextWP();
-
 }
 
 void Player::loadAnimation(std::string const & string_anim, float speed)

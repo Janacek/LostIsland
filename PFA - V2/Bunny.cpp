@@ -8,6 +8,7 @@ Bunny::Bunny()
 {
 	_isMoving = false;
 	_isStop = false;
+	_id = IEntityId++;
 }
 
 Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
