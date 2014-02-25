@@ -114,7 +114,10 @@ void InventoryWindow::createZones(std::vector<Player *>& players)
 {
 	this->_players = players;
 	for (Player *u : players)
+	{
 		createCompartment(u);
+	}
+		
 }
 
 void InventoryWindow::setCraftingClass(Crafting *craft)

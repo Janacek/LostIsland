@@ -1,4 +1,5 @@
 #include "Rock.h"
+#include "Player.h"
 
 Rock::Rock()
 {
@@ -18,6 +19,15 @@ void Rock::getAction(IEntity* other)
 	_duration -= other->getDamage();
 	if (_duration <= 0 && !_isMined)
 	{
+		try // si c'est un player
+		{
+			Player *player = dynamic_cast<Player *>(other);
+			player->addEntityInInventory(this);
+		}
+		catch (std::bad_cast ex)
+		{
+			std::cout << "Cas non géré. C'est un animal qui attaque l'arbre." << std::endl;
+		}
 		_isMined = true;
 	}
 }

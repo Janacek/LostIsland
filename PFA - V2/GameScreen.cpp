@@ -357,14 +357,11 @@ void	GameScreen::updateSelectionZone()
 
 void GameScreen::update(void)
 {
-
-
 	_physicEngine->updatePos(_players, _entities);
 
 	updateSelectionZone();
 	std::sort(_players.begin(), _players.end(), cmpPlayers);
 
-	std::cout << "vector size : " << _players.size() << std::endl;
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
 		(*it)->update(*_map);
@@ -393,8 +390,7 @@ void GameScreen::update(void)
 			return;
 		}
 	}
-	std::cout << "vector size : " << _players.size() << std::endl;
-
+	
 	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
 	{
 		(*it2)->update(*_map);
