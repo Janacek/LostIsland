@@ -9,6 +9,7 @@ public:
 	CustomToggleButton(Player *, Compartment *);
 	Player *getPlayer();
 	Compartment *getCompartment();
+	void setCompartment(Compartment *);
 	Type getType() const;
 	bool isEmpty() const;
 	std::list<IEntity *> getEntities();

@@ -112,6 +112,7 @@ void InventoryWindow::mouseLeave(std::string const&id)
 
 void InventoryWindow::createZones(std::vector<Player *>& players)
 {
+	this->_players = players;
 	for (Player *u : players)
 		createCompartment(u);
 }
@@ -122,18 +123,24 @@ void InventoryWindow::setCraftingClass(Crafting *craft)
 }
 
 
-void  InventoryWindow::addToInventory(Player *player, IEntity *entity)
+void  InventoryWindow::addToInventory(Player *player, Compartment *com, int pos)
 {
-	for (Player * u : this->_players)
+	std::cout << "Jajoute dans l'inventaire  " << std::endl;
+	int compt = 0;
+	//savoir sa position
+	std::cout << "Nbr players :" << this->_players.size() << std::endl;
+	for (Player *u : this->_players)
 	{
-		//si c'est ce player
+		std::cout << "Player : " << u->getName() << std::endl;
+		std::cout << "Jajoute dans l'inventaire  " << std::endl;
 		if (u == player)
 		{
-			u->addEntityInInventory(entity);
-			int pos = u->posInventory(entity);
-			std::cout << "POS : " << pos << std::endl;
-			this->_tableImages[pos]->SetImage((*ImageSingleton::getInstance().get(entity->getType())).copyToImage());
+			std::cout << "Je suis le player ! :)" << std::endl;
+			CustomToggleButton *u = this->_tableButtons[8 * compt + pos];
+			u->setCompartment(com);
+			break;
 		}
+		++compt;
 	}
 }
 
@@ -215,6 +222,7 @@ void InventoryWindow::mouseLeftPress(CustomToggleButton *but)
 	}
 	else
 	{
+		std::cout << "Je set la value" << std::endl;
 		this->_selectedRessource = but;
 		this->_spinButton->SetRange(0, but->getCompartment()->getSize());
 		this->_spinButton->SetValue(but->getCompartment()->getSize());
@@ -261,7 +269,8 @@ void InventoryWindow::init()
 
 void InventoryWindow::close()
 {
-	this->_inventoryWindow->Show(false);
+	std::cout << "JE PASSE DANS CLOSE " << std::endl;
+	//this->_inventoryWindow->Show(false);
 }
 
 void InventoryWindow::checkScrollEvent()

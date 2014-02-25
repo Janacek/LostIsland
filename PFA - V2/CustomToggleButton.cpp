@@ -18,6 +18,17 @@ bool CustomToggleButton::isEmpty() const
 	return this->_ressources == NULL || this->_ressources->getSize() == 0 ? true : false;
 }
 
+void CustomToggleButton::setCompartment(Compartment *comp)
+{
+	std::cout << "Je suis set " << std::endl;
+	this->_ressources = comp;
+	if (comp != NULL)
+	{
+		this->_img = sfg::Image::Create(comp->getImage());
+		this->_button->SetImage(this->_img);
+	}
+}
+
 std::list<IEntity *>CustomToggleButton::getEntities()
 {
 	if (this->_ressources != NULL)

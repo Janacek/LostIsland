@@ -24,7 +24,7 @@ public:
 	void setCraftingClass(Crafting *);
 	void mouseLeftPress(CustomToggleButton *);
 	void showBox(std::vector<Player *>&);
-	void addToInventory(Player *, IEntity *);
+	void addToInventory(Player *, Compartment *, int pos);
 	void fillImage(Player *player, int index, sfg::ToggleButton::Ptr);
 	~InventoryWindow();
 

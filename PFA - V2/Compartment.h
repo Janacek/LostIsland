@@ -21,7 +21,6 @@ private:
 	std::list<IEntity *>		_elements;
 
 	sf::Image					_img;
-	unsigned int				_numberElements;
 	
 };
 

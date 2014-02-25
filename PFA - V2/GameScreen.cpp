@@ -50,7 +50,6 @@ GameScreen::~GameScreen()
 	delete _physicEngine;
 	delete _dropCompartment;
 	delete _inventory;
-	delete _winRessource;
 }
 
 void	GameScreen::checkQuit(sf::Event &e)
@@ -110,12 +109,14 @@ void GameScreen::initialize(void)
 	if (_map->_camera->_position.y < 0)
 		_map->_camera->_position.y;
 
+	this->_inventory = new InventoryWindow;
 	for (int i = 0; i < 4; i++)
 	{
 		sf::Vector2f pos = *spawnPoint;
 		++spawnPoint;
 		Player *p = new Player(pos, &_camera);
 		p->setMap(_map);
+		p->setInventory(this->_inventory);
 		_map->setEntityMap(p, pos.x, pos.y);
 		os << (i + 1);
 		p->setName("Player " + os.str());
@@ -128,11 +129,9 @@ void GameScreen::initialize(void)
 	this->_activeInventary = false;
 	this->_activeWinRessources = false;
 	_loadingText = "Generating inventories";
-	this->_inventory = new InventoryWindow;
+	
 	this->_inventory->init();
 	this->_inventory->createZones(this->_players);
-	this->_winRessource = new RessourcesWindow(this);
-
 	_loadingText = "Generating Crafting Window";
 	this->_crafting = new Crafting;
 	//initialisation de l'image du pointeur
@@ -377,7 +376,6 @@ void GameScreen::update(void)
 
 void		GameScreen::checkDrawInventory()
 {
-
 	if (Singleton::getInstance().isKeyIPressed)
 	{
 		this->_activeInventary = !this->_activeInventary;

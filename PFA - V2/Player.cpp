@@ -10,18 +10,19 @@
 #include "FontManager.h"
 #include "ShadersManager.h"
 #include "MapEnvironment.h"
+#include "Food.h"
+#include "Bush.h"
+#include "InventoryWindow.h"
 
 Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 {
 	_target = BADTYPE;
 	this->_name = "Player";
+	this->_inventoryWindow = NULL;
 	this->_sizeInventory = 0;
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(pos);
 	_rect.setFillColor(sf::Color::Red);
-	this->addEntityInInventory(new Water);
-	this->addEntityInInventory(new Water);
-	this->addEntityInInventory(new Wood);
 	_isMoving = false;
 	_hasAPath = false;
 	_isPathFound = false;
@@ -56,26 +57,6 @@ sfg::Box::Ptr Player::getBox()
 	return this->_inventory;
 }
 
-//ON NE S'EN sert pas pour le moment
-void Player::createBox()
-{
-	//on crée la structure
-	this->_book = sfg::Notebook::Create();
-	this->_inventory = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
-	auto table = sfg::Table::Create();
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			auto  tmp = sfg::Image::Create();
-			tmp->SetImage(this->_img);
-			table->Attach(tmp, sf::Rect<sf::Uint32>(i, j, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
-		}
-	}
-	this->_inventory->Pack(table, false);
-	this->_book->AppendPage(this->_inventory, sfg::Label::Create(this->_name));
-}
-
 void Player::setCamPos(sf::Vector2f &pos)
 {
 
@@ -102,6 +83,7 @@ void Player::drink(Water *water)
 
 bool Player::addEntityInInventory(IEntity *entity)
 {
+	int compt = 0;
 	for (Compartment *u : this->_inventoryPlayer)
 	{
 		//on a déja un element de ce type
@@ -110,9 +92,17 @@ bool Player::addEntityInInventory(IEntity *entity)
 			u->addElement(entity);
 			return true;
 		}
+		++compt;
 	}
-	//nouveau Type d'element
-	this->_inventoryPlayer.push_back(new Compartment(entity));
+	Compartment *u = new Compartment(entity);
+	this->_inventoryPlayer.push_back(u);
+	this->_inventoryWindow->close();
+	if (this->_inventoryWindow != NULL)
+	{
+		this->_inventoryWindow->addToInventory(this, u, compt);
+	}
+	else
+		std::cout << "Inventaire dans le joueur NULL" << std::endl;
 	return true;
 }
 

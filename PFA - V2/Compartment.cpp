@@ -7,7 +7,6 @@
 
 Compartment::Compartment(IEntity *entity)
 {
-	this->_numberElements = 0;
 	if (entity != NULL)
 	{
 		this->addElement(entity);
@@ -21,15 +20,13 @@ Compartment::~Compartment()
 void Compartment::addElement(IEntity *entity)
 {
 	this->_elements.push_back(entity);
-	if (this->_numberElements == 0)
+	if (this->_elements.size() == 1)
 		this->_img = (*ImageSingleton::getInstance().get(entity->getType())).copyToImage();
-	++this->_numberElements;
 }
 
 void Compartment::delAllElement()
 {
 	this->_elements.clear();
-	this->_numberElements = 0;
 }
 
 bool Compartment::delElement(IEntity *entity)
@@ -39,7 +36,7 @@ bool Compartment::delElement(IEntity *entity)
 
 int Compartment::getSize() const
 {
-	return this->_numberElements;
+	return this->_elements.size();
 }
 
 Type Compartment::getType() const
@@ -51,10 +48,9 @@ Type Compartment::getType() const
 
 bool Compartment::delElement()
 {
-	if (this->_numberElements != 0)
+	if (this->_elements.size() != 0)
 	{
 		this->_elements.pop_back();
-		--this->_numberElements;
 		return true;
 	}
 	return false;

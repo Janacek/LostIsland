@@ -9,7 +9,6 @@
 
 #include "InventoryWindow.h"
 #include "Crafting.h"
-#include "RessourcesWindow.h"
 #include "PhysicEngine.h"
 #include "StartScreen.h"
 #include "FontManager.h"
@@ -65,7 +64,6 @@ private:
 	std::vector<Player *>	_players;
 	std::vector<IEntity *>	_entities;
 	
-	RessourcesWindow		*_winRessource;
 	sf::Text				_statisticsText;
 	std::size_t				_statisticsNumFrames;
 	sf::Time				_statisticsUpdateTime;

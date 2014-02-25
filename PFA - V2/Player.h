@@ -6,6 +6,7 @@
 #include "Animation.h"
 
 class Water;
+class InventoryWindow;
 
 enum Direction
 {
@@ -54,6 +55,7 @@ public:
 	bool getIsStopped() const{ return false; }
 	bool getIsAMovingEntity() const{ return true; }
 	void setMap(Map *map) { _map = map; };
+	void setInventory(InventoryWindow *inventory) { _inventoryWindow = inventory; };
 	Map *getMap() { return _map; };
 
 
@@ -70,8 +72,8 @@ protected:
 	/*
 	** Player's camera and misc
 	*/
-	void					createBox();
-
+	void					addInInventoryWindow(IEntity *, int pos);
+	
 	Animation					*_anim;
 	Camera						*_camera;
 
@@ -152,7 +154,9 @@ public:
 private:
 	float						_cursorTime;
 	void						changeAnimation(sf::Vector2f&, std::pair<float, float>);
+	
 	Map							*_map;
+	InventoryWindow				*_inventoryWindow;
 public:
 	const float					HUNGER_CLOCK = 6.f;
 	const float					THIRST_CLOCK = 3.f;
