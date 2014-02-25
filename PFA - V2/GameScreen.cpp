@@ -34,12 +34,6 @@ GameScreen::GameScreen()
 	_loadingScreen->loadFromFile("./loadingScreen.png");
 	_loaded = false;
 
-	_two.push_back(new Tree);
-	_two.push_back(new Wood);
-
-	_tree.push_back(new Food);
-	_tree.push_back(new Water);
-	_tree.push_back(new Tree);
 }
 
 GameScreen::~GameScreen()
@@ -140,6 +134,7 @@ void GameScreen::initialize(void)
 	this->_inventory->createZones(this->_players);
 	_loadingText = "Generating Crafting Window";
 	this->_crafting = new Crafting;
+	this->_inventory->setCraftingClass(this->_crafting);
 	//initialisation de l'image du pointeur
 	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 	_loaded = true;

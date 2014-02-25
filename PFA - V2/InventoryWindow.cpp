@@ -90,7 +90,14 @@ void InventoryWindow::dropClick()
 
 void InventoryWindow::craftClick()
 {
-
+	if (this->_selectedRessource != NULL)
+	{
+		this->_crafting->addInTable(this->_selectedRessource, this->_spinButton->GetValue());
+		this->_selectedRessource->_button->SetActive(false);
+		this->_selectedRessource = NULL;
+		this->_spinButton->SetValue(0);
+		this->_spinButton->SetRange(0, 0);
+	}
 }
 
 void InventoryWindow::mouseEnter(std::string const&id)
@@ -225,7 +232,6 @@ void InventoryWindow::mouseLeftPress(CustomToggleButton *but)
 	}
 	else
 	{
-		std::cout << "Je set la value" << std::endl;
 		this->_selectedRessource = but;
 		this->_spinButton->SetRange(0, but->getCompartment()->getSize());
 		this->_spinButton->SetValue(but->getCompartment()->getSize());

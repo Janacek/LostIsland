@@ -22,8 +22,11 @@ void Crafting::createWindow()
 void Crafting::createTables()
 { 
 	auto craftButton = sfg::Button::Create("Craft");
+	auto removeButton = sfg::Button::Create("Supprimer de la table");
 	craftButton->SetRequisition(sf::Vector2f(100.f, 50.f));
 	craftButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::craft, this));
+	removeButton->SetRequisition(sf::Vector2f(100.f, 50.f));
+	removeButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::remove, this));
 	this->_boxButtons = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
 	this->_smallTable = sfg::Table::Create();
 
@@ -33,7 +36,7 @@ void Crafting::createTables()
 		{
 			CustomToggleButton *but = new CustomToggleButton(NULL, NULL);
 			but->_button->SetRequisition(sf::Vector2f(180.f, 166.f));
-			but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::mouseLeftPress, this));
+			but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::mouseLeftPress, this, but));
 			this->_smallTable->Attach(but->_button, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
 		}
 	}
@@ -43,6 +46,7 @@ void Crafting::createTables()
 	/*this->_boxButtons->Pack(this->_smallTable);*/
 	this->_mainBox->Pack(this->_boxButtons);
 	this->_mainBox->PackEnd(craftButton);
+	this->_mainBox->PackEnd(removeButton);
 	this->_largeTable = sfg::Table::Create();
 
 	for (int i = 0; i < 3; i++)
@@ -58,8 +62,9 @@ void Crafting::createTables()
 			else
 			{
 				CustomToggleButton *but = new CustomToggleButton(NULL, NULL);
+				this->_tableButton.push_back(but);
 				but->_button->SetRequisition(sf::Vector2f(180.f, 166.f));
-				but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::mouseLeftPress, this));
+				but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::mouseLeftPress, this, but));
 				this->_largeTable->Attach(but->_button, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
 			}
 		}
@@ -70,6 +75,24 @@ void Crafting::createTables()
 void Crafting::craft()
 {
 
+}
+
+void Crafting::remove()
+{
+	this->_selectedRessource->_button->SetActive(false);
+	this->_selectedRessource->setCompartment(NULL);
+}
+
+void Crafting::addInTable(CustomToggleButton *button, int nbr)
+{
+	for (auto u : this->_tableButton)
+	{
+		if (u->getCompartment() == NULL)
+		{
+			u->setCompartment(button->getCompartment());
+			break;
+		}
+	}
 }
 
 void Crafting::chooseDistance(Crafting::Distance dist)
@@ -110,9 +133,30 @@ void Crafting::draw()
 
 }
 
-void	Crafting::mouseLeftPress()
+void	Crafting::mouseLeftPress(CustomToggleButton *but)
 {
-
+	if (but->_button->IsActive() == true && but->isEmpty() == true)
+	{
+		//	this->_spinButton->SetValue(0);
+		but->_button->SetActive(false);
+		return;
+	}
+	else if (but->_button->IsActive() == false)
+	{
+		this->_selectedRessource = NULL;
+	}
+	else
+	{
+		this->_selectedRessource = but;
+	}
+	for (CustomToggleButton *u : this->_tableButton)
+	{
+		if (u->_button->IsActive() == true && (but != u))
+		{
+			u->_button->SetActive(false);
+			return;
+		}
+	}
 }
 
 Crafting::~Crafting()

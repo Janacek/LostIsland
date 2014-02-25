@@ -20,12 +20,15 @@ bool CustomToggleButton::isEmpty() const
 
 void CustomToggleButton::setCompartment(Compartment *comp)
 {
-	std::cout << "Je suis set " << std::endl;
 	this->_ressources = comp;
 	if (comp != NULL)
 	{
 		this->_img = sfg::Image::Create(comp->getImage());
 		this->_button->SetImage(this->_img);
+	}
+	else
+	{
+		this->_button->ClearImage();
 	}
 }
 

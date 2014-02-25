@@ -17,20 +17,23 @@ public:
 	void createTables();
 	void update();
 	void chooseDistance(Crafting::Distance);
+	void addInTable(CustomToggleButton *, int);
 	bool isNearTable() const;
 	void Show(bool show = true);
 	void draw();
 	~Crafting();
 private:
-	void								mouseLeftPress();
+	void								mouseLeftPress(CustomToggleButton *);
 	void								craft();
+	void								remove();
 
 	bool								_isNearTable;
 	sfg::Window::Ptr					_craftingWindow;
-	std::vector<sfg::ToggleButton::Ptr> _tableButton;
+	std::vector<CustomToggleButton *> _tableButton;
 	sfg::Table::Ptr						_smallTable;
 	sfg::Table::Ptr						_largeTable;
 	sfg::Box::Ptr						_boxButtons;
 	sfg::Box::Ptr						_mainBox;
+	CustomToggleButton					*_selectedRessource;
 };
 
