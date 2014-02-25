@@ -1,6 +1,8 @@
 #include "Bush.h"
 #include "Singleton.h"
 #include "ImageSingleton.h"
+#include "Player.h"
+#include "Berry.h"
 
 Bush::Bush()
 {
@@ -68,7 +70,18 @@ void Bush::doAction(IEntity *other)
 
 void Bush::getAction(IEntity *other)
 {
-	_grown = false;
-	_growthTime = 0.f;
-	// GIVE FOOD TO THE OTHER ENTITY
+	if (_grown)
+	{
+		_grown = false;
+		_growthTime = 0.f;
+		try // si c'est un player
+		{
+			Player *player = dynamic_cast<Player *>(other);
+			player->addEntityInInventory(new Berry);
+		}
+		catch (std::bad_cast ex)
+		{
+			std::cout << "Cas non géré. C'est un animal qui attaque l'arbre." << std::endl;
+		}
+	}
 }

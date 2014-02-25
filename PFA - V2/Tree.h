@@ -44,4 +44,5 @@ protected:
 	int				_duration;
 	sf::Vector2f	_position;
 	bool			_isCut;
+	bool			_isHarvested;
 };

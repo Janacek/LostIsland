@@ -247,7 +247,7 @@ void Player::moveToNextWP()
 	}
 	else {
 		doActionOnEntity();
-		//changeToIdleAnim();
+		changeToIdleAnim();
 		//_animatedSprite->stop();
 		_isMoving = false;
 		_hasAPath = false;
@@ -582,7 +582,7 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 	_animatedSprite = new AnimatedSprite(sf::seconds(0.1), true, false);
 	_animatedSprite->setScale(0.5, 0.5);
 
-	_curAnim = _attackLeftAnim;
+	_curAnim = _idleDownAnim;
 
 
 	_animatedSprite->play(*_curAnim);

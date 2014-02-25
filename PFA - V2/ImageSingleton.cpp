@@ -35,6 +35,7 @@ void ImageSingleton::start()
 	this->load(ROCK, "./rock.png");
 	this->load(ROCK_BROKEN, "./rock_broken.png");
 	this->load(DROPS, "./drops.png");
+	this->load(BERRY, "./berry.png");
 
 
 }

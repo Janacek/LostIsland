@@ -96,6 +96,7 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Area.cpp" />
+    <ClCompile Include="Berry.cpp" />
     <ClCompile Include="Bunny.cpp" />
     <ClCompile Include="Bush.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -140,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Berry.h" />
     <ClInclude Include="Bunny.h" />
     <ClInclude Include="Bush.h" />
     <ClInclude Include="Camera.h" />

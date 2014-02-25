@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "MapEnvironment.h"
 #include "Player.h"
+#include "Wood.h"
 
 void ForestTree::Animate(std::string const &)
 {
@@ -56,14 +57,18 @@ void ForestTree::doAction(IEntity *other)
 
 void ForestTree::getAction(IEntity *other)
 {
-	try // si c'est un player
+	if (!_isHarvested)
 	{
-		Player *player = dynamic_cast<Player *>(other);
-		player->addEntityInInventory(this);
-	}
-	catch (std::bad_cast ex)
-	{
-		std::cout << "Cas non géré. C'est un animal qui attaque l'arbre." << std::endl;
+		try // si c'est un player
+		{
+			Player *player = dynamic_cast<Player *>(other);
+			player->addEntityInInventory(new Wood);
+			_isHarvested = true;
+		}
+		catch (std::bad_cast ex)
+		{
+			std::cout << "Cas non géré. C'est un animal qui attaque l'arbre." << std::endl;
+		}
 	}
 	_duration -= other->getDamage();
 }
