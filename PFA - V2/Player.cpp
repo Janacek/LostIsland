@@ -547,10 +547,42 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 	_hitDownAnim->addFrame(sf::IntRect(357, 928, 98, 86));
 	_hitDownAnim->addFrame(sf::IntRect(459, 928, 98, 86));
 
+	_attackUpAnim = new Animation();
+	_attackUpAnim->setSpriteSheet(*imgAnim);
+	_attackUpAnim->addFrame(sf::IntRect(15, 1410, 120, 114));
+	_attackUpAnim->addFrame(sf::IntRect(162, 1410, 120, 114));
+	_attackUpAnim->addFrame(sf::IntRect(352, 1410, 120, 114));
+	_attackUpAnim->addFrame(sf::IntRect(501, 1410, 120, 114));
+	_attackUpAnim->addFrame(sf::IntRect(635, 1410, 120, 114));
+
+	_attackDownAnim = new Animation();
+	_attackDownAnim->setSpriteSheet(*imgAnim);
+	_attackDownAnim->addFrame(sf::IntRect(13, 1574, 124, 110));
+	_attackDownAnim->addFrame(sf::IntRect(163, 1574, 124, 110));
+	_attackDownAnim->addFrame(sf::IntRect(378, 1574, 124, 110));
+	_attackDownAnim->addFrame(sf::IntRect(533, 1574, 124, 110));
+	_attackDownAnim->addFrame(sf::IntRect(662, 1574, 124, 110));
+
+	_attackRightAnim = new Animation();
+	_attackRightAnim->setSpriteSheet(*imgAnim);
+	_attackRightAnim->addFrame(sf::IntRect(78, 1720, 104, 114));
+	_attackRightAnim->addFrame(sf::IntRect(231, 1720, 104, 114));
+	_attackRightAnim->addFrame(sf::IntRect(351, 1720, 104, 114));
+	_attackRightAnim->addFrame(sf::IntRect(457, 1720, 104, 114));
+	_attackRightAnim->addFrame(sf::IntRect(555, 1720, 104, 114));
+
+	_attackLeftAnim = new Animation();
+	_attackLeftAnim->setSpriteSheet(*imgAnim);
+	_attackLeftAnim->addFrame(sf::IntRect(663, 1720, 104, 114));
+	_attackLeftAnim->addFrame(sf::IntRect(761, 1720, 104, 114));
+	_attackLeftAnim->addFrame(sf::IntRect(868, 1720, 104, 114));
+	_attackLeftAnim->addFrame(sf::IntRect(997, 1720, 104, 114));
+	_attackLeftAnim->addFrame(sf::IntRect(1109, 1720, 104, 114));
+
 	_animatedSprite = new AnimatedSprite(sf::seconds(0.1), true, false);
 	_animatedSprite->setScale(0.5, 0.5);
 
-	_curAnim = _hitDownAnim;
+	_curAnim = _attackLeftAnim;
 
 
 	_animatedSprite->play(*_curAnim);

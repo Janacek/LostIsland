@@ -84,6 +84,10 @@ protected:
 	Animation					*_hitRightAnim;
 	Animation					*_hitLeftAnim;
 	Animation					*_hitDownAnim;
+	Animation					*_attackUpAnim;
+	Animation					*_attackDownAnim;
+	Animation					*_attackRightAnim;
+	Animation					*_attackLeftAnim;
 	Animation					*_deathAnim;
 	Animation					*_victoryAnim;
 	AnimatedSprite				*_animatedSprite;
