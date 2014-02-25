@@ -2,6 +2,11 @@
 #include		"ImageSingleton.h"
 #include		"ShadersManager.h"
 
+Drops::Drops()
+{
+	_id = IEntityId++;
+}
+
 void Drops::doAction(IEntity* other)
 {
 	

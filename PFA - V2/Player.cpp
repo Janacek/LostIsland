@@ -43,6 +43,8 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_path.clear();
 	_cursorTime = 0;
 	_objective = NULL;
+	_id = IEntityId++;
+
 }
 
 Compartment	*Player::getCompartment(int index)
@@ -155,32 +157,53 @@ void Player::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
 {
 	if (front.first > floor(pos.x))
 	{
-		_anim->setAnimation(1);
+		_curAnim = _walkRightAnim;
 	}
 	if (front.first < floor(pos.x))
 	{
-		_anim->setAnimation(3);
+		_curAnim = _walkLeftAnim;
 	}
 	if (front.second < floor(pos.y))
 	{
-		_anim->setAnimation(2);
+		_curAnim = _walkUpAnim;
 	}
 	if (front.second > floor(pos.y))
 	{
-		_anim->setAnimation(0);
+		_curAnim = _walkDownAnim;
 	}
 }
 
 void Player::doActionOnEntity()
 {
-	if (_objective)
+	if (_objective && _objective->getType() != PLAYER)
 	{
-		if (_actionClock >= 0.5)
+
+		if (_objective->getIsAMovingEntity())
 		{
-			doAction(_objective);
-			_actionClock = 0;
+			_path = _objective->getPath();
+		}
+		else
+		{
+
+			if (_actionClock >= 0.5)
+			{
+				doAction(_objective);
+				_actionClock = 0;
+			}
 		}
 	}
+}
+
+void Player::changeToIdleAnim()
+{
+	if (_curAnim == _walkRightAnim)
+		_curAnim = _idleRightAnim;
+	if (_curAnim == _walkLeftAnim)
+		_curAnim = _idleLeftAnim;
+	if (_curAnim == _walkUpAnim)
+		_curAnim = _idleUpAnim;
+	if (_curAnim == _walkDownAnim)
+		_curAnim = _idleDownAnim;
 }
 
 void Player::moveToNextWP()
@@ -192,10 +215,12 @@ void Player::moveToNextWP()
 	dt = time - _oldDtMvt;
 
 	_oldDtMvt = static_cast<float>(time);
+	_animatedSprite->play(*_curAnim);
 
 	if (!_path.empty())
 	{
-		_anim->play();
+		
+		_animatedSprite->play(*_curAnim);
 		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
@@ -222,10 +247,13 @@ void Player::moveToNextWP()
 	}
 	else {
 		doActionOnEntity();
-		_anim->pause();
+		changeToIdleAnim();
+		//_animatedSprite->stop();
 		_isMoving = false;
 		_hasAPath = false;
 	}
+	sf::Time t = sf::seconds(dt);;
+	_animatedSprite->update(t);
 }
 
 void Player::setSelected(bool const s)
@@ -255,7 +283,9 @@ void Player::draw(sf::RenderTexture *)
 	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
 	sf::Vector2f v(0, -10);
-	this->_anim->show(_posDisp + v);
+	//this->_anim->show(_posDisp + v);
+	_animatedSprite->setPosition(_posDisp + v);
+	Singleton::getInstance()._window->draw(*_animatedSprite);
 
 	sf::Text name;
 	name.setFont(*FontManager::getInstance().getFont(SANSATION));
@@ -350,11 +380,9 @@ void Player::update(Map & map)
 	}
 	if (_life <= 0)
 	{
-		// You're supposedly dead here.
 	}
 
 	moveToNextWP();
-
 }
 
 void Player::loadAnimation(std::string const & string_anim, float speed)
@@ -366,8 +394,101 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 	sf::Image img_tmp = imgAnim->copyToImage();
 	img_tmp.createMaskFromColor(color);
 	imgAnim->loadFromImage(img_tmp);
-	this->_anim = new Animation(imgAnim, 7, 3, speed);
-	this->_anim->setAnimation(0);
+	//std::cout << string_anim << std::endl;
+	_idleUpAnim = new Animation();
+	_idleUpAnim->setSpriteSheet(*imgAnim);
+	_idleUpAnim->addFrame(sf::IntRect(0, 0, 60, 84));
+	_idleUpAnim->addFrame(sf::IntRect(62, 0, 60, 84));
+	_idleUpAnim->addFrame(sf::IntRect(127, 0, 60, 84));
+	_idleUpAnim->addFrame(sf::IntRect(195, 0, 60, 84));
+	_idleUpAnim->addFrame(sf::IntRect(265, 0, 60, 84));
+	_idleUpAnim->addFrame(sf::IntRect(333, 0, 60, 84));
+	_idleUpAnim->addFrame(sf::IntRect(396, 0, 60, 84));
+	_idleDownAnim = new Animation();
+	_idleDownAnim->setSpriteSheet(*imgAnim);
+	_idleDownAnim->addFrame(sf::IntRect(0, 84, 60, 84));
+	_idleDownAnim->addFrame(sf::IntRect(62, 84, 60, 84));
+	_idleDownAnim->addFrame(sf::IntRect(127, 84, 60, 84));
+	_idleDownAnim->addFrame(sf::IntRect(195, 84, 60, 84));
+	_idleDownAnim->addFrame(sf::IntRect(265, 84, 60, 84));
+	_idleDownAnim->addFrame(sf::IntRect(333, 84, 60, 84));
+	_idleDownAnim->addFrame(sf::IntRect(396, 84, 60, 84));
+
+	_idleRightAnim = new Animation();
+	_idleRightAnim->setSpriteSheet(*imgAnim);
+	_idleRightAnim->addFrame(sf::IntRect(0, 170, 48, 88));
+	_idleRightAnim->addFrame(sf::IntRect(50, 170, 48, 88));
+	_idleRightAnim->addFrame(sf::IntRect(100, 170, 48, 88));
+	_idleRightAnim->addFrame(sf::IntRect(150, 170, 48, 88));
+	_idleRightAnim->addFrame(sf::IntRect(200, 170, 48, 88));
+	_idleRightAnim->addFrame(sf::IntRect(250, 170, 48, 88));
+	_idleRightAnim->addFrame(sf::IntRect(300, 170, 48, 88));
+
+
+	_idleLeftAnim = new Animation();
+	_idleLeftAnim->setSpriteSheet(*imgAnim);
+	_idleLeftAnim->addFrame(sf::IntRect(657, 170, 48, 88));
+	_idleLeftAnim->addFrame(sf::IntRect(607, 170, 48, 88));
+	_idleLeftAnim->addFrame(sf::IntRect(557, 170, 48, 88));
+	_idleLeftAnim->addFrame(sf::IntRect(507, 170, 48, 88));
+	_idleLeftAnim->addFrame(sf::IntRect(457, 170, 48, 88));
+	_idleLeftAnim->addFrame(sf::IntRect(407, 170, 48, 88));
+	_idleLeftAnim->addFrame(sf::IntRect(357, 170, 48, 88));
+	
+	_walkUpAnim = new Animation();
+	_walkUpAnim->setSpriteSheet(*imgAnim);
+	_walkUpAnim->addFrame(sf::IntRect(0, 260, 80, 84));
+	_walkUpAnim->addFrame(sf::IntRect(77, 260, 80, 84));
+	_walkUpAnim->addFrame(sf::IntRect(146, 260, 80, 84));
+	_walkUpAnim->addFrame(sf::IntRect(216, 260, 80, 84));
+	_walkUpAnim->addFrame(sf::IntRect(300, 260, 80, 84));
+	_walkUpAnim->addFrame(sf::IntRect(386, 260, 80, 84));
+	_walkUpAnim->addFrame(sf::IntRect(463, 260, 80, 84));
+	_walkUpAnim->addFrame(sf::IntRect(533, 260, 80, 84));
+	_walkUpAnim->addFrame(sf::IntRect(604, 260, 80, 84));
+	_walkUpAnim->addFrame(sf::IntRect(688, 260, 80, 84));
+
+	_walkDownAnim = new Animation();
+	_walkDownAnim->setSpriteSheet(*imgAnim);
+	_walkDownAnim->addFrame(sf::IntRect(1, 346, 78, 80));
+	_walkDownAnim->addFrame(sf::IntRect(78, 346, 78, 80));
+	_walkDownAnim->addFrame(sf::IntRect(148, 346, 78, 80));
+	_walkDownAnim->addFrame(sf::IntRect(222, 346, 78, 80));
+	_walkDownAnim->addFrame(sf::IntRect(299, 346, 78, 80));
+	_walkDownAnim->addFrame(sf::IntRect(387, 346, 78, 80));
+	_walkDownAnim->addFrame(sf::IntRect(464, 346, 78, 80));
+	_walkDownAnim->addFrame(sf::IntRect(534, 346, 78, 80));
+	_walkDownAnim->addFrame(sf::IntRect(609, 346, 78, 80));
+	_walkDownAnim->addFrame(sf::IntRect(688, 346, 78, 80));
+	/*_walkDownAnim->addFrame(sf::IntRect(7, 245, 18, 29));
+	_walkDownAnim->addFrame(sf::IntRect(38, 243, 18, 28));
+	_walkDownAnim->addFrame(sf::IntRect(68, 246, 18, 25));
+	_walkDownAnim->addFrame(sf::IntRect(102, 246, 18, 29));
+	_walkDownAnim->addFrame(sf::IntRect(134, 245, 18, 28));
+	_walkDownAnim->addFrame(sf::IntRect(171, 248, 18, 25));
+	*/
+	_curAnim = _idleDownAnim;
+	
+	_walkLeftAnim = new Animation();
+	_walkLeftAnim->setSpriteSheet(*imgAnim);
+	/*A ENLEVER !!*/
+	_walkLeftAnim->addFrame(sf::IntRect(464, 346, 78, 80));
+	/*A ENLEVER !!*/
+	_walkRightAnim = new Animation();
+	_walkRightAnim->setSpriteSheet(*imgAnim);
+	/*A ENLEVER !!*/
+	_walkRightAnim->addFrame(sf::IntRect(464, 346, 78, 80));
+	/*A ENLEVER !!*/
+
+	_animatedSprite = new AnimatedSprite(sf::seconds(0.1), true, false);
+	_animatedSprite->setScale(0.5, 0.5);
+	//
+	_animatedSprite->play(*_curAnim);
+	
+	
+
+	
+
 }
 
 void Player::move(sf::Vector2f &pos)
@@ -379,7 +500,8 @@ void Player::move(sf::Vector2f &pos)
 
 void Player::doAction(IEntity* other)
 {
-	other->getAction(this);
+	if (other->getType() != PLAYER)
+		other->getAction(this);
 }
 
 void Player::getAction(IEntity* other)
@@ -429,7 +551,7 @@ sf::Vector2f  Player::getPosition() const
 }
 
 
-/*sf::Rect & Player::getCollisionBox(void)
+sf::IntRect & Player::getCollisionBox(void)
 {
+	return _boxCollider;
 }
-*/

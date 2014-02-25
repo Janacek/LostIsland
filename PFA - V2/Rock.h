@@ -13,6 +13,7 @@
 class Rock : public IEntity
 {
 public:
+	Rock();
 	virtual void doAction(IEntity* other);
 	virtual void getAction(IEntity* other);
 	void loadAnimation(std::string const & string_anim, float speed);
@@ -34,6 +35,7 @@ public:
 	void setPosition(sf::Vector2f &);
 	sf::Vector2f  getPosition() const;
 	bool getIsAMovingEntity() const{ return false; }
+	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 
 
 	//sf::Rect & getCollisionBox(void);
@@ -42,4 +44,7 @@ protected:
 	std::list<std::pair<float, float> > _path;
 	int				_damages;
 	sf::Vector2f	_position;
+
+	int				_duration;
+	bool			_isMined;
 };

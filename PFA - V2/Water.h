@@ -28,6 +28,7 @@ public:
 	void setPath(std::list<std::pair<float, float> > &path);
 	bool getIsStopped() const{ return false; }
 	bool getIsAMovingEntity() const{ return false; }
+	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 
 
 	sf::Vector2f  getPosition() const;

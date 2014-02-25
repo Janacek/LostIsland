@@ -3,7 +3,7 @@
 #include <SFGUI/SFGUI.hpp>
 #include "Compartment.h"
 #include "Camera.h"
-#include "Animation.h"
+#include "AnimatedSprite.h"
 
 class Water;
 class InventoryWindow;
@@ -15,8 +15,6 @@ enum Direction
 	RIGHT,
 	LEFT
 };
-
-
 
 class Player : public IEntity
 {
@@ -58,25 +56,37 @@ public:
 	void setInventory(InventoryWindow *inventory) { _inventoryWindow = inventory; };
 	Map *getMap() { return _map; };
 
-
-	//sf::Rect & getCollisionBox(void);
-
+	
+	sf::IntRect & getCollisionBox(void);
+	
 	//TODO : Changer en compartments pour l'inventaire
 
 	sf::Image					_img; //TMP
 	// std::vector<IEntity *> _inventary;
-
 
 protected:
 
 	/*
 	** Player's camera and misc
 	*/
+	void					createBox();
+	
+	Animation					*_curAnim;
+	Animation					*_walkDownAnim;
+	Animation					*_walkRightAnim;
+	Animation					*_walkLeftAnim;
+	Animation					*_walkUpAnim;
+	Animation					*_idleDownAnim;
+	Animation					*_idleRightAnim;
+	Animation					*_idleLeftAnim;
+	Animation					*_idleUpAnim;
+	AnimatedSprite				*_animatedSprite;
+
 	void					addInInventoryWindow(IEntity *, int pos);
 	
-	Animation					*_anim;
-	Camera						*_camera;
 
+	Camera						*_camera;
+	sf::IntRect				_boxCollider;
 
 
 	/*
@@ -150,11 +160,12 @@ public:
 	bool const getIsPathFound() const { return _isPathFound; }
 	void setIsPathFound(bool n) { _isPathFound = n; }
 	void setTarget(Type );
+	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 
 private:
 	float						_cursorTime;
 	void						changeAnimation(sf::Vector2f&, std::pair<float, float>);
-	
+	void						changeToIdleAnim();
 	Map							*_map;
 	InventoryWindow				*_inventoryWindow;
 public:

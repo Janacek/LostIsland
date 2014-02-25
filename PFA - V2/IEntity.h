@@ -26,11 +26,14 @@ enum Type
 	CUT_PALMTREE,
 	PALMTREE,
 	ROCK,
+	ROCK_BROKEN,
 	DROPS,
 	PLAYER_INFOS_BACKGROUND,
 	SELECTED_ICON,
 	BADTYPE,
 };
+
+static int IEntityId = 0;
 
 class IEntity
 {
@@ -42,6 +45,7 @@ public:
 	virtual void draw(sf::RenderTexture *, sf::Shader &) = 0;
 	virtual void update(Map &) = 0;
 	virtual void setPath(std::list<std::pair<float, float> >&) = 0;
+	virtual std::list<std::pair<float, float> > getPath() const = 0;
 	virtual void setPosition(sf::Vector2f &pos) = 0;
 	virtual sf::Vector2f  getPosition() const = 0;
 	virtual int getDamage(void) const = 0;
@@ -55,6 +59,8 @@ public:
 	virtual void setIsPathFound(bool)  = 0;
 	virtual bool getIsStopped() const = 0;
 	virtual bool getIsAMovingEntity() const = 0;
+
+	int								_id;
 
 protected:
 private:

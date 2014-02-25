@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "GameScreen.h"
+#include "GameOverScreen.h"
 #include "Food.h"
 #include "Wood.h"
 #include "Bunny.h"
@@ -69,6 +70,10 @@ void GameScreen::events(sf::Event &e)
 	
 }
 
+static bool cmpPlayers(Player *lhs, Player *rhs)
+{
+	return lhs->getPosition().y < rhs->getPosition().y;
+}
 
 void GameScreen::initialize(void)
 {
@@ -121,10 +126,11 @@ void GameScreen::initialize(void)
 		os << (i + 1);
 		p->setName("Player " + os.str());
 		os.str("");
-		p->loadAnimation("zelda.png", 0.05f);
+		p->loadAnimation("finn.png", 0.05f);
 		this->_players.push_back(p);
 
 	}
+
 
 	this->_activeInventary = false;
 	this->_activeWinRessources = false;
@@ -250,11 +256,11 @@ void GameScreen::draw()
 		_t = Singleton::getInstance()._clock->restart();
 		Singleton::getInstance()._animClock->restart();
 
-
+		////
 
 		this->_map->draw(Singleton::getInstance()._window);
 
-		for (std::vector<Player *>::iterator it = _players.begin(); it != _players.end(); ++it)
+		for (auto it = _players.begin(); it != _players.end(); ++it)
 		{
 			(*it)->draw(NULL);
 		}
@@ -262,7 +268,6 @@ void GameScreen::draw()
 		{
 			(*it)->draw(NULL);
 		}
-
 		drawSelectionZone();
 		
 		/*
@@ -357,11 +362,39 @@ void GameScreen::update(void)
 	_physicEngine->updatePos(_players, _entities);
 
 	updateSelectionZone();
+	std::sort(_players.begin(), _players.end(), cmpPlayers);
 
+	std::cout << "vector size : " << _players.size() << std::endl;
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
 		(*it)->update(*_map);
+		if ((*it)->_life <= 0)
+		{
+			for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
+			{
+				for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
+				{
+					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->_id == (*it)->_id &&
+						_map->getEntitiesMap()[i][j]._component->getType() == PLAYER)
+					{
+						_map->getEntitiesMap()[i][j]._component->_id = -1;
+						_map->getEntitiesMap()[i][j]._component = NULL;
+						Player *tmp = (*it);
+						it = _players.erase(it);
+						delete tmp;
+					}
+				}
+			}
+		}
+		if (_players.size() <= 0)
+		{
+			_next = new GameOverScreen;
+			_isRunning = false;
+			return;
+		}
 	}
+	std::cout << "vector size : " << _players.size() << std::endl;
+
 	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
 	{
 		(*it2)->update(*_map);

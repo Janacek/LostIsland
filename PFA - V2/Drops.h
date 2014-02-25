@@ -7,6 +7,7 @@
 class Drops : public IEntity
 {
 public:
+	Drops();
 	virtual void doAction(IEntity* other);
 	virtual void getAction(IEntity* other);
 	virtual int getDamage(void) const { return 0; };
@@ -28,6 +29,7 @@ public:
 	void setPosition(sf::Vector2f &);
 	sf::Vector2f  getPosition() const;
 	bool getIsAMovingEntity() const{ return false; }
+	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 
 	std::list<IEntity *>				&getDrops();
 	void								addDrop(IEntity *);

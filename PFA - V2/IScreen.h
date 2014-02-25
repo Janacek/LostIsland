@@ -45,6 +45,7 @@ enum stateName
 	GAME,
 	MENU,
 	OPTIONS,
+	GAMEOVER,
 };
 
 class IScreen

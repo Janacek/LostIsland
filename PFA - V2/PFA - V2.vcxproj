@@ -93,6 +93,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="Bunny.cpp" />
@@ -109,6 +110,7 @@
     <ClCompile Include="ForestTree.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameOverScreen.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GestionClick.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
@@ -136,6 +138,8 @@
     <ClCompile Include="Wood.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Bunny.h" />
     <ClInclude Include="Bush.h" />
     <ClInclude Include="Camera.h" />
@@ -151,6 +155,7 @@
     <ClInclude Include="ForestTree.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GestionClick.h" />
     <ClInclude Include="GraphicEngine.h" />

@@ -13,6 +13,7 @@
 #include "StartScreen.h"
 #include "FontManager.h"
 #include "OnScreenLogs.h"
+#include "StartScreen.h"
 
 class GameScreen : public IScreen
 {
@@ -81,6 +82,8 @@ private:
 	sf::Vector2i			_posSelectedArea;
 
 	void					drawPlayerInformations(Player *, sf::Vector2f const &) const;
+
+	std::list<IEntity *>	_sortList;
 
 	/*
 	** Loading screen;

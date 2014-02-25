@@ -30,7 +30,7 @@ public:
 	void								setPathToGo(float f);
 	void								moveToNextWP();
 	void								addToPathToGo(float f);
-
+	std::list<std::pair<float, float>> getPath() const { return this->_originalPath; };
 	bool const							getSelected() const
 	{ 
 		return true;
@@ -67,6 +67,7 @@ private:
 	int									_iterPath;
 
 	std::list<std::pair<float, float> >	_path;
+	std::list<std::pair<float, float> >	_originalPath;
 	float								_pathToGo; // /!\ il doit partir a 1
 	// Bunny's position
 	sf::RectangleShape					_rect;

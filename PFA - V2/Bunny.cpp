@@ -8,6 +8,7 @@ Bunny::Bunny()
 {
 	_isMoving = false;
 	_isStop = false;
+	_id = IEntityId++;
 }
 
 Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
@@ -34,19 +35,19 @@ void Bunny::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
 {
 	if (front.first > floor(pos.x))
 	{
-		_anim->setAnimation(2);
+		//_anim->setAnimation(2);
 	}
 	if (front.first < floor(pos.x))
 	{
-		_anim->setAnimation(1);
+		//_anim->setAnimation(1);
 	}
 	if (front.second < floor(pos.y))
 	{
-		_anim->setAnimation(3);
+		//_anim->setAnimation(3);
 	}
 	if (front.second > floor(pos.y))
 	{
-		_anim->setAnimation(0);
+		//_anim->setAnimation(0);
 	}
 }
 void Bunny::moveToNextWP()
@@ -75,7 +76,7 @@ void Bunny::moveToNextWP()
 	}*/
 	if (!_path.empty())
 	{
-		_anim->play();
+		//_anim->play();
 		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
@@ -103,7 +104,8 @@ void Bunny::moveToNextWP()
 
 	}
 	else{
-		_anim->pause();
+		
+		//_anim->pause();
 		_isMoving = false;
 		_hasAPath = false;
 	}
@@ -151,8 +153,8 @@ void Bunny::getAction(IEntity *o)
 
 void Bunny::loadAnimation(std::string const &, float)
 {
-	this->_anim = new Animation(ImageSingleton::getInstance().get(BUNNY), 2, 3, 0.05f);
-	this->_anim->setAnimation(0);
+	//this->_anim = new Animation(ImageSingleton::getInstance().get(BUNNY), 2, 3, 0.05f);
+	//this->_anim->setAnimation(0);
 }
 
 void Bunny::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
@@ -160,7 +162,7 @@ void Bunny::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
-	this->_anim->show(_posDisp);
+	//this->_anim->show(_posDisp);
 }
 
 void Bunny::draw(sf::RenderTexture *)
@@ -168,7 +170,7 @@ void Bunny::draw(sf::RenderTexture *)
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
-	this->_anim->show(_posDisp);
+	//this->_anim->show(_posDisp);
 }
 
 void Bunny::update(Map &map)
@@ -189,6 +191,7 @@ void Bunny::update(Map &map)
 void Bunny::setPath(std::list<std::pair<float, float>> &list)
 {
 	_path = list;
+	_originalPath = list;
 }
 
 void Bunny::setPosition(sf::Vector2f &vec)
