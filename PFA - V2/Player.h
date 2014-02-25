@@ -80,6 +80,12 @@ protected:
 	Animation					*_idleRightAnim;
 	Animation					*_idleLeftAnim;
 	Animation					*_idleUpAnim;
+	Animation					*_hitUpAnim;
+	Animation					*_hitRightAnim;
+	Animation					*_hitLeftAnim;
+	Animation					*_hitDownAnim;
+	Animation					*_deathAnim;
+	Animation					*_victoryAnim;
 	AnimatedSprite				*_animatedSprite;
 
 	void					addInInventoryWindow(IEntity *, int pos);

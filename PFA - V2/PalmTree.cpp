@@ -4,6 +4,7 @@
 #include	"Map.h"
 #include	"MapEnvironment.h"
 #include	"Player.h"
+#include "Wood.h"
 
 void PalmTree::Animate(std::string const &)
 {
@@ -58,7 +59,7 @@ void PalmTree::getAction(IEntity *other)
 	try // si c'est un player
 	{
 		Player *player = dynamic_cast<Player *>(other);
-		player->addEntityInInventory(this);
+		player->addEntityInInventory(new Wood);
 	}
 	catch (std::bad_cast ex)
 	{
