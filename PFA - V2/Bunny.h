@@ -2,6 +2,7 @@
 
 #include "IEntity.h"
 #include "Animation.h"
+#include "AnimatedSprite.h"
 #include "Camera.h"
 
 #define TIMESTOP 3
@@ -77,4 +78,10 @@ private:
 	// Bunny's life
 	int									_life;
 
+	Animation							*_walkUp;
+	Animation							*_walkDown;
+	Animation							*_walkLeft;
+	Animation							*_walkRight;
+	Animation							*_curAnim;
+	AnimatedSprite						*_animatedSprite;
 };

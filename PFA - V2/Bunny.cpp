@@ -16,7 +16,7 @@ Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 {
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(_position);
-	loadAnimation("bunny", 0.1f);
+	loadAnimation("bunny.png", 0.1f);
 	_isMoving = false;
 	_pathToGo = 1.f;
 	_speed = 8;
@@ -36,18 +36,22 @@ void Bunny::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
 	if (front.first > floor(pos.x))
 	{
 		//_anim->setAnimation(2);
+		_curAnim = _walkRight;
 	}
 	if (front.first < floor(pos.x))
 	{
 		//_anim->setAnimation(1);
+		_curAnim = _walkLeft;
 	}
 	if (front.second < floor(pos.y))
 	{
 		//_anim->setAnimation(3);
+		_curAnim = _walkUp;
 	}
 	if (front.second > floor(pos.y))
 	{
 		//_anim->setAnimation(0);
+		_curAnim = _walkDown;
 	}
 }
 void Bunny::moveToNextWP()
@@ -59,6 +63,7 @@ void Bunny::moveToNextWP()
 	time = _mvtClock.getElapsedTime().asSeconds();
 	dt = time - _oldDtMvt;
 	_oldDtMvt = time;
+	_animatedSprite->play(*_curAnim);
 
 	/*if (_iterPath > IT_BEF_STOP)
 	{
@@ -77,6 +82,7 @@ void Bunny::moveToNextWP()
 	if (!_path.empty())
 	{
 		//_anim->play();
+		_animatedSprite->play(*_curAnim);
 		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
@@ -106,9 +112,12 @@ void Bunny::moveToNextWP()
 	else{
 		
 		//_anim->pause();
+		_animatedSprite->pause();
 		_isMoving = false;
 		_hasAPath = false;
 	}
+	sf::Time t = sf::seconds(dt);;
+	_animatedSprite->update(t);
 }
 
 
@@ -151,10 +160,47 @@ void Bunny::getAction(IEntity *o)
 	_life -= o->getDamage();
 }
 
-void Bunny::loadAnimation(std::string const &, float)
+void Bunny::loadAnimation(std::string const &string_anim, float)
 {
-	//this->_anim = new Animation(ImageSingleton::getInstance().get(BUNNY), 2, 3, 0.05f);
-	//this->_anim->setAnimation(0);
+	sf::Texture *imgAnim = new sf::Texture;
+	if (!imgAnim->loadFromFile(string_anim))
+		std::cerr << "image non charge" << std::endl;
+	sf::Image img_tmp = imgAnim->copyToImage();
+	imgAnim->loadFromImage(img_tmp);
+
+
+
+	_walkDown = new Animation();
+	_walkDown->setSpriteSheet(*imgAnim);
+	_walkDown->addFrame(sf::IntRect(0, 0, 32, 32));
+	_walkDown->addFrame(sf::IntRect(32, 0, 32, 32));
+	_walkDown->addFrame(sf::IntRect(64, 0, 32, 32));
+
+	_walkLeft = new Animation();
+	_walkLeft->setSpriteSheet(*imgAnim);
+	_walkLeft->addFrame(sf::IntRect(0, 32, 32, 32));
+	_walkLeft->addFrame(sf::IntRect(32, 32, 32, 32));
+	_walkLeft->addFrame(sf::IntRect(64, 32, 32, 32));
+
+	_walkRight = new Animation();
+	_walkRight->setSpriteSheet(*imgAnim);
+	_walkRight->addFrame(sf::IntRect(0, 64, 32, 32));
+	_walkRight->addFrame(sf::IntRect(32, 64, 32, 32));
+	_walkRight->addFrame(sf::IntRect(64, 64, 32, 32));
+
+	_walkUp = new Animation();
+	_walkUp->setSpriteSheet(*imgAnim);
+	_walkUp->addFrame(sf::IntRect(0, 96, 32, 32));
+	_walkUp->addFrame(sf::IntRect(32, 96, 32, 32));
+	_walkUp->addFrame(sf::IntRect(64, 96, 32, 32));
+
+
+	_animatedSprite = new AnimatedSprite(sf::seconds(0.1), true, false);
+
+	_curAnim = _walkDown;
+
+
+	_animatedSprite->play(*_curAnim);
 }
 
 void Bunny::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
@@ -163,12 +209,15 @@ void Bunny::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
 	//this->_anim->show(_posDisp);
+	Singleton::getInstance()._window->draw(*_animatedSprite);
 }
 
 void Bunny::draw(sf::RenderTexture *)
 {
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
+
+	Singleton::getInstance()._window->draw(*_animatedSprite);
 
 	//this->_anim->show(_posDisp);
 }
