@@ -4,24 +4,31 @@
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/Music.hpp>
+#include <map>
+
+
+
+enum soundType
+{
+	FIGHT,
+	STEPS,
+	DIE,
+	WIND,
+};
 
 class SoundManager
 {
-	enum soundType
-	{
-		FIGHT,
-		STEPS,
-		DIE,
-		WIND,
-	};
+	
 public:
 	SoundManager();
 	~SoundManager();
-	SoundManager		&getSoundManager() const;
+	static SoundManager		&getSoundManager();
 	void				playMusic(const std::string &filename);
+	std::map<soundType, sf::Sound>			&getSounds();
 private:
 	static SoundManager	sounds;
-	sf::SoundBuffer		bufferEffects[4];
-	sf::Sound			effects[4];
+	std::map<soundType, sf::SoundBuffer>		bufferEffects;
+	std::map<soundType, sf::Sound>				effects;
 	sf::Music			music;
 };
+

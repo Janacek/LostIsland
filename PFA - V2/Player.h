@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <SFGUI/SFGUI.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
 #include "Compartment.h"
 #include "Camera.h"
 #include "AnimatedSprite.h"
@@ -173,7 +175,11 @@ public:
 	void setTarget(Type);
 	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 	sf::FloatRect getBoxCollider() const;
+	void						stepsSound();
 private:
+	bool						_isWalking;
+	sf::SoundBuffer				_stepsBuffer;
+	sf::Sound					_stepts;
 	float						_cursorTime;
 	void						changeAnimation(sf::Vector2f&, std::pair<float, float>);
 	void						changeToIdleAnim();

@@ -13,9 +13,13 @@
 #include "Food.h"
 #include "Bush.h"
 #include "InventoryWindow.h"
+#include "SoundManager.h"
 
 Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 {
+	this->_isWalking = false;
+	this->_stepsBuffer.loadFromFile("./Media/steps.ogg");
+	this->_stepts.setBuffer(this->_stepsBuffer);
 	_target = BADTYPE;
 	this->_name = "Player";
 	this->_inventoryWindow = NULL;
@@ -261,7 +265,6 @@ void Player::moveToNextWP()
 
 	}
 	else  {
-		
 		doActionOnEntity();
 		changeToIdleAnim();
 		//_animatedSprite->stop();
@@ -347,6 +350,21 @@ void Player::draw(sf::RenderTexture *)
 	}
 }
 
+void Player::stepsSound()
+{
+	if (!_path.empty() && this->_isWalking == false)
+	{
+		this->_stepts.play();
+		this->_isWalking = true;
+	}
+	else if (_path.empty() && this->_isWalking == true)
+	{
+		this->_stepts.stop();
+		this->_isWalking = false;
+	}
+	
+}
+
 void Player::changeMapEntity(Map & map)
 {
 	if (!_path.empty() && _hasAPath == false)
@@ -363,7 +381,7 @@ void Player::changeMapEntity(Map & map)
 			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
 		}
 
-	}
+	}		
 }
 
 void Player::update(Map & map)
@@ -375,7 +393,7 @@ void Player::update(Map & map)
 	dt = time - _oldDt;
 
 	_oldDt = time;
-
+	this->stepsSound();
 	/*
 	Si on est en mvt on delete la case ou on était a la base, on set la case d'arrivée
 
@@ -386,6 +404,18 @@ void Player::update(Map & map)
 	map.setEntityMap(this, static_cast<int>(floor(_pos.x)), static_cast<int>(floor(_pos.y)));
 	}*/
 
+	/*
+	if (!_path.empty() && )
+	{
+		std::cout << "MUSICC" << std::endl;
+		
+	}
+	else
+	{
+		std::cout << "STOPPPPPPPPPPPPPP" << std::endl;
+		SoundManager::getSoundManager().getSounds()[STEPS].stop();
+	}
+	*/
 	changeMapEntity(map);
 
 	_hungerClock += dt;
