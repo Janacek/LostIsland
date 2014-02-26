@@ -217,6 +217,7 @@ void Bunny::draw(sf::RenderTexture *)
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
+	_animatedSprite->setPosition(_posDisp);
 	Singleton::getInstance()._window->draw(*_animatedSprite);
 
 	//this->_anim->show(_posDisp);
