@@ -78,6 +78,11 @@ int		Player::posInventory(IEntity *entity)
 	return a;
 }
 
+void Player::eat(int amount)
+{
+	this->_food + amount > 100 ? this->_food = 100 : this->_food += amount;
+}
+
 void Player::drink(Water *water)
 {
 	this->_water + 20 > 100 ? this->_water = 100 : this->_water += 20;

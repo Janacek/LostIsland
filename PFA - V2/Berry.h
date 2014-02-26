@@ -35,5 +35,6 @@ public:
 
 private:
 	std::list<std::pair<float, float> > _path;
-	sf::Vector2f _pos;
+	sf::Vector2f						_pos;
+	int									_value;
 };

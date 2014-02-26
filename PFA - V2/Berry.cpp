@@ -5,11 +5,14 @@ Berry::Berry()
 {
 	_pos = sf::Vector2f(0, 0);
 	_id = IEntityId++;
+	_value = 5;
 }
 
 void Berry::doAction(IEntity *other)
 {
-	// nothing
+	Player *player = dynamic_cast<Player *>(other);
+
+	player->eat(_value);
 }
 
 void Berry::getAction(IEntity *other)

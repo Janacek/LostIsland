@@ -23,6 +23,7 @@ public:
 	void doAction(IEntity* other);
 	void getAction(IEntity* other);
 	void drink(Water *);
+	void eat(int);
 	std::string const &getName() const;
 	void setName(std::string const &);
 	void loadAnimation(std::string const & string_anim, float speed);
@@ -56,9 +57,9 @@ public:
 	void setInventory(InventoryWindow *inventory) { _inventoryWindow = inventory; };
 	Map *getMap() { return _map; };
 
-	
+
 	sf::IntRect & getCollisionBox(void);
-	
+
 	//TODO : Changer en compartments pour l'inventaire
 
 	sf::Image					_img; //TMP
@@ -70,7 +71,7 @@ protected:
 	** Player's camera and misc
 	*/
 	void					createBox();
-	
+
 	Animation					*_curAnim;
 	Animation					*_walkDownAnim;
 	Animation					*_walkRightAnim;
@@ -93,7 +94,7 @@ protected:
 	AnimatedSprite				*_animatedSprite;
 
 	void					addInInventoryWindow(IEntity *, int pos);
-	
+
 
 	Camera						*_camera;
 	sf::IntRect				_boxCollider;
@@ -169,7 +170,7 @@ public:
 	bool						const getSelected() const;
 	bool const getIsPathFound() const { return _isPathFound; }
 	void setIsPathFound(bool n) { _isPathFound = n; }
-	void setTarget(Type );
+	void setTarget(Type);
 	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 
 private:
