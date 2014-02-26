@@ -91,7 +91,7 @@ void GameScreen::initialize(void)
 			_map->getEntitiesMap()[x][y]._component == NULL) {
 			Bunny *rabbit = new Bunny(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 100, _map->_camera);
 			this->_entities.push_back(rabbit);
-			_map->setEntityMap(rabbit, y, x);
+			_map->setEntityMap(rabbit, x, y);
 			++i;
 		}
 	}

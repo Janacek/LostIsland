@@ -44,6 +44,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_cursorTime = 0;
 	_objective = NULL;
 	_id = IEntityId++;
+	_timeAttack = 0;
 
 }
 
@@ -221,26 +222,24 @@ void Player::moveToNextWP()
 
 	_oldDtMvt = static_cast<float>(time);
 	_animatedSprite->play(*_curAnim);
-
-	if (!_path.empty())
+	if (_timeAttack > 0)
+		_timeAttack += dt;
+	if (_timeAttack > 0.7)
 	{
-		
-		_animatedSprite->play(*_curAnim);
+		std::cout << "Time reset" << std::endl;
+		_timeAttack = 0;
+	}
+	if (!_path.empty() && _timeAttack == 0)
+	{
+		_animatedSprite->setLooped(true);
+
+		//_animatedSprite->play(*_curAnim);
 		_isMoving = true;
 		sf::Vector2f tmp(0, 0);
 		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
 		tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
 
-		if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y) &&
-			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
-
-		{
-			_path.pop_front();
-			changeAnimation(_pos, _path.front());
-			return;
-		}
-
-		if (_pos.x > _path.front().first)
+		if (_pos.x > _path.front().first )
 			_pos.x -= static_cast<float>(dt * _speed);
 		if (_pos.x < _path.front().first)
 			_pos.x += static_cast<float>(dt * _speed);
@@ -248,18 +247,49 @@ void Player::moveToNextWP()
 			_pos.y -= static_cast<float>(dt *_speed);
 		if (_pos.y < _path.front().second)
 			_pos.y += static_cast<float>(dt * _speed);
+		if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y) &&
+			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
+
+		{
+			if (!_path.empty())
+				_path.pop_front();
+			changeAnimation(_pos, _path.front());
+			return;
+		}
+
+		
 
 	}
-	else {
+	else  {
+		
 		doActionOnEntity();
 		changeToIdleAnim();
 		//_animatedSprite->stop();
 		_isMoving = false;
 		_hasAPath = false;
 	}
+	if (_objective && _objective->getIsAMovingEntity() && _objective->getType() != PLAYER && _objective->getBoxCollider().intersects(_animatedSprite->getGlobalBounds()))
+	{
+		_animatedSprite->setLooped(false);
+		_timeAttack += dt;
+		if (_curAnim == _walkRightAnim || _curAnim == _idleRightAnim)
+			_curAnim = _attackRightAnim;
+		if (_curAnim == _walkLeftAnim || _curAnim == _idleLeftAnim)
+			_curAnim = _attackLeftAnim;
+		if (_curAnim == _walkUpAnim || _curAnim == _idleUpAnim)
+			_curAnim = _attackUpAnim;
+		if (_curAnim == _walkDownAnim || _curAnim == _idleDownAnim)
+			_curAnim = _attackDownAnim;
+	}
+
 	sf::Time t = sf::seconds(dt);;
 	_animatedSprite->update(t);
 }
+
+sf::FloatRect Player::getBoxCollider() const
+{
+	return _animatedSprite->getGlobalBounds(); 
+};
 
 void Player::setSelected(bool const s)
 {
@@ -586,6 +616,7 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 
 	_animatedSprite = new AnimatedSprite(sf::seconds(0.1), true, false);
 	_animatedSprite->setScale(0.5, 0.5);
+	
 
 	_curAnim = _idleDownAnim;
 

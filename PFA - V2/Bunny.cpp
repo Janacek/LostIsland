@@ -19,7 +19,7 @@ Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 	loadAnimation("bunny.png", 0.1f);
 	_isMoving = false;
 	_pathToGo = 1.f;
-	_speed = 8;
+	_speed = 2;
 	_oldTime = 0;
 	_isPathFound = false;
 	_iterPath = 0;
@@ -107,6 +107,8 @@ void Bunny::moveToNextWP()
 			_position.y -= static_cast<float>(dt *_speed);
 		if (_position.y < _path.front().second)
 			_position.y += static_cast<float>(dt * _speed);
+		//std::cout << "getBoxCollider : x " << _animatedSprite->getGlobalBounds().left << "y " << _animatedSprite->getGlobalBounds().top << std::endl;
+
 
 	}
 	else{
@@ -193,14 +195,20 @@ void Bunny::loadAnimation(std::string const &string_anim, float)
 	_walkUp->addFrame(sf::IntRect(0, 96, 32, 32));
 	_walkUp->addFrame(sf::IntRect(32, 96, 32, 32));
 	_walkUp->addFrame(sf::IntRect(64, 96, 32, 32));
-
+	
 
 	_animatedSprite = new AnimatedSprite(sf::seconds(0.1), true, false);
-
 	_curAnim = _walkDown;
 
 
 	_animatedSprite->play(*_curAnim);
+
+}
+
+sf::FloatRect Bunny::getBoxCollider() const 
+{ 
+	//std::cout << "x" << _animatedSprite->getGlobalBounds().left << "y " << _animatedSprite->getGlobalBounds().top << std::endl;
+	return _animatedSprite->getGlobalBounds();
 }
 
 void Bunny::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
@@ -227,7 +235,6 @@ void Bunny::update(Map &map)
 {
 	if (!_path.empty() && _hasAPath == false) // on va check tous les draw qui sont en rapport aux lapins
 	{
-		std::cout << "OLOL" << std::endl;
 		_hasAPath = true;
 			map.setEntityMap(NULL, static_cast<int>(floor(_position.y)), static_cast<int>(floor(_position.x)));
 		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
@@ -236,6 +243,7 @@ void Bunny::update(Map &map)
 		}
 	}
 	moveToNextWP();
+	//std::cout << " x " << _animatedSprite->getGlobalBounds().left << " y " <<  _animatedSprite->getGlobalBounds().top << std::en
 }
 
 void Bunny::setPath(std::list<std::pair<float, float>> &list)

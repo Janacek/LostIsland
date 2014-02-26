@@ -29,6 +29,7 @@ public:
 	Type getType() const;
 	bool getIsStopped() const{ return false; }
 	std::list<std::pair<float, float>> getPath() const { return this->_path; };
+	sf::FloatRect getBoxCollider() const { return sf::FloatRect(0.f, 0.f, 0.f, 0.f); };
 	bool getIsAMovingEntity() const
 	{
 		return false; 

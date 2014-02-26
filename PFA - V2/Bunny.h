@@ -31,7 +31,7 @@ public:
 	void								setPathToGo(float f);
 	void								moveToNextWP();
 	void								addToPathToGo(float f);
-	std::list<std::pair<float, float>> getPath() const { return this->_originalPath; };
+	std::list<std::pair<float, float>> getPath() const { return this->_path; };
 	bool const							getSelected() const
 	{ 
 		return true;
@@ -49,7 +49,7 @@ public:
 	{ 
 		return true;
 	}
-
+	sf::FloatRect getBoxCollider() const;
 private:
 	void								changeAnimation(sf::Vector2f&, std::pair<float, float>);
 

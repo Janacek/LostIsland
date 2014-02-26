@@ -172,13 +172,15 @@ public:
 	void setIsPathFound(bool n) { _isPathFound = n; }
 	void setTarget(Type);
 	std::list<std::pair<float, float>> getPath() const { return this->_path; };
-
+	sf::FloatRect getBoxCollider() const;
 private:
 	float						_cursorTime;
 	void						changeAnimation(sf::Vector2f&, std::pair<float, float>);
 	void						changeToIdleAnim();
 	Map							*_map;
 	InventoryWindow				*_inventoryWindow;
+	float						_timeAttack;
+	
 public:
 	const float					HUNGER_CLOCK = 6.f;
 	const float					THIRST_CLOCK = 3.f;

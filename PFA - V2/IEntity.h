@@ -60,7 +60,7 @@ public:
 	virtual void setIsPathFound(bool)  = 0;
 	virtual bool getIsStopped() const = 0;
 	virtual bool getIsAMovingEntity() const = 0;
-
+	virtual sf::FloatRect getBoxCollider() const = 0;
 	int								_id;
 
 protected:
