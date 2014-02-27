@@ -17,6 +17,7 @@
 
 Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 {
+	_isAttacking = false;
 	this->_isWalking = false;
 	this->_stepsBuffer.loadFromFile("./Media/steps.ogg");
 	this->_stepts.setBuffer(this->_stepsBuffer);
@@ -226,53 +227,73 @@ void Player::moveToNextWP()
 
 	_oldDtMvt = static_cast<float>(time);
 	_animatedSprite->play(*_curAnim);
-	if (_timeAttack > 0)
-		_timeAttack += dt;
-	if (_timeAttack > 0.7)
+	if (_isAttacking == true)
 	{
-		std::cout << "Time reset" << std::endl;
-		_timeAttack = 0;
-	}
-	if (!_path.empty() && _timeAttack == 0)
-	{
-		_animatedSprite->setLooped(true);
-
-		//_animatedSprite->play(*_curAnim);
-		_isMoving = true;
-		sf::Vector2f tmp(0, 0);
-		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
-		tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
-
-		if (_pos.x > _path.front().first )
-			_pos.x -= static_cast<float>(dt * _speed);
-		if (_pos.x < _path.front().first)
-			_pos.x += static_cast<float>(dt * _speed);
-		if (_pos.y > _path.front().second)
-			_pos.y -= static_cast<float>(dt *_speed);
-		if (_pos.y < _path.front().second)
-			_pos.y += static_cast<float>(dt * _speed);
-		if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y) &&
-			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
-
+		if (_objective &&  !_objective->getPath().empty() && _path.back() != _objective->getPath().front())
 		{
-			if (!_path.empty())
-				_path.pop_front();
-			changeAnimation(_pos, _path.front());
-			return;
-		}
+
+			_path.push_back(_objective->getPath().front());
+			}
+		_timeAttack += dt;
 
 		
-
 	}
-	else  {
-		doActionOnEntity();
-		changeToIdleAnim();
-		//_animatedSprite->stop();
-		_isMoving = false;
-		_hasAPath = false;
-	}
-	if (_objective && _objective->getIsAMovingEntity() && _objective->getType() != PLAYER && _objective->getBoxCollider().intersects(_animatedSprite->getGlobalBounds()))
+	if (_timeAttack > 0.7 && _isAttacking == true)
 	{
+		std::cout << "STAHP" << std::endl;
+		_isAttacking = false;
+		_timeAttack = 0;
+		
+	}
+	if (_isAttacking == false)
+	{
+		
+		if (!_path.empty())
+		{
+			_animatedSprite->setLooped(true);
+
+			//_animatedSprite->play(*_curAnim);
+			_isMoving = true;
+			sf::Vector2f tmp(0, 0);
+			tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
+			tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
+
+			if (_pos.x > _path.front().first)
+				_pos.x -= static_cast<float>(dt * _speed);
+			if (_pos.x < _path.front().first)
+				_pos.x += static_cast<float>(dt * _speed);
+			if (_pos.y > _path.front().second)
+				_pos.y -= static_cast<float>(dt *_speed);
+			if (_pos.y < _path.front().second)
+				_pos.y += static_cast<float>(dt * _speed);
+			if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y) &&
+				_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
+
+			{
+				if (!_path.empty())
+					_path.pop_front();
+				changeAnimation(_pos, _path.front());
+				return;
+			}
+		}
+		else  {
+			doActionOnEntity();
+			changeToIdleAnim();
+			//_animatedSprite->stop();
+			_isMoving = false;
+			_hasAPath = false;
+		}
+	}
+	if (_isAttacking == false && _objective && _objective->getIsAMovingEntity() && _objective->getType() != PLAYER && _objective->getBoxCollider().intersects(_animatedSprite->getGlobalBounds()))
+	{
+		_isAttacking = true;
+		std::cout << "A LATTAQUE  !" << std::endl;
+		std::pair<float, float> save;
+		save.first = _path.front().first;
+		save.second = _path.front().second;
+
+		_path.clear();
+		_path.push_back(save);
 		_animatedSprite->setLooped(false);
 		_timeAttack += dt;
 		if (_curAnim == _walkRightAnim || _curAnim == _idleRightAnim)
@@ -283,6 +304,7 @@ void Player::moveToNextWP()
 			_curAnim = _attackUpAnim;
 		if (_curAnim == _walkDownAnim || _curAnim == _idleDownAnim)
 			_curAnim = _attackDownAnim;
+		//On need un new chemin ici 
 	}
 
 	sf::Time t = sf::seconds(dt);;

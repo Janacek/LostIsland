@@ -114,6 +114,7 @@ protected:
 	bool								_isMoving;
 	bool								_hasAPath;
 	bool								_isPathNotFound;
+	bool								_isAttacking;
 	/*
 	** Player's name (could be with miscs)
 	*/
