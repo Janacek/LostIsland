@@ -32,6 +32,7 @@ enum Type
 	PLAYER_INFOS_BACKGROUND,
 	SELECTED_ICON,
 	BADTYPE,
+	CAMPFIRE,
 };
 
 static int IEntityId = 0;
