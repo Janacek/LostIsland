@@ -9,6 +9,7 @@
 #include					"Rock.h"
 #include					"Bush.h"
 #include					"PalmTree.h"
+#include					"Campfire.h"
 
 Map::Map(Camera *cam, std::string &loading)
 : _loading(loading)

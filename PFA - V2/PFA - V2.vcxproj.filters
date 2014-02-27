@@ -45,6 +45,7 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="GameOverScreen.cpp" />
     <ClCompile Include="Berry.cpp" />
+    <ClCompile Include="Campfire.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -95,6 +96,7 @@
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="Berry.h" />
+    <ClInclude Include="Campfire.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />

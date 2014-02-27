@@ -100,6 +100,7 @@
     <ClCompile Include="Bunny.cpp" />
     <ClCompile Include="Bush.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Campfire.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Compartment.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Bunny.h" />
     <ClInclude Include="Bush.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Campfire.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Chunk.h" />
     <ClInclude Include="Compartment.h" />

@@ -11,6 +11,7 @@
 #include "MapEnvironment.h"
 #include					"Singleton.h"
 #include					"ImageSingleton.h"
+#include "Campfire.h"
 GameScreen::GameScreen()
 {
 
@@ -95,6 +96,7 @@ void GameScreen::initialize(void)
 			++i;
 		}
 	}
+
 
 	_loadingText = "Adding players";
 	auto spawnPoint = _map->_spawnPoints.begin();

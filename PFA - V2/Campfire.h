@@ -7,7 +7,7 @@
 class Campfire : public IEntity
 {
 public:
-	Campfire(void);
+	Campfire(Camera *);
 	virtual void doAction(IEntity* other);
 	virtual void getAction(IEntity* other);
 	virtual void loadAnimation(std::string const & string_anim, float speed);
@@ -37,8 +37,10 @@ public:
 private:
 	std::list<std::pair<float, float> > _path;
 	sf::Vector2f						_pos;
+	sf::Vector2f						_posDisp;
 
 	Animation							*_fireAnim;
 	Animation							*_curAnim;
 	AnimatedSprite						*_animatedSprite;
+	Camera								*_camera;
 };

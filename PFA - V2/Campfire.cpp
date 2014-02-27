@@ -1,21 +1,22 @@
 #include "Campfire.h"
 #include "Player.h"
 
-Campfire::Campfire()
+Campfire::Campfire(Camera *camera)
+: _camera(camera)
 {
 	_pos = sf::Vector2f(0, 0);
 	_id = IEntityId++;
-	loadAnimation("./Media/images/campfire.pnge", 0.1f);
+	loadAnimation("./Media/images/campfire.png", 0.1f);
 }
 
 void Campfire::doAction(IEntity *other)
 {
-//do something
+	//do something
 }
 
 void Campfire::getAction(IEntity *other)
 {
-//get something
+	//get something
 }
 
 void Campfire::loadAnimation(std::string const &string_anim, float speed)
@@ -34,7 +35,7 @@ void Campfire::loadAnimation(std::string const &string_anim, float speed)
 	_fireAnim->addFrame(sf::IntRect(150, 0, 50, 50));
 	_fireAnim->addFrame(sf::IntRect(200, 0, 50, 50));
 
-	_animatedSprite = new AnimatedSprite(sf::seconds(0.1), true, false);
+	_animatedSprite = new AnimatedSprite(sf::seconds(speed), true, false);
 	_curAnim = _fireAnim;
 
 
@@ -48,17 +49,26 @@ void Campfire::update(Map &map)
 
 void Campfire::draw(sf::RenderTexture *, sf::Shader &)
 {
+	_posDisp.x = ((_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
+	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
+	_animatedSprite->setPosition(_posDisp);
+	Singleton::getInstance()._window->draw(*_animatedSprite);
 }
 
 void Campfire::draw(sf::RenderTexture *)
 {
+	_posDisp.x = ((_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
+	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
+	_animatedSprite->setPosition(_pos);
+	Singleton::getInstance()._window->draw(*_animatedSprite);
 }
 
 void Campfire::setPosition(sf::Vector2f &pos)
 {
 	_pos = pos;
+	_animatedSprite->setPosition(pos);
 }
 
 int Campfire::getDamage() const
