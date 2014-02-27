@@ -16,7 +16,7 @@ Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 {
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(_position);
-	loadAnimation("bunny.png", 0.1f);
+	loadAnimation("Media/images/bunny.png", 0.1f);
 	_isMoving = false;
 	_pathToGo = 1.f;
 	_speed = 2;

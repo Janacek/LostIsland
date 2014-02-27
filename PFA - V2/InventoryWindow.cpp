@@ -273,7 +273,7 @@ void InventoryWindow::createCompartment(Player *player)
 void InventoryWindow::init()
 {
 	//A mettre dans le singleton 
-	this->_img.loadFromFile("carre.png");
+	this->_img.loadFromFile("./Media/images/carre.png");
 }
 
 void InventoryWindow::close()

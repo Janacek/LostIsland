@@ -13,29 +13,29 @@ ImageSingleton::ImageSingleton()
 
 void ImageSingleton::start()
 {
-	this->load(FOOD, "./food.png");
-	this->load(WATER, "./water.png");
-	this->load(WATER_WALKABLE, "./waterWalkable.png");
-	this->load(WOOD, "./wood.png");
-	this->load(SABLE, "./sable.png");
-	this->load(LAC, "./mer.png");
-	this->load(GRASS, "./grass.png");
-	this->load(SAVANNA, "./savanna.png");
-	this->load(FOREST, "./forest.png");
-	this->load(SNOW, "./snow.png");
-	this->load(TREE, "./tree.png");
-	this->load(CUT_TREE, "./cut_tree.png");
-	this->load(BUSH, "./bushes.png");
-	this->load(BUSH_FRUITS, "./bush_fruits.png");
-	this->load(PALMTREE, "./palmtree.png");
-	this->load(CUT_PALMTREE, "./cut_palmtree.png");
-	this->load(BUNNY, "./bunny.png");
-	this->load(PLAYER_INFOS_BACKGROUND, "woodenPlanks.png");
-	this->load(SELECTED_ICON, "./selected.png");
-	this->load(ROCK, "./rock.png");
-	this->load(ROCK_BROKEN, "./rock_broken.png");
-	this->load(DROPS, "./drops.png");
-	this->load(BERRY, "./berry.png");
+	this->load(FOOD, "./Media/images/food.png");
+	this->load(WATER, "./Media/images/water.png");
+	this->load(WATER_WALKABLE, "./Media/images/waterWalkable.png");
+	this->load(WOOD, "./Media/images/wood.png");
+	this->load(SABLE, "./Media/images/sable.png");
+	this->load(LAC, "./Media/images/mer.png");
+	this->load(GRASS, "./Media/images/grass.png");
+	this->load(SAVANNA, "./Media/images/savanna.png");
+	this->load(FOREST, "./Media/images/forest.png");
+	this->load(SNOW, "./Media/images/snow.png");
+	this->load(TREE, "./Media/images/tree.png");
+	this->load(CUT_TREE, "./Media/images/cut_tree.png");
+	this->load(BUSH, "./Media/images/bushes.png");
+	this->load(BUSH_FRUITS, "./Media/images/bush_fruits.png");
+	this->load(PALMTREE, "./Media/images/palmtree.png");
+	this->load(CUT_PALMTREE, "./Media/images/cut_palmtree.png");
+	this->load(BUNNY, "./Media/images/bunny.png");
+	this->load(PLAYER_INFOS_BACKGROUND, "./Media/images/woodenPlanks.png");
+	this->load(SELECTED_ICON, "./Media/images/selected.png");
+	this->load(ROCK, "./Media/images/rock.png");
+	this->load(ROCK_BROKEN, "./Media/images/rock_broken.png");
+	this->load(DROPS, "./Media/images/drops.png");
+	this->load(BERRY, "./Media/images/berry.png");
 
 
 }
