@@ -5,7 +5,7 @@ Campfire::Campfire()
 {
 	_pos = sf::Vector2f(0, 0);
 	_id = IEntityId++;
-	loadAnimation("./Media/images/campfire.pnge", 0.1f)
+	loadAnimation("./Media/images/campfire.pnge", 0.1f);
 }
 
 void Campfire::doAction(IEntity *other)
