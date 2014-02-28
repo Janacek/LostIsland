@@ -2,19 +2,19 @@
 #include "Player.h"
 
 Rock::Rock()
-: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 	_duration = 200;
 	_isMined = false;
 }
 
-void Rock::doAction(IEntity* other)
+void Rock::doAction(AEntity* other)
 {
 	//L'arbre ne fait rien
 }
 
 
-void Rock::getAction(IEntity* other)
+void Rock::getAction(AEntity* other)
 {
 	_duration -= other->getDamage();
 	if (_duration <= 0 && !_isMined)

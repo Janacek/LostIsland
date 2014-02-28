@@ -1,15 +1,15 @@
 #pragma once
 
 #include		<vector>
-#include		"IEntity.h"
+#include		"AEntity.h"
 
 
-class Drops : public IEntity
+class Drops : public AEntity
 {
 public:
 	Drops();
-	virtual void doAction(IEntity* other);
-	virtual void getAction(IEntity* other);
+	virtual void doAction(AEntity* other);
+	virtual void getAction(AEntity* other);
 	void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);
@@ -17,11 +17,11 @@ public:
 	Type getType() const;
 
 
-	std::list<IEntity *>				&getDrops();
-	void								addDrop(IEntity *);
-	void								addDrop(std::list<IEntity *>);
+	std::list<AEntity *>				&getDrops();
+	void								addDrop(AEntity *);
+	void								addDrop(std::list<AEntity *>);
 	//sf::Rect & getCollisionBox(void);
 
 protected:
-	std::list<IEntity *>				_drops;
+	std::list<AEntity *>				_drops;
 };

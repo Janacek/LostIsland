@@ -3,16 +3,16 @@
 
 //Le Wood apparait lorsque l'on coupe un arbre
 Wood::Wood(void)
-: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 }
 
-void Wood::doAction(IEntity* other)
+void Wood::doAction(AEntity* other)
 {
 	//Le wood ne fait rien
 }
 
-void Wood::getAction(IEntity* other)
+void Wood::getAction(AEntity* other)
 {
 	Player *player = dynamic_cast<Player *>(other);
 

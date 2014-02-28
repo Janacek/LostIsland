@@ -2,17 +2,17 @@
 #include "Player.h"
 
 Campfire::Campfire(Camera *camera)
-: _camera(camera), IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
+: _camera(camera), AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 	loadAnimation("./Media/images/campfire.png", 0.1f);
 }
 
-void Campfire::doAction(IEntity *other)
+void Campfire::doAction(AEntity *other)
 {
 	//do something
 }
 
-void Campfire::getAction(IEntity *other)
+void Campfire::getAction(AEntity *other)
 {
 	//get something
 }

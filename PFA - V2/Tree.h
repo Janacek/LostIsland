@@ -1,19 +1,19 @@
 #pragma once
 
 #include <list>
-#include "IEntity.h"
+#include "AEntity.h"
 
 #include "Chunk.h"
 
 #include <iostream>
 
 
-class Tree : public IEntity
+class Tree : public AEntity
 {
 public:
 	Tree();
-	virtual void doAction(IEntity* other);
-	virtual void getAction(IEntity* other);
+	virtual void doAction(AEntity* other);
+	virtual void getAction(AEntity* other);
 	void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);

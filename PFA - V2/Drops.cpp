@@ -3,17 +3,17 @@
 #include		"ShadersManager.h"
 
 Drops::Drops()
-: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 }
 
-void Drops::doAction(IEntity* other)
+void Drops::doAction(AEntity* other)
 {
 	
 }
 
 
-void Drops::getAction(IEntity* other)
+void Drops::getAction(AEntity* other)
 {
 
 }
@@ -48,17 +48,17 @@ void Drops::draw(sf::RenderTexture *tex)
 	tex->draw(tmp);
 }
 
-void Drops::addDrop(IEntity *drop)
+void Drops::addDrop(AEntity *drop)
 {
 	_drops.push_back(drop);
 }
 
-void Drops::addDrop(std::list<IEntity *>list)
+void Drops::addDrop(std::list<AEntity *>list)
 {
 	this->_drops = list;
 }
 
-std::list<IEntity *> &Drops::getDrops()
+std::list<AEntity *> &Drops::getDrops()
 {
 	return _drops;
 }

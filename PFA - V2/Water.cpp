@@ -3,7 +3,7 @@
 
 
 Water::Water(void)
-: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 }
 
@@ -11,7 +11,7 @@ Water::Water(void)
 /// ON FAIT L'ACTION. Ici on appelle la methode drink du player
 /// </summary>
 /// <param name="other">The other.</param>
-void Water::doAction(IEntity* other)
+void Water::doAction(AEntity* other)
 {
 	Player *player = dynamic_cast<Player *>(other);
 	
@@ -32,10 +32,10 @@ void Water::update(Map &map)
 }
 /// <summary>
 ///GET subit l'action.
-/// Appelle la méthode void getObject(IEntity *other).
+/// Appelle la méthode void getObject(AEntity *other).
 /// </summary>
 /// <param name="other">The other.</param>
-void Water::getAction(IEntity* other)
+void Water::getAction(AEntity* other)
 {
 	Player *player = dynamic_cast<Player *>(other);
 

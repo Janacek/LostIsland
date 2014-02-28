@@ -55,12 +55,12 @@ void PalmTree::update(Map &map)
 	}
 }
 
-void PalmTree::doAction(IEntity *)
+void PalmTree::doAction(AEntity *)
 {
 	// Do nothing
 }
 
-void PalmTree::getAction(IEntity *other)
+void PalmTree::getAction(AEntity *other)
 {
 	if (!_isHarvested)
 	{

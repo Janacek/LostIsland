@@ -16,7 +16,7 @@
 #include "SoundManager.h"
 
 Player::Player(sf::Vector2f &pos, Camera *cam) 
-: _camera(cam), IEntity(0.f, true, sf::Vector2f(pos), 10, sf::FloatRect(0, 0, 0, 0), 100)
+: _camera(cam), AEntity(0.f, true, sf::Vector2f(pos), 10, sf::FloatRect(0, 0, 0, 0), 100)
 {
 	_isAttacking = false;
 	this->_isWalking = false;
@@ -72,7 +72,7 @@ void Player::setCamPos(sf::Vector2f &pos)
 
 }
 
-int		Player::posInventory(IEntity *entity)
+int		Player::posInventory(AEntity *entity)
 {
 	int a = 0;
 	for (Compartment *u : this->_inventoryPlayer)
@@ -94,7 +94,7 @@ void Player::drink(Water *water)
 	this->_water + 20 > 100 ? this->_water = 100 : this->_water += 20;
 }
 
-bool Player::addEntityInInventory(IEntity *entity)
+bool Player::addEntityInInventory(AEntity *entity)
 {
 	int compt = 0;
 	for (Compartment *u : this->_inventoryPlayer)
@@ -132,7 +132,7 @@ bool Player::delEntityInInventory(Type type)
 	return false;
 }
 
-bool Player::delEntityInInventory(IEntity *entity)
+bool Player::delEntityInInventory(AEntity *entity)
 {
 	for (Compartment *u : this->_inventoryPlayer)
 	{
@@ -654,13 +654,13 @@ void Player::move(sf::Vector2f &pos)
 
 }
 
-void Player::doAction(IEntity* other)
+void Player::doAction(AEntity* other)
 {
 	if (other->getType() != PLAYER)
 		other->getAction(this);
 }
 
-void Player::getAction(IEntity* other)
+void Player::getAction(AEntity* other)
 {
 	this->_life -= other->getDamage();
 }

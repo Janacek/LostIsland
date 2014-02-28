@@ -7,7 +7,7 @@
 #include "Food.h"
 
 Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
-: _camera(cam), IEntity(1.f, true, sf::Vector2f(position), 0, sf::FloatRect(0, 0, 0, 0), life)
+: _camera(cam), AEntity(1.f, true, sf::Vector2f(position), 0, sf::FloatRect(0, 0, 0, 0), life)
 {
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(_position);
@@ -115,12 +115,12 @@ void Bunny::moveToNextWP()
 }
 
 
-void Bunny::doAction(IEntity *o)
+void Bunny::doAction(AEntity *o)
 {
 	o->getAction(this);
 }
 
-void Bunny::getAction(IEntity *o)
+void Bunny::getAction(AEntity *o)
 {
 	_life -= o->getDamage();
 	if (_life <= 0)

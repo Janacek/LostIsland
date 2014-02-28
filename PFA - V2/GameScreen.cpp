@@ -401,7 +401,7 @@ void GameScreen::update(void)
 					{
 						_map->getEntitiesMap()[i][j]._component->setId(-1);
 						_map->getEntitiesMap()[i][j]._component = NULL;
-						IEntity *tmp = (*it);
+						AEntity *tmp = (*it);
 						it = _entities.erase(it);
 						delete tmp;
 					}

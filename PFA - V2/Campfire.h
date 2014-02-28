@@ -1,15 +1,15 @@
 #pragma once
 
-#include "IEntity.h"
+#include "AEntity.h"
 #include "Animation.h"
 #include "AnimatedSprite.h"
 
-class Campfire : public IEntity
+class Campfire : public AEntity
 {
 public:
 	Campfire(Camera *);
-	virtual void doAction(IEntity* other);
-	virtual void getAction(IEntity* other);
+	virtual void doAction(AEntity* other);
+	virtual void getAction(AEntity* other);
 	virtual void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);

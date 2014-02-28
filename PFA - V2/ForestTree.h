@@ -7,8 +7,8 @@ class ForestTree : public Tree
 {
 public:
 	ForestTree();
-	void doAction(IEntity *);
-	void getAction(IEntity *);
+	void doAction(AEntity *);
+	void getAction(AEntity *);
 
 	void Animate(std::string const &);
 	void draw(sf::RenderTexture *, sf::Shader &);

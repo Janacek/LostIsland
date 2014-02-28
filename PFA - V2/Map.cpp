@@ -706,7 +706,7 @@ MapEnvironment			**Map::getEntitiesMap()
 	return _entitiesMap;
 }
 
-void					Map::setEntityMap(IEntity *ent, int x, int y)
+void					Map::setEntityMap(AEntity *ent, int x, int y)
 {
 	_entitiesMap[x][y]._component = ent;
 }

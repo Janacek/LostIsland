@@ -1,7 +1,7 @@
 #pragma once
 
 #include <list>
-#include "IEntity.h"
+#include "AEntity.h"
 #include "Singleton.h"
 #include "ImageSingleton.h"
 #include "ShadersManager.h"
@@ -10,12 +10,12 @@
 #include <iostream>
 
 
-class Rock : public IEntity
+class Rock : public AEntity
 {
 public:
 	Rock();
-	virtual void doAction(IEntity* other);
-	virtual void getAction(IEntity* other);
+	virtual void doAction(AEntity* other);
+	virtual void getAction(AEntity* other);
 	void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);

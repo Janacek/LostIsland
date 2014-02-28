@@ -18,12 +18,12 @@ enum Direction
 	LEFT
 };
 
-class Player : public IEntity
+class Player : public AEntity
 {
 public:
 	Player(sf::Vector2f &pos, Camera *cam);
-	void doAction(IEntity* other);
-	void getAction(IEntity* other);
+	void doAction(AEntity* other);
+	void getAction(AEntity* other);
 	void drink(Water *);
 	void eat(int);
 	std::string const &getName() const;
@@ -37,11 +37,11 @@ public:
 	Type getType() const;
 	sfg::Box::Ptr getBox();
 	sfg::Notebook::Ptr _book;
-	bool addEntityInInventory(IEntity *entity);
+	bool addEntityInInventory(AEntity *entity);
 	bool delEntityInInventory(Type);
-	bool delEntityInInventory(IEntity *);
+	bool delEntityInInventory(AEntity *);
 	Compartment	*getCompartment(int index);
-	int			posInventory(IEntity *);
+	int			posInventory(AEntity *);
 	void moveToNextWP();
 	void update(Map &);
 	void setMap(Map *map) { _map = map; };
@@ -55,7 +55,7 @@ public:
 	//TODO : Changer en compartments pour l'inventaire
 
 	sf::Image					_img; //TMP
-	// std::vector<IEntity *> _inventary;
+	// std::vector<AEntity *> _inventary;
 
 protected:
 
@@ -85,7 +85,7 @@ protected:
 	Animation					*_victoryAnim;
 	AnimatedSprite				*_animatedSprite;
 
-	void					addInInventoryWindow(IEntity *, int pos);
+	void					addInInventoryWindow(AEntity *, int pos);
 
 
 	Camera						*_camera;
@@ -141,7 +141,7 @@ public:
 	//////////////////////////
 	//  PLAYER'S OBJECTIVE
 	//////////////////////////
-	IEntity						*_objective;
+	AEntity						*_objective;
 	Type						_target;
 	/*
 	** Selection of the player.

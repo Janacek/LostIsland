@@ -37,11 +37,11 @@ enum Type
 
 static int IEntityId = 0;
 
-class IEntity
+class AEntity
 {
 public:
-	virtual void doAction(IEntity* other) = 0;										// reste
-	virtual void getAction(IEntity* other) = 0;										// reste
+	virtual void doAction(AEntity* other) = 0;										// reste
+	virtual void getAction(AEntity* other) = 0;										// reste
 	virtual void loadAnimation(std::string const & string_anim, float speed) = 0;	// reste
 	virtual void draw(sf::RenderTexture *) = 0;										// reste
 	virtual void draw(sf::RenderTexture *, sf::Shader &) = 0;						// reste
@@ -74,7 +74,7 @@ public:
 	bool getIsSelected() const;
 	void setIsSelected(bool);
 
-	IEntity(float,
+	AEntity(float,
 		bool,
 		sf::Vector2f,
 		int,

@@ -2,16 +2,16 @@
 
 
 Food::Food(void)
-: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 }
 
-void Food::doAction(IEntity* other)
+void Food::doAction(AEntity* other)
 {
 	//De la food sauvage apparait
 }
 
-void Food::getAction(IEntity* other)
+void Food::getAction(AEntity* other)
 {
 
 }

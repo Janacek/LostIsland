@@ -6,8 +6,8 @@ class Bush : public Tree
 public:
 	Bush();
 
-	void				doAction(IEntity *);
-	void				getAction(IEntity *);
+	void				doAction(AEntity *);
+	void				getAction(AEntity *);
 	void				Animate(std::string const &);
 	void				draw(sf::RenderTexture *, sf::Shader &);
 	void				draw(sf::RenderTexture *);

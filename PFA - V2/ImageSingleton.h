@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <cassert>
 
-#include "IEntity.h"
+#include "AEntity.h"
 
 class ImageSingleton
 {

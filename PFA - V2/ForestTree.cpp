@@ -56,12 +56,12 @@ void ForestTree::update(Map &map)
 	}
 }
 
-void ForestTree::doAction(IEntity *other)
+void ForestTree::doAction(AEntity *other)
 {
 	// Do nothing
 }
 
-void ForestTree::getAction(IEntity *other)
+void ForestTree::getAction(AEntity *other)
 {
 	if (!_isHarvested)
 	{

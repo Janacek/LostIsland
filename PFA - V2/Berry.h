@@ -1,14 +1,14 @@
 #pragma once
 
 #include <list>
-#include "IEntity.h"
+#include "AEntity.h"
 
-class Berry : public IEntity
+class Berry : public AEntity
 {
 public:
 	Berry(void);
-	virtual void doAction(IEntity* other);
-	virtual void getAction(IEntity* other);
+	virtual void doAction(AEntity* other);
+	virtual void getAction(AEntity* other);
 	virtual void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);

@@ -1,14 +1,14 @@
 #pragma once
 
 #include <list>
-#include "IEntity.h"
+#include "AEntity.h"
 
-class Water : public IEntity
+class Water : public AEntity
 {
 public:
 	Water(void);
-	void doAction(IEntity* other);
-	void getAction(IEntity* other);
+	void doAction(AEntity* other);
+	void getAction(AEntity* other);
 	void draw(sf::RenderTexture *, sf::Shader &);
 	void draw(sf::RenderTexture *);
 	void loadAnimation(std::string const & string_anim, float speed);

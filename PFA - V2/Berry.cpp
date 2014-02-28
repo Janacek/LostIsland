@@ -2,19 +2,19 @@
 #include "Player.h"
 
 Berry::Berry()
-: IEntity(0, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
+: AEntity(0, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 	_value = 5;
 }
 
-void Berry::doAction(IEntity *other)
+void Berry::doAction(AEntity *other)
 {
 	Player *player = dynamic_cast<Player *>(other);
 
 	player->eat(_value);
 }
 
-void Berry::getAction(IEntity *other)
+void Berry::getAction(AEntity *other)
 {
 	Player *player = dynamic_cast<Player *>(other);
 

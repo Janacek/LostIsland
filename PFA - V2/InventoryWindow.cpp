@@ -187,7 +187,7 @@ void InventoryWindow::useClick()
 {
 	if (this->_selectedRessource != NULL)
 	{
-		std::list<IEntity *> list = this->_selectedRessource->getEntities();
+		std::list<AEntity *> list = this->_selectedRessource->getEntities();
 		int compt = this->_spinButton->GetValue();
 		while (compt > 0)
 		{

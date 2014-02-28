@@ -12,7 +12,7 @@ public:
 	void setCompartment(Compartment *);
 	Type getType() const;
 	bool isEmpty() const;
-	std::list<IEntity *> getEntities();
+	std::list<AEntity *> getEntities();
 	~CustomToggleButton();
 
 	sfg::ToggleButton::Ptr	_button;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IEntity.h"
+#include "AEntity.h"
 #include "Animation.h"
 #include "AnimatedSprite.h"
 #include "Camera.h"
@@ -8,14 +8,14 @@
 #define TIMESTOP 3
 #define IT_BEF_STOP 20
 
-class Bunny : public IEntity
+class Bunny : public AEntity
 {
 public:
 	Bunny(sf::Vector2f &, int, Camera *);
 	virtual ~Bunny();
 
-	void								doAction(IEntity *);
-	void								getAction(IEntity *);
+	void								doAction(AEntity *);
+	void								getAction(AEntity *);
 	void								loadAnimation(std::string const &, float);
 	void								draw(sf::RenderTexture *);
 	void								draw(sf::RenderTexture *, sf::Shader &);

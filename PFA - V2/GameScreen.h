@@ -63,7 +63,7 @@ private:
 	sf::Time				_t;
 	sf::Clock				_clickClock;
 	std::vector<Player *>	_players;
-	std::vector<IEntity *>	_entities;
+	std::vector<AEntity *>	_entities;
 	
 	sf::Text				_statisticsText;
 	std::size_t				_statisticsNumFrames;
@@ -83,7 +83,7 @@ private:
 
 	void					drawPlayerInformations(Player *, sf::Vector2f const &) const;
 
-	std::list<IEntity *>	_sortList;
+	std::list<AEntity *>	_sortList;
 
 	/*
 	** Loading screen;
@@ -94,7 +94,7 @@ private:
 	sf::Text				_loadingSfText;
 
 	/*--------TEST---------*/
-	std::vector<IEntity *> _one;
-	std::vector<IEntity *> _two;
-	std::vector<IEntity *> _tree;
+	std::vector<AEntity *> _one;
+	std::vector<AEntity *> _two;
+	std::vector<AEntity *> _tree;
 };

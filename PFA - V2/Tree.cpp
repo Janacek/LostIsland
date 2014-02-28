@@ -3,20 +3,20 @@
 #include "ImageSingleton.h"
 
 Tree::Tree()
-: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 	_duration = 100;
 	_isCut = false;
 	_isHarvested = false;
 }
 
-void Tree::doAction(IEntity* other)
+void Tree::doAction(AEntity* other)
 {
 	//L'arbre ne fait rien
 }
 
 
-void Tree::getAction(IEntity* other)
+void Tree::getAction(AEntity* other)
 {
 
 }

@@ -1,14 +1,14 @@
 #pragma once
 
 #include <list>
-#include "IEntity.h"
+#include "AEntity.h"
 
-class Food :public IEntity
+class Food :public AEntity
 {
 public:
 	Food(void);
-	void doAction(IEntity* other);
-	void getAction(IEntity* other);
+	void doAction(AEntity* other);
+	void getAction(AEntity* other);
 	void update(Map &);
 	void loadAnimation(std::string const & string_anim, float speed);
 	void draw(sf::RenderTexture *, sf::Shader &);

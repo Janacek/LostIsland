@@ -46,7 +46,7 @@
     <ClCompile Include="GameOverScreen.cpp" />
     <ClCompile Include="Berry.cpp" />
     <ClCompile Include="Campfire.cpp" />
-    <ClCompile Include="IEntity.cpp" />
+    <ClCompile Include="AEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -65,7 +65,6 @@
     <ClInclude Include="GestionClick.h" />
     <ClInclude Include="GraphicEngine.h" />
     <ClInclude Include="IEngine.h" />
-    <ClInclude Include="IEntity.h" />
     <ClInclude Include="ImageSingleton.h" />
     <ClInclude Include="InventoryWindow.h" />
     <ClInclude Include="IScreen.h" />
@@ -98,6 +97,7 @@
     <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="Berry.h" />
     <ClInclude Include="Campfire.h" />
+    <ClInclude Include="AEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />

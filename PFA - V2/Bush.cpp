@@ -69,12 +69,12 @@ void Bush::update(Map &)
 	}
 }
 
-void Bush::doAction(IEntity *other)
+void Bush::doAction(AEntity *other)
 {
 	// do nothing
 }
 
-void Bush::getAction(IEntity *other)
+void Bush::getAction(AEntity *other)
 {
 	if (_grown)
 	{

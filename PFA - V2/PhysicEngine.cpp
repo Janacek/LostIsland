@@ -25,7 +25,7 @@ void PhysicEngine::init()
 void PhysicEngine::setCamPos(sf::Vector2f &cam)
 {
 }
-bool PhysicEngine::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &ent)
+bool PhysicEngine::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, AEntity &ent)
 {
 	return _pathFinding.findMeAPath(begin, end, ent);
 }
@@ -48,7 +48,7 @@ float PhysicEngine::diffDist(sf::Vector2f const &d1, sf::Vector2f const &d2)
 	return dist;
 }
 
-bool PhysicEngine::tryFindAPathEntity(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_end, IEntity &ent)
+bool PhysicEngine::tryFindAPathEntity(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_end, AEntity &ent)
 {
 	ent.setPathToGo(1.f);
 	while (/*ent.getIsPathFound() == false ||*/ ent.getPathToGo() >= 0)
@@ -202,7 +202,7 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 	}
 }
 
-void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<IEntity *> entities)
+void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity *> entities)
 {
 
 	if (!Singleton::getInstance().isRightClicking)
