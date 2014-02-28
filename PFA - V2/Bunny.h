@@ -22,6 +22,7 @@ public:
 	void								update(Map &map);
 	Type								getType() const;
 	void								moveToNextWP();
+	sf::FloatRect						getBoxCollider() const;
 
 private:
 	void								changeAnimation(sf::Vector2f&, std::pair<float, float>);

@@ -17,6 +17,7 @@ Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 	_iterPath = 0;
 	_hasAPath = false;
 	_firstPath = true;
+	_isSelected = true;
 }
 
 Bunny::~Bunny()
@@ -212,3 +213,8 @@ Type Bunny::getType() const
 {
 	return BUNNY;
 }
+sf::FloatRect Bunny::getBoxCollider() const
+{
+	return _animatedSprite->getGlobalBounds();
+}
+

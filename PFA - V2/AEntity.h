@@ -74,12 +74,12 @@ public:
 	bool getIsSelected() const;
 	void setIsSelected(bool);
 
-	AEntity(float,
-		bool,
-		sf::Vector2f,
-		int,
-		sf::FloatRect,
-		int);
+	AEntity(float pathtogo,
+		bool isAMovingEntity,
+		sf::Vector2f pos,
+		int dmg,
+		sf::FloatRect boxcollider,
+		int life) ;
 
 protected:
 	float								_pathToGo;

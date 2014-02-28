@@ -269,6 +269,8 @@ void Player::moveToNextWP()
 			_hasAPath = false;
 		}
 	}
+	if (_objective)
+		std::cout << std::boolalpha << _objective->getIsAMovingEntity() << std::endl;
 	if (_isAttacking == false && _objective && _objective->getIsAMovingEntity() && _objective->getType() != PLAYER && _objective->getBoxCollider().intersects(_animatedSprite->getGlobalBounds()))
 	{
 		_isAttacking = true;

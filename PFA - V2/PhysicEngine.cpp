@@ -51,6 +51,8 @@ float PhysicEngine::diffDist(sf::Vector2f const &d1, sf::Vector2f const &d2)
 bool PhysicEngine::tryFindAPathEntity(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_end, AEntity &ent)
 {
 	ent.setPathToGo(1.f);
+	std::cout << "prout" << ent.getPathToGo() << std::endl;
+
 	while (/*ent.getIsPathFound() == false ||*/ ent.getPathToGo() >= 0)
 	{
 		sf::Vector2f tmp_lerp_begin;
@@ -67,7 +69,7 @@ bool PhysicEngine::tryFindAPathEntity(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_
 		tmp_lerp_end.x = static_cast<float>(tmp_end.x);
 		tmp_lerp_end.y = static_cast<float>(tmp_end.y);
 		ent.addToPathToGo(-0.1f);
-
+		
 		tmp_lerp_begin = lerp(tmp_lerp_begin, tmp_lerp_end, ent.getPathToGo());
 		tmp_begin.x = static_cast<int>(tmp_lerp_begin.x);
 		tmp_begin.y = static_cast<int>(tmp_lerp_begin.y);
@@ -80,7 +82,7 @@ bool PhysicEngine::tryFindAPathEntity(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_
 		else
 		{
 			ent.setPathToGo(1.f);
-
+		
 			if (ent.getSelected())
 			{
 				ent.setIsPathFound(true);
@@ -120,6 +122,7 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 	//a refaire METTRE UN WHILE
 	while (/*ent.getIsPathFound() == false ||*/ ent.getPathToGo() <= 1)
 	{
+		
 		sf::Vector2i tmp_begin = tmp_begin2;
 
 		if (ent.getIsPathFound() && ent.getPathToGo() <= 1)
