@@ -37,7 +37,7 @@ public:
 	sf::FloatRect getBoxCollider() const { return sf::FloatRect(0.f, 0.f, 0.f, 0.f); };
 	
 	//sf::Rect & getCollisionBox(void);
-
+	virtual int getLife() const = 0;
 protected:
 	std::list<std::pair<float, float> > _path;
 	int				_damages;

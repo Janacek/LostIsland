@@ -304,6 +304,7 @@ void Player::moveToNextWP()
 			_curAnim = _attackUpAnim;
 		if (_curAnim == _walkDownAnim || _curAnim == _idleDownAnim)
 			_curAnim = _attackDownAnim;
+		_objective->getAction(this);
 		//On need un new chemin ici 
 	}
 

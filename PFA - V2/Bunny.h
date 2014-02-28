@@ -50,6 +50,7 @@ public:
 		return true;
 	}
 	sf::FloatRect getBoxCollider() const;
+	virtual int getLife() const;
 private:
 	void								changeAnimation(sf::Vector2f&, std::pair<float, float>);
 

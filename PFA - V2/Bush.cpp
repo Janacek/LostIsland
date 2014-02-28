@@ -13,6 +13,11 @@ Bush::Bush()
 	_growthTime = 0.f;
 }
 
+int Bush::getLife() const
+{
+	return 0;
+}
+
 void Bush::Animate(std::string const &)
 {
 

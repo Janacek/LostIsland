@@ -3,6 +3,8 @@
 #include "Map.h"
 #include "Chunk.h"
 #include "MapEnvironment.h"
+#include "Player.h"
+#include "Food.h"
 
 Bunny::Bunny()
 {
@@ -157,9 +159,19 @@ void Bunny::doAction(IEntity *o)
 	o->getAction(this);
 }
 
+int Bunny::getLife() const
+{
+	return _life;
+}
+
 void Bunny::getAction(IEntity *o)
 {
 	_life -= o->getDamage();
+	if (_life <= 0)
+	{
+		Player *player = dynamic_cast<Player *>(o);
+		player->addEntityInInventory(new Food);
+	}
 }
 
 void Bunny::loadAnimation(std::string const &string_anim, float)

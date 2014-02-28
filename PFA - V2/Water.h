@@ -32,6 +32,7 @@ public:
 	sf::FloatRect getBoxCollider() const { return sf::FloatRect(0.f,0.f,0.f, 0.f); };
 
 	sf::Vector2f  getPosition() const;
+	int getLife() const { return 0; }
 
 	//sf::Rect & getCollisionBox(void);
 

@@ -33,7 +33,7 @@ public:
 	void draw(sf::RenderTexture *);
 	void setCamPos(sf::Vector2f &); // TMP LE TEMPS QUON AI LA BONNE CLASS
 	void setPosition(sf::Vector2f &pos);
-
+	int getLife() const { return _life; }
 	sf::Vector2f  getPosition() const;
 	void setPath(std::list<std::pair<float, float> >&);
 

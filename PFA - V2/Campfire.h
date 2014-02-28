@@ -31,6 +31,7 @@ public:
 	virtual std::list<std::pair<float, float>> getPath() const { return this->_path; };
 	virtual sf::FloatRect getBoxCollider() const { return sf::FloatRect(0.f, 0.f, 0.f, 0.f); };
 	virtual sf::Vector2f  getPosition() const;
+	virtual int getLife() const;
 
 	//sf::Rect & getCollisionBox(void);
 

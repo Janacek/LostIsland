@@ -13,6 +13,7 @@ public:
 	void				draw(sf::RenderTexture *);
 	void				update(Map &);
 	Type				getType() const { return BUSH; };
+	virtual int			getLife() const;
 
 	sf::Clock			_bushClock;
 	float				_oldDt;

@@ -25,6 +25,10 @@ public:
 	bool const getIsPathFound() const { return false; }
 	void setIsPathFound(bool n) { (void)n; }
 	bool getIsStopped() const{ return false; }
+	int getLife() const
+	{
+		return 0;
+	}
 
 	void setPosition(sf::Vector2f &);
 	sf::Vector2f  getPosition() const;

@@ -9,6 +9,11 @@ Campfire::Campfire(Camera *camera)
 	loadAnimation("./Media/images/campfire.png", 0.1f);
 }
 
+int Campfire::getLife() const
+{
+	return 0;
+}
+
 void Campfire::doAction(IEntity *other)
 {
 	//do something

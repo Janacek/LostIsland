@@ -13,4 +13,5 @@ class ForestTree : public Tree
 	void draw(sf::RenderTexture *);
 	void update(Map &);
 	Type getType() const { return TREE; };
+	int getLife() const{ return 0; }
 };

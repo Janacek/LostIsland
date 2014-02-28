@@ -388,6 +388,28 @@ void GameScreen::update(void)
 		}
 	}
 	
+	for (auto it = _entities.begin(); it != _entities.end(); ++it)
+	{
+		(*it)->update(*_map);
+		if ((*it)->getLife() <= 0)
+		{
+			for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
+			{
+				for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
+				{
+					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->_id == (*it)->_id)
+					{
+						_map->getEntitiesMap()[i][j]._component->_id = -1;
+						_map->getEntitiesMap()[i][j]._component = NULL;
+						IEntity *tmp = (*it);
+						it = _entities.erase(it);
+						delete tmp;
+					}
+				}
+			}
+		}
+	}
+
 	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
 	{
 		(*it2)->update(*_map);

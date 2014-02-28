@@ -34,7 +34,9 @@ public:
 	{
 		return false; 
 	}
-
+	int getLife() const {
+		return 0;
+	}
 	~Food(void);
 private:
 	std::list<std::pair<float, float> >		_path;

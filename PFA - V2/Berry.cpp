@@ -8,6 +8,11 @@ Berry::Berry()
 	_value = 5;
 }
 
+int Berry::getLife() const
+{
+	return 0;
+}
+
 void Berry::doAction(IEntity *other)
 {
 	Player *player = dynamic_cast<Player *>(other);
