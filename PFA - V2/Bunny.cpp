@@ -6,24 +6,14 @@
 #include "Player.h"
 #include "Food.h"
 
-Bunny::Bunny()
-{
-	_isMoving = false;
-	_isStop = false;
-	_id = IEntityId++;
-}
-
 Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
-: _position(position), _life(life), _camera(cam)
+: _camera(cam), IEntity(1.f, true, sf::Vector2f(position), 0, sf::FloatRect(0, 0, 0, 0), life)
 {
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(_position);
 	loadAnimation("Media/images/bunny.png", 0.1f);
-	_isMoving = false;
-	_pathToGo = 1.f;
 	_speed = 2;
 	_oldTime = 0;
-	_isPathFound = false;
 	_iterPath = 0;
 	_hasAPath = false;
 	_firstPath = true;
@@ -125,43 +115,9 @@ void Bunny::moveToNextWP()
 }
 
 
-void Bunny::setIsPathFound(bool p)
-{
-	_isPathFound = p;
-}
-
-bool const Bunny::getIsPathFound() const
-{
-	return _isPathFound;
-}
-
-float Bunny::getPathToGo() const
-{
-	return _pathToGo;
-}
-
-void Bunny::setPathToGo(float p)
-{
-	_pathToGo = p;
-}
-
-void Bunny::addToPathToGo(float p)
-{
-	_pathToGo += p;
-}
-
-bool Bunny::getIsMoving() const
-{
-	return _isMoving;
-}
 void Bunny::doAction(IEntity *o)
 {
 	o->getAction(this);
-}
-
-int Bunny::getLife() const
-{
-	return _life;
 }
 
 void Bunny::getAction(IEntity *o)
@@ -217,12 +173,6 @@ void Bunny::loadAnimation(std::string const &string_anim, float)
 
 }
 
-sf::FloatRect Bunny::getBoxCollider() const 
-{ 
-	//std::cout << "x" << _animatedSprite->getGlobalBounds().left << "y " << _animatedSprite->getGlobalBounds().top << std::endl;
-	return _animatedSprite->getGlobalBounds();
-}
-
 void Bunny::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
 {
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
@@ -256,27 +206,6 @@ void Bunny::update(Map &map)
 	}
 	moveToNextWP();
 	//std::cout << " x " << _animatedSprite->getGlobalBounds().left << " y " <<  _animatedSprite->getGlobalBounds().top << std::en
-}
-
-void Bunny::setPath(std::list<std::pair<float, float>> &list)
-{
-	_path = list;
-	_originalPath = list;
-}
-
-void Bunny::setPosition(sf::Vector2f &vec)
-{
-	_position = vec;
-}
-
-sf::Vector2f Bunny::getPosition() const
-{
-	return _position;
-}
-
-int Bunny::getDamage(void) const
-{
-	return 0;
 }
 
 Type Bunny::getType() const

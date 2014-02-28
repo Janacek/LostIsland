@@ -15,7 +15,8 @@
 #include "InventoryWindow.h"
 #include "SoundManager.h"
 
-Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
+Player::Player(sf::Vector2f &pos, Camera *cam) 
+: _camera(cam), IEntity(0.f, true, sf::Vector2f(pos), 10, sf::FloatRect(0, 0, 0, 0), 100)
 {
 	_isAttacking = false;
 	this->_isWalking = false;
@@ -28,15 +29,11 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(pos);
 	_rect.setFillColor(sf::Color::Red);
-	_isMoving = false;
 	_hasAPath = false;
-	_isPathFound = false;
 	/*
 	** Gestion de la vie / soif / etc...
 	*/
 	_speed = 5;
-	_pathToGo = 0.f;
-	_damages = 10;
 	_life = 100;
 	_water = 100;
 	_food = 100;
@@ -44,13 +41,16 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_hungerClock = 0;
 	_thirstClock = 0;
 	_lifeClock = 0;
-	_isSelected = false;
 	_path.clear();
 	_cursorTime = 0;
 	_objective = NULL;
-	_id = IEntityId++;
 	_timeAttack = 0;
 
+}
+
+sf::FloatRect Player::getBoxCollider() const
+{
+	return _animatedSprite->getGlobalBounds();
 }
 
 Compartment	*Player::getCompartment(int index)
@@ -130,21 +130,6 @@ bool Player::delEntityInInventory(Type type)
 		}
 	}
 	return false;
-}
-
-float Player::getPathToGo() const
-{
-	return _pathToGo;
-}
-
-void Player::setPathToGo(float f)
-{
-	_pathToGo = f;
-}
-
-void Player::addToPathToGo(float f)
-{
-	_pathToGo += f;
 }
 
 bool Player::delEntityInInventory(IEntity *entity)
@@ -258,21 +243,21 @@ void Player::moveToNextWP()
 			tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
 			tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
 
-			if (_pos.x > _path.front().first)
-				_pos.x -= static_cast<float>(dt * _speed);
-			if (_pos.x < _path.front().first)
-				_pos.x += static_cast<float>(dt * _speed);
-			if (_pos.y > _path.front().second)
-				_pos.y -= static_cast<float>(dt *_speed);
-			if (_pos.y < _path.front().second)
-				_pos.y += static_cast<float>(dt * _speed);
-			if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y) &&
+			if (_position.x > _path.front().first)
+				_position.x -= static_cast<float>(dt * _speed);
+			if (_position.x < _path.front().first)
+				_position.x += static_cast<float>(dt * _speed);
+			if (_position.y > _path.front().second)
+				_position.y -= static_cast<float>(dt *_speed);
+			if (_position.y < _path.front().second)
+				_position.y += static_cast<float>(dt * _speed);
+			if (_path.front().first == floor(_position.x) && _path.front().second == floor(_position.y) &&
 				_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
 
 			{
 				if (!_path.empty())
 					_path.pop_front();
-				changeAnimation(_pos, _path.front());
+				changeAnimation(_position, _path.front());
 				return;
 			}
 		}
@@ -312,26 +297,6 @@ void Player::moveToNextWP()
 	_animatedSprite->update(t);
 }
 
-sf::FloatRect Player::getBoxCollider() const
-{
-	return _animatedSprite->getGlobalBounds(); 
-};
-
-void Player::setSelected(bool const s)
-{
-	_isSelected = s;
-}
-
-bool Player::getIsMoving() const
-{
-	return _isMoving;
-}
-
-bool const Player::getSelected() const
-{
-	return _isSelected;
-}
-
 void Player::draw(sf::RenderTexture *, sf::Shader &)
 {
 
@@ -340,8 +305,8 @@ void Player::draw(sf::RenderTexture *, sf::Shader &)
 void Player::draw(sf::RenderTexture *)
 {
 
-	_posDisp.x = ((_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
-	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
+	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
+	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
 	sf::Vector2f v(0, -10);
 	//this->_anim->show(_posDisp + v);
@@ -396,7 +361,7 @@ void Player::changeMapEntity(Map & map)
 		//if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component &&
 		//map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == PLAYER)
 		{
-			map.setEntityMap(NULL, static_cast<int>(floor(_pos.y)), static_cast<int>(floor(_pos.x)));
+			map.setEntityMap(NULL, static_cast<int>(floor(_position.y)), static_cast<int>(floor(_position.x)));
 		}
 
 		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
@@ -421,10 +386,10 @@ void Player::update(Map & map)
 	Si on est en mvt on delete la case ou on était a la base, on set la case d'arrivée
 
 	*/
-	/*if (_isMoving == false && map.getEntitiesMap()[static_cast<int>(floor(_pos.x))][static_cast<int>(floor(_pos.y))]._component == NULL)
+	/*if (_isMoving == false && map.getEntitiesMap()[static_cast<int>(floor(_position.x))][static_cast<int>(floor(_position.y))]._component == NULL)
 	{
-	std::cout << "Point add : x " << static_cast<int>(floor(_pos.x)) << " y " << static_cast<int>(floor(_pos.y)) << std::endl;
-	map.setEntityMap(this, static_cast<int>(floor(_pos.x)), static_cast<int>(floor(_pos.y)));
+	std::cout << "Point add : x " << static_cast<int>(floor(_position.x)) << " y " << static_cast<int>(floor(_position.y)) << std::endl;
+	map.setEntityMap(this, static_cast<int>(floor(_position.x)), static_cast<int>(floor(_position.y)));
 	}*/
 
 	/*
@@ -684,8 +649,8 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 
 void Player::move(sf::Vector2f &pos)
 {
-	_pos.x += pos.x;
-	_pos.y += pos.y;
+	_position.x += pos.x;
+	_position.y += pos.y;
 
 }
 
@@ -712,11 +677,6 @@ std::string const &Player::getName() const
 	return this->_name;
 }
 
-int Player::getDamage(void) const
-{
-	return this->_damages;
-}
-
 Type Player::getType() const
 {
 	return PLAYER;
@@ -731,18 +691,8 @@ void Player::setPath(std::list<std::pair<float, float> > &path)
 
 void Player::setPosition(sf::Vector2f &pos)
 {
-	_pos.x = (pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL;
-	_pos.y = (pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL;
-	_rect.setPosition(_pos);
+	_position.x = (pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL;
+	_position.y = (pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL;
+	_rect.setPosition(_position);
 }
 
-sf::Vector2f  Player::getPosition() const
-{
-	return _pos;
-}
-
-
-sf::IntRect & Player::getCollisionBox(void)
-{
-	return _boxCollider;
-}

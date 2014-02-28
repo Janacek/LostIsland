@@ -3,9 +3,8 @@
 
 //Le Wood apparait lorsque l'on coupe un arbre
 Wood::Wood(void)
+: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
-	_pos = sf::Vector2f(0, 0);
-	_id = IEntityId++;
 }
 
 void Wood::doAction(IEntity* other)
@@ -40,29 +39,9 @@ void Wood::draw(sf::RenderTexture *)
 
 }
 
-void Wood::setPosition(sf::Vector2f &pos)
-{
-	_pos = pos;
-}
-
-int Wood::getDamage() const
-{
-	return 0;
-}
-
 Type Wood::getType() const
 {
 	return WOOD;
-}
-
-sf::Vector2f  Wood::getPosition() const
-{
-	return _pos;
-}
-
-void Wood::setPath(std::list<std::pair<float, float> > &path)
-{
-	_path = path;
 }
 
 Wood::~Wood(void)

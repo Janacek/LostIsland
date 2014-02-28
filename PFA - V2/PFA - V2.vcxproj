@@ -116,6 +116,7 @@
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GestionClick.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
+    <ClCompile Include="IEntity.cpp" />
     <ClCompile Include="ImageSingleton.cpp" />
     <ClCompile Include="InventoryWindow.cpp" />
     <ClCompile Include="KeyboardControler.cpp" />

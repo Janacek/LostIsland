@@ -5,6 +5,8 @@ class Map;
 
 class ForestTree : public Tree
 {
+public:
+	ForestTree();
 	void doAction(IEntity *);
 	void getAction(IEntity *);
 
@@ -13,5 +15,4 @@ class ForestTree : public Tree
 	void draw(sf::RenderTexture *);
 	void update(Map &);
 	Type getType() const { return TREE; };
-	int getLife() const{ return 0; }
 };

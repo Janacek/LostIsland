@@ -6,6 +6,12 @@
 #include	"Player.h"
 #include "Wood.h"
 
+PalmTree::PalmTree()
+: Tree()
+{
+
+}
+
 void PalmTree::Animate(std::string const &)
 {
 

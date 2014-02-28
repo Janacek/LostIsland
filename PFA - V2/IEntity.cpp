@@ -1,69 +1,115 @@
-/***********************************************************************
- * Module:  IEntity.cpp
- * Author:  Ronan
- * Modified: mercredi 20 novembre 2013 00:13:42
- * Purpose: Implementation of the class IEntity
- ***********************************************************************/
-
 #include "IEntity.h"
 
-////////////////////////////////////////////////////////////////////////
-// Name:       IEntity::doAction(IEntity* other)
-// Purpose:    Implementation of IEntity::doAction()
-// Parameters:
-// - other
-// Return:     void
-////////////////////////////////////////////////////////////////////////
-
-void IEntity::doAction(IEntity* other)
+IEntity::IEntity(float pathToGo, bool isAMovingEntity, sf::Vector2f position, int damages, sf::FloatRect boxCollider, int life)
+: _pathToGo(pathToGo), _isAMovingEntity(isAMovingEntity), _position(position), _damages(damages), _boxCollider(boxCollider), _life(life)
 {
-   // TODO : implement
+	_id = IEntityId++;
+	_isSelected = false;
+	_isMoving = false;
+	_isPathFound = false;
 }
 
-////////////////////////////////////////////////////////////////////////
-// Name:       IEntity::getAction(IEntity* other)
-// Purpose:    Implementation of IEntity::getAction()
-// Parameters:
-// - other
-// Return:     void
-////////////////////////////////////////////////////////////////////////
-
-void IEntity::getAction(IEntity* other)
+bool IEntity::getIsSelected() const
 {
-   // TODO : implement
+	return _isSelected;
 }
 
-////////////////////////////////////////////////////////////////////////
-// Name:       IEntity::Animate(std::string const & string_anim)
-// Purpose:    Implementation of IEntity::Animate()
-// Parameters:
-// - string_anim
-// Return:     void
-////////////////////////////////////////////////////////////////////////
-
-void IEntity::Animate(std::string const & string_anim)
+void IEntity::setIsSelected(bool isSelected)
 {
-   // TODO : implement
+	_isSelected = isSelected;
 }
 
-////////////////////////////////////////////////////////////////////////
-// Name:       IEntity::getDamage()
-// Purpose:    Implementation of IEntity::getDamage()
-// Return:     int
-////////////////////////////////////////////////////////////////////////
-
-int IEntity::getDamage(void)
+void IEntity::setId(int id)
 {
-   // TODO : implement
+	_id = id;
 }
 
-////////////////////////////////////////////////////////////////////////
-// Name:       IEntity::getCollisionBox()
-// Purpose:    Implementation of IEntity::getCollisionBox()
-// Return:     sf::Rect &
-////////////////////////////////////////////////////////////////////////
-
-sf::Rect & IEntity::getCollisionBox(void)
+void IEntity::setPath(std::list<std::pair<float, float> >&path)
 {
-   // TODO : implement
+	_path = path;
+}
+
+std::list<std::pair<float, float> > IEntity::getPath() const
+{
+	return _path;
+}
+
+void IEntity::setPosition(sf::Vector2f &pos)
+{
+	_position = pos;
+}
+
+sf::Vector2f  IEntity::getPosition() const
+{
+	return _position;
+}
+
+int IEntity::getDamage(void) const
+{
+	return _damages;
+}
+
+bool IEntity::getIsMoving() const
+{
+	return _isMoving;
+}
+
+float IEntity::getPathToGo() const
+{
+	return _pathToGo;
+}
+
+void IEntity::setPathToGo(float f)
+{
+	_pathToGo = f;
+}
+
+void IEntity::addToPathToGo(float f)
+{
+	_pathToGo += f;
+}
+
+bool const IEntity::getSelected() const
+{
+	return _isSelected;
+}
+
+bool const IEntity::getIsPathFound() const
+{
+	return _isPathFound;
+}
+
+void IEntity::setIsPathFound(bool pathFound)
+{
+	_isPathFound = pathFound;
+}
+
+bool IEntity::getIsStopped() const
+{
+	return _isStopped;
+}
+
+bool IEntity::getIsAMovingEntity() const
+{
+	return _isAMovingEntity;
+}
+
+sf::FloatRect IEntity::getBoxCollider() const
+{
+	return _boxCollider;
+}
+
+int IEntity::getLife() const
+{
+	return _life;
+}
+
+void IEntity::setLife(int life)
+{
+	_life = life;
+}
+
+int IEntity::getId() const
+{
+	return _id;
 }

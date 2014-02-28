@@ -5,6 +5,7 @@
 #include "Berry.h"
 
 Bush::Bush()
+: Tree()
 {
 	_grown = false;
 	_bushClock.restart();

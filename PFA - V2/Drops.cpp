@@ -3,8 +3,8 @@
 #include		"ShadersManager.h"
 
 Drops::Drops()
+: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
-	_id = IEntityId++;
 }
 
 void Drops::doAction(IEntity* other)
@@ -30,21 +30,6 @@ void Drops::loadAnimation(std::string const & string_anim, float speed)
 Type Drops::getType() const
 {
 	return DROPS;
-}
-
-void Drops::setPosition(sf::Vector2f &pos)
-{
-	_position = pos;
-}
-
-sf::Vector2f Drops::getPosition() const
-{
-	return (_position);
-}
-
-void Drops::setPath(std::list<std::pair<float, float> >& path)
-{
-
 }
 
 void Drops::draw(sf::RenderTexture *tex, sf::Shader &shader)

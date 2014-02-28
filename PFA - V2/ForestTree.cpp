@@ -6,6 +6,12 @@
 #include "Player.h"
 #include "Wood.h"
 
+ForestTree::ForestTree()
+: Tree()
+{
+
+}
+
 void ForestTree::Animate(std::string const &)
 {
 

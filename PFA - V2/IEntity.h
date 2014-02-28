@@ -40,32 +40,61 @@ static int IEntityId = 0;
 class IEntity
 {
 public:
-	virtual void doAction(IEntity* other) = 0;
-	virtual void getAction(IEntity* other) = 0;
-	virtual void loadAnimation(std::string const & string_anim, float speed) = 0;
-	virtual void draw(sf::RenderTexture *) = 0;
-	virtual void draw(sf::RenderTexture *, sf::Shader &) = 0;
-	virtual void update(Map &) = 0;
-	virtual void setPath(std::list<std::pair<float, float> >&) = 0;
-	virtual std::list<std::pair<float, float> > getPath() const = 0;
-	virtual void setPosition(sf::Vector2f &pos) = 0;
-	virtual sf::Vector2f  getPosition() const = 0;
-	virtual int getDamage(void) const = 0;
-	virtual Type getType() const = 0;
-	virtual bool getIsMoving() const = 0;
-	virtual float getPathToGo() const = 0;
-	virtual void setPathToGo(float f) = 0;
-	virtual void addToPathToGo(float f) = 0;
-	virtual bool const getSelected() const = 0;
-	virtual bool const getIsPathFound() const = 0;
-	virtual void setIsPathFound(bool)  = 0;
-	virtual bool getIsStopped() const = 0;
-	virtual bool getIsAMovingEntity() const = 0;
-	virtual sf::FloatRect getBoxCollider() const = 0;
-	virtual int getLife() const = 0;
-	int								_id;
+	virtual void doAction(IEntity* other) = 0;										// reste
+	virtual void getAction(IEntity* other) = 0;										// reste
+	virtual void loadAnimation(std::string const & string_anim, float speed) = 0;	// reste
+	virtual void draw(sf::RenderTexture *) = 0;										// reste
+	virtual void draw(sf::RenderTexture *, sf::Shader &) = 0;						// reste
+	virtual void update(Map &) = 0;													// reste
+	virtual Type getType() const = 0;												// reste
+
+
+
+
+
+	virtual void setPath(std::list<std::pair<float, float> >&);
+	virtual std::list<std::pair<float, float> > getPath() const;	
+	virtual sf::Vector2f  getPosition() const;
+	virtual void setPosition(sf::Vector2f &);
+	virtual int getDamage(void) const;
+	virtual bool getIsMoving() const;
+	virtual float getPathToGo() const;
+	virtual void setPathToGo(float f);
+	virtual void addToPathToGo(float f);
+	virtual bool const getSelected() const;
+	virtual bool const getIsPathFound() const;
+	virtual void setIsPathFound(bool);
+	virtual bool getIsStopped() const;
+	virtual bool getIsAMovingEntity() const;
+	virtual sf::FloatRect  getBoxCollider() const;							// enlève
+	virtual int getLife() const;
+	virtual void setLife(int);
+	int getId() const;
+	void setId(int);
+	bool getIsSelected() const;
+	void setIsSelected(bool);
+
+	IEntity(float,
+		bool,
+		sf::Vector2f,
+		int,
+		sf::FloatRect,
+		int);
 
 protected:
+	float								_pathToGo;
+	bool								_isSelected;
+	bool								_isMoving;
+	bool								_isPathFound;
+	bool								_isAMovingEntity;
+	bool								_isStopped;
+	std::list<std::pair<float, float>>	_path;
+	sf::Vector2f						_position;
+	int									_damages;
+	sf::FloatRect						_boxCollider;
+	int									_life;
+	int									_id;
+
 private:
 
 };

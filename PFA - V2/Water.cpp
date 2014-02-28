@@ -3,9 +3,8 @@
 
 
 Water::Water(void)
+: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
-	_pos = sf::Vector2f(0,0);
-	_id = IEntityId++;
 }
 
 /// <summary>
@@ -27,21 +26,6 @@ void Water::draw(sf::RenderTexture *)
 {
 }
 
-void Water::setPosition(sf::Vector2f &pos)
-{
-	_pos = pos;
-}
-
-sf::Vector2f  Water::getPosition() const
-{
-	return _pos;
-}
-
-void Water::setPath(std::list<std::pair<float, float> >&path)
-{
-	_path = path;
-}
-
 void Water::update(Map &map)
 {
 
@@ -61,11 +45,6 @@ void Water::getAction(IEntity* other)
 void Water::loadAnimation(std::string const & string_anim, float speed)
 {
 
-}
-
-int Water::getDamage() const
-{
-	return 0;
 }
 
 Type Water::getType() const

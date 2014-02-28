@@ -2,9 +2,8 @@
 
 
 Food::Food(void)
+: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
-	_pos = sf::Vector2f(0,0);
-	_id = IEntityId++;
 }
 
 void Food::doAction(IEntity* other)
@@ -26,11 +25,6 @@ void Food::update(Map &map)
 
 }
 
-int Food::getDamage() const
-{
-	return 0;
-}
-
 void Food::draw(sf::RenderTexture *, sf::Shader &)
 {
 
@@ -40,22 +34,6 @@ void Food::draw(sf::RenderTexture *)
 {
 
 }
-
-void Food::setPosition(sf::Vector2f &pos)
-{
-	_pos = pos;
-}
-
-sf::Vector2f  Food::getPosition() const
-{
-	return _pos;
-}
-
-void Food::setPath(std::list<std::pair<float, float> >& path)
-{
-	_path = path;
-}
-
 
 Type Food::getType() const
 {

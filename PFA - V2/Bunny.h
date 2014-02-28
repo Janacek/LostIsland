@@ -11,7 +11,6 @@
 class Bunny : public IEntity
 {
 public:
-	Bunny();
 	Bunny(sf::Vector2f &, int, Camera *);
 	virtual ~Bunny();
 
@@ -21,45 +20,15 @@ public:
 	void								draw(sf::RenderTexture *);
 	void								draw(sf::RenderTexture *, sf::Shader &);
 	void								update(Map &map);
-	void								setPath(std::list<std::pair<float, float>> &);
-	void								setPosition(sf::Vector2f &);
-	sf::Vector2f						getPosition() const;
-	int									getDamage(void) const;
 	Type								getType() const;
-	bool								getIsMoving() const;
-	float								getPathToGo() const;
-	void								setPathToGo(float f);
 	void								moveToNextWP();
-	void								addToPathToGo(float f);
-	std::list<std::pair<float, float>> getPath() const { return this->_path; };
-	bool const							getSelected() const
-	{ 
-		return true;
-	}
 
-	bool const							getIsPathFound() const;
-	void								setIsPathFound(bool);
-	
-	bool								getIsStopped() const
-	{ 
-		return _isStop; 
-	}
-
-	bool								getIsAMovingEntity() const
-	{ 
-		return true;
-	}
-	sf::FloatRect getBoxCollider() const;
-	virtual int getLife() const;
 private:
 	void								changeAnimation(sf::Vector2f&, std::pair<float, float>);
 
 	Animation							*_anim;
 	Camera								*_camera;
-	bool								_isMoving;
 	bool								_hasAPath;
-	bool								_isPathFound;
-	bool								_isStop;
 	bool								_firstPath;
 	// Bunny pathfinding
 	sf::Clock							_mvtClock;
@@ -68,16 +37,12 @@ private:
 	double								_oldTime;
 	int									_iterPath;
 
-	std::list<std::pair<float, float> >	_path;
 	std::list<std::pair<float, float> >	_originalPath;
-	float								_pathToGo; // /!\ il doit partir a 1
 	// Bunny's position
 	sf::RectangleShape					_rect;
-	sf::Vector2f						_position;
 	sf::Vector2f						_posDisp;
 
 	// Bunny's life
-	int									_life;
 
 	Animation							*_walkUp;
 	Animation							*_walkDown;

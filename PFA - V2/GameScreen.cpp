@@ -208,13 +208,13 @@ void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos)
 	hungerNbr.setColor(sf::Color::Black);
 	hungerNbr.setFont(*FontManager::getInstance().getFont(SANSATION));
 
-	sf::RectangleShape healthBar(sf::Vector2f(player->_life * 1.9, 20));
+	sf::RectangleShape healthBar(sf::Vector2f(player->getLife() * 1.9, 20));
 	healthBar.setFillColor(sf::Color(196, 0, 0));
 	healthBar.setPosition(pos.x + 85, pos.y + 55);
 
 	sf::Text healthNbr;
 	healthNbr.setCharacterSize(20);
-	healthNbr.setString(std::to_string((int)player->_life) + " %");
+	healthNbr.setString(std::to_string((int)player->getLife()) + " %");
 	healthNbr.setPosition(sf::Vector2f(pos.x + 85 + 70, pos.y + 52));
 	healthNbr.setColor(sf::Color::Black);
 	healthNbr.setFont(*FontManager::getInstance().getFont(SANSATION));
@@ -273,7 +273,7 @@ void GameScreen::draw()
 		sf::Vector2f infosPos(400, 0);
 		for (auto it = _players.begin(); it != _players.end(); ++it)
 		{
-			if ((*it)->_isSelected) {
+			if ((*it)->getIsSelected()) {
 				drawPlayerInformations(*it, infosPos);
 				infosPos.x += 320;
 			}
@@ -342,11 +342,11 @@ void	GameScreen::updateSelectionZone()
 
 			if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
 			{
-				(*it)->setSelected(true);
+				(*it)->setIsSelected(true);
 			}
 			else if (!Singleton::getInstance().isShiftPressed)
 			{
-				(*it)->setSelected(false);
+				(*it)->setIsSelected(false);
 			}
 		}
 	}
@@ -362,16 +362,16 @@ void GameScreen::update(void)
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
 		(*it)->update(*_map);
-		if ((*it)->_life <= 0)
+		if ((*it)->getLife() <= 0)
 		{
 			for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
 			{
 				for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
 				{
-					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->_id == (*it)->_id &&
+					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getId() == (*it)->getId() &&
 						_map->getEntitiesMap()[i][j]._component->getType() == PLAYER)
 					{
-						_map->getEntitiesMap()[i][j]._component->_id = -1;
+						_map->getEntitiesMap()[i][j]._component->setId(-1);
 						_map->getEntitiesMap()[i][j]._component = NULL;
 						Player *tmp = (*it);
 						it = _players.erase(it);
@@ -397,9 +397,9 @@ void GameScreen::update(void)
 			{
 				for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
 				{
-					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->_id == (*it)->_id)
+					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getId() == (*it)->getId())
 					{
-						_map->getEntitiesMap()[i][j]._component->_id = -1;
+						_map->getEntitiesMap()[i][j]._component->setId(-1);
 						_map->getEntitiesMap()[i][j]._component = NULL;
 						IEntity *tmp = (*it);
 						it = _entities.erase(it);

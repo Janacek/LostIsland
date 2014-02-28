@@ -32,13 +32,8 @@ public:
 	void draw(sf::RenderTexture *, sf::Shader &);
 	void draw(sf::RenderTexture *);
 	void setCamPos(sf::Vector2f &); // TMP LE TEMPS QUON AI LA BONNE CLASS
-	void setPosition(sf::Vector2f &pos);
-	int getLife() const { return _life; }
-	sf::Vector2f  getPosition() const;
-	void setPath(std::list<std::pair<float, float> >&);
 
 	void move(sf::Vector2f & pos);
-	int getDamage(void) const;
 	Type getType() const;
 	sfg::Box::Ptr getBox();
 	sfg::Notebook::Ptr _book;
@@ -49,18 +44,13 @@ public:
 	int			posInventory(IEntity *);
 	void moveToNextWP();
 	void update(Map &);
-	float getPathToGo() const;
-	void setPathToGo(float f);
-	void addToPathToGo(float f);
-	bool getIsMoving() const;
-	bool getIsStopped() const{ return false; }
-	bool getIsAMovingEntity() const{ return true; }
 	void setMap(Map *map) { _map = map; };
 	void setInventory(InventoryWindow *inventory) { _inventoryWindow = inventory; };
 	Map *getMap() { return _map; };
+	void setPath(std::list<std::pair<float, float> > &path);
+	void setPosition(sf::Vector2f &pos);
 
-
-	sf::IntRect & getCollisionBox(void);
+	sf::FloatRect getBoxCollider() const;
 
 	//TODO : Changer en compartments pour l'inventaire
 
@@ -99,8 +89,6 @@ protected:
 
 
 	Camera						*_camera;
-	sf::IntRect				_boxCollider;
-
 
 	/*
 	** Player pathfinding
@@ -109,9 +97,6 @@ protected:
 	float						_oldDtMvt;
 
 	float								_speed;
-	std::list<std::pair<float, float> >	_path;
-	float								_pathToGo;
-	bool								_isMoving;
 	bool								_hasAPath;
 	bool								_isPathNotFound;
 	bool								_isAttacking;
@@ -124,7 +109,6 @@ protected:
 	** Player position
 	*/
 	sf::RectangleShape			_rect;
-	sf::Vector2f				_pos;
 
 	sf::Vector2f _posDisp;
 	unsigned int _sizeInventory;
@@ -142,12 +126,9 @@ protected:
 	** Player state
 	*/
 public:
-	float						_life;
-	int							_damages;
 	float						_water;
 	float						_food;
 	bool						_isSick;
-	bool						_isPathFound;
 	sfg::Box::Ptr				_inventory;
 	sf::Clock					_referenceClock;
 
@@ -165,17 +146,10 @@ public:
 	/*
 	** Selection of the player.
 	*/
-	bool						_isSelected;
 public:
 	void						doActionOnEntity();
 	void						changeMapEntity(Map&);
-	void						setSelected(bool const);
-	bool						const getSelected() const;
-	bool const getIsPathFound() const { return _isPathFound; }
-	void setIsPathFound(bool n) { _isPathFound = n; }
 	void setTarget(Type);
-	std::list<std::pair<float, float>> getPath() const { return this->_path; };
-	sf::FloatRect getBoxCollider() const;
 	void						stepsSound();
 private:
 	bool						_isWalking;

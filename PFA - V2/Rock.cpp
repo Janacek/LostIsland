@@ -2,10 +2,10 @@
 #include "Player.h"
 
 Rock::Rock()
+: IEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 	_duration = 200;
 	_isMined = false;
-	_id = IEntityId++;
 }
 
 void Rock::doAction(IEntity* other)
@@ -41,30 +41,9 @@ void Rock::loadAnimation(std::string const & string_anim, float speed)
 {
 }
 
-//Pas de dommages
-int Rock::getDamage(void) const
-{
-	return this->_damages;
-}
-
 Type Rock::getType() const
 {
 	return ROCK;
-}
-
-void Rock::setPosition(sf::Vector2f &pos)
-{
-	_position = pos;
-}
-
-sf::Vector2f Rock::getPosition() const
-{
-	return (_position);
-}
-
-void Rock::setPath(std::list<std::pair<float, float> >& path)
-{
-
 }
 
 void Rock::draw(sf::RenderTexture *tex, sf::Shader &shader)

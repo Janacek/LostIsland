@@ -4,6 +4,7 @@
 class PalmTree : public Tree
 {
 public:
+	PalmTree();
 	void doAction(IEntity *);
 	void getAction(IEntity *);
 
@@ -12,5 +13,4 @@ public:
 	void draw(sf::RenderTexture *);
 	Type getType() const { return PALMTREE; };
 	void update(Map &);
-	int getLife() const { return 0; }
 };

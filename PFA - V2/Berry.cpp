@@ -2,15 +2,9 @@
 #include "Player.h"
 
 Berry::Berry()
+: IEntity(0, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
-	_pos = sf::Vector2f(0, 0);
-	_id = IEntityId++;
 	_value = 5;
-}
-
-int Berry::getLife() const
-{
-	return 0;
 }
 
 void Berry::doAction(IEntity *other)
@@ -47,29 +41,9 @@ void Berry::draw(sf::RenderTexture *)
 
 }
 
-void Berry::setPosition(sf::Vector2f &pos)
-{
-	_pos = pos;
-}
-
-int Berry::getDamage() const
-{
-	return 0;
-}
-
 Type Berry::getType() const
 {
 	return BERRY;
-}
-
-sf::Vector2f Berry::getPosition() const
-{
-	return _pos;
-}
-
-void Berry::setPath(std::list<std::pair<float, float>> &path)
-{
-	_path = path;
 }
 
 Berry::~Berry()
