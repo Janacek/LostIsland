@@ -1,6 +1,6 @@
 #include "InventoryWindow.h"
 #include "GameScreen.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "Singleton.h"
 #include <iostream>
 #include <sstream>

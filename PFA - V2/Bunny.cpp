@@ -1,5 +1,5 @@
 #include "Bunny.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "Map.h"
 #include "Chunk.h"
 #include "MapEnvironment.h"

@@ -3,7 +3,7 @@
 #include "Water.h"
 #include "Wood.h"
 #include "Singleton.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include <iostream>
 #include <math.h>  
 #include "Map.h"
@@ -325,7 +325,7 @@ void Player::draw(sf::RenderTexture *)
 	{
 		sf::Vector2f posIcon = _posDisp;
 		sf::RectangleShape icon(sf::Vector2f(32, 32));
-		icon.setTexture(ImageSingleton::getInstance().get(SELECTED_ICON));
+		icon.setTexture(ImageManager::getInstance().get(SELECTED_ICON));
 		posIcon.y -= 52;
 		icon.setPosition(posIcon);
 

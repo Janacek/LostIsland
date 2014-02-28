@@ -10,7 +10,7 @@
 #include "Tree.h"
 #include "MapEnvironment.h"
 #include					"Singleton.h"
-#include					"ImageSingleton.h"
+#include					"ImageManager.h"
 #include "Campfire.h"
 GameScreen::GameScreen()
 {
@@ -155,7 +155,7 @@ void GameScreen::mouseLeftPress(int index)
 void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos) const
 {
 	sf::RectangleShape playerInfo(sf::Vector2f(300, 200));
-	playerInfo.setTexture(ImageSingleton::getInstance().get(PLAYER_INFOS_BACKGROUND));
+	playerInfo.setTexture(ImageManager::getInstance().get(PLAYER_INFOS_BACKGROUND));
 	playerInfo.setPosition(pos);
 
 	sf::Text name;

@@ -50,9 +50,9 @@ void Rock::draw(sf::RenderTexture *tex, sf::Shader &shader)
 {
 	sf::Sprite tmp;
 	if (!_isMined)
-		tmp.setTexture((*ImageSingleton::getInstance().get(ROCK)));
+		tmp.setTexture((*ImageManager::getInstance().get(ROCK)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(ROCK_BROKEN)));
+		tmp.setTexture((*ImageManager::getInstance().get(ROCK_BROKEN)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 
@@ -63,9 +63,9 @@ void Rock::draw(sf::RenderTexture *tex)
 {
 	sf::Sprite tmp;
 	if (!_isMined)
-		tmp.setTexture((*ImageSingleton::getInstance().get(ROCK)));
+		tmp.setTexture((*ImageManager::getInstance().get(ROCK)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(ROCK_BROKEN)));
+		tmp.setTexture((*ImageManager::getInstance().get(ROCK_BROKEN)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	tex->draw(tmp);
 }

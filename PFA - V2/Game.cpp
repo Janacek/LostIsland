@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "Singleton.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "SoundManager.h"
 #include "Game.h"
 
@@ -19,7 +19,7 @@ void Game::init()
 	srand((unsigned int)time(NULL));
 	Singleton& ptr1 = Singleton::getInstance();
 	
-	ImageSingleton::getInstance().start();
+	ImageManager::getInstance().start();
 	//ptr1._window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Lost Island");
 	ptr1._window = new sf::RenderWindow(*videoMode.getFullscreenModes().begin(), "Lost Island", sf::Style::Fullscreen);
 	ptr1._window->setVerticalSyncEnabled(true);

@@ -3,7 +3,7 @@
 #include <list>
 #include "AEntity.h"
 #include "Singleton.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "ShadersManager.h"
 #include "Chunk.h"
 

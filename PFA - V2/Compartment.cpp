@@ -1,5 +1,5 @@
 #include "Compartment.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "Singleton.h"
 #include <sstream>
 #include <algorithm>
@@ -21,7 +21,7 @@ void Compartment::addElement(AEntity *entity)
 {
 	this->_elements.push_back(entity);
 	if (this->_elements.size() == 1)
-		this->_img = (*ImageSingleton::getInstance().get(entity->getType())).copyToImage();
+		this->_img = (*ImageManager::getInstance().get(entity->getType())).copyToImage();
 }
 
 void Compartment::delAllElement()

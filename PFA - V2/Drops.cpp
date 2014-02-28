@@ -1,5 +1,5 @@
 #include "Drops.h"
-#include		"ImageSingleton.h"
+#include		"ImageManager.h"
 #include		"ShadersManager.h"
 
 Drops::Drops()
@@ -34,7 +34,7 @@ Type Drops::getType() const
 
 void Drops::draw(sf::RenderTexture *tex, sf::Shader &shader)
 {
-	sf::Sprite tmp((*ImageSingleton::getInstance().get(DROPS)));
+	sf::Sprite tmp((*ImageManager::getInstance().get(DROPS)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 
@@ -43,7 +43,7 @@ void Drops::draw(sf::RenderTexture *tex, sf::Shader &shader)
 
 void Drops::draw(sf::RenderTexture *tex)
 {
-	sf::Sprite tmp((*ImageSingleton::getInstance().get(DROPS)));
+	sf::Sprite tmp((*ImageManager::getInstance().get(DROPS)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	tex->draw(tmp);
 }

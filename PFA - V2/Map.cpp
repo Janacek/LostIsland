@@ -1,7 +1,7 @@
 
 #include "Map.h"
 #include					"Singleton.h"
-#include					"ImageSingleton.h"
+#include					"ImageManager.h"
 #include					"MapEnvironment.h"
 #include					"ShadersManager.h"
 #include					"Player.h"
@@ -31,13 +31,13 @@ Map::Map(Camera *cam, std::string &loading)
 	_typeToColor[Cell::SNOW] = sf::Color::White;
 	_typeToColor[Cell::SAVANNA] = sf::Color(253, 178, 1);
 
-	_typeToTexture[Cell::GRASS] = ImageSingleton::getInstance().get(Type::GRASS);
-	_typeToTexture[Cell::OCEAN] = ImageSingleton::getInstance().get(Type::LAC);
-	_typeToTexture[Cell::SAND] = ImageSingleton::getInstance().get(Type::SABLE);
-	_typeToTexture[Cell::FOREST] = ImageSingleton::getInstance().get(Type::FOREST);
-	_typeToTexture[Cell::SNOW] = ImageSingleton::getInstance().get(Type::SNOW);
-	_typeToTexture[Cell::SAVANNA] = ImageSingleton::getInstance().get(Type::SAVANNA);
-	_typeToTexture[Cell::WALKABLE_WATER] = ImageSingleton::getInstance().get(Type::WATER_WALKABLE);
+	_typeToTexture[Cell::GRASS] = ImageManager::getInstance().get(Type::GRASS);
+	_typeToTexture[Cell::OCEAN] = ImageManager::getInstance().get(Type::LAC);
+	_typeToTexture[Cell::SAND] = ImageManager::getInstance().get(Type::SABLE);
+	_typeToTexture[Cell::FOREST] = ImageManager::getInstance().get(Type::FOREST);
+	_typeToTexture[Cell::SNOW] = ImageManager::getInstance().get(Type::SNOW);
+	_typeToTexture[Cell::SAVANNA] = ImageManager::getInstance().get(Type::SAVANNA);
+	_typeToTexture[Cell::WALKABLE_WATER] = ImageManager::getInstance().get(Type::WATER_WALKABLE);
 
 	int i;
 	for (i = 0; i < 27; ++i)

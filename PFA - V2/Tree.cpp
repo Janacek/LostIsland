@@ -1,6 +1,6 @@
 #include "Tree.h"
 #include "Singleton.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 
 Tree::Tree()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)

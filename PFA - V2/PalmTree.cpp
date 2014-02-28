@@ -1,6 +1,6 @@
 #include "PalmTree.h"
 #include					"Singleton.h"
-#include					"ImageSingleton.h"
+#include					"ImageManager.h"
 #include	"Map.h"
 #include	"MapEnvironment.h"
 #include	"Player.h"
@@ -24,9 +24,9 @@ void PalmTree::draw(sf::RenderTexture *tex, sf::Shader &shader)
 
 	sf::Sprite tmp;
 	if (!_isCut)
-		tmp.setTexture((*ImageSingleton::getInstance().get(PALMTREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(PALMTREE)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(CUT_PALMTREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(CUT_PALMTREE)));
 	tmp.setPosition(_position.x, _position.y);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 	tex->draw(tmp, ShadersManager::getInstance().get(BLOOM));
@@ -39,9 +39,9 @@ void PalmTree::draw(sf::RenderTexture *tex)
 
 	sf::Sprite tmp;
 	if (!_isCut)
-		tmp.setTexture((*ImageSingleton::getInstance().get(PALMTREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(PALMTREE)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(CUT_PALMTREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(CUT_PALMTREE)));
 	tmp.setPosition(_position.x, _position.y);
 	tex->draw(tmp);
 }

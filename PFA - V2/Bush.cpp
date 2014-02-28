@@ -1,6 +1,6 @@
 #include "Bush.h"
 #include "Singleton.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "Player.h"
 #include "Berry.h"
 
@@ -31,9 +31,9 @@ void Bush::draw(sf::RenderTexture *tex, sf::Shader &shader)
 
 	sf::Sprite tmp;
 	if (_grown)
-		tmp.setTexture((*ImageSingleton::getInstance().get(BUSH_FRUITS)));
+		tmp.setTexture((*ImageManager::getInstance().get(BUSH_FRUITS)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(BUSH)));
+		tmp.setTexture((*ImageManager::getInstance().get(BUSH)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 	tex->draw(tmp, ShadersManager::getInstance().get(BLOOM));
@@ -46,9 +46,9 @@ void Bush::draw(sf::RenderTexture *tex)
 
 	sf::Sprite tmp;
 	if (_grown)
-		tmp.setTexture((*ImageSingleton::getInstance().get(BUSH_FRUITS)));
+		tmp.setTexture((*ImageManager::getInstance().get(BUSH_FRUITS)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(BUSH)));
+		tmp.setTexture((*ImageManager::getInstance().get(BUSH)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	tex->draw(tmp);
 }

@@ -1,17 +1,17 @@
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include <iostream>
 
-ImageSingleton ImageSingleton::m_instance=ImageSingleton();
+ImageManager ImageManager::m_instance=ImageManager();
 
 /// <summary>
 /// Constructeur du singleton contenant les textures. Il faut appeler la méthode start pour load toutes les textures 
 /// </summary>
-ImageSingleton::ImageSingleton()
+ImageManager::ImageManager()
 {
 	
 }
 
-void ImageSingleton::start()
+void ImageManager::start()
 {
 	this->load(FOOD, "./Media/images/food.png");
 	this->load(WATER, "./Media/images/water.png");
@@ -40,7 +40,7 @@ void ImageSingleton::start()
 
 }
 
-void ImageSingleton::load(Type id, const std::string& filename)
+void ImageManager::load(Type id, const std::string& filename)
 {
 	sf::Texture *texture = new sf::Texture();
 	if (texture->loadFromFile(filename) == false)
@@ -48,18 +48,18 @@ void ImageSingleton::load(Type id, const std::string& filename)
 	this->_mapTexture.insert(std::make_pair(id, std::move(texture)));
 }
 
-sf::Texture *ImageSingleton::get(Type id)
+sf::Texture *ImageManager::get(Type id)
 {
 	auto found = this->_mapTexture.find(id);
 	return found->second;
 }
 
-ImageSingleton& ImageSingleton::getInstance()
+ImageManager& ImageManager::getInstance()
 {
 	return m_instance;
 }
 
-ImageSingleton::~ImageSingleton()
+ImageManager::~ImageManager()
 {
 
 }

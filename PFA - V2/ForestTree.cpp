@@ -1,6 +1,6 @@
 #include "ForestTree.h"
 #include "Singleton.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "Map.h"
 #include "MapEnvironment.h"
 #include "Player.h"
@@ -24,9 +24,9 @@ void ForestTree::draw(sf::RenderTexture *tex, sf::Shader &shader)
 
 	sf::Sprite tmp;
 	if (!_isCut)
-		tmp.setTexture((*ImageSingleton::getInstance().get(TREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(TREE)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(CUT_TREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(CUT_TREE)));
 	tmp.setPosition(_position.x, _position.y);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 
@@ -40,9 +40,9 @@ void ForestTree::draw(sf::RenderTexture *tex)
 
 	sf::Sprite tmp;
 	if (!_isCut)
-		tmp.setTexture((*ImageSingleton::getInstance().get(TREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(TREE)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(CUT_TREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(CUT_TREE)));
 	tmp.setPosition(_position.x, _position.y);
 	tex->draw(tmp);
 }
