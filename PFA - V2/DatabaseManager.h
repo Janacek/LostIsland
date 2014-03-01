@@ -11,7 +11,7 @@ public:
 	DatabaseManager();
 	bool openDatabase(std::string const&);
 	void dumpTable(std::string const &tableName = "craft");
-	bool askTable(Type, std::vector<AEntity *> &_craftContent);
+	std::string askTable(std::vector<AEntity *> &_craftContent);
 	~DatabaseManager();
 
 private:

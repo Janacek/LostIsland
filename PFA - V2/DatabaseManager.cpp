@@ -79,19 +79,19 @@ void DatabaseManager::dumpTable(std::string const &nameTable)
 	sqlite3_free_table(results);
 }
 
-bool DatabaseManager::askTable(Type type, std::vector<AEntity *> &craftContent)
+std::string DatabaseManager::askTable(std::vector<AEntity *> &craftContent)
 {
 	char **results = NULL;
 	int rows, columns;
 
 	createRequest(craftContent);
 	sqlite3_get_table(this->_db, this->_sqlRequest.c_str(), &results, &rows, &columns, &this->_error);
-	if (results != NULL)
-	{
-		std::cout << "RESULT : " << "nbr col : " << columns << " OBEJECT : " << results[1] << std::endl;
-	}
+	if (this->_error != NULL)
+		std::cout << "ERROR : " << this->_error << std::endl;
+	if (columns > 0)
+		return results[1];
 	this->resetContentCraftingTable();
-	return true;
+	return "";
 }
 
 void DatabaseManager::createRequest(std::vector<AEntity *>&list)

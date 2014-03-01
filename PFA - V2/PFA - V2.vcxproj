@@ -108,6 +108,7 @@
     <ClCompile Include="CustomToggleButton.cpp" />
     <ClCompile Include="DatabaseManager.cpp" />
     <ClCompile Include="Drops.cpp" />
+    <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="ForestTree.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="CustomToggleButton.h" />
     <ClInclude Include="DatabaseManager.h" />
     <ClInclude Include="Drops.h" />
+    <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="ForestTree.h" />

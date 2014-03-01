@@ -6,7 +6,6 @@
 
 Crafting::Crafting()
 {
-	this->_isNearTable = false;
 	if (this->_databaseManager.openDatabase("Media/database/craft.db") == false)
 		std::cout << "Error open database" << std::endl;
 	createWindow();
@@ -33,22 +32,8 @@ void Crafting::createTables()
 	removeButton->SetRequisition(sf::Vector2f(100.f, 50.f));
 	removeButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::remove, this));
 	this->_boxButtons = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
-	this->_smallTable = sfg::Table::Create();
-
-	for (int i = 0; i < 3; i += 2)
-	{
-		for (int j = 0; j < 3; j += 2)
-		{
-			CustomToggleButton *but = new CustomToggleButton(NULL, NULL);
-			but->_button->SetRequisition(sf::Vector2f(180.f, 166.f));
-			but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::mouseLeftPress, this, but));
-			this->_smallTable->Attach(but->_button, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
-		}
-	}
 	auto img = sfg::Image::Create();
 	img->SetRequisition(sf::Vector2f(180.f, 166.f));
-	this->_smallTable->Attach(img, sf::Rect<sf::Uint32>(1, 1, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
-	/*this->_boxButtons->Pack(this->_smallTable);*/
 	this->_mainBox->Pack(this->_boxButtons);
 	this->_mainBox->PackEnd(craftButton);
 	this->_mainBox->PackEnd(removeButton);
@@ -79,12 +64,12 @@ void Crafting::createTables()
 
 void Crafting::craft()
 {
-	std::vector<AEntity *> tmp;
-	//Wood = wooden_plank tmp
-	tmp.push_back(new Wood);
-	tmp.push_back(new Wood);
-	//this->_databaseManager.dumpTable();
-	this->_databaseManager.askTable(SWORD, tmp);
+	std::vector<AEntity *> tmp; //tmp pour simuler le contenu de la table 
+	AEntity *objectCraft = this->_entityFactory.makeEntity(this->_databaseManager.askTable(tmp));
+	if (objectCraft != NULL)
+	{
+		//TODO mettre dans l'inventaire
+	}
 }
 
 void Crafting::remove()
@@ -106,29 +91,6 @@ void Crafting::addInTable(CustomToggleButton *button, int nbr)
 			break;
 		}
 	}
-}
-
-void Crafting::chooseDistance(Crafting::Distance dist)
-{
-	if (dist == Distance::NEARTABLE)
-	{
-		this->_boxButtons->Remove(this->_smallTable);
-		this->_smallTable->Show(false);
-		this->_boxButtons->Pack(this->_largeTable);
-		this->_largeTable->Show(true);
-	}
-	else if (dist == Distance::FARTABLE)
-	{
-		this->_boxButtons->Remove(this->_largeTable);
-		this->_largeTable->Show(false);
-		this->_boxButtons->Pack(this->_smallTable);
-		this->_smallTable->Show(true);
-	}
-}
-
-bool Crafting::isNearTable() const
-{
-	return this->_isNearTable;
 }
 
 void  Crafting::Show(bool show)
