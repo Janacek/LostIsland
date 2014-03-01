@@ -41,8 +41,7 @@ void Wood::draw(sf::RenderTexture *)
 
 Type Wood::getType() const
 {
-	//TTTTTTTTTTTTTTTMMMMMMMMMMMMMMMPPPPPPPPPP
-	return WOODEN_PLANK;
+	return WOOD;
 }
 
 Wood::~Wood(void)

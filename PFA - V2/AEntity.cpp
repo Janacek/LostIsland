@@ -3,7 +3,7 @@
 AEntity::AEntity(float pathToGo, bool isAMovingEntity, sf::Vector2f position, int damages, sf::FloatRect boxCollider, int life)
 : _pathToGo(pathToGo), _isAMovingEntity(isAMovingEntity), _position(position), _damages(damages), _boxCollider(boxCollider), _life(life)
 {
-	_id = IEntityId++;
+	_id = AEntityId++;
 	_isSelected = false;
 	_isMoving = false;
 	_isPathFound = false;

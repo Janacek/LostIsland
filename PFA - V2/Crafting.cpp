@@ -79,7 +79,7 @@ void Crafting::createTables()
 
 void Crafting::craft()
 {
-	std::vector<IEntity *> tmp;
+	std::vector<AEntity *> tmp;
 	//Wood = wooden_plank tmp
 	tmp.push_back(new Wood);
 	tmp.push_back(new Wood);

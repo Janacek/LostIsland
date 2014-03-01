@@ -79,7 +79,7 @@ void DatabaseManager::dumpTable(std::string const &nameTable)
 	sqlite3_free_table(results);
 }
 
-bool DatabaseManager::askTable(Type type, std::vector<IEntity *> &craftContent)
+bool DatabaseManager::askTable(Type type, std::vector<AEntity *> &craftContent)
 {
 	char **results = NULL;
 	int rows, columns;
@@ -94,10 +94,10 @@ bool DatabaseManager::askTable(Type type, std::vector<IEntity *> &craftContent)
 	return true;
 }
 
-void DatabaseManager::createRequest(std::vector<IEntity *>&list)
+void DatabaseManager::createRequest(std::vector<AEntity *>&list)
 {
 	std::ostringstream os;
-	for (IEntity *u : list)
+	for (AEntity *u : list)
 	{
 		this->_contentCraftingTable[u->getType()] += 1;
 	}

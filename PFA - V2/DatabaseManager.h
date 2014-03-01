@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <map>
-#include "IEntity.h"
+#include "AEntity.h"
 #include "sqlite3.h"
 
 class DatabaseManager
@@ -11,12 +11,12 @@ public:
 	DatabaseManager();
 	bool openDatabase(std::string const&);
 	void dumpTable(std::string const &tableName = "craft");
-	bool askTable(Type, std::vector<IEntity *> &_craftContent);
+	bool askTable(Type, std::vector<AEntity *> &_craftContent);
 	~DatabaseManager();
 
 private:
 	void resetContentCraftingTable();
-	void createRequest(std::vector<IEntity *>&);
+	void createRequest(std::vector<AEntity *>&);
 
 	std::string _filename;
 	std::map<Type, int> _contentCraftingTable;
