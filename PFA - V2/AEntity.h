@@ -48,6 +48,7 @@ enum Type
 	SELECTED_ICON,
 	BADTYPE,
 	CAMPFIRE,
+	WATER_ANIM,
 };
 
 inline const char* typetoString(Type v)

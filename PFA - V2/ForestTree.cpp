@@ -19,11 +19,11 @@ void ForestTree::Animate(std::string const &)
 
 void ForestTree::loadAnimation(std::string const &string_anim, float speed)
 {
-	sf::Texture *imgAnim = new sf::Texture;
-	if (!imgAnim->loadFromFile(string_anim))
-		std::cerr << "image non charge" << std::endl;
-	sf::Image img_tmp = imgAnim->copyToImage();
-	imgAnim->loadFromImage(img_tmp);
+	sf::Texture *imgAnim = ImageManager::getInstance().get(TREE);
+	//if (!imgAnim->loadFromFile(string_anim))
+	//	std::cerr << "image non charge" << std::endl;
+	//sf::Image img_tmp = imgAnim->copyToImage();
+	//imgAnim->loadFromImage(img_tmp);
 
 	_waveAnim = new Animation();
 	_waveAnim->setSpriteSheet(*imgAnim);

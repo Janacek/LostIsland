@@ -23,7 +23,7 @@ void ImageManager::start()
 	this->load(SAVANNA, "./Media/images/savanna.png");
 	this->load(FOREST, "./Media/images/forest.png");
 	this->load(SNOW, "./Media/images/snow.png");
-	this->load(TREE, "./Media/images/tree.png");
+	this->load(TREE, "./Media/images/tree_anim.png");
 	this->load(CUT_TREE, "./Media/images/cut_tree.png");
 	this->load(BUSH, "./Media/images/bushes.png");
 	this->load(BUSH_FRUITS, "./Media/images/bush_fruits.png");
@@ -49,6 +49,7 @@ void ImageManager::start()
 	this->load(SILEX, "/Media/images/Flint.png");
 	this->load(INFUSION, "/Media/images/Infusion.png");
 	this->load(HERB, "/Media/images/Herb.png");
+	this->load(WATER_ANIM, "./Media/images/water_anim.png");
 
 }
 
