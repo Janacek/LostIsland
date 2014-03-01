@@ -31,4 +31,6 @@ private:
 	sf::Clock							_mvtClock;
 	double								_oldDtMvt;
 	double								_oldTime;
+
+	double								_duration;
 };

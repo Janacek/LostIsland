@@ -1,19 +1,17 @@
 #pragma once
 
-#include <list>
 #include "AEntity.h"
 
-class Wood : public AEntity
+class Pants : public AEntity
 {
 public:
-	Wood(void);
+	Pants();
 	virtual void doAction(AEntity* other);
 	virtual void getAction(AEntity* other);
 	virtual void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);
 	virtual Type getType() const;
-	~Wood(void);
+	~Pants(void);
 	void update(Map &);
 };
-

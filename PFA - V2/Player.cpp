@@ -10,7 +10,7 @@
 #include "FontManager.h"
 #include "ShadersManager.h"
 #include "MapEnvironment.h"
-#include "Food.h"
+#include "Meat.h"
 #include "Bush.h"
 #include "InventoryWindow.h"
 #include "SoundManager.h"

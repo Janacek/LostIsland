@@ -4,7 +4,7 @@
 #include "Chunk.h"
 #include "MapEnvironment.h"
 #include "Player.h"
-#include "Food.h"
+#include "Meat.h"
 
 Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 : _camera(cam), AEntity(1.f, true, sf::Vector2f(position), 0, sf::FloatRect(0, 0, 0, 0), life)
@@ -127,7 +127,7 @@ void Bunny::getAction(AEntity *o)
 	if (_life <= 0)
 	{
 		Player *player = dynamic_cast<Player *>(o);
-		player->addEntityInInventory(new Food);
+		player->addEntityInInventory(new Meat);
 	}
 }
 

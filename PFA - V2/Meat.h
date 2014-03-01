@@ -3,10 +3,10 @@
 #include <list>
 #include "AEntity.h"
 
-class Food :public AEntity
+class Meat :public AEntity
 {
 public:
-	Food(void);
+	Meat(void);
 	void doAction(AEntity* other);
 	void getAction(AEntity* other);
 	void update(Map &);
@@ -14,7 +14,7 @@ public:
 	void draw(sf::RenderTexture *, sf::Shader &);
 	void draw(sf::RenderTexture *);
 	Type getType() const;
-	~Food(void);
+	~Meat(void);
 private:
 };
 

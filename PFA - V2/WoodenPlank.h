@@ -3,17 +3,16 @@
 #include <list>
 #include "AEntity.h"
 
-class Wood : public AEntity
+class WoodenPlank : public AEntity
 {
 public:
-	Wood(void);
+	WoodenPlank();
 	virtual void doAction(AEntity* other);
 	virtual void getAction(AEntity* other);
 	virtual void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);
 	virtual Type getType() const;
-	~Wood(void);
+	~WoodenPlank(void);
 	void update(Map &);
 };
-

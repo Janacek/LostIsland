@@ -13,7 +13,7 @@ ImageManager::ImageManager()
 
 void ImageManager::start()
 {
-	this->load(FOOD, "./Media/images/food.png");
+	this->load(MEAT, "./Media/images/rawmeat.png");
 	this->load(WATER, "./Media/images/water.png");
 	this->load(WATER_WALKABLE, "./Media/images/waterWalkable.png");
 	this->load(WOOD, "./Media/images/wood.png");
@@ -36,7 +36,19 @@ void ImageManager::start()
 	this->load(ROCK_BROKEN, "./Media/images/rock_broken.png");
 	this->load(DROPS, "./Media/images/drops.png");
 	this->load(BERRY, "./Media/images/berry.png");
-
+	this->load(WOODEN_PLANK, "./Media/images/wooden_plank.png");
+	this->load(BUCKET, "./Media/images/Bucket.png");
+	this->load(BOWL, "./Media/images/Bowl.png");
+	this->load(SWORD, "./Media/images/Sword.png");
+	this->load(JACKET, "./Media/images/Jacket.png");
+	this->load(PANTS, "./Media/images/Pants.png");
+	this->load(ROPE, "./Media/images/Rope.png");
+	this->load(MUSHROOM, "/Media/images/Red_Mushroom.png");
+	this->load(STEW, "/Media/images/Mushroomsoup.png");
+	this->load(WATERBUCKET, "/Media/images/Waterbucket.png");
+	this->load(SILEX, "/Media/images/Flint.png");
+	this->load(INFUSION, "/Media/images/Infusion.png");
+	this->load(HERB, "/Media/images/Herb.png");
 
 }
 

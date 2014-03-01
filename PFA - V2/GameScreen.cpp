@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "GameScreen.h"
 #include "GameOverScreen.h"
-#include "Food.h"
+#include "Meat.h"
 #include "Wood.h"
 #include "Bunny.h"
 #include "Water.h"
@@ -29,7 +29,7 @@ GameScreen::GameScreen()
 	_statisticsText.setPosition(0, 30);
 
 	/*TEST*/
-	_one.push_back(new Food);
+	_one.push_back(new Meat);
 
 	_loadingScreen = new sf::Image;
 	_loadingScreen->loadFromFile("./Media/images/loadingScreen.png");

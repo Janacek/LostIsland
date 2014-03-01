@@ -6,6 +6,7 @@ Campfire::Campfire(Camera *camera)
 : _camera(camera), AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 	loadAnimation("./Media/images/campfire.png", 0.1f);
+	_duration = 60;
 }
 
 void Campfire::doAction(AEntity *other)
@@ -52,7 +53,12 @@ void Campfire::update(Map &map)
 
 	_animatedSprite->play(*_curAnim);
 
-	sf::Time t = sf::seconds(dt);;
+	_duration -= dt;
+
+	if (_duration <= 0)
+		_duration = 0;
+
+	sf::Time t = sf::seconds(dt);
 	_animatedSprite->update(t);
 }
 
