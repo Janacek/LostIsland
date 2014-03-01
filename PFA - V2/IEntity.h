@@ -9,8 +9,24 @@ enum Type
 {
 	TREE,
 	CUT_TREE,
+	WOODEN_PLANK,
+	BUCKET,
+	BOWL,
+	CAMPFIRE,
+	SILEX,
+	JACKET,
+	FABRIC,
+	FUR,
+	PANTS,
+	ROPE,
+	BERRY,
+	HERB,
+	STEW,
+	MUSHROOM,
+	INFUSION,
 	WOOD,
 	WATER,
+	WATERBUCKET,
 	WATER_WALKABLE,
 	FOOD,
 	PLAYER,
@@ -27,11 +43,41 @@ enum Type
 	PALMTREE,
 	ROCK,
 	ROCK_BROKEN,
+	SWORD,
 	DROPS,
 	PLAYER_INFOS_BACKGROUND,
 	SELECTED_ICON,
 	BADTYPE,
 };
+
+inline const char* typetoString(Type v)
+{
+	//TODO rajouter les autres
+	switch (v)
+	{
+	case TREE:   return "TREE";
+	case SWORD:  return "SWORD";
+	case ROCK:	 return "ROCK";
+	case CUT_TREE: return "CUT_TREE";
+	case WATER:		return "WATER";
+	case WOOD:		return "WOOD";
+	case WOODEN_PLANK:	return "WOODEN_PLANK";
+	case BUCKET:		return "BUCKET";
+	case BOWL:		return "BOWL";
+	case CAMPFIRE:		return "CAMPFIRE";
+	case SILEX:		return "SILEX";
+	case FABRIC:		return "FABRIC";
+	case FUR:		return "FUR";
+	case HERB:		return "HERB";
+	case STEW:		return "STEW";
+	case MUSHROOM:		return "MUSHROOM";
+	case INFUSION:		return "INFUSION";
+	case ROPE:		return "ROPE";
+	case WATERBUCKET:		return "WATERBUCKET";
+	case BERRY:		return "BERRY";
+	default:      return "BADTYPE";
+	}
+}
 
 static int IEntityId = 0;
 

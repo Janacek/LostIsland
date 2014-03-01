@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 #include "Game.h"
+#include "sqlite3.h"
+
+using namespace std;
 
 int main()
 {

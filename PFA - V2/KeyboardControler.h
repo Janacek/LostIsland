@@ -3,7 +3,6 @@
 #include						<SFML/Window.hpp>
 #include						<SFML/Graphics.hpp>
 
-
 class KeyboardControler
 {
 public:

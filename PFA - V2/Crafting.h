@@ -2,6 +2,7 @@
 
 #include <SFGUI/SFGUI.hpp>
 #include "CustomToggleButton.h"
+#include "DatabaseManager.h"
 
 class Crafting
 {
@@ -27,6 +28,7 @@ private:
 	void								craft();
 	void								remove();
 
+	DatabaseManager						_databaseManager;
 	bool								_isNearTable;
 	sfg::Window::Ptr					_craftingWindow;
 	std::vector<CustomToggleButton *> _tableButton;

@@ -1,9 +1,14 @@
 #include "Crafting.h"
 #include "ImageSingleton.h"
+#include "Water.h"
+#include "Rock.h"
+#include "Wood.h"
 
 Crafting::Crafting()
 {
 	this->_isNearTable = false;
+	if (this->_databaseManager.openDatabase("Media/database/craft.db") == false)
+		std::cout << "Error open database" << std::endl;
 	createWindow();
 	createTables();
 }
@@ -74,13 +79,21 @@ void Crafting::createTables()
 
 void Crafting::craft()
 {
-
+	std::vector<IEntity *> tmp;
+	//Wood = wooden_plank tmp
+	tmp.push_back(new Wood);
+	tmp.push_back(new Wood);
+	//this->_databaseManager.dumpTable();
+	this->_databaseManager.askTable(SWORD, tmp);
 }
 
 void Crafting::remove()
 {
-	this->_selectedRessource->_button->SetActive(false);
-	this->_selectedRessource->setCompartment(NULL);
+	if (this->_selectedRessource != NULL)
+	{
+		this->_selectedRessource->_button->SetActive(false);
+		this->_selectedRessource->setCompartment(NULL);
+	}
 }
 
 void Crafting::addInTable(CustomToggleButton *button, int nbr)

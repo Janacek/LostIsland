@@ -2,7 +2,7 @@
 
 Area::Area(Coordinates &pos) : Coordinates(pos)
 {
-
+	
 }
 
 Area::~Area()

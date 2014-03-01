@@ -52,7 +52,8 @@ int Wood::getDamage() const
 
 Type Wood::getType() const
 {
-	return WOOD;
+	//TTTTTTTTTTTTTTTMMMMMMMMMMMMMMMPPPPPPPPPP
+	return WOODEN_PLANK;
 }
 
 sf::Vector2f  Wood::getPosition() const
