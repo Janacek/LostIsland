@@ -96,9 +96,11 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Area.cpp" />
+    <ClCompile Include="Berry.cpp" />
     <ClCompile Include="Bunny.cpp" />
     <ClCompile Include="Bush.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Campfire.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Compartment.cpp" />
@@ -115,7 +117,8 @@
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GestionClick.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
-    <ClCompile Include="ImageSingleton.cpp" />
+    <ClCompile Include="AEntity.cpp" />
+    <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="InventoryWindow.cpp" />
     <ClCompile Include="KeyboardControler.cpp" />
     <ClCompile Include="main.cpp" />
@@ -141,9 +144,11 @@
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Berry.h" />
     <ClInclude Include="Bunny.h" />
     <ClInclude Include="Bush.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Campfire.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Chunk.h" />
     <ClInclude Include="Compartment.h" />
@@ -162,8 +167,8 @@
     <ClInclude Include="GestionClick.h" />
     <ClInclude Include="GraphicEngine.h" />
     <ClInclude Include="IEngine.h" />
-    <ClInclude Include="IEntity.h" />
-    <ClInclude Include="ImageSingleton.h" />
+    <ClInclude Include="AEntity.h" />
+    <ClInclude Include="ImageManager.h" />
     <ClInclude Include="InventoryWindow.h" />
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="KeyboardControler.h" />

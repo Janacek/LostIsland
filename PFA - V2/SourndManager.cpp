@@ -6,7 +6,7 @@ SoundManager		SoundManager::sounds = SoundManager();
 SoundManager::SoundManager()
 {
 	this->bufferEffects[FIGHT].loadFromFile("");
-	this->bufferEffects[STEPS].loadFromFile("");
+	this->bufferEffects[STEPS].loadFromFile("./Media/steps.ogg");
 	this->bufferEffects[DIE].loadFromFile("");
 	this->bufferEffects[WIND].loadFromFile("");
 	this->effects[FIGHT].setBuffer(this->bufferEffects[FIGHT]);
@@ -20,9 +20,14 @@ SoundManager::~SoundManager()
 
 }
 
-SoundManager	&SoundManager::getSoundManager() const
+std::map<soundType, sf::Sound>		&SoundManager::getSounds()
 {
-	return (this->sounds);
+	return (this->effects);
+}
+
+SoundManager	&SoundManager::getSoundManager()
+{
+	return (sounds);
 }
 
 void			SoundManager::playMusic(const std::string &filename)

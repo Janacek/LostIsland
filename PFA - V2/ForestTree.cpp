@@ -1,9 +1,16 @@
 #include "ForestTree.h"
 #include "Singleton.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "Map.h"
 #include "MapEnvironment.h"
 #include "Player.h"
+#include "Wood.h"
+
+ForestTree::ForestTree()
+: Tree()
+{
+
+}
 
 void ForestTree::Animate(std::string const &)
 {
@@ -17,9 +24,9 @@ void ForestTree::draw(sf::RenderTexture *tex, sf::Shader &shader)
 
 	sf::Sprite tmp;
 	if (!_isCut)
-		tmp.setTexture((*ImageSingleton::getInstance().get(TREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(TREE)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(CUT_TREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(CUT_TREE)));
 	tmp.setPosition(_position.x, _position.y);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 
@@ -33,9 +40,9 @@ void ForestTree::draw(sf::RenderTexture *tex)
 
 	sf::Sprite tmp;
 	if (!_isCut)
-		tmp.setTexture((*ImageSingleton::getInstance().get(TREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(TREE)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(CUT_TREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(CUT_TREE)));
 	tmp.setPosition(_position.x, _position.y);
 	tex->draw(tmp);
 }
@@ -49,21 +56,25 @@ void ForestTree::update(Map &map)
 	}
 }
 
-void ForestTree::doAction(IEntity *other)
+void ForestTree::doAction(AEntity *other)
 {
 	// Do nothing
 }
 
-void ForestTree::getAction(IEntity *other)
+void ForestTree::getAction(AEntity *other)
 {
-	try // si c'est un player
+	if (!_isHarvested)
 	{
-		Player *player = dynamic_cast<Player *>(other);
-		player->addEntityInInventory(this);
-	}
-	catch (std::bad_cast ex)
-	{
-		std::cout << "Cas non géré. C'est un animal qui attaque l'arbre." << std::endl;
+		try // si c'est un player
+		{
+			Player *player = dynamic_cast<Player *>(other);
+			player->addEntityInInventory(new Wood);
+			_isHarvested = true;
+		}
+		catch (std::bad_cast ex)
+		{
+			std::cout << "Cas non géré. C'est un animal qui attaque l'arbre." << std::endl;
+		}
 	}
 	_duration -= other->getDamage();
 }

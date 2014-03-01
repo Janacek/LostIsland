@@ -3,16 +3,15 @@
 
 
 Water::Water(void)
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
-	_pos = sf::Vector2f(0,0);
-	_id = IEntityId++;
 }
 
 /// <summary>
 /// ON FAIT L'ACTION. Ici on appelle la methode drink du player
 /// </summary>
 /// <param name="other">The other.</param>
-void Water::doAction(IEntity* other)
+void Water::doAction(AEntity* other)
 {
 	Player *player = dynamic_cast<Player *>(other);
 	
@@ -27,31 +26,16 @@ void Water::draw(sf::RenderTexture *)
 {
 }
 
-void Water::setPosition(sf::Vector2f &pos)
-{
-	_pos = pos;
-}
-
-sf::Vector2f  Water::getPosition() const
-{
-	return _pos;
-}
-
-void Water::setPath(std::list<std::pair<float, float> >&path)
-{
-	_path = path;
-}
-
 void Water::update(Map &map)
 {
 
 }
 /// <summary>
 ///GET subit l'action.
-/// Appelle la méthode void getObject(IEntity *other).
+/// Appelle la méthode void getObject(AEntity *other).
 /// </summary>
 /// <param name="other">The other.</param>
-void Water::getAction(IEntity* other)
+void Water::getAction(AEntity* other)
 {
 	Player *player = dynamic_cast<Player *>(other);
 
@@ -61,11 +45,6 @@ void Water::getAction(IEntity* other)
 void Water::loadAnimation(std::string const & string_anim, float speed)
 {
 
-}
-
-int Water::getDamage() const
-{
-	return 0;
 }
 
 Type Water::getType() const

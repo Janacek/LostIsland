@@ -16,7 +16,7 @@
 
 class MapEnvironment;
 class Player;
-class IEntity;
+class AEntity;
 class Tree;
 
 #include <algorithm>
@@ -72,7 +72,7 @@ public:
 	Cell					**getCellMap() const;
 	MapEnvironment			**getEntitiesMap(void);
 	sf::Vector2i			getSize() const;
-	void					setEntityMap(IEntity *, int x, int y);
+	void					setEntityMap(AEntity *, int x, int y);
 
 
 private:

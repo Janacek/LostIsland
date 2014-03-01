@@ -1,6 +1,6 @@
 #include "InventoryWindow.h"
 #include "GameScreen.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "Singleton.h"
 #include <iostream>
 #include <sstream>
@@ -187,7 +187,7 @@ void InventoryWindow::useClick()
 {
 	if (this->_selectedRessource != NULL)
 	{
-		std::list<IEntity *> list = this->_selectedRessource->getEntities();
+		std::list<AEntity *> list = this->_selectedRessource->getEntities();
 		int compt = this->_spinButton->GetValue();
 		while (compt > 0)
 		{
@@ -273,7 +273,7 @@ void InventoryWindow::createCompartment(Player *player)
 void InventoryWindow::init()
 {
 	//A mettre dans le singleton 
-	this->_img.loadFromFile("carre.png");
+	this->_img.loadFromFile("./Media/images/carre.png");
 }
 
 void InventoryWindow::close()

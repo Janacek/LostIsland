@@ -3,18 +3,21 @@
 #include <list>
 #include "AEntity.h"
 
-class Wood : public AEntity
+class Berry : public AEntity
 {
 public:
-	Wood(void);
+	Berry(void);
 	virtual void doAction(AEntity* other);
 	virtual void getAction(AEntity* other);
 	virtual void loadAnimation(std::string const & string_anim, float speed);
 	virtual void draw(sf::RenderTexture *, sf::Shader &);
 	virtual void draw(sf::RenderTexture *);
 	virtual Type getType() const;
-	~Wood(void);
+	virtual ~Berry(void);
 	void update(Map &);
-private:
-};
 
+	//sf::Rect & getCollisionBox(void);
+
+private:
+	int									_value;
+};

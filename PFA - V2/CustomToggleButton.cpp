@@ -32,7 +32,7 @@ void CustomToggleButton::setCompartment(Compartment *comp)
 	}
 }
 
-std::list<IEntity *>CustomToggleButton::getEntities()
+std::list<AEntity *>CustomToggleButton::getEntities()
 {
 	if (this->_ressources != NULL)
 		return this->_ressources->getElements();

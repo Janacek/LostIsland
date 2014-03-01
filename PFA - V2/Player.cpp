@@ -3,7 +3,7 @@
 #include "Water.h"
 #include "Wood.h"
 #include "Singleton.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include <iostream>
 #include <math.h>  
 #include "Map.h"
@@ -13,9 +13,15 @@
 #include "Food.h"
 #include "Bush.h"
 #include "InventoryWindow.h"
+#include "SoundManager.h"
 
-Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
+Player::Player(sf::Vector2f &pos, Camera *cam) 
+: _camera(cam), AEntity(0.f, true, sf::Vector2f(pos), 10, sf::FloatRect(0, 0, 0, 0), 100)
 {
+	_isAttacking = false;
+	this->_isWalking = false;
+	this->_stepsBuffer.loadFromFile("./Media/steps.ogg");
+	this->_stepts.setBuffer(this->_stepsBuffer);
 	_target = BADTYPE;
 	this->_name = "Player";
 	this->_inventoryWindow = NULL;
@@ -23,15 +29,11 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(pos);
 	_rect.setFillColor(sf::Color::Red);
-	_isMoving = false;
 	_hasAPath = false;
-	_isPathFound = false;
 	/*
 	** Gestion de la vie / soif / etc...
 	*/
-	_speed = 7;
-	_pathToGo = 0.f;
-	_damages = 10;
+	_speed = 5;
 	_life = 100;
 	_water = 100;
 	_food = 100;
@@ -39,12 +41,16 @@ Player::Player(sf::Vector2f &pos, Camera *cam) : _pos(pos), _camera(cam)
 	_hungerClock = 0;
 	_thirstClock = 0;
 	_lifeClock = 0;
-	_isSelected = false;
 	_path.clear();
 	_cursorTime = 0;
 	_objective = NULL;
-	_id = IEntityId++;
+	_timeAttack = 0;
 
+}
+
+sf::FloatRect Player::getBoxCollider() const
+{
+	return _animatedSprite->getGlobalBounds();
 }
 
 Compartment	*Player::getCompartment(int index)
@@ -66,7 +72,7 @@ void Player::setCamPos(sf::Vector2f &pos)
 
 }
 
-int		Player::posInventory(IEntity *entity)
+int		Player::posInventory(AEntity *entity)
 {
 	int a = 0;
 	for (Compartment *u : this->_inventoryPlayer)
@@ -78,12 +84,17 @@ int		Player::posInventory(IEntity *entity)
 	return a;
 }
 
+void Player::eat(int amount)
+{
+	this->_food + amount > 100 ? this->_food = 100 : this->_food += amount;
+}
+
 void Player::drink(Water *water)
 {
 	this->_water + 20 > 100 ? this->_water = 100 : this->_water += 20;
 }
 
-bool Player::addEntityInInventory(IEntity *entity)
+bool Player::addEntityInInventory(AEntity *entity)
 {
 	int compt = 0;
 	for (Compartment *u : this->_inventoryPlayer)
@@ -121,22 +132,7 @@ bool Player::delEntityInInventory(Type type)
 	return false;
 }
 
-float Player::getPathToGo() const
-{
-	return _pathToGo;
-}
-
-void Player::setPathToGo(float f)
-{
-	_pathToGo = f;
-}
-
-void Player::addToPathToGo(float f)
-{
-	_pathToGo += f;
-}
-
-bool Player::delEntityInInventory(IEntity *entity)
+bool Player::delEntityInInventory(AEntity *entity)
 {
 	for (Compartment *u : this->_inventoryPlayer)
 	{
@@ -216,59 +212,91 @@ void Player::moveToNextWP()
 
 	_oldDtMvt = static_cast<float>(time);
 	_animatedSprite->play(*_curAnim);
+	if (_isAttacking == true)
+	{
+		if (_objective &&  !_objective->getPath().empty() && _path.back() != _objective->getPath().front())
+		{
 
-	if (!_path.empty())
+			_path.push_back(_objective->getPath().front());
+			}
+		_timeAttack += dt;
+
+		
+	}
+	if (_timeAttack > 0.7 && _isAttacking == true)
+	{
+		std::cout << "STAHP" << std::endl;
+		_isAttacking = false;
+		_timeAttack = 0;
+		
+	}
+	if (_isAttacking == false)
 	{
 		
-		_animatedSprite->play(*_curAnim);
-		_isMoving = true;
-		sf::Vector2f tmp(0, 0);
-		tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
-		tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
-
-		if (_path.front().first == floor(_pos.x) && _path.front().second == floor(_pos.y) &&
-			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
-
+		if (!_path.empty())
 		{
-			_path.pop_front();
-			changeAnimation(_pos, _path.front());
-			return;
+			_animatedSprite->setLooped(true);
+
+			//_animatedSprite->play(*_curAnim);
+			_isMoving = true;
+			sf::Vector2f tmp(0, 0);
+			tmp.x = ((_posDisp.x + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.x;
+			tmp.y = ((_posDisp.y + 25) / Chunk::SIZE_OF_CELL) + _camera->_position.y;
+
+			if (_position.x > _path.front().first)
+				_position.x -= static_cast<float>(dt * _speed);
+			if (_position.x < _path.front().first)
+				_position.x += static_cast<float>(dt * _speed);
+			if (_position.y > _path.front().second)
+				_position.y -= static_cast<float>(dt *_speed);
+			if (_position.y < _path.front().second)
+				_position.y += static_cast<float>(dt * _speed);
+			if (_path.front().first == floor(_position.x) && _path.front().second == floor(_position.y) &&
+				_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
+
+			{
+				if (!_path.empty())
+					_path.pop_front();
+				changeAnimation(_position, _path.front());
+				return;
+			}
 		}
-
-		if (_pos.x > _path.front().first)
-			_pos.x -= static_cast<float>(dt * _speed);
-		if (_pos.x < _path.front().first)
-			_pos.x += static_cast<float>(dt * _speed);
-		if (_pos.y > _path.front().second)
-			_pos.y -= static_cast<float>(dt *_speed);
-		if (_pos.y < _path.front().second)
-			_pos.y += static_cast<float>(dt * _speed);
-
+		else  {
+			doActionOnEntity();
+			changeToIdleAnim();
+			//_animatedSprite->stop();
+			_isMoving = false;
+			_hasAPath = false;
+		}
 	}
-	else {
-		doActionOnEntity();
-		changeToIdleAnim();
-		//_animatedSprite->stop();
-		_isMoving = false;
-		_hasAPath = false;
+	if (_objective)
+		std::cout << std::boolalpha << _objective->getIsAMovingEntity() << std::endl;
+	if (_isAttacking == false && _objective && _objective->getIsAMovingEntity() && _objective->getType() != PLAYER && _objective->getBoxCollider().intersects(_animatedSprite->getGlobalBounds()))
+	{
+		_isAttacking = true;
+		std::cout << "A LATTAQUE  !" << std::endl;
+		std::pair<float, float> save;
+		save.first = _path.front().first;
+		save.second = _path.front().second;
+
+		_path.clear();
+		_path.push_back(save);
+		_animatedSprite->setLooped(false);
+		_timeAttack += dt;
+		if (_curAnim == _walkRightAnim || _curAnim == _idleRightAnim)
+			_curAnim = _attackRightAnim;
+		if (_curAnim == _walkLeftAnim || _curAnim == _idleLeftAnim)
+			_curAnim = _attackLeftAnim;
+		if (_curAnim == _walkUpAnim || _curAnim == _idleUpAnim)
+			_curAnim = _attackUpAnim;
+		if (_curAnim == _walkDownAnim || _curAnim == _idleDownAnim)
+			_curAnim = _attackDownAnim;
+		_objective->getAction(this);
+		//On need un new chemin ici 
 	}
+
 	sf::Time t = sf::seconds(dt);;
 	_animatedSprite->update(t);
-}
-
-void Player::setSelected(bool const s)
-{
-	_isSelected = s;
-}
-
-bool Player::getIsMoving() const
-{
-	return _isMoving;
-}
-
-bool const Player::getSelected() const
-{
-	return _isSelected;
 }
 
 void Player::draw(sf::RenderTexture *, sf::Shader &)
@@ -279,8 +307,8 @@ void Player::draw(sf::RenderTexture *, sf::Shader &)
 void Player::draw(sf::RenderTexture *)
 {
 
-	_posDisp.x = ((_pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
-	_posDisp.y = ((_pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
+	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
+	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
 	sf::Vector2f v(0, -10);
 	//this->_anim->show(_posDisp + v);
@@ -299,7 +327,7 @@ void Player::draw(sf::RenderTexture *)
 	{
 		sf::Vector2f posIcon = _posDisp;
 		sf::RectangleShape icon(sf::Vector2f(32, 32));
-		icon.setTexture(ImageSingleton::getInstance().get(SELECTED_ICON));
+		icon.setTexture(ImageManager::getInstance().get(SELECTED_ICON));
 		posIcon.y -= 52;
 		icon.setPosition(posIcon);
 
@@ -312,6 +340,21 @@ void Player::draw(sf::RenderTexture *)
 	}
 }
 
+void Player::stepsSound()
+{
+	if (!_path.empty() && this->_isWalking == false)
+	{
+		this->_stepts.play();
+		this->_isWalking = true;
+	}
+	else if (_path.empty() && this->_isWalking == true)
+	{
+		this->_stepts.stop();
+		this->_isWalking = false;
+	}
+	
+}
+
 void Player::changeMapEntity(Map & map)
 {
 	if (!_path.empty() && _hasAPath == false)
@@ -320,7 +363,7 @@ void Player::changeMapEntity(Map & map)
 		//if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component &&
 		//map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component->getType() == PLAYER)
 		{
-			map.setEntityMap(NULL, static_cast<int>(floor(_pos.y)), static_cast<int>(floor(_pos.x)));
+			map.setEntityMap(NULL, static_cast<int>(floor(_position.y)), static_cast<int>(floor(_position.x)));
 		}
 
 		if (map.getEntitiesMap()[static_cast<int>(floor(_path.back().second))][static_cast<int>(floor(_path.back().first))]._component == NULL)
@@ -328,7 +371,7 @@ void Player::changeMapEntity(Map & map)
 			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
 		}
 
-	}
+	}		
 }
 
 void Player::update(Map & map)
@@ -340,17 +383,29 @@ void Player::update(Map & map)
 	dt = time - _oldDt;
 
 	_oldDt = time;
-
+	this->stepsSound();
 	/*
 	Si on est en mvt on delete la case ou on était a la base, on set la case d'arrivée
 
 	*/
-	/*if (_isMoving == false && map.getEntitiesMap()[static_cast<int>(floor(_pos.x))][static_cast<int>(floor(_pos.y))]._component == NULL)
+	/*if (_isMoving == false && map.getEntitiesMap()[static_cast<int>(floor(_position.x))][static_cast<int>(floor(_position.y))]._component == NULL)
 	{
-	std::cout << "Point add : x " << static_cast<int>(floor(_pos.x)) << " y " << static_cast<int>(floor(_pos.y)) << std::endl;
-	map.setEntityMap(this, static_cast<int>(floor(_pos.x)), static_cast<int>(floor(_pos.y)));
+	std::cout << "Point add : x " << static_cast<int>(floor(_position.x)) << " y " << static_cast<int>(floor(_position.y)) << std::endl;
+	map.setEntityMap(this, static_cast<int>(floor(_position.x)), static_cast<int>(floor(_position.y)));
 	}*/
 
+	/*
+	if (!_path.empty() && )
+	{
+		std::cout << "MUSICC" << std::endl;
+		
+	}
+	else
+	{
+		std::cout << "STOPPPPPPPPPPPPPP" << std::endl;
+		SoundManager::getSoundManager().getSounds()[STEPS].stop();
+	}
+	*/
 	changeMapEntity(map);
 
 	_hungerClock += dt;
@@ -460,29 +515,132 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 	_walkDownAnim->addFrame(sf::IntRect(534, 346, 78, 80));
 	_walkDownAnim->addFrame(sf::IntRect(609, 346, 78, 80));
 	_walkDownAnim->addFrame(sf::IntRect(688, 346, 78, 80));
-	/*_walkDownAnim->addFrame(sf::IntRect(7, 245, 18, 29));
-	_walkDownAnim->addFrame(sf::IntRect(38, 243, 18, 28));
-	_walkDownAnim->addFrame(sf::IntRect(68, 246, 18, 25));
-	_walkDownAnim->addFrame(sf::IntRect(102, 246, 18, 29));
-	_walkDownAnim->addFrame(sf::IntRect(134, 245, 18, 28));
-	_walkDownAnim->addFrame(sf::IntRect(171, 248, 18, 25));
-	*/
-	_curAnim = _idleDownAnim;
+
 	
-	_walkLeftAnim = new Animation();
-	_walkLeftAnim->setSpriteSheet(*imgAnim);
-	/*A ENLEVER !!*/
-	_walkLeftAnim->addFrame(sf::IntRect(464, 346, 78, 80));
-	/*A ENLEVER !!*/
 	_walkRightAnim = new Animation();
 	_walkRightAnim->setSpriteSheet(*imgAnim);
-	/*A ENLEVER !!*/
-	_walkRightAnim->addFrame(sf::IntRect(464, 346, 78, 80));
-	/*A ENLEVER !!*/
+	_walkRightAnim->addFrame(sf::IntRect(1, 428, 68, 88));
+	_walkRightAnim->addFrame(sf::IntRect(73, 428, 68, 88));
+	_walkRightAnim->addFrame(sf::IntRect(189, 428, 68, 88));
+	_walkRightAnim->addFrame(sf::IntRect(265, 428, 68, 88));
+	_walkRightAnim->addFrame(sf::IntRect(329, 428, 68, 88));
+	_walkRightAnim->addFrame(sf::IntRect(390, 428, 68, 88));
+	_walkRightAnim->addFrame(sf::IntRect(457, 428, 68, 88));
+	_walkRightAnim->addFrame(sf::IntRect(530, 428, 68, 88));
+	_walkRightAnim->addFrame(sf::IntRect(601, 428, 68, 88));
+	_walkRightAnim->addFrame(sf::IntRect(664, 428, 68, 88));
+
+
+
+
+
+	_walkLeftAnim = new Animation();
+	_walkLeftAnim->setSpriteSheet(*imgAnim);
+	_walkLeftAnim->addFrame(sf::IntRect(722, 428, 68, 88));
+	_walkLeftAnim->addFrame(sf::IntRect(784, 428, 68, 88));
+	_walkLeftAnim->addFrame(sf::IntRect(855, 428, 68, 88));
+	_walkLeftAnim->addFrame(sf::IntRect(927, 428, 68, 88));
+	_walkLeftAnim->addFrame(sf::IntRect(995, 428, 68, 88));
+	_walkLeftAnim->addFrame(sf::IntRect(1058, 428, 68, 88));
+	_walkLeftAnim->addFrame(sf::IntRect(1122, 428, 68, 88));
+	_walkLeftAnim->addFrame(sf::IntRect(1196, 428, 68, 88));
+	_walkLeftAnim->addFrame(sf::IntRect(1273, 428, 68, 88));
+	_walkLeftAnim->addFrame(sf::IntRect(1340, 428, 68, 88));
+
+	_deathAnim = new Animation();
+	_deathAnim->setSpriteSheet(*imgAnim);
+	_deathAnim->addFrame(sf::IntRect(7, 541, 92, 77));
+	_deathAnim->addFrame(sf::IntRect(93, 541, 92, 77));
+	_deathAnim->addFrame(sf::IntRect(175, 541, 92, 77));
+	_deathAnim->addFrame(sf::IntRect(260, 541, 92, 77));
+	_deathAnim->addFrame(sf::IntRect(342, 541, 92, 77));
+	_deathAnim->addFrame(sf::IntRect(436, 541, 92, 77));
+	_deathAnim->addFrame(sf::IntRect(534, 541, 92, 77));
+	_deathAnim->addFrame(sf::IntRect(633, 541, 92, 77));
+	_deathAnim->addFrame(sf::IntRect(736, 541, 92, 77));
+	_deathAnim->addFrame(sf::IntRect(839, 541, 92, 77));
+	_deathAnim->addFrame(sf::IntRect(940, 541, 92, 77));
+
+	_victoryAnim = new Animation();
+	_victoryAnim->setSpriteSheet(*imgAnim);
+	_victoryAnim->addFrame(sf::IntRect(14, 621, 83, 103));
+	_victoryAnim->addFrame(sf::IntRect(112, 621, 83, 103));
+	_victoryAnim->addFrame(sf::IntRect(232, 621, 83, 103));
+	_victoryAnim->addFrame(sf::IntRect(318, 621, 83, 103));
+	_victoryAnim->addFrame(sf::IntRect(397, 621, 83, 103));
+	_victoryAnim->addFrame(sf::IntRect(475, 621, 83, 103));
+
+	_hitUpAnim = new Animation();
+	_hitUpAnim->setSpriteSheet(*imgAnim);
+	_hitUpAnim->addFrame(sf::IntRect(3, 734, 100, 100));
+	_hitUpAnim->addFrame(sf::IntRect(128, 734, 100, 100));
+	_hitUpAnim->addFrame(sf::IntRect(226, 734, 100, 100));
+	_hitUpAnim->addFrame(sf::IntRect(311, 734, 100, 100));
+	_hitUpAnim->addFrame(sf::IntRect(396, 734, 100, 100));
+
+	_hitRightAnim = new Animation();
+	_hitRightAnim->setSpriteSheet(*imgAnim);
+	_hitRightAnim->addFrame(sf::IntRect(3, 836, 86, 90));
+	_hitRightAnim->addFrame(sf::IntRect(155, 836, 86, 90));
+	_hitRightAnim->addFrame(sf::IntRect(293, 836, 86, 90));
+	_hitRightAnim->addFrame(sf::IntRect(384, 836, 86, 90));
+	_hitRightAnim->addFrame(sf::IntRect(465, 836, 86, 90));
+
+	_hitLeftAnim = new Animation();
+	_hitLeftAnim->setSpriteSheet(*imgAnim);
+	_hitLeftAnim->addFrame(sf::IntRect(548, 836, 86, 90));
+	_hitLeftAnim->addFrame(sf::IntRect(631, 836, 86, 90));
+	_hitLeftAnim->addFrame(sf::IntRect(719, 836, 86, 90));
+	_hitLeftAnim->addFrame(sf::IntRect(816, 836, 86, 90));
+	_hitLeftAnim->addFrame(sf::IntRect(1029, 836, 86, 90));
+
+	_hitDownAnim = new Animation();
+	_hitDownAnim->setSpriteSheet(*imgAnim);
+	_hitDownAnim->addFrame(sf::IntRect(3, 928, 98, 86));
+	_hitDownAnim->addFrame(sf::IntRect(147, 928, 98, 86));
+	_hitDownAnim->addFrame(sf::IntRect(263, 928, 98, 86));
+	_hitDownAnim->addFrame(sf::IntRect(357, 928, 98, 86));
+	_hitDownAnim->addFrame(sf::IntRect(459, 928, 98, 86));
+
+	_attackUpAnim = new Animation();
+	_attackUpAnim->setSpriteSheet(*imgAnim);
+	_attackUpAnim->addFrame(sf::IntRect(15, 1410, 120, 114));
+	_attackUpAnim->addFrame(sf::IntRect(162, 1410, 120, 114));
+	_attackUpAnim->addFrame(sf::IntRect(352, 1410, 120, 114));
+	_attackUpAnim->addFrame(sf::IntRect(501, 1410, 120, 114));
+	_attackUpAnim->addFrame(sf::IntRect(635, 1410, 120, 114));
+
+	_attackDownAnim = new Animation();
+	_attackDownAnim->setSpriteSheet(*imgAnim);
+	_attackDownAnim->addFrame(sf::IntRect(13, 1574, 124, 110));
+	_attackDownAnim->addFrame(sf::IntRect(163, 1574, 124, 110));
+	_attackDownAnim->addFrame(sf::IntRect(378, 1574, 124, 110));
+	_attackDownAnim->addFrame(sf::IntRect(533, 1574, 124, 110));
+	_attackDownAnim->addFrame(sf::IntRect(662, 1574, 124, 110));
+
+	_attackRightAnim = new Animation();
+	_attackRightAnim->setSpriteSheet(*imgAnim);
+	_attackRightAnim->addFrame(sf::IntRect(78, 1720, 104, 114));
+	_attackRightAnim->addFrame(sf::IntRect(231, 1720, 104, 114));
+	_attackRightAnim->addFrame(sf::IntRect(351, 1720, 104, 114));
+	_attackRightAnim->addFrame(sf::IntRect(457, 1720, 104, 114));
+	_attackRightAnim->addFrame(sf::IntRect(555, 1720, 104, 114));
+
+	_attackLeftAnim = new Animation();
+	_attackLeftAnim->setSpriteSheet(*imgAnim);
+	_attackLeftAnim->addFrame(sf::IntRect(663, 1720, 104, 114));
+	_attackLeftAnim->addFrame(sf::IntRect(761, 1720, 104, 114));
+	_attackLeftAnim->addFrame(sf::IntRect(868, 1720, 104, 114));
+	_attackLeftAnim->addFrame(sf::IntRect(997, 1720, 104, 114));
+	_attackLeftAnim->addFrame(sf::IntRect(1109, 1720, 104, 114));
 
 	_animatedSprite = new AnimatedSprite(sf::seconds(0.1), true, false);
 	_animatedSprite->setScale(0.5, 0.5);
-	//
+	
+
+	_curAnim = _idleDownAnim;
+
+
 	_animatedSprite->play(*_curAnim);
 	
 	
@@ -493,18 +651,18 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 
 void Player::move(sf::Vector2f &pos)
 {
-	_pos.x += pos.x;
-	_pos.y += pos.y;
+	_position.x += pos.x;
+	_position.y += pos.y;
 
 }
 
-void Player::doAction(IEntity* other)
+void Player::doAction(AEntity* other)
 {
 	if (other->getType() != PLAYER)
 		other->getAction(this);
 }
 
-void Player::getAction(IEntity* other)
+void Player::getAction(AEntity* other)
 {
 	this->_life -= other->getDamage();
 }
@@ -521,11 +679,6 @@ std::string const &Player::getName() const
 	return this->_name;
 }
 
-int Player::getDamage(void) const
-{
-	return this->_damages;
-}
-
 Type Player::getType() const
 {
 	return PLAYER;
@@ -540,18 +693,8 @@ void Player::setPath(std::list<std::pair<float, float> > &path)
 
 void Player::setPosition(sf::Vector2f &pos)
 {
-	_pos.x = (pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL;
-	_pos.y = (pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL;
-	_rect.setPosition(_pos);
+	_position.x = (pos.x - _camera->_position.x) * Chunk::SIZE_OF_CELL;
+	_position.y = (pos.y - _camera->_position.y) * Chunk::SIZE_OF_CELL;
+	_rect.setPosition(_position);
 }
 
-sf::Vector2f  Player::getPosition() const
-{
-	return _pos;
-}
-
-
-sf::IntRect & Player::getCollisionBox(void)
-{
-	return _boxCollider;
-}

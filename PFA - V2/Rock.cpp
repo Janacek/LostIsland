@@ -2,19 +2,19 @@
 #include "Player.h"
 
 Rock::Rock()
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 	_duration = 200;
 	_isMined = false;
-	_id = IEntityId++;
 }
 
-void Rock::doAction(IEntity* other)
+void Rock::doAction(AEntity* other)
 {
 	//L'arbre ne fait rien
 }
 
 
-void Rock::getAction(IEntity* other)
+void Rock::getAction(AEntity* other)
 {
 	_duration -= other->getDamage();
 	if (_duration <= 0 && !_isMined)
@@ -41,39 +41,18 @@ void Rock::loadAnimation(std::string const & string_anim, float speed)
 {
 }
 
-//Pas de dommages
-int Rock::getDamage(void) const
-{
-	return this->_damages;
-}
-
 Type Rock::getType() const
 {
 	return ROCK;
-}
-
-void Rock::setPosition(sf::Vector2f &pos)
-{
-	_position = pos;
-}
-
-sf::Vector2f Rock::getPosition() const
-{
-	return (_position);
-}
-
-void Rock::setPath(std::list<std::pair<float, float> >& path)
-{
-
 }
 
 void Rock::draw(sf::RenderTexture *tex, sf::Shader &shader)
 {
 	sf::Sprite tmp;
 	if (!_isMined)
-		tmp.setTexture((*ImageSingleton::getInstance().get(ROCK)));
+		tmp.setTexture((*ImageManager::getInstance().get(ROCK)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(ROCK_BROKEN)));
+		tmp.setTexture((*ImageManager::getInstance().get(ROCK_BROKEN)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 
@@ -84,9 +63,9 @@ void Rock::draw(sf::RenderTexture *tex)
 {
 	sf::Sprite tmp;
 	if (!_isMined)
-		tmp.setTexture((*ImageSingleton::getInstance().get(ROCK)));
+		tmp.setTexture((*ImageManager::getInstance().get(ROCK)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(ROCK_BROKEN)));
+		tmp.setTexture((*ImageManager::getInstance().get(ROCK_BROKEN)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	tex->draw(tmp);
 }

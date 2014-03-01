@@ -1,19 +1,19 @@
 #include "Drops.h"
-#include		"ImageSingleton.h"
+#include		"ImageManager.h"
 #include		"ShadersManager.h"
 
 Drops::Drops()
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
-	_id = IEntityId++;
 }
 
-void Drops::doAction(IEntity* other)
+void Drops::doAction(AEntity* other)
 {
 	
 }
 
 
-void Drops::getAction(IEntity* other)
+void Drops::getAction(AEntity* other)
 {
 
 }
@@ -32,24 +32,9 @@ Type Drops::getType() const
 	return DROPS;
 }
 
-void Drops::setPosition(sf::Vector2f &pos)
-{
-	_position = pos;
-}
-
-sf::Vector2f Drops::getPosition() const
-{
-	return (_position);
-}
-
-void Drops::setPath(std::list<std::pair<float, float> >& path)
-{
-
-}
-
 void Drops::draw(sf::RenderTexture *tex, sf::Shader &shader)
 {
-	sf::Sprite tmp((*ImageSingleton::getInstance().get(DROPS)));
+	sf::Sprite tmp((*ImageManager::getInstance().get(DROPS)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 
@@ -58,22 +43,22 @@ void Drops::draw(sf::RenderTexture *tex, sf::Shader &shader)
 
 void Drops::draw(sf::RenderTexture *tex)
 {
-	sf::Sprite tmp((*ImageSingleton::getInstance().get(DROPS)));
+	sf::Sprite tmp((*ImageManager::getInstance().get(DROPS)));
 	tmp.setPosition(_position.x, _position.y + 20);
 	tex->draw(tmp);
 }
 
-void Drops::addDrop(IEntity *drop)
+void Drops::addDrop(AEntity *drop)
 {
 	_drops.push_back(drop);
 }
 
-void Drops::addDrop(std::list<IEntity *>list)
+void Drops::addDrop(std::list<AEntity *>list)
 {
 	this->_drops = list;
 }
 
-std::list<IEntity *> &Drops::getDrops()
+std::list<AEntity *> &Drops::getDrops()
 {
 	return _drops;
 }

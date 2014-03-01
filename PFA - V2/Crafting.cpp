@@ -1,5 +1,5 @@
 #include "Crafting.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "Water.h"
 #include "Rock.h"
 #include "Wood.h"

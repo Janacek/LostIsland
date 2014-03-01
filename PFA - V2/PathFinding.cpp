@@ -368,7 +368,7 @@ std::list<sf::Vector2f *> PathFinding::findMeAdjacent(sf::Vector2i&begin)
 	}
 }
 
-bool PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, IEntity &ent)
+bool PathFinding::findMeAPath(sf::Vector2i&begin, sf::Vector2i &end, AEntity &ent)
 {
 	std::vector<WayPointID> p(boost::num_vertices(graphe));
 	std::vector<float>      d(boost::num_vertices(graphe));

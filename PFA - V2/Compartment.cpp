@@ -1,11 +1,11 @@
 #include "Compartment.h"
-#include "ImageSingleton.h"
+#include "ImageManager.h"
 #include "Singleton.h"
 #include <sstream>
 #include <algorithm>
 #include <iostream>
 
-Compartment::Compartment(IEntity *entity)
+Compartment::Compartment(AEntity *entity)
 {
 	if (entity != NULL)
 	{
@@ -17,11 +17,11 @@ Compartment::~Compartment()
 {
 	//del les ressources
 }
-void Compartment::addElement(IEntity *entity)
+void Compartment::addElement(AEntity *entity)
 {
 	this->_elements.push_back(entity);
 	if (this->_elements.size() == 1)
-		this->_img = (*ImageSingleton::getInstance().get(entity->getType())).copyToImage();
+		this->_img = (*ImageManager::getInstance().get(entity->getType())).copyToImage();
 }
 
 void Compartment::delAllElement()
@@ -29,7 +29,7 @@ void Compartment::delAllElement()
 	this->_elements.clear();
 }
 
-bool Compartment::delElement(IEntity *entity)
+bool Compartment::delElement(AEntity *entity)
 {
 	return true;
 }
@@ -63,14 +63,14 @@ sf::Image const&Compartment::getImage() const
 
 //retourne une liste de pointeurs contenus dans le compartiment .. Peut etre utile, evite de faire des new
 //si pas de param (cas nbr = 0) retourne toute la list
-std::list<IEntity *> Compartment::getElements(int nbr)
+std::list<AEntity *> Compartment::getElements(int nbr)
 {	
 	std::cout << "ELELEMEM : " << this->_elements.size() << std::endl;
 	int i = 0;
-	std::list<IEntity *> list;
+	std::list<AEntity *> list;
 	if (nbr == 0)
 		return this->_elements;
-	for (IEntity *u : this->_elements)
+	for (AEntity *u : this->_elements)
 	{
 		list.push_back(u);
 		++i;

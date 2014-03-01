@@ -13,13 +13,13 @@ public:
 	void init();
 	void setCamPos(sf::Vector2f &cam);
 	void update();
-	void updatePos(std::vector<Player *> players, std::vector<IEntity *> entities);
+	void updatePos(std::vector<Player *> players, std::vector<AEntity *> entities);
 	bool getIsLaunch() const;
 	void addVertexPoint(sf::Vector2i &) ;
-	bool findMeAPath(sf::Vector2i&, sf::Vector2i & , IEntity &);
+	bool findMeAPath(sf::Vector2i&, sf::Vector2i & , AEntity &);
 	bool tryFindAPathHuman(sf::Vector2i&, sf::Vector2i &, Player &);
 	bool launchPf(sf::Vector2i&, sf::Vector2i &, Player &);
-	bool tryFindAPathEntity(sf::Vector2i&, sf::Vector2i &, IEntity &);
+	bool tryFindAPathEntity(sf::Vector2i&, sf::Vector2i &, AEntity &);
 
 protected:
 private:

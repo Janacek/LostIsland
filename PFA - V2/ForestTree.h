@@ -5,8 +5,10 @@ class Map;
 
 class ForestTree : public Tree
 {
-	void doAction(IEntity *);
-	void getAction(IEntity *);
+public:
+	ForestTree();
+	void doAction(AEntity *);
+	void getAction(AEntity *);
 
 	void Animate(std::string const &);
 	void draw(sf::RenderTexture *, sf::Shader &);

@@ -7,7 +7,7 @@ GameOverScreen::GameOverScreen()
 	_currentPosition = 0;
 
 	_gameOverScreen = new sf::Image;
-	_gameOverScreen->loadFromFile("./gameOverScreen.png");
+	_gameOverScreen->loadFromFile("./Media/images/gameOverScreen.png");
 }
 
 void GameOverScreen::events(sf::Event &)

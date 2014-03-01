@@ -10,7 +10,8 @@
 #include "Tree.h"
 #include "MapEnvironment.h"
 #include					"Singleton.h"
-#include					"ImageSingleton.h"
+#include					"ImageManager.h"
+#include "Campfire.h"
 GameScreen::GameScreen()
 {
 
@@ -31,7 +32,7 @@ GameScreen::GameScreen()
 	_one.push_back(new Food);
 
 	_loadingScreen = new sf::Image;
-	_loadingScreen->loadFromFile("./loadingScreen.png");
+	_loadingScreen->loadFromFile("./Media/images/loadingScreen.png");
 	_loaded = false;
 
 }
@@ -89,9 +90,9 @@ void GameScreen::initialize(void)
 
 		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
 			_map->getEntitiesMap()[x][y]._component == NULL) {
-			Bunny *rabbit = new Bunny(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 100, _map->_camera);
+			Bunny *rabbit = new Bunny(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 50, _map->_camera);
 			this->_entities.push_back(rabbit);
-			_map->setEntityMap(rabbit, y, x);
+			_map->setEntityMap(rabbit, x, y);
 			++i;
 		}
 	}
@@ -120,7 +121,7 @@ void GameScreen::initialize(void)
 		os << (i + 1);
 		p->setName("Player " + os.str());
 		os.str("");
-		p->loadAnimation("finn.png", 0.05f);
+		p->loadAnimation("./Media/images/finn.png", 0.05f);
 		this->_players.push_back(p);
 
 	}
@@ -153,7 +154,7 @@ void GameScreen::mouseLeftPress(int index)
 void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos) const
 {
 	sf::RectangleShape playerInfo(sf::Vector2f(300, 200));
-	playerInfo.setTexture(ImageSingleton::getInstance().get(PLAYER_INFOS_BACKGROUND));
+	playerInfo.setTexture(ImageManager::getInstance().get(PLAYER_INFOS_BACKGROUND));
 	playerInfo.setPosition(pos);
 
 	sf::Text name;
@@ -206,13 +207,13 @@ void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos)
 	hungerNbr.setColor(sf::Color::Black);
 	hungerNbr.setFont(*FontManager::getInstance().getFont(SANSATION));
 
-	sf::RectangleShape healthBar(sf::Vector2f(player->_life * 1.9, 20));
+	sf::RectangleShape healthBar(sf::Vector2f(player->getLife() * 1.9, 20));
 	healthBar.setFillColor(sf::Color(196, 0, 0));
 	healthBar.setPosition(pos.x + 85, pos.y + 55);
 
 	sf::Text healthNbr;
 	healthNbr.setCharacterSize(20);
-	healthNbr.setString(std::to_string((int)player->_life) + " %");
+	healthNbr.setString(std::to_string((int)player->getLife()) + " %");
 	healthNbr.setPosition(sf::Vector2f(pos.x + 85 + 70, pos.y + 52));
 	healthNbr.setColor(sf::Color::Black);
 	healthNbr.setFont(*FontManager::getInstance().getFont(SANSATION));
@@ -271,7 +272,7 @@ void GameScreen::draw()
 		sf::Vector2f infosPos(400, 0);
 		for (auto it = _players.begin(); it != _players.end(); ++it)
 		{
-			if ((*it)->_isSelected) {
+			if ((*it)->getIsSelected()) {
 				drawPlayerInformations(*it, infosPos);
 				infosPos.x += 320;
 			}
@@ -340,11 +341,11 @@ void	GameScreen::updateSelectionZone()
 
 			if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
 			{
-				(*it)->setSelected(true);
+				(*it)->setIsSelected(true);
 			}
 			else if (!Singleton::getInstance().isShiftPressed)
 			{
-				(*it)->setSelected(false);
+				(*it)->setIsSelected(false);
 			}
 		}
 	}
@@ -360,16 +361,16 @@ void GameScreen::update(void)
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
 		(*it)->update(*_map);
-		if ((*it)->_life <= 0)
+		if ((*it)->getLife() <= 0)
 		{
 			for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
 			{
 				for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
 				{
-					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->_id == (*it)->_id &&
+					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getId() == (*it)->getId() &&
 						_map->getEntitiesMap()[i][j]._component->getType() == PLAYER)
 					{
-						_map->getEntitiesMap()[i][j]._component->_id = -1;
+						_map->getEntitiesMap()[i][j]._component->setId(-1);
 						_map->getEntitiesMap()[i][j]._component = NULL;
 						Player *tmp = (*it);
 						it = _players.erase(it);
@@ -386,6 +387,28 @@ void GameScreen::update(void)
 		}
 	}
 	
+	for (auto it = _entities.begin(); it != _entities.end(); ++it)
+	{
+		(*it)->update(*_map);
+		if ((*it)->getLife() <= 0)
+		{
+			for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
+			{
+				for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
+				{
+					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getId() == (*it)->getId())
+					{
+						_map->getEntitiesMap()[i][j]._component->setId(-1);
+						_map->getEntitiesMap()[i][j]._component = NULL;
+						AEntity *tmp = (*it);
+						it = _entities.erase(it);
+						delete tmp;
+					}
+				}
+			}
+		}
+	}
+
 	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
 	{
 		(*it2)->update(*_map);

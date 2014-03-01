@@ -61,7 +61,7 @@ public:
 	void initPathfinding(Map *&map, Camera *cam);
 	void updatePath();
 	void addVertexPoint(sf::Vector2i &);
-	bool findMeAPath(sf::Vector2i&, sf::Vector2i &, IEntity &);
+	bool findMeAPath(sf::Vector2i&, sf::Vector2i &, AEntity &);
 	std::list<sf::Vector2f *> findMeAdjacent(sf::Vector2i&);
 	
 protected:

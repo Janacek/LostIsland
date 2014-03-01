@@ -1,9 +1,16 @@
 #include "PalmTree.h"
 #include					"Singleton.h"
-#include					"ImageSingleton.h"
+#include					"ImageManager.h"
 #include	"Map.h"
 #include	"MapEnvironment.h"
 #include	"Player.h"
+#include "Wood.h"
+
+PalmTree::PalmTree()
+: Tree()
+{
+
+}
 
 void PalmTree::Animate(std::string const &)
 {
@@ -17,9 +24,9 @@ void PalmTree::draw(sf::RenderTexture *tex, sf::Shader &shader)
 
 	sf::Sprite tmp;
 	if (!_isCut)
-		tmp.setTexture((*ImageSingleton::getInstance().get(PALMTREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(PALMTREE)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(CUT_PALMTREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(CUT_PALMTREE)));
 	tmp.setPosition(_position.x, _position.y);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 	tex->draw(tmp, ShadersManager::getInstance().get(BLOOM));
@@ -32,9 +39,9 @@ void PalmTree::draw(sf::RenderTexture *tex)
 
 	sf::Sprite tmp;
 	if (!_isCut)
-		tmp.setTexture((*ImageSingleton::getInstance().get(PALMTREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(PALMTREE)));
 	else
-		tmp.setTexture((*ImageSingleton::getInstance().get(CUT_PALMTREE)));
+		tmp.setTexture((*ImageManager::getInstance().get(CUT_PALMTREE)));
 	tmp.setPosition(_position.x, _position.y);
 	tex->draw(tmp);
 }
@@ -48,21 +55,25 @@ void PalmTree::update(Map &map)
 	}
 }
 
-void PalmTree::doAction(IEntity *)
+void PalmTree::doAction(AEntity *)
 {
 	// Do nothing
 }
 
-void PalmTree::getAction(IEntity *other)
+void PalmTree::getAction(AEntity *other)
 {
-	try // si c'est un player
+	if (!_isHarvested)
 	{
-		Player *player = dynamic_cast<Player *>(other);
-		player->addEntityInInventory(this);
-	}
-	catch (std::bad_cast ex)
-	{
-		std::cout << "Cas non géré. C'est un animal qui attaque l'arbre." << std::endl;
+		try // si c'est un player
+		{
+			Player *player = dynamic_cast<Player *>(other);
+			player->addEntityInInventory(new Wood);
+			_isHarvested = true;
+		}
+		catch (std::bad_cast ex)
+		{
+			std::cout << "Cas non géré. C'est un animal qui attaque l'arbre." << std::endl;
+		}
 	}
 	_duration -= other->getDamage();
 }

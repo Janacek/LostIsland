@@ -16,7 +16,7 @@ StartScreen::StartScreen()
 	_curPos = 0;
 
 	_menuScreen = new sf::Image;
-	_menuScreen->loadFromFile("./menuScreen.png");
+	_menuScreen->loadFromFile("./Media/images/menuScreen.png");
 
 	_timeElapsed = sf::Time::Zero;
 	_choiceClock->restart();
@@ -39,7 +39,7 @@ StartScreen::StartScreen()
 	
 	_selector = new sf::RectangleShape(sf::Vector2f(40, 10));
 	_music = new sf::Music;
-	_music->openFromFile("./mainTheme.ogg");
+	_music->openFromFile("./Media/mainTheme.ogg");
 }
 
 stateName StartScreen::getStateName() const

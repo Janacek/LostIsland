@@ -1,11 +1,11 @@
 #pragma once
 
-#include "IEntity.h"
+#include "AEntity.h"
 
 class MapEnvironment
 {
 public:
 	MapEnvironment();
 	~MapEnvironment();
-	IEntity			*_component;
+	AEntity			*_component;
 };

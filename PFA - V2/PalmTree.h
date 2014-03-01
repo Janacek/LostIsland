@@ -4,8 +4,9 @@
 class PalmTree : public Tree
 {
 public:
-	void doAction(IEntity *);
-	void getAction(IEntity *);
+	PalmTree();
+	void doAction(AEntity *);
+	void getAction(AEntity *);
 
 	void Animate(std::string const &);
 	void draw(sf::RenderTexture *, sf::Shader &);

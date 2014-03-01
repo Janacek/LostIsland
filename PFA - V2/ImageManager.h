@@ -9,21 +9,21 @@
 #include <stdexcept>
 #include <cassert>
 
-#include "IEntity.h"
+#include "AEntity.h"
 
-class ImageSingleton
+class ImageManager
 {
 public:
-	static ImageSingleton& getInstance();
+	static ImageManager& getInstance();
 
 	void start();
 	void load(Type id,
 		const std::string& filename);
 	sf::Texture *get(Type id);
 private:
-	ImageSingleton(const ImageSingleton&) {};
-	static ImageSingleton m_instance;
-	ImageSingleton();
-	~ImageSingleton();
+	ImageManager(const ImageManager&) {};
+	static ImageManager m_instance;
+	ImageManager();
+	~ImageManager();
 	std::map<Type,	sf::Texture *> _mapTexture;
 };
