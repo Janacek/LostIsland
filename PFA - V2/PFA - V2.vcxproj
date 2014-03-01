@@ -111,6 +111,7 @@
     <ClCompile Include="CustomToggleButton.cpp" />
     <ClCompile Include="DatabaseManager.cpp" />
     <ClCompile Include="Drops.cpp" />
+    <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Fabric.cpp" />
     <ClCompile Include="Flint.cpp" />
     <ClCompile Include="FontManager.cpp" />

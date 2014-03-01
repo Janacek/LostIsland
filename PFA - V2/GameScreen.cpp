@@ -402,7 +402,7 @@ void GameScreen::update(void)
 						_map->getEntitiesMap()[i][j]._component = NULL;
 						AEntity *tmp = (*it);
 						it = _entities.erase(it);
-						delete tmp;
+						//delete tmp;
 					}
 				}
 			}
