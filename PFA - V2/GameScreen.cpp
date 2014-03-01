@@ -90,13 +90,12 @@ void GameScreen::initialize(void)
 
 		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
 			_map->getEntitiesMap()[x][y]._component == NULL) {
-			Bunny *rabbit = new Bunny(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 100, _map->_camera);
+			Bunny *rabbit = new Bunny(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 50, _map->_camera);
 			this->_entities.push_back(rabbit);
 			_map->setEntityMap(rabbit, x, y);
 			++i;
 		}
 	}
-
 
 	_loadingText = "Adding players";
 	auto spawnPoint = _map->_spawnPoints.begin();

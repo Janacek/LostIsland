@@ -27,4 +27,8 @@ private:
 	Animation							*_curAnim;
 	AnimatedSprite						*_animatedSprite;
 	Camera								*_camera;
+
+	sf::Clock							_mvtClock;
+	double								_oldDtMvt;
+	double								_oldTime;
 };
