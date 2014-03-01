@@ -119,6 +119,8 @@ public:
 	void setId(int);
 	bool getIsSelected() const;
 	void setIsSelected(bool);
+	void setIsDead(bool);
+	bool getIsDead();
 
 	AEntity(float pathtogo,
 		bool isAMovingEntity,
@@ -140,6 +142,7 @@ protected:
 	sf::FloatRect						_boxCollider;
 	int									_life;
 	int									_id;
+	bool								_isDead;
 
 private:
 

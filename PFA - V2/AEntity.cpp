@@ -7,6 +7,17 @@ AEntity::AEntity(float pathToGo, bool isAMovingEntity, sf::Vector2f position, in
 	_isSelected = false;
 	_isMoving = false;
 	_isPathFound = false;
+	_isDead = false;
+}
+
+void AEntity::setIsDead(bool isdead)
+{
+	_isDead = isdead;
+}
+
+bool AEntity::getIsDead()
+{
+	return _isDead;
 }
 
 bool AEntity::getIsSelected() const
