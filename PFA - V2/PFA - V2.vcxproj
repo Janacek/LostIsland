@@ -174,7 +174,7 @@
     <ClInclude Include="CustomToggleButton.h" />
     <ClInclude Include="DatabaseManager.h" />
     <ClInclude Include="Drops.h" />
-    <ClInclude Include="Fabric.h" />
+    <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="Flint.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="Herb.h" />
