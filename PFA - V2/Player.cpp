@@ -18,6 +18,7 @@
 Player::Player(sf::Vector2f &pos, Camera *cam) 
 : _camera(cam), AEntity(0.f, true, sf::Vector2f(pos), 10, sf::FloatRect(0, 0, 0, 0), 100)
 {
+	_isActionning = false;
 	_isAttacking = false;
 	this->_isWalking = false;
 	this->_stepsBuffer.loadFromFile("./Media/steps.ogg");
@@ -180,14 +181,29 @@ void Player::doActionOnEntity()
 		}
 		else
 		{
-
+			changeToActionAnim();
+			_isActionning = true;
 			if (_actionClock >= 0.5)
 			{
+				
 				doAction(_objective);
 				_actionClock = 0;
 			}
 		}
 	}
+}
+
+void Player::changeToActionAnim()
+{
+	if (_objective->getPosition().x > this->getPosition().x)
+		_curAnim = _hitRightAnim ;
+	if (_objective->getPosition().x <= this->getPosition().x)
+		_curAnim = _hitLeftAnim;
+	if (_objective->getPosition().y > this->getPosition().y)
+		_curAnim = _hitDownAnim;
+	if (_objective->getPosition().y <= this->getPosition().y)
+		_curAnim = _hitUpAnim;
+
 }
 
 void Player::changeToIdleAnim()
@@ -206,7 +222,7 @@ void Player::moveToNextWP()
 {
 	double dt = 0;
 	double time;
-
+	_isActionning = false;
 	time = _mvtClock.getElapsedTime().asSeconds();
 	dt = time - _oldDtMvt;
 
@@ -263,6 +279,7 @@ void Player::moveToNextWP()
 		}
 		else  {
 			doActionOnEntity();
+			if (_isActionning == false)
 			changeToIdleAnim();
 			//_animatedSprite->stop();
 			_isMoving = false;

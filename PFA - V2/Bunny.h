@@ -41,7 +41,7 @@ private:
 	std::list<std::pair<float, float> >	_originalPath;
 	// Bunny's position
 	sf::RectangleShape					_rect;
-	sf::Vector2f						_posDisp;
+	
 
 	// Bunny's life
 

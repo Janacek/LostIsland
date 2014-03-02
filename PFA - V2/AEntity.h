@@ -112,6 +112,7 @@ public:
 	virtual bool getIsStopped() const;
 	virtual bool getIsAMovingEntity() const;
 	virtual sf::FloatRect  getBoxCollider() const;							// enlève
+	virtual sf::Vector2f const getPosDisp() const;
 	virtual int getLife() const;
 	virtual void setLife(int);
 	int getId() const;
@@ -139,7 +140,7 @@ protected:
 	sf::FloatRect						_boxCollider;
 	int									_life;
 	int									_id;
-
+	sf::Vector2f						_posDisp;
 private:
 
 };

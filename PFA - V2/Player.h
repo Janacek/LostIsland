@@ -152,11 +152,13 @@ public:
 	void setTarget(Type);
 	void						stepsSound();
 private:
+	bool						_isActionning;
 	bool						_isWalking;
 	sf::SoundBuffer				_stepsBuffer;
 	sf::Sound					_stepts;
 	float						_cursorTime;
 	void						changeAnimation(sf::Vector2f&, std::pair<float, float>);
+	void						changeToActionAnim();
 	void						changeToIdleAnim();
 	Map							*_map;
 	InventoryWindow				*_inventoryWindow;

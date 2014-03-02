@@ -7,6 +7,8 @@ AEntity::AEntity(float pathToGo, bool isAMovingEntity, sf::Vector2f position, in
 	_isSelected = false;
 	_isMoving = false;
 	_isPathFound = false;
+	_posDisp.x = 0;
+	_posDisp.y = 0;
 }
 
 bool AEntity::getIsSelected() const
@@ -67,6 +69,11 @@ void AEntity::setPathToGo(float f)
 void AEntity::addToPathToGo(float f)
 {
 	_pathToGo += f;
+}
+
+sf::Vector2f const AEntity::getPosDisp() const
+{
+	return _posDisp;
 }
 
 bool const AEntity::getSelected() const
