@@ -181,10 +181,12 @@ void Player::doActionOnEntity()
 		}
 		else
 		{
+			// COMMENT ON SAIT QUAND ON A FINI
 			changeToActionAnim();
 			_isActionning = true;
 			if (_actionClock >= 0.5)
 			{
+				_isActionning = false;
 				
 				doAction(_objective);
 				_actionClock = 0;
@@ -283,8 +285,8 @@ void Player::moveToNextWP()
 		}
 		else  {
 			doActionOnEntity();
-			if (_isActionning == false)
-			changeToIdleAnim();
+ 			if (_isActionning == false)
+				changeToIdleAnim();
 			//_animatedSprite->stop();
 			_isMoving = false;
 			_hasAPath = false;
@@ -325,8 +327,7 @@ sf::Vector2i const Player::diffDist(sf::Vector2f&first, sf::Vector2f&second)
 	sf::Vector2i sum;
 	sum.x = floor(((first.x) - (second.x)));
 	sum.y = floor(((first.y) - (second.y)));
-	std::cout << "TMP x " << sum.x << "tmp.y" << sum.y << std::endl;
-
+	
 	return sum;
 }
 
