@@ -49,7 +49,7 @@ public:
 	Map *getMap() { return _map; };
 	void setPath(std::list<std::pair<float, float> > &path);
 	void setPosition(sf::Vector2f &pos);
-
+	sf::Vector2i const diffDist(sf::Vector2f&first, sf::Vector2f&second);
 	sf::FloatRect getBoxCollider() const;
 
 	//TODO : Changer en compartments pour l'inventaire
@@ -110,7 +110,7 @@ protected:
 	*/
 	sf::RectangleShape			_rect;
 
-	sf::Vector2f _posDisp;
+	
 	unsigned int _sizeInventory;
 
 

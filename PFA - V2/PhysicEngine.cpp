@@ -51,8 +51,7 @@ float PhysicEngine::diffDist(sf::Vector2f const &d1, sf::Vector2f const &d2)
 bool PhysicEngine::tryFindAPathEntity(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_end, AEntity &ent)
 {
 	ent.setPathToGo(1.f);
-	std::cout << "ronan le conard" << ent.getPathToGo() << std::endl;
-
+	
 	while (/*ent.getIsPathFound() == false ||*/ ent.getPathToGo() >= 0)
 	{
 		sf::Vector2f tmp_lerp_begin;

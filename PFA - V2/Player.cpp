@@ -156,15 +156,15 @@ void Player::changeAnimation(sf::Vector2f&pos, std::pair<float, float>front)
 	{
 		_curAnim = _walkRightAnim;
 	}
-	if (front.first < floor(pos.x))
+	else if (front.first < floor(pos.x))
 	{
 		_curAnim = _walkLeftAnim;
 	}
-	if (front.second < floor(pos.y))
+	else if (front.second < floor(pos.y))
 	{
 		_curAnim = _walkUpAnim;
 	}
-	if (front.second > floor(pos.y))
+	else
 	{
 		_curAnim = _walkDownAnim;
 	}
@@ -195,26 +195,30 @@ void Player::doActionOnEntity()
 
 void Player::changeToActionAnim()
 {
-	if (_objective->getPosition().x > this->getPosition().x)
-		_curAnim = _hitRightAnim ;
-	if (_objective->getPosition().x <= this->getPosition().x)
-		_curAnim = _hitLeftAnim;
-	if (_objective->getPosition().y > this->getPosition().y)
-		_curAnim = _hitDownAnim;
-	if (_objective->getPosition().y <= this->getPosition().y)
-		_curAnim = _hitUpAnim;
+	sf::Vector2f objPos2;
+	objPos2.x = _objective->getPosition().y;
+	objPos2.y = _objective->getPosition().x;
 
+	sf::Vector2i tmp = diffDist(objPos2, _position);
+	if (tmp.x >= 0 && tmp.y == -1) // moi non plus je comprend pas mais une phase de test à arbres binaire composé de baies m'a dit que c'était la bonne solution
+		_curAnim = _hitRightAnim;
+	else if (tmp.x <= -1 && tmp.y == -1)
+		_curAnim = _hitLeftAnim;
+	else if (tmp.x <= 0 && tmp.y == 0)
+		_curAnim = _hitDownAnim;
+	else
+		_curAnim = _hitUpAnim;
 }
 
 void Player::changeToIdleAnim()
 {
-	if (_curAnim == _walkRightAnim)
+	/*if (_curAnim == _walkRightAnim)
 		_curAnim = _idleRightAnim;
 	if (_curAnim == _walkLeftAnim)
 		_curAnim = _idleLeftAnim;
 	if (_curAnim == _walkUpAnim)
 		_curAnim = _idleUpAnim;
-	if (_curAnim == _walkDownAnim)
+	if (_curAnim == _walkDownAnim)*/
 		_curAnim = _idleDownAnim;
 }
 
@@ -286,8 +290,6 @@ void Player::moveToNextWP()
 			_hasAPath = false;
 		}
 	}
-	if (_objective)
-		std::cout << std::boolalpha << _objective->getIsAMovingEntity() << std::endl;
 	if (_isAttacking == false && _objective && _objective->getIsAMovingEntity() && _objective->getType() != PLAYER && _objective->getBoxCollider().intersects(_animatedSprite->getGlobalBounds()))
 	{
 		_isAttacking = true;
@@ -300,20 +302,32 @@ void Player::moveToNextWP()
 		_path.push_back(save);
 		_animatedSprite->setLooped(false);
 		_timeAttack += dt;
-		if (_curAnim == _walkRightAnim || _curAnim == _idleRightAnim)
+		sf::Vector2i tmp = diffDist(_objective->getPosition(), _position);
+		if (tmp.x >= 0 && tmp.y == -1) // moi non plus je comprend pas mais une phase de test à arbres binaire composé de baies m'a dit que c'était la bonne solution
 			_curAnim = _attackRightAnim;
-		if (_curAnim == _walkLeftAnim || _curAnim == _idleLeftAnim)
+		else if (tmp.x <= -1 && tmp.y == -1)
 			_curAnim = _attackLeftAnim;
-		if (_curAnim == _walkUpAnim || _curAnim == _idleUpAnim)
-			_curAnim = _attackUpAnim;
-		if (_curAnim == _walkDownAnim || _curAnim == _idleDownAnim)
+		else if (tmp.x <= 0 && tmp.y == 0)
 			_curAnim = _attackDownAnim;
+		else
+			_curAnim = _attackUpAnim;
+		
 		_objective->getAction(this);
 		//On need un new chemin ici 
 	}
 
 	sf::Time t = sf::seconds(dt);;
 	_animatedSprite->update(t);
+}
+
+sf::Vector2i const Player::diffDist(sf::Vector2f&first, sf::Vector2f&second)
+{
+	sf::Vector2i sum;
+	sum.x = floor(((first.x) - (second.x)));
+	sum.y = floor(((first.y) - (second.y)));
+	std::cout << "TMP x " << sum.x << "tmp.y" << sum.y << std::endl;
+
+	return sum;
 }
 
 void Player::draw(sf::RenderTexture *, sf::Shader &)

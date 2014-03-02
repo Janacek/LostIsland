@@ -28,7 +28,6 @@ void Bush::draw(sf::RenderTexture *tex, sf::Shader &shader)
 {
 	float posX = _position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL;
 	float posY = _position.y - Singleton::getInstance()._window->getSize().y  * Chunk::SIZE_OF_CELL;
-
 	sf::Sprite tmp;
 	if (_grown)
 		tmp.setTexture((*ImageManager::getInstance().get(BUSH_FRUITS)));

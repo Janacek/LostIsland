@@ -43,7 +43,6 @@ void PalmTree::draw(sf::RenderTexture *tex, sf::Shader &shader)
 {
 	int posX = static_cast<int>(_position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL);
 	int posY = static_cast<int>(_position.y - Singleton::getInstance()._window->getSize().y  * Chunk::SIZE_OF_CELL - 20);
-
 	sf::Sprite tmp;
 	if (!_isCut)
 	{
@@ -65,7 +64,9 @@ void PalmTree::draw(sf::RenderTexture *tex)
 {
 	int posX = static_cast<int>(_position.x - Singleton::getInstance()._window->getSize().x  * Chunk::SIZE_OF_CELL);
 	int posY = static_cast<int>(_position.y - Singleton::getInstance()._window->getSize().y  * Chunk::SIZE_OF_CELL - 20);
-
+	
+	
+	
 	sf::Sprite tmp;
 	if (!_isCut)
 	{
