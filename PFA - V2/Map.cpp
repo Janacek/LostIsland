@@ -57,6 +57,26 @@ Map::Map(Camera *cam, std::string &loading)
 	_mapTexture = NULL;
 
 	_spawnPoints.clear();
+
+
+
+
+
+	// ANIM DE L'EAU
+	sf::Texture *imgAnim = ImageManager::getInstance().get(WATER_ANIM);
+
+	_waveAnim = new Animation();
+	_waveAnim->setSpriteSheet(*imgAnim);
+	_waveAnim->addFrame(sf::IntRect(0, 0, 32, 32));
+	_waveAnim->addFrame(sf::IntRect(32, 0, 32, 32));
+	_waveAnim->addFrame(sf::IntRect(64, 0, 32, 32));
+	_waveAnim->addFrame(sf::IntRect(96, 0, 32, 32));
+
+	_animatedSprite = new AnimatedSprite(sf::seconds(0.5f), true, false);
+	_curAnim = _waveAnim;
+
+
+	_animatedSprite->play(*_curAnim);
 }
 
 Map::~Map()
@@ -554,7 +574,14 @@ void						Map::draw(sf::RenderWindow *win)
 			_cellMap[i][j]._shape.setPosition((j - _camera->_position.x) * Chunk::SIZE_OF_CELL,
 				(i - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
-			_mapTexture->draw(_cellMap[i][j]._shape);
+			if (_cellMap[i][j]._cellType != Cell::OCEAN)
+				_mapTexture->draw(_cellMap[i][j]._shape);
+			else
+			{
+				_animatedSprite->setPosition(sf::Vector2f((j - _camera->_position.x) * Chunk::SIZE_OF_CELL
+					, (i - _camera->_position.y) * Chunk::SIZE_OF_CELL));
+				_mapTexture->draw(*_animatedSprite);
+			}
 
 			sf::Vector2f savePos;
 			if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getIsAMovingEntity() == false)
@@ -642,9 +669,9 @@ void						Map::generateTrees()
 		}
 	}
 
-		Campfire *campfire = new Campfire(_camera);
-		campfire->setPosition(sf::Vector2f(50, 50));
-		_entitiesMap[50][50]._component = campfire;
+	Campfire *campfire = new Campfire(_camera);
+	campfire->setPosition(sf::Vector2f(50, 50));
+	_entitiesMap[50][50]._component = campfire;
 
 	for (int i = 0; i < 50;)
 	{
@@ -721,6 +748,18 @@ sf::Vector2i				Map::getSize() const
 void						Map::update()
 {
 	_camera->moveCamera(_size);
+
+	double dt = 0;
+	double time;
+
+	time = _mvtClock.getElapsedTime().asSeconds();
+	dt = time - _oldDtMvt;
+	_oldDtMvt = time;
+
+	_animatedSprite->play(*_curAnim);
+
+	sf::Time t = sf::seconds(dt);
+	_animatedSprite->update(t);
 
 	for (int i = 0; i < _size.y * Chunk::NB_CELLS; ++i)
 	{

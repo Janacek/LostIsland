@@ -3,6 +3,8 @@
 #include					<map>
 #include					"Chunk.h"
 #include					"PerlinNoise.h"
+#include					"Animation.h"
+#include					"AnimatedSprite.h"
 
 #include					"Camera.h"
 
@@ -133,4 +135,12 @@ public:
 
 private:
 	std::string				&_loading;
+
+	Animation							*_waveAnim;
+	Animation							*_curAnim;
+	AnimatedSprite						*_animatedSprite;
+
+	sf::Clock							_mvtClock;
+	double								_oldDtMvt;
+	double								_oldTime;
 };

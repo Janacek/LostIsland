@@ -62,7 +62,7 @@ void	GameScreen::checkQuit(sf::Event &e)
 void GameScreen::events(sf::Event &e)
 {
 	Singleton::getInstance()._desktop.HandleEvent(e);
-	
+
 }
 
 static bool cmpPlayers(Player *lhs, Player *rhs)
@@ -130,7 +130,7 @@ void GameScreen::initialize(void)
 	this->_activeInventary = false;
 	this->_activeWinRessources = false;
 	_loadingText = "Generating inventories";
-	
+
 	this->_inventory->init();
 	this->_inventory->createZones(this->_players);
 	_loadingText = "Generating Crafting Window";
@@ -148,7 +148,7 @@ std::vector<Player *> &GameScreen::getPlayers()
 
 void GameScreen::mouseLeftPress(int index)
 {
-	
+
 }
 
 void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos) const
@@ -265,7 +265,7 @@ void GameScreen::draw()
 			(*it)->draw(NULL);
 		}
 		drawSelectionZone();
-		
+
 		/*
 		** Draw of the players informations
 		*/
@@ -277,7 +277,7 @@ void GameScreen::draw()
 				infosPos.x += 320;
 			}
 		}
-	
+
 		this->_map->drawMiniMap(Singleton::getInstance()._window, _players);
 		checkDrawInventory();
 		this->_inventory->update();
@@ -361,6 +361,9 @@ void GameScreen::update(void)
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
 		(*it)->update(*_map);
+		if ((*it)->_objective)
+			if ((*it)->_objective->getLife() <= 0 && (*it)->_objective->getIsAMovingEntity())
+				(*it)->_objective = NULL;
 		if ((*it)->getLife() <= 0)
 		{
 			for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
@@ -386,34 +389,34 @@ void GameScreen::update(void)
 			return;
 		}
 	}
-	
-	for (auto it = _entities.begin(); it != _entities.end(); ++it)
-	{
-		(*it)->update(*_map);
-		if ((*it)->getLife() <= 0)
-		{
-			for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
-			{
-				for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
-				{
-					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getId() == (*it)->getId())
-					{
-						_map->getEntitiesMap()[i][j]._component->setId(-1);
-						_map->getEntitiesMap()[i][j]._component = NULL;
-						AEntity *tmp = (*it);
-						it = _entities.erase(it);
-						//delete tmp;
-					}
-				}
-			}
-		}
-	}
 
 	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
 	{
 		(*it2)->update(*_map);
 	}
+
 	_map->update();
+
+
+	for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
+	{
+		for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
+		{
+			if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getIsDead())
+			{
+				//delete _map->getEntitiesMap()[i][j]._component;
+				_map->getEntitiesMap()[i][j]._component = NULL;
+		/*		for (auto it = _entities.begin(); it != _entities.end(); ++it)
+				{
+					if ((*it)->getIsDead())
+						it = _entities.erase(it);
+				}*/
+				//delete tmp;
+			}
+		}
+	}
+
+
 	if (Singleton::getInstance().isEscapePressed)
 	{
 		_isRunning = false;

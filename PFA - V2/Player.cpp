@@ -682,6 +682,8 @@ void Player::doAction(AEntity* other)
 void Player::getAction(AEntity* other)
 {
 	this->_life -= other->getDamage();
+	if (_life <= 0)
+		_isDead = true;
 }
 
 

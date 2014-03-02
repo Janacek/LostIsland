@@ -128,6 +128,7 @@ void Bunny::getAction(AEntity *o)
 	{
 		Player *player = dynamic_cast<Player *>(o);
 		player->addEntityInInventory(new Meat);
+		_isDead = true;
 	}
 }
 
@@ -188,9 +189,11 @@ void Bunny::draw(sf::RenderTexture *)
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
-	_animatedSprite->setPosition(_posDisp);
-	Singleton::getInstance()._window->draw(*_animatedSprite);
-
+	if (!_isDead)
+	{
+		_animatedSprite->setPosition(_posDisp);
+		Singleton::getInstance()._window->draw(*_animatedSprite);
+	}
 	//this->_anim->show(_posDisp);
 }
 

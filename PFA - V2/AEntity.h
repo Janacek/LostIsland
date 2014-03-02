@@ -48,6 +48,7 @@ enum Type
 	SELECTED_ICON,
 	BADTYPE,
 	CAMPFIRE,
+	WATER_ANIM,
 };
 
 inline const char* typetoString(Type v)
@@ -119,6 +120,8 @@ public:
 	void setId(int);
 	bool getIsSelected() const;
 	void setIsSelected(bool);
+	void setIsDead(bool);
+	bool getIsDead();
 
 	AEntity(float pathtogo,
 		bool isAMovingEntity,
@@ -141,6 +144,6 @@ protected:
 	int									_life;
 	int									_id;
 	sf::Vector2f						_posDisp;
-private:
+	bool								_isDead;private:
 
 };
