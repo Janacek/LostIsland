@@ -134,6 +134,7 @@ void Crafting::craft()
 	{
 		std::cout << "Je suis show ! " << std::endl;
 		this->_choosePlayerWindow->Show(true);
+		Singleton::getInstance()._desktop.BringToFront(this->_choosePlayerWindow);
 	}
 }
 
