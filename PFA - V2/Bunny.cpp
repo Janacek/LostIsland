@@ -6,6 +6,17 @@
 #include "Player.h"
 #include "Meat.h"
 
+std::string &Bunny::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Bunny::deserialize(std::ifstream &) throw (MyException)
+{
+	// load
+}
+
 Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 : _camera(cam), AEntity(1.f, true, sf::Vector2f(position), 0, sf::FloatRect(0, 0, 0, 0), life)
 {

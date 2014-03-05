@@ -24,6 +24,9 @@ public:
 	void								moveToNextWP();
 	sf::FloatRect						getBoxCollider() const;
 
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
+
 private:
 	void								changeAnimation(sf::Vector2f&, std::pair<float, float>);
 

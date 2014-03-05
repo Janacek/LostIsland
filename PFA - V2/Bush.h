@@ -15,6 +15,9 @@ public:
 	Type				getType() const { return BUSH; };
 	virtual int			getLife() const;
 
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
+
 	sf::Clock			_bushClock;
 	float				_oldDt;
 

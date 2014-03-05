@@ -1,5 +1,17 @@
 #include "Bowl.h"
 
+std::string &Bowl::serialize() const
+{
+	//save
+	std::string toto;
+	return (toto);
+}
+
+void Bowl::deserialize(std::ifstream &) throw (MyException)
+{
+	// load
+}
+
 Bowl::Bowl()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

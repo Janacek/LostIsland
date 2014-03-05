@@ -15,4 +15,6 @@ public:
 	virtual Type getType() const;
 	~WoodenPlank(void);
 	void update(Map &);
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
 };

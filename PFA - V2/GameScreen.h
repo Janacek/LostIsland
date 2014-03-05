@@ -36,6 +36,9 @@ public:
 	void validDrop(int);
 	void dropRessource();
 
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
+
 	InventoryWindow			*_inventory; //Oups
 protected:
 private:

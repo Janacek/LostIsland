@@ -4,6 +4,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 
+#include "SerializeTools.h"
+
 class Camera
 {
 public:
@@ -21,4 +23,7 @@ public:
 	float				_oldTime;
 	float				_oldTimeMouse;
 	float				_speed;
+
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
 };

@@ -1,5 +1,16 @@
 #include "Infusion.h"
 
+std::string &Infusion::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Infusion::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Infusion::Infusion()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

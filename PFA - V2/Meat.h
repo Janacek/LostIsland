@@ -15,6 +15,9 @@ public:
 	void draw(sf::RenderTexture *);
 	Type getType() const;
 	~Meat(void);
+
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
 private:
 };
 

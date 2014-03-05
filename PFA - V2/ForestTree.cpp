@@ -6,6 +6,17 @@
 #include "Player.h"
 #include "Wood.h"
 
+std::string &ForestTree::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void ForestTree::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 ForestTree::ForestTree()
 : Tree()
 {

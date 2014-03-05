@@ -1,5 +1,16 @@
 #include "Mushroom.h"
 
+std::string &Mushroom::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Mushroom::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Mushroom::Mushroom()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

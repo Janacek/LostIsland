@@ -1,5 +1,16 @@
 #include "Fabric.h"
 
+std::string &Fabric::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Fabric::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Fabric::Fabric()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

@@ -21,6 +21,9 @@ public:
 	virtual void draw(sf::RenderTexture *);
 	virtual void update(Map &);
 	Type getType() const;
+
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
 protected:
 	int				_duration;
 	bool			_isMined;

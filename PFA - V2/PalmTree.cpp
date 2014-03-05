@@ -6,6 +6,17 @@
 #include	"Player.h"
 #include "Wood.h"
 
+std::string &PalmTree::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void PalmTree::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 PalmTree::PalmTree()
 : Tree()
 {

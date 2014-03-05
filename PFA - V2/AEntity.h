@@ -4,6 +4,7 @@
 #include						<SFML/Graphics.hpp>
 #include						<list>
 #include						"Map.h"
+#include						"SerializeTools.h"
 
 enum Type
 {
@@ -96,7 +97,8 @@ public:
 	virtual Type getType() const = 0;												// reste
 
 
-
+	virtual std::string &serialize() const = 0;
+	virtual void deserialize(std::ifstream &) throw(MyException) = 0;
 
 
 	virtual void setPath(std::list<std::pair<float, float> >&);

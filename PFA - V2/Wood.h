@@ -15,5 +15,8 @@ public:
 	virtual Type getType() const;
 	~Wood(void);
 	void update(Map &);
+
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
 };
 

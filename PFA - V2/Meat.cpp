@@ -1,5 +1,15 @@
 #include "Meat.h"
 
+std::string &Meat::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Meat::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
 
 Meat::Meat(void)
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)

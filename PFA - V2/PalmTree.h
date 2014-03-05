@@ -17,6 +17,9 @@ public:
 	virtual void loadAnimation(std::string const & string_anim, float speed);
 	void update(Map &);
 
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
+
 private:
 	Animation							*_waveAnim;
 	Animation							*_curAnim;

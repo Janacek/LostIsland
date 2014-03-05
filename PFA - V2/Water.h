@@ -15,6 +15,8 @@ public:
 	Type getType() const;
 	void update(Map &);
 	~Water(void);
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
 private:
 };
 

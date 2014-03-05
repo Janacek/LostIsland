@@ -1,5 +1,16 @@
 #include "Rope.h"
 
+std::string &Rope::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Rope::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Rope::Rope()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

@@ -1,5 +1,17 @@
 #include "Bucket.h"
 
+std::string &Bucket::serialize() const
+{
+	// save
+	std::string toto;
+	return (toto);
+}
+
+void Bucket::deserialize(std::ifstream &) throw (MyException)
+{
+	// load
+}
+
 Bucket::Bucket()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
