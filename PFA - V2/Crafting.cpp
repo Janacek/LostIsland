@@ -20,6 +20,7 @@ void Crafting::createChooseWindow()
 	this->_choosePlayerWindow = sfg::Window::Create(sfg::Window::Style::TITLEBAR | sfg::Window::Style::BACKGROUND);
 	this->_choosePlayerWindow->SetTitle("Choose where the craft will be send");
 	this->_choosePlayerWindow->SetPosition(sf::Vector2f(1300, 400));
+	this->_choosePlayerWindow->SetRequisition(sf::Vector2f(300.f, 200.f));
 	this->_choosePlayerWindow->Show(false);
 	Singleton::getInstance()._desktop.Add(this->_choosePlayerWindow);
 }
@@ -36,7 +37,7 @@ void Crafting::createWindow()
 }
 
 void Crafting::createTables()
-{ 
+{
 	auto craftButton = sfg::Button::Create("Craft");
 	auto removeButton = sfg::Button::Create("Supprimer de la table");
 	craftButton->SetRequisition(sf::Vector2f(100.f, 50.f));
@@ -105,6 +106,7 @@ void	Crafting::updateContent()
 
 void Crafting::deleteEntities()
 {
+	int compt = 0;
 	for (AEntity *entity : this->_content)
 	{
 		for (Player *u : this->_inventoryWindow->getPlayers())
@@ -124,18 +126,24 @@ void Crafting::deleteEntities()
 void	Crafting::validCraft(Player *p)
 {
 	deleteEntities();
+	this->_inventoryWindow->updateView();
 	p->addEntityInInventory(this->_objectCraft);
 	this->_choosePlayerWindow->Show(false);
 }
 
 void Crafting::craft()
 {
-	if (this->_objectCraft != NULL)
+	if (this->_choosePlayerWindow->IsLocallyVisible() == false) //si on a pas deja cliqué une fois sur craft
 	{
-		std::cout << "Je suis show ! " << std::endl;
-		this->_choosePlayerWindow->Show(true);
-		Singleton::getInstance()._desktop.BringToFront(this->_choosePlayerWindow);
+		if (this->_objectCraft != NULL)
+		{
+			std::cout << "Je suis show ! " << std::endl;
+			this->_choosePlayerWindow->Show(true);
+			Singleton::getInstance()._desktop.BringToFront(this->_choosePlayerWindow);
+		}
 	}
+	else
+		Singleton::getInstance()._desktop.BringToFront(this->_choosePlayerWindow);
 }
 
 void Crafting::remove()
@@ -168,14 +176,14 @@ void Crafting::addInTable(CustomToggleButton *button, int nbr)
 void   Crafting::updateImgResult()
 {
 	std::string result = this->_databaseManager.askTable(this->_content);
-
+	std::cout << "RESULT : " << result << std::endl;
+	if (this->_objectCraft != NULL)
+	{
+		delete this->_objectCraft;
+		this->_objectCraft = NULL;
+	}
 	if (result != "")
 	{
-		if (this->_objectCraft != NULL)
-		{
-			delete this->_objectCraft;
-			this->_objectCraft = NULL;
-		}
 		this->_objectCraft = this->_entityFactory.makeEntity(result);
 		this->_imgResult->SetImage((*ImageManager::getInstance().get(this->_objectCraft->getType())).copyToImage());
 		this->_imgResult->Show(true);
