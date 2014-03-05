@@ -154,6 +154,15 @@ void  InventoryWindow::addToInventory(Player *player, Compartment *com, int pos)
 	}
 }
 
+void InventoryWindow::updateView()
+{
+	for (CustomToggleButton *u : this->_tableButtons)
+	{
+		if (u->getCompartment() != NULL && u->getCompartment()->getSize() == 0)
+			u->_button->ClearImage();
+	}
+}
+
 void InventoryWindow::fillImage(Player *player, int index, sfg::ToggleButton::Ptr but)
 {
 	Compartment *compartment = player->getCompartment(index);

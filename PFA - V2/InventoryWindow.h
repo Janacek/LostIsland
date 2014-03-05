@@ -21,6 +21,7 @@ public:
 	void createCompartment(Player *);
 	Player *getFirstPlayerSelected();
 	std::vector<Player *> &getPlayers();
+	void updateView();
 	void chooseNumber(GameScreen *);
 	Compartment *dropRessource();
 	void setCraftingClass(Crafting *);
