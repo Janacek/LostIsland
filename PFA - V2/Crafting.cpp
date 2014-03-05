@@ -128,6 +128,7 @@ void	Crafting::validCraft(Player *p)
 	deleteEntities();
 	this->_inventoryWindow->updateView();
 	p->addEntityInInventory(this->_objectCraft);
+	this->_objectCraft = NULL;
 	this->_choosePlayerWindow->Show(false);
 }
 
@@ -143,7 +144,9 @@ void Crafting::craft()
 		}
 	}
 	else
+	{
 		Singleton::getInstance()._desktop.BringToFront(this->_choosePlayerWindow);
+	}
 }
 
 void Crafting::remove()
@@ -197,6 +200,7 @@ void   Crafting::updateImgResult()
 void  Crafting::Show(bool show)
 {
 	this->_craftingWindow->Show(show);
+	this->_choosePlayerWindow->Show(false);
 }
 
 void	Crafting::update()
