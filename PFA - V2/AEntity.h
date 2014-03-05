@@ -49,6 +49,7 @@ enum Type
 	BADTYPE,
 	CAMPFIRE,
 	WATER_ANIM,
+	MENU_SCREEN,
 };
 
 inline const char* typetoString(Type v)
