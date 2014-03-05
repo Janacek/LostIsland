@@ -21,7 +21,7 @@ void Game::init()
 	
 	ImageManager::getInstance().start();
 	//ptr1._window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Lost Island");
-	ptr1._window = new sf::RenderWindow(*videoMode.getFullscreenModes().begin(), "Lost Island", sf::Style::Fullscreen);
+	ptr1._window = new sf::RenderWindow(*videoMode.getFullscreenModes().begin(), "Lost Island");// , sf::Style::Fullscreen);
 	ptr1._window->setVerticalSyncEnabled(true);
 	ptr1._window->setFramerateLimit(200);
 

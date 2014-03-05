@@ -88,9 +88,9 @@ std::string DatabaseManager::askTable(std::vector<AEntity *> &craftContent)
 	sqlite3_get_table(this->_db, this->_sqlRequest.c_str(), &results, &rows, &columns, &this->_error);
 	if (this->_error != NULL)
 		std::cout << "ERROR : " << this->_error << std::endl;
+	this->resetContentCraftingTable();
 	if (columns > 0)
 		return results[1];
-	this->resetContentCraftingTable();
 	return "";
 }
 

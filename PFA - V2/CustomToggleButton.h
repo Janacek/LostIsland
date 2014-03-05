@@ -8,6 +8,7 @@ class CustomToggleButton
 public:
 	CustomToggleButton(Player *, Compartment *);
 	Player *getPlayer();
+	void empty();
 	Compartment *getCompartment();
 	void setCompartment(Compartment *);
 	Type getType() const;

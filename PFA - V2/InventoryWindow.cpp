@@ -233,7 +233,6 @@ void InventoryWindow::mouseLeftPress(CustomToggleButton *but)
 		this->_selectedRessource = NULL;
 		this->_spinButton->SetValue(0);
 		this->_spinButton->SetRange(0, 0);
-
 	}
 	else
 	{
@@ -241,6 +240,7 @@ void InventoryWindow::mouseLeftPress(CustomToggleButton *but)
 		this->_spinButton->SetRange(0, but->getCompartment()->getSize());
 		this->_spinButton->SetValue(but->getCompartment()->getSize());
 	}
+
 	for (CustomToggleButton *u : this->_tableButtons)
 	{
 		if (u->_button->IsActive() == true && (but != u))

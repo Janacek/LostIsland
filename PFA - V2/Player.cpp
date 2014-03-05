@@ -137,9 +137,9 @@ bool Player::delEntityInInventory(AEntity *entity)
 {
 	for (Compartment *u : this->_inventoryPlayer)
 	{
-		if (u == entity->getType())
+		if (u->delElement(entity) == true) //la ressource est dans le player et dans ce compartiement
 		{
-			return u->delElement(entity);
+			return true;
 		}
 	}
 	return false;

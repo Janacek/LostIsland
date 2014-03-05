@@ -27,6 +27,7 @@ private:
 	void								createTables();
 	void								updateContent();
 	void								updateImgResult();
+	void								deleteEntities();
 	void								validCraft(Player *);
 	void								mouseLeftPress(CustomToggleButton *);
 	void								craft();

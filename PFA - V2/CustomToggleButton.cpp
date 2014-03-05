@@ -13,6 +13,13 @@ CustomToggleButton::CustomToggleButton(Player *p, Compartment *c) : _player(p), 
 		this->_img = NULL;
 }
 
+void CustomToggleButton::empty()
+{
+	this->_button->ClearImage();
+	this->setCompartment(NULL);
+	this->_player = NULL;
+}
+
 bool CustomToggleButton::isEmpty() const
 {
 	return this->_ressources == NULL || this->_ressources->getSize() == 0 ? true : false;

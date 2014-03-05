@@ -94,7 +94,7 @@ void Crafting::createChooseWindowContent()
 void	Crafting::updateContent()
 {
 	this->_content.clear();
-	for(auto u : this->_tableButton)
+	for (auto u : this->_tableButton)
 	{
 		if (u->getCompartment() != NULL)
 		{
@@ -103,18 +103,36 @@ void	Crafting::updateContent()
 	}
 }
 
+void Crafting::deleteEntities()
+{
+	for (AEntity *entity : this->_content)
+	{
+		for (Player *u : this->_inventoryWindow->getPlayers())
+		{
+			if (u->delEntityInInventory(entity) == true)
+			{
+				break;
+			}
+		}
+	}
+	//Clear graphique
+	for (CustomToggleButton *u : this->_tableButton)
+		u->empty();
+	this->_imgResult->Show(false);
+}
+
 void	Crafting::validCraft(Player *p)
 {
+	deleteEntities();
 	p->addEntityInInventory(this->_objectCraft);
 	this->_choosePlayerWindow->Show(false);
 }
 
 void Crafting::craft()
 {
-	std::vector<AEntity *> tmp; //tmp pour simuler le contenu de la table 
-	this->_objectCraft = this->_entityFactory.makeEntity(this->_databaseManager.askTable(tmp));
 	if (this->_objectCraft != NULL)
 	{
+		std::cout << "Je suis show ! " << std::endl;
 		this->_choosePlayerWindow->Show(true);
 	}
 }
@@ -149,7 +167,7 @@ void Crafting::addInTable(CustomToggleButton *button, int nbr)
 void   Crafting::updateImgResult()
 {
 	std::string result = this->_databaseManager.askTable(this->_content);
-	std::cout << "RESULT : " << result << std::endl;
+
 	if (result != "")
 	{
 		if (this->_objectCraft != NULL)
@@ -158,13 +176,11 @@ void   Crafting::updateImgResult()
 			this->_objectCraft = NULL;
 		}
 		this->_objectCraft = this->_entityFactory.makeEntity(result);
-		std::cout << "TYPE RESULT : " << typetoString(this->_objectCraft->getType()) << std::endl;
 		this->_imgResult->SetImage((*ImageManager::getInstance().get(this->_objectCraft->getType())).copyToImage());
 		this->_imgResult->Show(true);
 	}
 	else
 	{
-		std::cout << "JE LE CACHE" << std::endl;
 		this->_imgResult->Show(false);
 	}
 }

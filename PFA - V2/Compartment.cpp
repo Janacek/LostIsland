@@ -31,7 +31,18 @@ void Compartment::delAllElement()
 
 bool Compartment::delElement(AEntity *entity)
 {
-	return true;
+	auto it = this->_elements.begin();
+
+	while (it != this->_elements.end())
+	{
+		if (*it == entity)
+		{
+			this->_elements.erase(it);
+			return true;
+		}
+		++it;
+	}
+	return false;
 }
 
 int Compartment::getSize() const
