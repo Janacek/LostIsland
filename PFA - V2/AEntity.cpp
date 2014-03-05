@@ -8,8 +8,10 @@ AEntity::AEntity(float pathToGo, bool isAMovingEntity, sf::Vector2f position, in
 	_isMoving = false;
 	_isPathFound = false;
 	_isDead = false;
+	_isActionOver = false;
 	_posDisp.x = 0;
 	_posDisp.y = 0;
+
 }
 
 void AEntity::setIsDead(bool isdead)
@@ -17,9 +19,19 @@ void AEntity::setIsDead(bool isdead)
 	_isDead = isdead;
 }
 
-bool AEntity::getIsDead()
+bool AEntity::getIsDead() const
 {
 	return _isDead;
+}
+
+void AEntity::setIsActionOver(bool b)
+{
+	_isActionOver = b;
+}
+
+bool AEntity::getIsActionOver() const
+{
+	return _isActionOver;
 }
 
 bool AEntity::getIsSelected() const

@@ -181,11 +181,16 @@ void Player::doActionOnEntity()
 		}
 		else
 		{
-			// COMMENT ON SAIT QUAND ON A FINI
-			changeToActionAnim();
+			if (_objective->getIsActionOver() == false)
+			{
+				changeToActionAnim();
+			}
+			else
+				changeToIdleAnim();
 			_isActionning = true;
 			if (_actionClock >= 0.5)
 			{
+				
 				_isActionning = false;
 				
 				doAction(_objective);

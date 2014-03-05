@@ -86,6 +86,7 @@ void ForestTree::update(Map &map)
 	if (_duration <= 0 && !_isCut)
 	{
 		_isCut = true;
+		_isActionOver = true;
 		// ICI ON DROP DU BOIS
 	}
 
