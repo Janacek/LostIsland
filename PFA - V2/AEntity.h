@@ -121,7 +121,9 @@ public:
 	bool getIsSelected() const;
 	void setIsSelected(bool);
 	void setIsDead(bool);
-	bool getIsDead();
+	bool getIsDead() const;
+	void setIsActionOver(bool);
+	bool getIsActionOver() const;
 
 	AEntity(float pathtogo,
 		bool isAMovingEntity,
@@ -133,6 +135,7 @@ public:
 protected:
 	float								_pathToGo;
 	bool								_isSelected;
+	bool								_isActionOver;
 	bool								_isMoving;
 	bool								_isPathFound;
 	bool								_isAMovingEntity;

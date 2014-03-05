@@ -21,6 +21,7 @@ void Rock::getAction(AEntity* other)
 	{
 		try // si c'est un player
 		{
+			_isActionOver = true;
 			Player *player = dynamic_cast<Player *>(other);
 			player->addEntityInInventory(this);
 		}
