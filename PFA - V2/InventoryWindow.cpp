@@ -159,7 +159,10 @@ void InventoryWindow::updateView()
 	for (CustomToggleButton *u : this->_tableButtons)
 	{
 		if (u->getCompartment() != NULL && u->getCompartment()->getSize() == 0)
-			u->_button->ClearImage();
+		{
+			if (u->_button->GetImage() != NULL)
+				u->_button->GetImage()->Show(false);
+		}
 	}
 }
 
@@ -210,7 +213,7 @@ void InventoryWindow::useClick()
 		if (compt == this->_selectedRessource->getCompartment()->getSize())
 		{
 			this->_selectedRessource->getCompartment()->delAllElement();
-			this->_selectedRessource->_button->ClearImage();
+			this->_selectedRessource->_button->GetImage()->Show(false);
 			this->_selectedRessource = NULL;
 		}
 		else
