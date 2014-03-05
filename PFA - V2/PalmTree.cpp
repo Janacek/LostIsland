@@ -87,7 +87,12 @@ void PalmTree::update(Map &map)
 	if (_duration <= 0 && !_isCut)
 	{
 		_isCut = true;
-		// ICIf ON DROP DU BOIS
+		_isActionOver = true;
+<<<<<<< .mine
+
+=======
+		// ICI ON DROP DU BOIS
+>>>>>>> .theirs
 	}
 
 	double dt = 0;
