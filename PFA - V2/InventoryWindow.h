@@ -19,6 +19,8 @@ public:
 	void createZones(std::vector<Player *>&);
 	void close();
 	void createCompartment(Player *);
+	Player *getFirstPlayerSelected();
+	std::vector<Player *> &getPlayers();
 	void chooseNumber(GameScreen *);
 	Compartment *dropRessource();
 	void setCraftingClass(Crafting *);

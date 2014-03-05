@@ -12,6 +12,9 @@
 #include					"Singleton.h"
 #include					"ImageManager.h"
 #include "Campfire.h"
+#include "Wood.h"
+#include "WoodenPlank.h"
+
 GameScreen::GameScreen()
 {
 
@@ -136,9 +139,12 @@ void GameScreen::initialize(void)
 	_loadingText = "Generating Crafting Window";
 	this->_crafting = new Crafting;
 	this->_inventory->setCraftingClass(this->_crafting);
+	this->_crafting->setInventoryClass(this->_inventory);
+	this->_crafting->createChooseWindowContent();
 	//initialisation de l'image du pointeur
 	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 	_loaded = true;
+	this->_players[0]->addEntityInInventory(new Wood);
 }
 
 std::vector<Player *> &GameScreen::getPlayers()

@@ -3,13 +3,25 @@
 #include "Water.h"
 #include "Rock.h"
 #include "Wood.h"
+#include "InventoryWindow.h"
 
 Crafting::Crafting()
 {
 	if (this->_databaseManager.openDatabase("Media/database/craft.db") == false)
 		std::cout << "Error open database" << std::endl;
+	this->_objectCraft = NULL;
 	createWindow();
+	createChooseWindow();
 	createTables();
+}
+
+void Crafting::createChooseWindow()
+{
+	this->_choosePlayerWindow = sfg::Window::Create(sfg::Window::Style::TITLEBAR | sfg::Window::Style::BACKGROUND);
+	this->_choosePlayerWindow->SetTitle("Choose where the craft will be send");
+	this->_choosePlayerWindow->SetPosition(sf::Vector2f(1300, 400));
+	this->_choosePlayerWindow->Show(false);
+	Singleton::getInstance()._desktop.Add(this->_choosePlayerWindow);
 }
 
 void Crafting::createWindow()
@@ -45,9 +57,9 @@ void Crafting::createTables()
 		{
 			if (i == 1 && j == 1)
 			{
-				auto img2 = sfg::Image::Create();
-				img2->SetRequisition(sf::Vector2f(180.f, 166.f));
-				this->_largeTable->Attach(img2, sf::Rect<sf::Uint32>(1, 1, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
+				this->_imgResult = sfg::Image::Create();
+				this->_imgResult->SetRequisition(sf::Vector2f(180.f, 166.f));
+				this->_largeTable->Attach(this->_imgResult, sf::Rect<sf::Uint32>(1, 1, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
 			}
 			else
 			{
@@ -62,13 +74,48 @@ void Crafting::createTables()
 	}
 }
 
+void Crafting::setInventoryClass(InventoryWindow *i)
+{
+	this->_inventoryWindow = i;
+}
+
+void Crafting::createChooseWindowContent()
+{
+	auto box = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
+	for (Player *u : this->_inventoryWindow->getPlayers())
+	{
+		auto but = sfg::Button::Create(u->getName());
+		but->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::validCraft, this, u));
+		box->Pack(but);
+	}
+	this->_choosePlayerWindow->Add(box);
+}
+
+void	Crafting::updateContent()
+{
+	this->_content.clear();
+	for(auto u : this->_tableButton)
+	{
+		if (u->getCompartment() != NULL)
+		{
+			this->_content.push_back(u->getEntities().front());
+		}
+	}
+}
+
+void	Crafting::validCraft(Player *p)
+{
+	p->addEntityInInventory(this->_objectCraft);
+	this->_choosePlayerWindow->Show(false);
+}
+
 void Crafting::craft()
 {
 	std::vector<AEntity *> tmp; //tmp pour simuler le contenu de la table 
-	AEntity *objectCraft = this->_entityFactory.makeEntity(this->_databaseManager.askTable(tmp));
-	if (objectCraft != NULL)
+	this->_objectCraft = this->_entityFactory.makeEntity(this->_databaseManager.askTable(tmp));
+	if (this->_objectCraft != NULL)
 	{
-		//TODO mettre dans l'inventaire
+		this->_choosePlayerWindow->Show(true);
 	}
 }
 
@@ -76,8 +123,12 @@ void Crafting::remove()
 {
 	if (this->_selectedRessource != NULL)
 	{
+		delete this->_objectCraft;
+		this->_objectCraft = NULL;
 		this->_selectedRessource->_button->SetActive(false);
 		this->_selectedRessource->setCompartment(NULL);
+		this->updateContent();
+		this->updateImgResult();
 	}
 }
 
@@ -90,6 +141,31 @@ void Crafting::addInTable(CustomToggleButton *button, int nbr)
 			u->setCompartment(button->getCompartment());
 			break;
 		}
+	}
+	this->updateContent();
+	this->updateImgResult();
+}
+
+void   Crafting::updateImgResult()
+{
+	std::string result = this->_databaseManager.askTable(this->_content);
+	std::cout << "RESULT : " << result << std::endl;
+	if (result != "")
+	{
+		if (this->_objectCraft != NULL)
+		{
+			delete this->_objectCraft;
+			this->_objectCraft = NULL;
+		}
+		this->_objectCraft = this->_entityFactory.makeEntity(result);
+		std::cout << "TYPE RESULT : " << typetoString(this->_objectCraft->getType()) << std::endl;
+		this->_imgResult->SetImage((*ImageManager::getInstance().get(this->_objectCraft->getType())).copyToImage());
+		this->_imgResult->Show(true);
+	}
+	else
+	{
+		std::cout << "JE LE CACHE" << std::endl;
+		this->_imgResult->Show(false);
 	}
 }
 

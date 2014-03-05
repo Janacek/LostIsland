@@ -129,6 +129,7 @@
     <ClInclude Include="Infusion.h" />
     <ClInclude Include="Herb.h" />
     <ClInclude Include="EntityFactory.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />
@@ -138,5 +139,18 @@
     <None Include="shaders\glowShader.vert" />
     <None Include="shaders\waveShader.frag" />
     <None Include="shaders\waveShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PFA - V2.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{a64d66bc-afa7-4ea8-8d6b-d7b2f3c38e7b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Media\database\CRAFT.txt">
+      <Filter>Utils</Filter>
+    </Text>
   </ItemGroup>
 </Project>

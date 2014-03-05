@@ -1,4 +1,15 @@
 #include "EntityFactory.h"
+#include "WoodenPlank.h"
+#include "Bucket.h"
+#include "Bowl.h"
+#include "Campfire.h"
+#include "Sword.h"
+#include "Jacket.h"
+#include "Fabric.h"
+#include "Pants.h"
+#include "Rope.h"
+#include "Stew.h"
+#include "Infusion.h"
 /*TODO include toutes les entities nécessaire*/
 
 EntityFactory::EntityFactory()
@@ -29,57 +40,57 @@ AEntity *EntityFactory::badType()
 
 AEntity *EntityFactory::createWoodenPlank() 
 {
-	return NULL;
+	return new WoodenPlank;
 }
 
 AEntity *EntityFactory::createBucket() 
 {
-	return NULL;
+	return new Bucket;
 }
 
 AEntity *EntityFactory::createBowl() 
 {
-	return NULL;
+	return new Bowl;
 }
 
 AEntity *EntityFactory::createCampfire() 
 {
-	return NULL;
+	return NULL; //Pas de contructeur pas defaut pour le moment
 }
 
 AEntity *EntityFactory::createSword() 
 {
-	return NULL;
+	return new Sword;
 }
 
 AEntity *EntityFactory::createJacket() 
 {
-	return NULL;
+	return new Jacket;
 }
 
 AEntity *EntityFactory::createFabric() 
 {
-	return NULL;
+	return new Fabric;
 }
 
 AEntity *EntityFactory::createPants() 
 {
-	return NULL;
+	return new Pants;
 }
 
 AEntity *EntityFactory::createRope() 
 {
-	return NULL;
+	return new Rope;
 }
 
 AEntity *EntityFactory::createStew() 
 {
-	return NULL;
+	return new Stew;
 }
 
 AEntity *EntityFactory::createInfusion() 
 {
-	return NULL;
+	return new Infusion;
 }
 
 EntityFactory::~EntityFactory()

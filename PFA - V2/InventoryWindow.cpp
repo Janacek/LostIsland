@@ -124,7 +124,7 @@ void InventoryWindow::createZones(std::vector<Player *>& players)
 	{
 		createCompartment(u);
 	}
-		
+
 }
 
 void InventoryWindow::setCraftingClass(Crafting *craft)
@@ -215,6 +215,11 @@ void InventoryWindow::useClick()
 	}
 }
 
+std::vector<Player *> &InventoryWindow::getPlayers()
+{
+	return this->_players;
+}
+
 void InventoryWindow::mouseLeftPress(CustomToggleButton *but)
 {
 	if (but->_button->IsActive() == true && but->isEmpty() == true)
@@ -244,6 +249,16 @@ void InventoryWindow::mouseLeftPress(CustomToggleButton *but)
 			return;
 		}
 	}
+}
+
+Player *InventoryWindow::getFirstPlayerSelected()
+{
+	for (Player *u : this->_players)
+	{
+		if (u->getIsSelected() == true)
+			return u;
+	}
+	return NULL;
 }
 
 void InventoryWindow::createCompartment(Player *player)

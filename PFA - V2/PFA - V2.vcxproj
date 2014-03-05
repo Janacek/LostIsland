@@ -208,6 +208,7 @@
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="PhysicEngine.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Rope.h" />
     <ClInclude Include="ShadersManager.h" />
@@ -231,6 +232,12 @@
     <None Include="shaders\selectedShader.vert" />
     <None Include="shaders\waveShader.frag" />
     <None Include="shaders\waveShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PFA - V2.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Media\database\CRAFT.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
