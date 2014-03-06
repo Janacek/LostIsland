@@ -64,6 +64,8 @@
     <ClCompile Include="Herb.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="BunnyWhite.cpp" />
+    <ClCompile Include="BunnyBlack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -134,6 +136,8 @@
     <ClInclude Include="SerializeTools.h" />
     <ClInclude Include="Exception.hh" />
     <ClInclude Include="Fabric.h" />
+    <ClInclude Include="BunnyWhite.h" />
+    <ClInclude Include="BunnyBlack.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />

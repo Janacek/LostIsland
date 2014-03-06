@@ -352,7 +352,6 @@ void Player::draw(sf::RenderTexture *tex, sf::Shader &)
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
 	sf::Vector2f v(0, -10);
-	//this->_anim->show(_posDisp + v);
 	_animatedSprite->setPosition(_posDisp + v);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 	Singleton::getInstance()._window->draw(*_animatedSprite, ShadersManager::getInstance().get(BLOOM));

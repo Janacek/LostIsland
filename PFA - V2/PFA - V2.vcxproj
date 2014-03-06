@@ -101,6 +101,7 @@
     <ClCompile Include="Bowl.cpp" />
     <ClCompile Include="Bucket.cpp" />
     <ClCompile Include="Bunny.cpp" />
+    <ClCompile Include="BunnyBlack.cpp" />
     <ClCompile Include="Bush.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Campfire.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="WaterBucket.cpp" />
+    <ClCompile Include="BunnyWhite.cpp" />
     <ClCompile Include="Wood.cpp" />
     <ClCompile Include="WoodenPlank.cpp" />
   </ItemGroup>
@@ -165,6 +167,8 @@
     <ClInclude Include="Bowl.h" />
     <ClInclude Include="Bucket.h" />
     <ClInclude Include="Bunny.h" />
+    <ClInclude Include="BunnyBlack.h" />
+    <ClInclude Include="BunnyWhite.h" />
     <ClInclude Include="Bush.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Campfire.h" />

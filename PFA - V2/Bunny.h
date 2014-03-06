@@ -16,7 +16,7 @@ public:
 
 	void								doAction(AEntity *);
 	void								getAction(AEntity *);
-	void								loadAnimation(std::string const &, float);
+	virtual void						loadAnimation(std::string const &, float);
 	void								draw(sf::RenderTexture *);
 	void								draw(sf::RenderTexture *, sf::Shader &);
 	void								update(Map &map);
@@ -27,7 +27,7 @@ public:
 	virtual std::string &serialize() const;
 	virtual void deserialize(std::ifstream &) throw (MyException);
 
-private:
+protected:
 	void								changeAnimation(sf::Vector2f&, std::pair<float, float>);
 
 	Animation							*_anim;
