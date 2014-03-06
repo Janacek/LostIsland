@@ -17,7 +17,7 @@ public:
 	bool getIsLaunch() const;
 	void addVertexPoint(sf::Vector2i &) ;
 	bool findMeAPath(sf::Vector2i&, sf::Vector2i & , AEntity &);
-	bool tryFindAPathHuman(sf::Vector2i&, sf::Vector2i &, Player &);
+	bool tryFindAPathHuman(sf::Vector2i&, sf::Vector2i &, Player &, AEntity *);
 	bool launchPf(sf::Vector2i&, sf::Vector2i &, Player &);
 	bool tryFindAPathEntity(sf::Vector2i&, sf::Vector2i &, AEntity &);
 
