@@ -9,11 +9,12 @@
 #include "Water.h"
 #include "Tree.h"
 #include "MapEnvironment.h"
-#include					"Singleton.h"
-#include					"ImageManager.h"
+#include "Singleton.h"
+#include "ImageManager.h"
 #include "Campfire.h"
 #include "Wood.h"
 #include "WoodenPlank.h"
+#include "ShadersManager.h"
 
 std::string &GameScreen::serialize() const
 {
@@ -273,13 +274,60 @@ void GameScreen::draw()
 
 		this->_map->draw(Singleton::getInstance()._window);
 
+
+
+		//sf::Vector2f savePos;
+		//if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getIsAMovingEntity() == false)
+		//{
+		//	savePos = _entitiesMap[i][j]._component->getPosition();
+		//	_entitiesMap[i][j]._component->setPosition(sf::Vector2f((j - _camera->_position.x) * Chunk::SIZE_OF_CELL
+		//		, (i - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20));
+		//	sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+
+		//	sf::Vector2f finalPos;
+
+		//	finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_camera->_position.x);
+		//	finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_camera->_position.y);
+
+		//	if ((int)finalPos.x == j && (int)finalPos.y == i)
+		//	{
+		//		_entitiesMap[i][j]._component->draw(_mapTexture, *ShadersManager::getInstance().get(BLOOM));
+		//	}
+
+
+
+
 		for (auto it = _players.begin(); it != _players.end(); ++it)
 		{
-			(*it)->draw(NULL);
+			sf::Vector2f savePos;
+			savePos = (*it)->getPosition();
+			sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+			sf::Vector2f finalPos;
+
+			finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
+			finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
+
+			sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
+			if (mouseRect.intersects((*it)->getBoxCollider()))
+				(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
+			else
+				(*it)->draw(NULL);
 		}
 		for (auto it = _entities.begin(); it != _entities.end(); ++it)
 		{
-			(*it)->draw(NULL);
+			sf::Vector2f savePos;
+			savePos = (*it)->getPosition();
+			sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+			sf::Vector2f finalPos;
+
+			finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
+			finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
+
+			sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
+			if (mouseRect.intersects((*it)->getBoxCollider()))
+				(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
+			else
+				(*it)->draw(NULL);
 		}
 		drawSelectionZone();
 
@@ -379,8 +427,8 @@ void GameScreen::update(void)
 	{
 		(*it)->update(*_map);
 		if ((*it)->_objective)
-			if ((*it)->_objective->getLife() <= 0 && (*it)->_objective->getIsAMovingEntity())
-				(*it)->_objective = NULL;
+		if ((*it)->_objective->getLife() <= 0 && (*it)->_objective->getIsAMovingEntity())
+			(*it)->_objective = NULL;
 		if ((*it)->getLife() <= 0)
 		{
 			for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
@@ -423,11 +471,11 @@ void GameScreen::update(void)
 			{
 				//delete _map->getEntitiesMap()[i][j]._component;
 				_map->getEntitiesMap()[i][j]._component = NULL;
-		/*		for (auto it = _entities.begin(); it != _entities.end(); ++it)
-				{
-					if ((*it)->getIsDead())
+				/*		for (auto it = _entities.begin(); it != _entities.end(); ++it)
+						{
+						if ((*it)->getIsDead())
 						it = _entities.erase(it);
-				}*/
+						}*/
 				//delete tmp;
 			}
 		}
