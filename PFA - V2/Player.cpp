@@ -346,9 +346,40 @@ sf::Vector2i const Player::diffDist(sf::Vector2f&first, sf::Vector2f&second)
 	return sum;
 }
 
-void Player::draw(sf::RenderTexture *, sf::Shader &)
+void Player::draw(sf::RenderTexture *tex, sf::Shader &)
 {
+	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
+	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
+	sf::Vector2f v(0, -10);
+	//this->_anim->show(_posDisp + v);
+	_animatedSprite->setPosition(_posDisp + v);
+	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
+	Singleton::getInstance()._window->draw(*_animatedSprite, ShadersManager::getInstance().get(BLOOM));
+
+	sf::Text name;
+	name.setFont(*FontManager::getInstance().getFont(SANSATION));
+	name.setString(_name);
+	name.setCharacterSize(12);
+	name.setColor(sf::Color::Black);
+	name.setPosition(_posDisp.x - (name.getGlobalBounds().width / 8), _posDisp.y - 24);
+	Singleton::getInstance()._window->draw(name);
+
+	if (_isSelected)
+	{
+		sf::Vector2f posIcon = _posDisp;
+		sf::RectangleShape icon(sf::Vector2f(32, 32));
+		icon.setTexture(ImageManager::getInstance().get(SELECTED_ICON));
+		posIcon.y -= 52;
+		icon.setPosition(posIcon);
+
+		ShadersManager::getInstance().get(FLAG)->setParameter("texture", sf::Shader::CurrentTexture);
+		ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", _cursorTime);
+		ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 2, 2);
+
+		_cursorTime += 0.025f;
+		Singleton::getInstance()._window->draw(icon, ShadersManager::getInstance().get(FLAG));
+	}
 }
 
 void Player::draw(sf::RenderTexture *)

@@ -5,6 +5,7 @@
 #include "MapEnvironment.h"
 #include "Player.h"
 #include "Meat.h"
+#include "ShadersManager.h"
 
 std::string &Bunny::serialize() const
 {
@@ -191,8 +192,12 @@ void Bunny::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
-	//this->_anim->show(_posDisp);
-	Singleton::getInstance()._window->draw(*_animatedSprite);
+	if (!_isDead)
+	{
+		_animatedSprite->setPosition(_posDisp);
+		ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
+		Singleton::getInstance()._window->draw(*_animatedSprite, ShadersManager::getInstance().get(BLOOM));
+	}
 }
 
 void Bunny::draw(sf::RenderTexture *)

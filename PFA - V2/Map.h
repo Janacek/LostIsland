@@ -129,6 +129,7 @@ private:
 	///////////////////////
 	//    MAP TEXTURE	 //
 	///////////////////////
+public: // nope
 	sf::RenderTexture		*_mapTexture;
 	sf::RenderTexture		*_waterTexture;
 
