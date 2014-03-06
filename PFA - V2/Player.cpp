@@ -190,7 +190,6 @@ void Player::doActionOnEntity()
 			_isActionning = true;
 			if (_actionClock >= 0.5)
 			{
-				
 				_isActionning = false;
 				
 				doAction(_objective);

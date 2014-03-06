@@ -116,16 +116,17 @@ bool PhysicEngine::launchPf(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_end, Playe
 	return false;
 }
 
-bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_end, Player &ent)
+bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_end, Player &ent, AEntity *obj)
 {
 	//a refaire METTRE UN WHILE
 	while (/*ent.getIsPathFound() == false ||*/ ent.getPathToGo() <= 1)
 	{
 		
 		sf::Vector2i tmp_begin = tmp_begin2;
-
-		if (ent.getIsPathFound() && ent.getPathToGo() <= 1)
+		
+		if (obj || (ent.getIsPathFound() && ent.getPathToGo() <= 1))
 		{
+		
 			sf::Vector2f tmp_lerp_begin;
 			sf::Vector2f tmp_lerp_end;
 			tmp_begin.x = (static_cast<int>(tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL; // ISOK
@@ -160,6 +161,13 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 					{
 						tmp_begin.x = static_cast<int>(vect->x);
 						tmp_begin.y = static_cast<int>(vect->y);
+						if (obj)
+						{
+							ent._objective = obj;
+							return (launchPf(tmp_begin, tmp_end, ent));
+
+						}
+						
 						if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component == NULL)
 						{
 							//ent.setTarget(_map->getEntitiesMap()[tmp_target.y][tmp_target.x]._component->getType());
@@ -206,7 +214,22 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 
 void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity *> entities)
 {
+	bool hasObjectif = false;
+	std::vector<AEntity *>::iterator obj_it ;
+	sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+	sf::Vector2i _posSelectedArea = Singleton::getInstance().posRightClickPressed;
 
+	_posSelectedArea.x -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.x * Chunk::SIZE_OF_CELL);
+	_posSelectedArea.y -= static_cast<int>(Singleton::getInstance().updatePosLeftClickPressed.y * Chunk::SIZE_OF_CELL);
+
+	sf::RectangleShape selectionZone(sf::Vector2f(static_cast<float>(mousePos.x - _posSelectedArea.x),
+		static_cast<float>(mousePos.y - _posSelectedArea.y)));
+	selectionZone.setPosition(static_cast<float>(_posSelectedArea.x),
+		static_cast<float>(_posSelectedArea.y));
+
+	if (selectionZone.getSize().x == 0 && selectionZone.getSize().y == 0) {
+		selectionZone.setSize(sf::Vector2f(1, 1));
+	}
 	if (!Singleton::getInstance().isRightClicking)
 	{
 		_isFirst = true;
@@ -215,6 +238,25 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity 
 	{
 		for (auto it2 = entities.begin(); it2 != entities.end(); ++it2) // a voir si ca fait pas ramer 
 		{
+
+			
+
+			if (Singleton::getInstance().isRightClicking)
+			{
+				sf::RectangleShape tmp(sf::Vector2f(32, 32));
+
+				sf::Vector2f posDisp;
+				posDisp.x = (((*it2)->getPosition().x - _map->_camera->_position.x) * Chunk::SIZE_OF_CELL);
+				posDisp.y = (((*it2)->getPosition().y - _map->_camera->_position.y) * Chunk::SIZE_OF_CELL);
+
+				tmp.setPosition(posDisp);
+				if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
+				{
+					hasObjectif = true;
+					obj_it = it2;
+				}
+			}
+
 			if ((*it2)->getType() == BUNNY && (*it2)->getIsStopped() == false)
 			{
 				if (diffDist((*it)->getPosition(), (*it2)->getPosition()) < 6 && (*it2)->getIsMoving() == false) // ca a lair de marcher
@@ -248,7 +290,8 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity 
 						tmp_begin.x = _map->getSize().x * Chunk::NB_CELLS;
 						tmp_begin.y = _map->getSize().y * Chunk::NB_CELLS;
 					}
-					tryFindAPathEntity(tmp_begin, tmp_end, **it2);
+						tryFindAPathEntity(tmp_begin, tmp_end, **it2);
+				
 
 
 				}
@@ -268,8 +311,13 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity 
 
 				sf::Vector2i tmp_begin = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 				sf::Vector2i tmp_end;
-				tryFindAPathHuman(tmp_begin, tmp_end, **it);
-
+				if (hasObjectif )
+				{
+					tryFindAPathHuman(tmp_begin, tmp_end, **it, *obj_it);
+				}
+				else
+					tryFindAPathHuman(tmp_begin, tmp_end, **it, NULL);
+				//
 			}
 		}
 	}
