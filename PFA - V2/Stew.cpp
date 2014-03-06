@@ -1,5 +1,16 @@
 #include "Stew.h"
 
+std::string &Stew::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Stew::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Stew::Stew()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

@@ -11,6 +11,17 @@
 #include					"PalmTree.h"
 #include					"Campfire.h"
 
+std::string &Map::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Map::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Map::Map(Camera *cam, std::string &loading)
 : _loading(loading)
 {

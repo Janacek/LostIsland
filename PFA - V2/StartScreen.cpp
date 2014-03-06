@@ -2,6 +2,7 @@
 #include "GameScreen.h"
 #include "StartScreen.h"
 #include "SystemDefines.h"
+#include "ImageManager.h"
 
 StartScreen::~StartScreen() {
 	Singleton::getInstance().isRunning = false;
@@ -14,9 +15,6 @@ StartScreen::StartScreen()
 	_isRunning = true;
 	this->_choiceClock = new sf::Clock();
 	_curPos = 0;
-
-	_menuScreen = new sf::Image;
-	_menuScreen->loadFromFile("./Media/images/menuScreen.png");
 
 	_timeElapsed = sf::Time::Zero;
 	_choiceClock->restart();
@@ -40,6 +38,12 @@ StartScreen::StartScreen()
 	_selector = new sf::RectangleShape(sf::Vector2f(40, 10));
 	_music = new sf::Music;
 	_music->openFromFile("./Media/mainTheme.ogg");
+
+	_selection = new sf::RectangleShape(sf::Vector2f(200, 75));
+	_selection->setPosition(0, 0);
+	_selection->setFillColor(sf::Color(255, 255, 255, 150));
+	_selection->setOutlineColor(sf::Color::White);
+	_selection->setOutlineThickness(2);
 }
 
 stateName StartScreen::getStateName() const
@@ -55,10 +59,9 @@ void StartScreen::draw()
 {
 	Singleton::getInstance()._window->clear();
 
-	sf::Texture menuScreen;
-	menuScreen.loadFromImage(*_menuScreen);
+	sf::Texture *menuScreen = ImageManager::getInstance().get(MENU_SCREEN);
 	sf::Sprite spriteMenu;
-	spriteMenu.setTexture(menuScreen);
+	spriteMenu.setTexture(*menuScreen);
 	Singleton::getInstance()._window->draw(spriteMenu);
 
 	sf::Text lostIsland;
@@ -75,12 +78,8 @@ void StartScreen::draw()
 	{
 		if (pos == _curPos)
 		{
-			sf::RectangleShape selection(sf::Vector2f(200, 75));
-			selection.setPosition(_entries[pos]->getPosition().x - 50, _entries[pos]->getPosition().y - 15);
-			selection.setFillColor(sf::Color(255, 255, 255, 150));
-			selection.setOutlineColor(sf::Color::White);
-			selection.setOutlineThickness(2);
-			Singleton::getInstance()._window->draw(selection);
+			_selection->setPosition(_entries[pos]->getPosition().x - 50, _entries[pos]->getPosition().y - 15);
+			Singleton::getInstance()._window->draw(*_selection);
 		}
 		(*it)->setPosition((float)Singleton::getInstance()._window->getSize().x / 2 + 450, i + 250);
 		Singleton::getInstance()._window->draw(*(*it));

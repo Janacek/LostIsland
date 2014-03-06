@@ -15,6 +15,17 @@
 #include "Wood.h"
 #include "WoodenPlank.h"
 
+std::string &GameScreen::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void GameScreen::deserialize(std::ifstream &) throw (MyException)
+{
+	//load game
+}
+
 GameScreen::GameScreen()
 {
 

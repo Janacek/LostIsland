@@ -16,6 +16,8 @@ public:
 	virtual ~Berry(void);
 	void update(Map &);
 
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
 	//sf::Rect & getCollisionBox(void);
 
 private:

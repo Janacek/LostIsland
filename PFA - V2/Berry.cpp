@@ -1,6 +1,18 @@
 #include "Berry.h"
 #include "Player.h"
 
+std::string &Berry::serialize() const
+{
+	// save
+	std::string toto;
+	return (toto);
+}
+
+void Berry::deserialize(std::ifstream &) throw (MyException)
+{
+	// load
+}
+
 Berry::Berry()
 : AEntity(0, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

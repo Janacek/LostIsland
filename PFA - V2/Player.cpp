@@ -15,6 +15,17 @@
 #include "InventoryWindow.h"
 #include "SoundManager.h"
 
+std::string &Player::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Player::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Player::Player(sf::Vector2f &pos, Camera *cam) 
 : _camera(cam), AEntity(0.f, true, sf::Vector2f(pos), 10, sf::FloatRect(0, 0, 0, 0), 100)
 {

@@ -2,6 +2,17 @@
 #include "Singleton.h"
 #include "Chunk.h"
 
+std::string &Camera::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Camera::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Camera::Camera()
 : _position(sf::Vector2f(0, 0))
 {

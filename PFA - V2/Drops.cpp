@@ -2,6 +2,17 @@
 #include		"ImageManager.h"
 #include		"ShadersManager.h"
 
+std::string &Drops::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Drops::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Drops::Drops()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

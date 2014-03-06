@@ -30,9 +30,7 @@ private:
 	sf::Time				_timeElapsed;
 	sf::Clock				*_choiceClock;
 
-
-	sf::Image				*_menuScreen;
-
+	sf::RectangleShape		*_selection;
 	/*
 	** LOL I'M SO DRUNK !§
 	*/

@@ -16,6 +16,8 @@ public:
 	virtual void update(Map &);
 	Type getType() const;
 
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
 
 	std::list<AEntity *>				&getDrops();
 	void								addDrop(AEntity *);

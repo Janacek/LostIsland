@@ -1,6 +1,16 @@
 #include "Water.h"
 #include "Player.h"
 
+std::string &Water::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Water::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
 
 Water::Water(void)
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)

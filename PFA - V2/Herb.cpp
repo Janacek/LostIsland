@@ -1,5 +1,16 @@
 #include "Herb.h"
 
+std::string &Herb::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Herb::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Herb::Herb()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

@@ -52,6 +52,9 @@ public:
 	sf::Vector2i const diffDist(sf::Vector2f&first, sf::Vector2f&second);
 	sf::FloatRect getBoxCollider() const;
 
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
+
 	//TODO : Changer en compartments pour l'inventaire
 
 	sf::Image					_img; //TMP

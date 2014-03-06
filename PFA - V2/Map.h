@@ -76,6 +76,11 @@ public:
 	sf::Vector2i			getSize() const;
 	void					setEntityMap(AEntity *, int x, int y);
 
+	/////////////////////////////////////
+	// SERIALIZATION / DESERIALIZATION //
+	/////////////////////////////////////
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
 
 private:
 

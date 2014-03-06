@@ -1,6 +1,17 @@
 #include "Wood.h"
 #include "Player.h"
 
+std::string &Wood::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Wood::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 //Le Wood apparait lorsque l'on coupe un arbre
 Wood::Wood(void)
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)

@@ -2,6 +2,17 @@
 #include "Player.h"
 #include "ShadersManager.h"
 
+std::string &Campfire::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Campfire::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Campfire::Campfire(Camera *camera)
 : _camera(camera), AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

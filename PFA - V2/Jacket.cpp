@@ -1,5 +1,16 @@
 #include "Jacket.h"
 
+std::string &Jacket::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Jacket::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Jacket::Jacket()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

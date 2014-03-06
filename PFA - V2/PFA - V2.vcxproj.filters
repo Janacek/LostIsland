@@ -63,6 +63,7 @@
     <ClCompile Include="Infusion.cpp" />
     <ClCompile Include="Herb.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
+    <ClCompile Include="Exception.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -130,6 +131,9 @@
     <ClInclude Include="Herb.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SerializeTools.h" />
+    <ClInclude Include="Exception.hh" />
+    <ClInclude Include="Fabric.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />

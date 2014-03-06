@@ -15,7 +15,8 @@ CustomToggleButton::CustomToggleButton(Player *p, Compartment *c) : _player(p), 
 
 void CustomToggleButton::empty()
 {
-	this->_button->ClearImage();
+	if (this->_button->GetImage() != NULL)
+		this->_button->GetImage()->Show(false);
 	this->setCompartment(NULL);
 	this->_player = NULL;
 }
@@ -35,7 +36,8 @@ void CustomToggleButton::setCompartment(Compartment *comp)
 	}
 	else
 	{
-		this->_button->ClearImage();
+		if (this->_button->GetImage() != NULL)
+			this->_button->GetImage()->Show(false);
 	}
 }
 

@@ -43,13 +43,14 @@ void ImageManager::start()
 	this->load(JACKET, "./Media/images/Jacket.png");
 	this->load(PANTS, "./Media/images/Pants.png");
 	this->load(ROPE, "./Media/images/Rope.png");
-	this->load(MUSHROOM, "/Media/images/Red_Mushroom.png");
-	this->load(STEW, "/Media/images/Mushroomsoup.png");
-	this->load(WATERBUCKET, "/Media/images/Waterbucket.png");
-	this->load(SILEX, "/Media/images/Flint.png");
-	this->load(INFUSION, "/Media/images/Infusion.png");
-	this->load(HERB, "/Media/images/Herb.png");
+	this->load(MUSHROOM, "./Media/images/Red_Mushroom.png");
+	this->load(STEW, "./Media/images/Mushroomsoup.png");
+	this->load(WATERBUCKET, "./Media/images/Waterbucket.png");
+	this->load(SILEX, "./Media/images/Flint.png");
+	this->load(INFUSION, "./Media/images/Infusion.png");
+	this->load(HERB, "./Media/images/Herb.png");
 	this->load(WATER_ANIM, "./Media/images/water_anim.png");
+	this->load(MENU_SCREEN, "./Media/images/menuScreen.png");
 
 }
 

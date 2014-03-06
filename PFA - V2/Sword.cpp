@@ -1,5 +1,16 @@
 #include "Sword.h"
 
+std::string &Sword::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Sword::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Sword::Sword()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {

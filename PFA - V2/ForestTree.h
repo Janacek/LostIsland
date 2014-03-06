@@ -19,6 +19,8 @@ public:
 	Type getType() const;
 	virtual void loadAnimation(std::string const & string_anim, float speed);
 
+	virtual std::string &serialize() const;
+	virtual void deserialize(std::ifstream &) throw (MyException);
 
 private:
 	Animation							*_waveAnim;

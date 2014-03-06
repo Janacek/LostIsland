@@ -4,6 +4,17 @@
 #include "Player.h"
 #include "Berry.h"
 
+std::string &Bush::serialize() const
+{
+	std::string toto;
+	return (toto);
+}
+
+void Bush::deserialize(std::ifstream &) throw (MyException)
+{
+	//load
+}
+
 Bush::Bush()
 : Tree()
 {
