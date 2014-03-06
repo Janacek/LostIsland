@@ -6,11 +6,11 @@
 #include "Camera.h"
 #include "HarmlessAnimal.h"
 
-class Bunny : public HarmlessAnimal
+class Sheep : public HarmlessAnimal
 {
 public:
-	Bunny(sf::Vector2f &, int, Camera *);
-	virtual ~Bunny();
+	Sheep(sf::Vector2f &, int, Camera *);
+	virtual ~Sheep();
 
 	virtual void						loadAnimation(std::string const &, float);
 	virtual std::string &serialize() const;

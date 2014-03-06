@@ -66,6 +66,9 @@
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="BunnyWhite.cpp" />
     <ClCompile Include="BunnyBlack.cpp" />
+    <ClCompile Include="HarmlessAnimal.cpp" />
+    <ClCompile Include="Sheep.cpp" />
+    <ClCompile Include="SheepWhite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -138,6 +141,9 @@
     <ClInclude Include="Fabric.h" />
     <ClInclude Include="BunnyWhite.h" />
     <ClInclude Include="BunnyBlack.h" />
+    <ClInclude Include="HarmlessAnimal.h" />
+    <ClInclude Include="Sheep.h" />
+    <ClInclude Include="SheepWhite.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />

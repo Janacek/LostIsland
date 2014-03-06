@@ -117,6 +117,7 @@
     <ClCompile Include="Fabric.cpp" />
     <ClCompile Include="Flint.cpp" />
     <ClCompile Include="FontManager.cpp" />
+    <ClCompile Include="HarmlessAnimal.cpp" />
     <ClCompile Include="Herb.cpp" />
     <ClCompile Include="Infusion.cpp" />
     <ClCompile Include="Jacket.cpp" />
@@ -148,6 +149,8 @@
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Rope.cpp" />
     <ClCompile Include="ShadersManager.cpp" />
+    <ClCompile Include="Sheep.cpp" />
+    <ClCompile Include="SheepWhite.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="SourndManager.cpp" />
     <ClCompile Include="StartScreen.cpp" />
@@ -185,6 +188,7 @@
     <ClInclude Include="Fabric.h" />
     <ClInclude Include="Flint.h" />
     <ClInclude Include="FontManager.h" />
+    <ClInclude Include="HarmlessAnimal.h" />
     <ClInclude Include="Herb.h" />
     <ClInclude Include="Infusion.h" />
     <ClInclude Include="Jacket.h" />
@@ -220,6 +224,8 @@
     <ClInclude Include="Rope.h" />
     <ClInclude Include="SerializeTools.h" />
     <ClInclude Include="ShadersManager.h" />
+    <ClInclude Include="Sheep.h" />
+    <ClInclude Include="SheepWhite.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StartScreen.h" />

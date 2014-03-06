@@ -7,6 +7,7 @@
 #include "Wood.h"
 #include "BunnyWhite.h"
 #include "BunnyBlack.h"
+#include "SheepWhite.h"
 #include "Water.h"
 #include "Tree.h"
 #include "MapEnvironment.h"
@@ -122,6 +123,19 @@ void GameScreen::initialize(void)
 			BunnyBlack *rabbit = new BunnyBlack(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 50, _map->_camera);
 			this->_entities.push_back(rabbit);
 			_map->setEntityMap(rabbit, x, y);
+			++i;
+		}
+	}
+
+	for (int i = 0; i < 5;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
+			SheepWhite *sheep = new SheepWhite(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 75, _map->_camera);
+			this->_entities.push_back(sheep);
+			_map->setEntityMap(sheep, x, y);
 			++i;
 		}
 	}

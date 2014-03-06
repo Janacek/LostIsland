@@ -51,6 +51,8 @@ enum Type
 	CAMPFIRE,
 	WATER_ANIM,
 	MENU_SCREEN,
+	HARMLESS_ANIMAL,
+	SHEEP,
 };
 
 inline const char* typetoString(Type v)

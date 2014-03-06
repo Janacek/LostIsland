@@ -1,4 +1,4 @@
-#include "Bunny.h"
+#include "Sheep.h"
 #include "ImageManager.h"
 #include "Map.h"
 #include "Chunk.h"
@@ -7,18 +7,18 @@
 #include "Meat.h"
 #include "ShadersManager.h"
 
-std::string &Bunny::serialize() const
+std::string &Sheep::serialize() const
 {
 	std::string toto;
 	return (toto);
 }
 
-void Bunny::deserialize(std::ifstream &) throw (MyException)
+void Sheep::deserialize(std::ifstream &) throw (MyException)
 {
 	// load
 }
 
-Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
+Sheep::Sheep(sf::Vector2f &position, int life, Camera *cam)
 : HarmlessAnimal(position, life, cam)
 {
 	_rect.setSize(sf::Vector2f(32, 32));
@@ -31,18 +31,18 @@ Bunny::Bunny(sf::Vector2f &position, int life, Camera *cam)
 	_isSelected = true;
 }
 
-Bunny::~Bunny()
+Sheep::~Sheep()
 {
 
 }
 
-void Bunny::loadAnimation(std::string const &string_anim, float)
+void Sheep::loadAnimation(std::string const &string_anim, float)
 {
 
 
 }
 
-Type Bunny::getType() const
+Type Sheep::getType() const
 {
-	return BUNNY;
+	return SHEEP;
 }
