@@ -123,17 +123,14 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 	{
 		
 		sf::Vector2i tmp_begin = tmp_begin2;
-		
 		if (obj || (ent.getIsPathFound() && ent.getPathToGo() <= 1))
 		{
-		
 			sf::Vector2f tmp_lerp_begin;
 			sf::Vector2f tmp_lerp_end;
 			tmp_begin.x = (static_cast<int>(tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL; // ISOK
 			tmp_begin.y = (static_cast<int>(tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL;
 			if (_map->getCellMap()[tmp_begin.y][tmp_begin.x]._cellType == Cell::OCEAN) //|| _pathFinding.findMeAdjacent(tmp_begin).empty())
 			{
-
 				tmp_lerp_begin.x = static_cast<float>(tmp_begin.x);
 				tmp_lerp_begin.y = static_cast<float>(tmp_begin.y);
 
@@ -144,6 +141,8 @@ bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_
 				tmp_lerp_begin = lerp(tmp_lerp_begin, tmp_lerp_end, ent.getPathToGo());
 				tmp_begin.x = static_cast<int>(tmp_lerp_begin.x);
 				tmp_begin.y = static_cast<int>(tmp_lerp_begin.y);
+				if (ent.getPathToGo() > 0.8)
+					return false;
 				ent.addToPathToGo(0.01f);
 				ent.setIsPathFound(false);
 
@@ -308,7 +307,6 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity 
 
 			if ((*it)->getSelected())
 			{
-
 				sf::Vector2i tmp_begin = sf::Mouse::getPosition(*Singleton::getInstance()._window);
 				sf::Vector2i tmp_end;
 				if (hasObjectif )
