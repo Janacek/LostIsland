@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Meat.h"
 #include "ShadersManager.h"
+#include "Fur.h"
 
 std::string &Sheep::serialize() const
 {

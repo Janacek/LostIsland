@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Meat.h"
 #include "ShadersManager.h"
+#include "Fur.h"
 
 std::string &HarmlessAnimal::serialize() const
 {
@@ -139,6 +140,8 @@ void HarmlessAnimal::getAction(AEntity *o)
 	{
 		Player *player = dynamic_cast<Player *>(o);
 		player->addEntityInInventory(new Meat);
+		if (std::rand() % 10 <= 4)
+			player->addEntityInInventory(new Fur);
 		_isDead = true;
 	}
 }
