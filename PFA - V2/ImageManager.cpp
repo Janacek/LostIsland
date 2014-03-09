@@ -51,6 +51,7 @@ void ImageManager::start()
 	this->load(HERB, "./Media/images/Herb.png");
 	this->load(WATER_ANIM, "./Media/images/water_anim.png");
 	this->load(MENU_SCREEN, "./Media/images/menuScreen.png");
+	this->load(FUR, "./Media/images/fur.png");
 
 }
 

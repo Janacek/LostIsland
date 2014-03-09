@@ -117,6 +117,7 @@
     <ClCompile Include="Fabric.cpp" />
     <ClCompile Include="Flint.cpp" />
     <ClCompile Include="FontManager.cpp" />
+    <ClCompile Include="Fur.cpp" />
     <ClCompile Include="HarmlessAnimal.cpp" />
     <ClCompile Include="Herb.cpp" />
     <ClCompile Include="Infusion.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="Fabric.h" />
     <ClInclude Include="Flint.h" />
     <ClInclude Include="FontManager.h" />
+    <ClInclude Include="Fur.h" />
     <ClInclude Include="HarmlessAnimal.h" />
     <ClInclude Include="Herb.h" />
     <ClInclude Include="Infusion.h" />

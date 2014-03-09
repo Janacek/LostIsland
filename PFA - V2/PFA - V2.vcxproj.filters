@@ -70,6 +70,7 @@
     <ClCompile Include="Sheep.cpp" />
     <ClCompile Include="SheepWhite.cpp" />
     <ClCompile Include="SheepBlack.cpp" />
+    <ClCompile Include="Fur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Sheep.h" />
     <ClInclude Include="SheepWhite.h" />
     <ClInclude Include="SheepBlack.h" />
+    <ClInclude Include="Fur.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />
