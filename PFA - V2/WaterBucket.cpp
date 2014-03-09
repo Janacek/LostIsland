@@ -1,4 +1,7 @@
 #include "WaterBucket.h"
+#include "Player.h"
+#include "Bucket.h"
+#include "Water.h"
 
 std::string &WaterBucket::serialize() const
 {
@@ -19,7 +22,12 @@ WaterBucket::WaterBucket()
 
 void WaterBucket::doAction(AEntity *other)
 {
-	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->drink(new Water());
+		player->addEntityInInventory(new Bucket);
+	}
 }
 
 void WaterBucket::getAction(AEntity *other)
