@@ -1,4 +1,5 @@
 #include "Meat.h"
+#include "Player.h"
 
 std::string &Meat::serialize() const
 {
@@ -14,11 +15,16 @@ void Meat::deserialize(std::ifstream &) throw (MyException)
 Meat::Meat(void)
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
+	_value = 15;
 }
 
 void Meat::doAction(AEntity* other)
 {
-	//De la Meat sauvage apparait
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->eat(_value);
+	}
 }
 
 void Meat::getAction(AEntity* other)

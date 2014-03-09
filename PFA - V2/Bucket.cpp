@@ -1,4 +1,6 @@
 #include "Bucket.h"
+#include "Player.h"
+#include "WaterBucket.h"
 
 std::string &Bucket::serialize() const
 {
@@ -21,6 +23,20 @@ Bucket::Bucket()
 void Bucket::doAction(AEntity *other)
 {
 	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		Map * map = player->getMap();
+		sf::Vector2f pPos = player->getPosition();
+		if (map->getCellMap()[(int)pPos.y + 1][(int)pPos.x]._cellType == Cell::OCEAN)
+			player->addEntityInInventory(new WaterBucket());
+		else if (map->getCellMap()[(int)pPos.y][(int)pPos.x + 1]._cellType == Cell::OCEAN)
+			player->addEntityInInventory(new WaterBucket());
+		else if (map->getCellMap()[(int)pPos.y + 1][(int)pPos.x - 1]._cellType == Cell::OCEAN)
+			player->addEntityInInventory(new WaterBucket());
+		else if (map->getCellMap()[(int)pPos.y - 1][(int)pPos.x]._cellType == Cell::OCEAN)
+			player->addEntityInInventory(new WaterBucket());
+	}
 }
 
 void Bucket::getAction(AEntity *other)

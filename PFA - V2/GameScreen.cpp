@@ -463,7 +463,7 @@ void GameScreen::update(void)
 	_physicEngine->updatePos(_players, _entities);
 
 	updateSelectionZone();
-	std::sort(_players.begin(), _players.end(), cmpPlayers);
+	//std::sort(_players.begin(), _players.end(), cmpPlayers);
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
