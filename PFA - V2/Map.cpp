@@ -680,10 +680,6 @@ void						Map::generateTrees()
 		}
 	}
 
-	Campfire *campfire = new Campfire(_camera);
-	campfire->setPosition(sf::Vector2f(50, 50));
-	_entitiesMap[50][50]._component = campfire;
-
 	for (int i = 0; i < 50;)
 	{
 		int x = rand() % (_size.x * Chunk::NB_CELLS);

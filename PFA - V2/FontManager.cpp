@@ -5,7 +5,7 @@ FontManager FontManager::_instance = FontManager();
 FontManager::FontManager()
 {
 	_fonts[SANSATION] = new sf::Font();
-	_fonts[SANSATION]->loadFromFile(MEDIA + std::string("Sansation.ttf"));
+	_fonts[SANSATION]->loadFromFile(MEDIA + std::string("/fonts/Sansation.ttf"));
 }
 
 FontManager &FontManager::getInstance()

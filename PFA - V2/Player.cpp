@@ -32,7 +32,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam)
 	_isActionning = false;
 	_isAttacking = false;
 	this->_isWalking = false;
-	this->_stepsBuffer.loadFromFile("./Media/steps.ogg");
+	this->_stepsBuffer.loadFromFile("./Media/sounds/sfx/steps.ogg");
 	this->_stepts.setBuffer(this->_stepsBuffer);
 	_target = BADTYPE;
 	this->_name = "Player";

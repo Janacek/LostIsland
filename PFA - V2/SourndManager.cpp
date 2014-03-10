@@ -1,4 +1,5 @@
 #include "SoundManager.h"
+#include "SystemDefines.h"
 
 SoundManager		SoundManager::sounds = SoundManager();
 
@@ -6,7 +7,7 @@ SoundManager		SoundManager::sounds = SoundManager();
 SoundManager::SoundManager()
 {
 	this->bufferEffects[FIGHT].loadFromFile("");
-	this->bufferEffects[STEPS].loadFromFile("./Media/steps.ogg");
+	this->bufferEffects[STEPS].loadFromFile("./Media/sounds/sfx/steps.ogg");
 	this->bufferEffects[DIE].loadFromFile("");
 	this->bufferEffects[WIND].loadFromFile("");
 	this->effects[FIGHT].setBuffer(this->bufferEffects[FIGHT]);

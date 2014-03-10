@@ -55,7 +55,7 @@ AEntity *EntityFactory::createBowl()
 
 AEntity *EntityFactory::createCampfire() 
 {
-	return new Campfire(NULL); //Pas de contructeur pas defaut pour le moment
+	return new Campfire; //Pas de contructeur pas defaut pour le moment
 }
 
 AEntity *EntityFactory::createSword() 
