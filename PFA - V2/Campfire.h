@@ -7,7 +7,7 @@
 class Campfire : public AEntity
 {
 public:
-	Campfire(Camera *);
+	Campfire();
 	virtual void doAction(AEntity* other);
 	virtual void getAction(AEntity* other);
 	virtual void loadAnimation(std::string const & string_anim, float speed);
@@ -28,7 +28,6 @@ private:
 	Animation							*_fireAnim;
 	Animation							*_curAnim;
 	AnimatedSprite						*_animatedSprite;
-	Camera								*_camera;
 
 	sf::Clock							_mvtClock;
 	double								_oldDtMvt;

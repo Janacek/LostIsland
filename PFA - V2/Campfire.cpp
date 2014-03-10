@@ -13,8 +13,8 @@ void Campfire::deserialize(std::ifstream &) throw (MyException)
 	//load
 }
 
-Campfire::Campfire(Camera *camera)
-: _camera(camera), AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
+Campfire::Campfire()
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 	loadAnimation("./Media/images/campfire.png", 0.1f);
 	_duration = 60;
@@ -83,9 +83,6 @@ void Campfire::draw(sf::RenderTexture *tex, sf::Shader &)
 
 void Campfire::draw(sf::RenderTexture *tex)
 {
-	//_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
-	//_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
-
 	_animatedSprite->setPosition(_position);
 	tex->draw(*_animatedSprite);
 }
