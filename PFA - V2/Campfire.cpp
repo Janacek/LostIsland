@@ -22,7 +22,27 @@ Campfire::Campfire()
 
 void Campfire::doAction(AEntity *other)
 {
-	//do something
+	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		Map * map = player->getMap();
+		sf::Vector2f pPos = player->getPosition();
+		if (map->getCellMap()[(int)pPos.y + 1][(int)pPos.x]._cellType != Cell::OCEAN &&
+			map->getEntityAt((int)pPos.y + 1, (int)pPos.x) == NULL)
+			map->setEntityMap(new Campfire, (int)pPos.y + 1, (int)pPos.x);
+		else if (map->getCellMap()[(int)pPos.y][(int)pPos.x + 1]._cellType != Cell::OCEAN &&
+			map->getEntityAt((int)pPos.y, (int)pPos.x + 1) == NULL)
+			map->setEntityMap(new Campfire, (int)pPos.y, (int)pPos.x + 1);
+		else if (map->getCellMap()[(int)pPos.y][(int)pPos.x - 1]._cellType != Cell::OCEAN &&
+			map->getEntityAt((int)pPos.y, (int)pPos.x - 1) == NULL)
+			map->setEntityMap(new Campfire, (int)pPos.y, (int)pPos.x - 1);
+		else if (map->getCellMap()[(int)pPos.y - 1][(int)pPos.x]._cellType != Cell::OCEAN &&
+			map->getEntityAt((int)pPos.y - 1, (int)pPos.x) == NULL)
+			map->setEntityMap(new Campfire, (int)pPos.y - 1, (int)pPos.x);
+		else
+			player->addEntityInInventory(new Campfire);
+	}
 }
 
 void Campfire::getAction(AEntity *other)

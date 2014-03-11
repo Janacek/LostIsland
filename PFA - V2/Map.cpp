@@ -738,6 +738,11 @@ Cell						**Map::getCellMap() const
 	return _cellMap;
 }
 
+AEntity					*Map::getEntityAt(int x, int y)
+{
+	return _entitiesMap[x][y]._component;
+}
+
 MapEnvironment			**Map::getEntitiesMap()
 {
 	return _entitiesMap;

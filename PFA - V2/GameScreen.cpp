@@ -211,8 +211,6 @@ void GameScreen::initialize(void)
 		}
 	}
 
-
-
 	this->_activeInventary = false;
 	this->_activeWinRessources = false;
 	_loadingText = "Generating inventories";
@@ -228,6 +226,8 @@ void GameScreen::initialize(void)
 	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 	_loaded = true;
 	this->_players[0]->addEntityInInventory(new Wood);
+	this->_players[0]->addEntityInInventory(new Campfire);
+	this->_players[0]->addEntityInInventory(new Meat);
 }
 
 std::vector<Player *> &GameScreen::getPlayers()

@@ -1,4 +1,5 @@
 #include "Meat.h"
+#include "CookedMeat.h"
 #include "Player.h"
 
 std::string &Meat::serialize() const
@@ -23,7 +24,24 @@ void Meat::doAction(AEntity* other)
 	if (other)
 	{
 		Player *player = dynamic_cast<Player *>(other);
-		player->eat(_value);
+		Map * map = player->getMap();
+		sf::Vector2f pPos = player->getPosition();
+		if (map->getEntityAt((int)pPos.y + 1, (int)pPos.x) != NULL
+			&& map->getEntityAt((int)pPos.y + 1, (int)pPos.x)->getType() == CAMPFIRE)
+			player->addEntityInInventory(new CookedMeat);
+		else if (map->getEntityAt((int)pPos.y, (int)pPos.x + 1) != NULL
+			&& map->getEntityAt((int)pPos.y, (int)pPos.x + 1)->getType() == CAMPFIRE)
+			player->addEntityInInventory(new CookedMeat);
+		else if (map->getEntityAt((int)pPos.y, (int)pPos.x - 1) != NULL
+			&& map->getEntityAt((int)pPos.y, (int)pPos.x - 1)->getType() == CAMPFIRE)
+			player->addEntityInInventory(new CookedMeat);
+		else if (map->getEntityAt((int)pPos.y - 1, (int)pPos.x) != NULL
+			&& map->getEntityAt((int)pPos.y - 1, (int)pPos.x)->getType() == CAMPFIRE)
+			player->addEntityInInventory(new CookedMeat);
+		else
+		{
+			player->eat(_value);
+		}
 	}
 }
 

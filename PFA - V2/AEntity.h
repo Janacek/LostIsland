@@ -55,6 +55,8 @@ enum Type
 	SHEEP,
 	PICKABLE_GRASS,
 	PICKABLE_MUSHROOM,
+	LOADING_ARROW,
+	COOKED_MEAT,
 };
 
 inline const char* typetoString(Type v)
