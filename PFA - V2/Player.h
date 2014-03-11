@@ -25,6 +25,7 @@ public:
 	void doAction(AEntity* other);
 	void getAction(AEntity* other);
 	void drink(Water *);
+	void drink(int);
 	void eat(int);
 	std::string const &getName() const;
 	void setName(std::string const &);

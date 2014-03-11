@@ -84,6 +84,11 @@ void Player::setCamPos(sf::Vector2f &pos)
 
 }
 
+void Player::drink(int amount)
+{
+	this->_water + amount > 100 ? this->_water = 100 : this->_water += amount;
+}
+
 int		Player::posInventory(AEntity *entity)
 {
 	int a = 0;

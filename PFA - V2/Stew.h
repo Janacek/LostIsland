@@ -16,4 +16,8 @@ public:
 	void update(Map &);
 	virtual std::string &serialize() const;
 	virtual void deserialize(std::ifstream &) throw (MyException);
+
+private:
+	int					_eatValue;
+	int					_waterValue;
 };

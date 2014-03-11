@@ -18,6 +18,8 @@
 #include "Wood.h"
 #include "WoodenPlank.h"
 #include "ShadersManager.h"
+#include "Herb.h"
+#include "Mushroom.h"
 
 std::string &GameScreen::serialize() const
 {
@@ -182,6 +184,33 @@ void GameScreen::initialize(void)
 		this->_players.push_back(p);
 
 	}
+
+
+
+	for (int i = 0; i < 50;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
+			Herb *herb = new Herb;
+			_map->setEntityMap(herb, x, y);
+			++i;
+		}
+	}
+
+	for (int i = 0; i < 30;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::FOREST &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
+			Mushroom *mushroom = new Mushroom;
+			_map->setEntityMap(mushroom, x, y);
+			++i;
+		}
+	}
+
 
 
 	this->_activeInventary = false;

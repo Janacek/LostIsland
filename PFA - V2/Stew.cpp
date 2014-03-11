@@ -1,4 +1,5 @@
 #include "Stew.h"
+#include "Player.h"
 
 std::string &Stew::serialize() const
 {
@@ -14,12 +15,18 @@ void Stew::deserialize(std::ifstream &) throw (MyException)
 Stew::Stew()
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
-
+	_waterValue = 30;
+	_eatValue = 30;
 }
 
 void Stew::doAction(AEntity *other)
 {
-	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->drink(_waterValue);
+		player->eat(_eatValue);
+	}
 }
 
 void Stew::getAction(AEntity *other)

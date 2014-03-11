@@ -53,7 +53,8 @@ void ImageManager::start()
 	this->load(MENU_SCREEN, "./Media/images/menuScreen.png");
 	this->load(FUR, "./Media/images/fur.png");
 	this->load(CAMPFIRE, "./Media/images/campfire_item.png");
-
+	this->load(PICKABLE_GRASS, "./Media/images/pickableGrass.png");
+	this->load(PICKABLE_MUSHROOM, "./Media/images/pickableMushroom.png");
 }
 
 void ImageManager::load(Type id, const std::string& filename)

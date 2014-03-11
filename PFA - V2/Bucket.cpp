@@ -36,6 +36,8 @@ void Bucket::doAction(AEntity *other)
 			player->addEntityInInventory(new WaterBucket());
 		else if (map->getCellMap()[(int)pPos.y - 1][(int)pPos.x]._cellType == Cell::OCEAN)
 			player->addEntityInInventory(new WaterBucket());
+		else
+			player->addEntityInInventory(new Bucket);
 	}
 }
 

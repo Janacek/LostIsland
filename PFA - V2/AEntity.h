@@ -53,6 +53,8 @@ enum Type
 	MENU_SCREEN,
 	HARMLESS_ANIMAL,
 	SHEEP,
+	PICKABLE_GRASS,
+	PICKABLE_MUSHROOM,
 };
 
 inline const char* typetoString(Type v)
@@ -117,7 +119,7 @@ public:
 	virtual void setIsPathFound(bool);
 	virtual bool getIsStopped() const;
 	virtual bool getIsAMovingEntity() const;
-	virtual sf::FloatRect  getBoxCollider() const;							// enlève
+	virtual sf::FloatRect  getBoxCollider() const;							
 	virtual sf::Vector2f const getPosDisp() const;
 	virtual int getLife() const;
 	virtual void setLife(int);
@@ -152,6 +154,5 @@ protected:
 	int									_life;
 	int									_id;
 	sf::Vector2f						_posDisp;
-	bool								_isDead;private:
-
+	bool								_isDead;
 };
