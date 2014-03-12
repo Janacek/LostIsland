@@ -57,6 +57,7 @@ enum Type
 	PICKABLE_MUSHROOM,
 	LOADING_ARROW,
 	COOKED_MEAT,
+	HARMFULL_ANIMAL,
 };
 
 inline const char* typetoString(Type v)
