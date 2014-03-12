@@ -10,6 +10,7 @@ DatabaseManager::DatabaseManager()
 
 void DatabaseManager::resetContentCraftingTable()
 {
+	this->_contentCraftingTable.erase(this->_contentCraftingTable.begin(), this->_contentCraftingTable.end());
 	//TODO mettre les autres types
 	this->_contentCraftingTable[BERRY] = 0;
 	this->_contentCraftingTable[HERB] = 0;
@@ -23,7 +24,6 @@ void DatabaseManager::resetContentCraftingTable()
 	this->_contentCraftingTable[SILEX] = 0;
 	this->_contentCraftingTable[WOOD] = 0;
 	this->_contentCraftingTable[ROCK] = 0;
-//	this->_contentCraftingTable[CAMPFIRE] = 0;
 }
 
 bool DatabaseManager::openDatabase(std::string const&filename)
