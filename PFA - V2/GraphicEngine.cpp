@@ -12,7 +12,7 @@ void GraphicEngine::run()
 	this->init();
 	while (true)
 	{
-			this->draw();
+		this->draw();
 	}
 }
 
