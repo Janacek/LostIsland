@@ -10,17 +10,22 @@ public:
 	Player *getPlayer();
 	void empty();
 	Compartment *getCompartment();
-	void setCompartment(Compartment *);
+	void setCompartment(Compartment *, int nbr = 0);
 	Type getType() const;
 	bool isEmpty() const;
+	void updateLabel();
 	std::list<AEntity *> getEntities();
 	~CustomToggleButton();
 
 	sfg::ToggleButton::Ptr	_button;
+	sfg::Label::Ptr			_label;
+	sfg::Box::Ptr			_box;
 	
 private:
-	Player *_player;
-	Compartment *_ressources;
-	sfg::Image::Ptr _img;
+	void					setLabelText(Compartment *);
+	Player					*_player;
+	Compartment				*_ressources;
+	sfg::Image::Ptr			_img;
+	int						_nbrRessources;
 };
 

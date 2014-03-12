@@ -44,6 +44,7 @@ public:
 	void mouseEnter(std::string const&);
 	void mouseLeave(std::string const&);
 	void dropClick();
+	void updateLabel(Player *, int compt);
 
 
 	//attributs

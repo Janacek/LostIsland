@@ -120,6 +120,7 @@ bool Player::addEntityInInventory(AEntity *entity)
 		if (u == entity->getType())
 		{
 			u->addElement(entity);
+			this->_inventoryWindow->updateLabel(this, compt);
 			return true;
 		}
 		++compt;

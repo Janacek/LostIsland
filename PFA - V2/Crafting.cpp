@@ -71,8 +71,9 @@ void Crafting::createTables()
 				CustomToggleButton *but = new CustomToggleButton(NULL, NULL);
 				this->_tableButton.push_back(but);
 				but->_button->SetRequisition(sf::Vector2f(180.f, 166.f));
+				
 				but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::mouseLeftPress, this, but));
-				this->_largeTable->Attach(but->_button, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
+				this->_largeTable->Attach(but->_box, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
 			}
 		}
 		this->_boxButtons->Pack(this->_largeTable);
@@ -194,7 +195,7 @@ void Crafting::addInTable(CustomToggleButton *button, int nbr)
 	{
 		if (u->getCompartment() == NULL)
 		{
-			u->setCompartment(button->getCompartment());
+			u->setCompartment(button->getCompartment(), nbr);
 			break;
 		}
 	}

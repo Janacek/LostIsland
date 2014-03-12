@@ -127,6 +127,21 @@ void InventoryWindow::createZones(std::vector<Player *>& players)
 
 }
 
+void InventoryWindow::updateLabel(Player *player, int pos)
+{
+	int compt = 0;
+	for (Player *u : this->_players)
+	{
+		if (u == player)
+		{
+			CustomToggleButton *u = this->_tableButtons[8 * compt + pos];
+			u->updateLabel();
+			break;
+		}
+		++compt;
+	}
+}
+
 void InventoryWindow::setCraftingClass(Crafting *craft)
 {
 	this->_crafting = craft;
@@ -135,17 +150,12 @@ void InventoryWindow::setCraftingClass(Crafting *craft)
 
 void  InventoryWindow::addToInventory(Player *player, Compartment *com, int pos)
 {
-	std::cout << "Jajoute dans l'inventaire  " << std::endl;
 	int compt = 0;
 	//savoir sa position
-	std::cout << "Nbr players :" << this->_players.size() << std::endl;
 	for (Player *u : this->_players)
 	{
-		std::cout << "Player : " << u->getName() << std::endl;
-		std::cout << "Jajoute dans l'inventaire  " << std::endl;
 		if (u == player)
 		{
-			std::cout << "Je suis le player ! :)" << std::endl;
 			CustomToggleButton *u = this->_tableButtons[8 * compt + pos];
 			u->setCompartment(com);
 			break;
@@ -287,7 +297,7 @@ void InventoryWindow::createCompartment(Player *player)
 			but->_button->SetRequisition(sf::Vector2f(180.f, 166.f));
 			but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::mouseLeftPress, this, but));
 			this->_tableButtons.push_back(but);
-			table->Attach(but->_button, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
+			table->Attach(but->_box, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
 			++compt;
 		}
 	}
