@@ -32,7 +32,7 @@ Player::Player(sf::Vector2f &pos, Camera *cam)
 	_isActionning = false;
 	_isAttacking = false;
 	this->_isWalking = false;
-	this->_stepsBuffer.loadFromFile("./Media/steps.ogg");
+	this->_stepsBuffer.loadFromFile("./Media/sounds/sfx/steps.ogg");
 	this->_stepts.setBuffer(this->_stepsBuffer);
 	_target = BADTYPE;
 	this->_name = "Player";
@@ -84,6 +84,11 @@ void Player::setCamPos(sf::Vector2f &pos)
 
 }
 
+void Player::drink(int amount)
+{
+	this->_water + amount > 100 ? this->_water = 100 : this->_water += amount;
+}
+
 int		Player::posInventory(AEntity *entity)
 {
 	int a = 0;
@@ -115,6 +120,18 @@ bool Player::addEntityInInventory(AEntity *entity)
 		if (u == entity->getType())
 		{
 			u->addElement(entity);
+			this->_inventoryWindow->updateLabel(this, compt);
+			return true;
+		}
+		++compt;
+	}
+	compt = 0;
+	for (Compartment *u : this->_inventoryPlayer)
+	{
+		if (u->getSize() == 0)
+		{
+			u->addElement(entity);
+			this->_inventoryWindow->addToInventory(this, u, compt);
 			return true;
 		}
 		++compt;
@@ -352,7 +369,6 @@ void Player::draw(sf::RenderTexture *tex, sf::Shader &)
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
 
 	sf::Vector2f v(0, -10);
-	//this->_anim->show(_posDisp + v);
 	_animatedSprite->setPosition(_posDisp + v);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
 	Singleton::getInstance()._window->draw(*_animatedSprite, ShadersManager::getInstance().get(BLOOM));

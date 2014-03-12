@@ -5,7 +5,10 @@
 #include "GameOverScreen.h"
 #include "Meat.h"
 #include "Wood.h"
-#include "Bunny.h"
+#include "BunnyWhite.h"
+#include "BunnyBlack.h"
+#include "SheepWhite.h"
+#include "SheepBlack.h"
 #include "Water.h"
 #include "Tree.h"
 #include "MapEnvironment.h"
@@ -15,6 +18,8 @@
 #include "Wood.h"
 #include "WoodenPlank.h"
 #include "ShadersManager.h"
+#include "Herb.h"
+#include "Mushroom.h"
 
 std::string &GameScreen::serialize() const
 {
@@ -105,9 +110,48 @@ void GameScreen::initialize(void)
 
 		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
 			_map->getEntitiesMap()[x][y]._component == NULL) {
-			Bunny *rabbit = new Bunny(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 50, _map->_camera);
+			BunnyWhite *rabbit = new BunnyWhite(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 50, _map->_camera);
 			this->_entities.push_back(rabbit);
 			_map->setEntityMap(rabbit, x, y);
+			++i;
+		}
+	}
+
+	for (int i = 0; i < 15;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
+			BunnyBlack *rabbit = new BunnyBlack(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 50, _map->_camera);
+			this->_entities.push_back(rabbit);
+			_map->setEntityMap(rabbit, x, y);
+			++i;
+		}
+	}
+
+	for (int i = 0; i < 5;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
+			SheepWhite *sheep = new SheepWhite(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 75, _map->_camera);
+			this->_entities.push_back(sheep);
+			_map->setEntityMap(sheep, x, y);
+			++i;
+		}
+	}
+
+	for (int i = 0; i < 5;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
+			SheepBlack *sheep = new SheepBlack(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 75, _map->_camera);
+			this->_entities.push_back(sheep);
+			_map->setEntityMap(sheep, x, y);
 			++i;
 		}
 	}
@@ -142,6 +186,31 @@ void GameScreen::initialize(void)
 	}
 
 
+
+	for (int i = 0; i < 50;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
+			Herb *herb = new Herb;
+			_map->setEntityMap(herb, x, y);
+			++i;
+		}
+	}
+
+	for (int i = 0; i < 30;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::FOREST &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
+			Mushroom *mushroom = new Mushroom;
+			_map->setEntityMap(mushroom, x, y);
+			++i;
+		}
+	}
+
 	this->_activeInventary = false;
 	this->_activeWinRessources = false;
 	_loadingText = "Generating inventories";
@@ -157,6 +226,8 @@ void GameScreen::initialize(void)
 	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 	_loaded = true;
 	this->_players[0]->addEntityInInventory(new Wood);
+	this->_players[0]->addEntityInInventory(new Campfire);
+	this->_players[0]->addEntityInInventory(new Meat);
 }
 
 std::vector<Player *> &GameScreen::getPlayers()
@@ -421,7 +492,7 @@ void GameScreen::update(void)
 	_physicEngine->updatePos(_players, _entities);
 
 	updateSelectionZone();
-	std::sort(_players.begin(), _players.end(), cmpPlayers);
+	//std::sort(_players.begin(), _players.end(), cmpPlayers);
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{

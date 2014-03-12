@@ -13,8 +13,8 @@ void Campfire::deserialize(std::ifstream &) throw (MyException)
 	//load
 }
 
-Campfire::Campfire(Camera *camera)
-: _camera(camera), AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
+Campfire::Campfire()
+: AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
 	loadAnimation("./Media/images/campfire.png", 0.1f);
 	_duration = 60;
@@ -22,7 +22,27 @@ Campfire::Campfire(Camera *camera)
 
 void Campfire::doAction(AEntity *other)
 {
-	//do something
+	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		Map * map = player->getMap();
+		sf::Vector2f pPos = player->getPosition();
+		if (map->getCellMap()[(int)pPos.y + 1][(int)pPos.x]._cellType != Cell::OCEAN &&
+			map->getEntityAt((int)pPos.y + 1, (int)pPos.x) == NULL)
+			map->setEntityMap(new Campfire, (int)pPos.y + 1, (int)pPos.x);
+		else if (map->getCellMap()[(int)pPos.y][(int)pPos.x + 1]._cellType != Cell::OCEAN &&
+			map->getEntityAt((int)pPos.y, (int)pPos.x + 1) == NULL)
+			map->setEntityMap(new Campfire, (int)pPos.y, (int)pPos.x + 1);
+		else if (map->getCellMap()[(int)pPos.y][(int)pPos.x - 1]._cellType != Cell::OCEAN &&
+			map->getEntityAt((int)pPos.y, (int)pPos.x - 1) == NULL)
+			map->setEntityMap(new Campfire, (int)pPos.y, (int)pPos.x - 1);
+		else if (map->getCellMap()[(int)pPos.y - 1][(int)pPos.x]._cellType != Cell::OCEAN &&
+			map->getEntityAt((int)pPos.y - 1, (int)pPos.x) == NULL)
+			map->setEntityMap(new Campfire, (int)pPos.y - 1, (int)pPos.x);
+		else
+			player->addEntityInInventory(new Campfire);
+	}
 }
 
 void Campfire::getAction(AEntity *other)
@@ -83,9 +103,6 @@ void Campfire::draw(sf::RenderTexture *tex, sf::Shader &)
 
 void Campfire::draw(sf::RenderTexture *tex)
 {
-	//_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
-	//_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
-
 	_animatedSprite->setPosition(_position);
 	tex->draw(*_animatedSprite);
 }

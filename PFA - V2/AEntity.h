@@ -51,6 +51,15 @@ enum Type
 	CAMPFIRE,
 	WATER_ANIM,
 	MENU_SCREEN,
+	HARMLESS_ANIMAL,
+	SHEEP,
+	PICKABLE_GRASS,
+	PICKABLE_MUSHROOM,
+	LOADING_ARROW,
+	COOKED_MEAT,
+	HARMFULL_ANIMAL,
+	DINOSAUR,
+	VELOCIRAPTOR,
 };
 
 inline const char* typetoString(Type v)
@@ -78,6 +87,8 @@ inline const char* typetoString(Type v)
 	case ROPE:		return "ROPE";
 	case WATERBUCKET:		return "WATERBUCKET";
 	case BERRY:		return "BERRY";
+	case MEAT:	return "MEAT";
+	case COOKED_MEAT: return "COOKED_MEAT";
 	default:      return "BADTYPE";
 	}
 }
@@ -102,7 +113,7 @@ public:
 
 
 	virtual void setPath(std::list<std::pair<float, float> >&);
-	virtual std::list<std::pair<float, float> > getPath() const;	
+	virtual std::list<std::pair<float, float> > getPath() const;
 	virtual sf::Vector2f  getPosition() const;
 	virtual void setPosition(sf::Vector2f &);
 	virtual int getDamage(void) const;
@@ -115,7 +126,7 @@ public:
 	virtual void setIsPathFound(bool);
 	virtual bool getIsStopped() const;
 	virtual bool getIsAMovingEntity() const;
-	virtual sf::FloatRect  getBoxCollider() const;							// enlève
+	virtual sf::FloatRect  getBoxCollider() const;
 	virtual sf::Vector2f const getPosDisp() const;
 	virtual int getLife() const;
 	virtual void setLife(int);
@@ -133,7 +144,7 @@ public:
 		sf::Vector2f pos,
 		int dmg,
 		sf::FloatRect boxcollider,
-		int life) ;
+		int life);
 
 protected:
 	float								_pathToGo;
@@ -150,6 +161,5 @@ protected:
 	int									_life;
 	int									_id;
 	sf::Vector2f						_posDisp;
-	bool								_isDead;private:
-
+	bool								_isDead;
 };

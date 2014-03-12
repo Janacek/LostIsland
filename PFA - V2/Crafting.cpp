@@ -40,16 +40,20 @@ void Crafting::createTables()
 {
 	auto craftButton = sfg::Button::Create("Craft");
 	auto removeButton = sfg::Button::Create("Supprimer de la table");
+	auto removeAllButton = sfg::Button::Create("Tout supprimer");
 	craftButton->SetRequisition(sf::Vector2f(100.f, 50.f));
 	craftButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::craft, this));
 	removeButton->SetRequisition(sf::Vector2f(100.f, 50.f));
 	removeButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::remove, this));
+	removeAllButton->SetRequisition(sf::Vector2f(100.f, 50.f));
+	removeAllButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::removeAll, this));
 	this->_boxButtons = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
 	auto img = sfg::Image::Create();
 	img->SetRequisition(sf::Vector2f(180.f, 166.f));
 	this->_mainBox->Pack(this->_boxButtons);
 	this->_mainBox->PackEnd(craftButton);
 	this->_mainBox->PackEnd(removeButton);
+	this->_mainBox->PackEnd(removeAllButton);
 	this->_largeTable = sfg::Table::Create();
 
 	for (int i = 0; i < 3; i++)
@@ -67,8 +71,9 @@ void Crafting::createTables()
 				CustomToggleButton *but = new CustomToggleButton(NULL, NULL);
 				this->_tableButton.push_back(but);
 				but->_button->SetRequisition(sf::Vector2f(180.f, 166.f));
+				
 				but->_button->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::mouseLeftPress, this, but));
-				this->_largeTable->Attach(but->_button, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
+				this->_largeTable->Attach(but->_box, sf::Rect<sf::Uint32>(j, i, 1, 1), sfg::Table::FILL | sfg::Table::EXPAND, sfg::Table::FILL, sf::Vector2f(10.f, 10.f));
 			}
 		}
 		this->_boxButtons->Pack(this->_largeTable);
@@ -99,7 +104,14 @@ void	Crafting::updateContent()
 	{
 		if (u->getCompartment() != NULL)
 		{
-			this->_content.push_back(u->getEntities().front());
+			int compt = 0;
+			auto it = u->getEntities().begin();
+			while (compt < u->getNbrLabelRessource() && it != u->getEntities().end())
+			{
+				this->_content.push_back(u->getEntities().front());
+				++compt;
+			}
+				
 		}
 	}
 }
@@ -162,13 +174,35 @@ void Crafting::remove()
 	}
 }
 
+
+void Crafting::removeAll()
+{
+	this->_content.clear();
+	if (this->_selectedRessource != NULL)
+	{
+		delete this->_objectCraft;
+		this->_objectCraft = NULL;
+		this->_selectedRessource->_button->SetActive(false);
+		this->_selectedRessource->setCompartment(NULL);
+	}
+	for (auto u : this->_tableButton)
+	{
+		if (u->getCompartment() != NULL)
+		{
+			u->setCompartment(NULL);
+		}
+	}
+	this->updateContent();
+	this->updateImgResult();
+}
+
 void Crafting::addInTable(CustomToggleButton *button, int nbr)
 {
 	for (auto u : this->_tableButton)
 	{
 		if (u->getCompartment() == NULL)
 		{
-			u->setCompartment(button->getCompartment());
+			u->setCompartment(button->getCompartment(), nbr);
 			break;
 		}
 	}

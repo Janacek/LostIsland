@@ -256,7 +256,7 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity 
 				}
 			}
 
-			if ((*it2)->getType() == BUNNY && (*it2)->getIsStopped() == false)
+			if (((*it2)->getType() == BUNNY || (*it2)->getType() == SHEEP) && (*it2)->getIsStopped() == false)
 			{
 				if (diffDist((*it)->getPosition(), (*it2)->getPosition()) < 6 && (*it2)->getIsMoving() == false) // ca a lair de marcher
 				{

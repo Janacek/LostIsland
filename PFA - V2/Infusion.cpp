@@ -1,4 +1,6 @@
 #include "Infusion.h"
+#include "Player.h"
+#include "Water.h"
 
 std::string &Infusion::serialize() const
 {
@@ -19,7 +21,12 @@ Infusion::Infusion()
 
 void Infusion::doAction(AEntity *other)
 {
-	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->drink(new Water);
+		player->_isSick = false;
+	}
 }
 
 void Infusion::getAction(AEntity *other)

@@ -1,4 +1,6 @@
 #include "Meat.h"
+#include "CookedMeat.h"
+#include "Player.h"
 
 std::string &Meat::serialize() const
 {
@@ -14,11 +16,33 @@ void Meat::deserialize(std::ifstream &) throw (MyException)
 Meat::Meat(void)
 : AEntity(0.f, false, sf::Vector2f(0, 0), 0, sf::FloatRect(0, 0, 0, 0), 0)
 {
+	_value = 15;
 }
 
 void Meat::doAction(AEntity* other)
 {
-	//De la Meat sauvage apparait
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		Map * map = player->getMap();
+		sf::Vector2f pPos = player->getPosition();
+		if (map->getEntityAt((int)pPos.y + 1, (int)pPos.x) != NULL
+			&& map->getEntityAt((int)pPos.y + 1, (int)pPos.x)->getType() == CAMPFIRE)
+			player->addEntityInInventory(new CookedMeat);
+		else if (map->getEntityAt((int)pPos.y, (int)pPos.x + 1) != NULL
+			&& map->getEntityAt((int)pPos.y, (int)pPos.x + 1)->getType() == CAMPFIRE)
+			player->addEntityInInventory(new CookedMeat);
+		else if (map->getEntityAt((int)pPos.y, (int)pPos.x - 1) != NULL
+			&& map->getEntityAt((int)pPos.y, (int)pPos.x - 1)->getType() == CAMPFIRE)
+			player->addEntityInInventory(new CookedMeat);
+		else if (map->getEntityAt((int)pPos.y - 1, (int)pPos.x) != NULL
+			&& map->getEntityAt((int)pPos.y - 1, (int)pPos.x)->getType() == CAMPFIRE)
+			player->addEntityInInventory(new CookedMeat);
+		else
+		{
+			player->eat(_value);
+		}
+	}
 }
 
 void Meat::getAction(AEntity* other)

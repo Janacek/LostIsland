@@ -75,6 +75,7 @@ public:
 	MapEnvironment			**getEntitiesMap(void);
 	sf::Vector2i			getSize() const;
 	void					setEntityMap(AEntity *, int x, int y);
+	AEntity					*getEntityAt(int, int);
 
 	/////////////////////////////////////
 	// SERIALIZATION / DESERIALIZATION //
@@ -94,6 +95,7 @@ private:
 	Chunk					**_map;		  // Map container.
 	Cell					**_cellMap;	  // Cell Map container.
 	MapEnvironment			**_entitiesMap; // Enitites container.
+
 
 	// LATER BE TEXTURE INSTEAD OF COLOR
 	std::map<Cell::Type, sf::Color>				_typeToColor;

@@ -1,5 +1,6 @@
 #include "Rock.h"
 #include "Player.h"
+#include "Flint.h"
 
 std::string &Rock::serialize() const
 {
@@ -34,6 +35,8 @@ void Rock::getAction(AEntity* other)
 		{
 			_isActionOver = true;
 			Player *player = dynamic_cast<Player *>(other);
+			if (std::rand() % 10 == 0)
+				player->addEntityInInventory(new Flint);
 			player->addEntityInInventory(this);
 		}
 		catch (std::bad_cast ex)

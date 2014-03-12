@@ -32,6 +32,7 @@ private:
 	void								mouseLeftPress(CustomToggleButton *);
 	void								craft();
 	void								remove();
+	void								removeAll();
 
 	DatabaseManager						_databaseManager;
 	sfg::Image::Ptr						_imgResult;

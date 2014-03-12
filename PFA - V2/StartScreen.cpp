@@ -37,7 +37,7 @@ StartScreen::StartScreen()
 	
 	_selector = new sf::RectangleShape(sf::Vector2f(40, 10));
 	_music = new sf::Music;
-	_music->openFromFile("./Media/mainTheme.ogg");
+	_music->openFromFile("./Media/sounds/bgm/mainTheme.ogg");
 
 	_selection = new sf::RectangleShape(sf::Vector2f(200, 75));
 	_selection->setPosition(0, 0);

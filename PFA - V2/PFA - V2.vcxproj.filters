@@ -64,6 +64,18 @@
     <ClCompile Include="Herb.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="BunnyWhite.cpp" />
+    <ClCompile Include="BunnyBlack.cpp" />
+    <ClCompile Include="HarmlessAnimal.cpp" />
+    <ClCompile Include="Sheep.cpp" />
+    <ClCompile Include="SheepWhite.cpp" />
+    <ClCompile Include="SheepBlack.cpp" />
+    <ClCompile Include="Fur.cpp" />
+    <ClCompile Include="Grass.cpp" />
+    <ClCompile Include="CookedMeat.cpp" />
+    <ClCompile Include="HarmfullAnimal.cpp" />
+    <ClCompile Include="Dinosaur.cpp" />
+    <ClCompile Include="Velociraptor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -134,6 +146,18 @@
     <ClInclude Include="SerializeTools.h" />
     <ClInclude Include="Exception.hh" />
     <ClInclude Include="Fabric.h" />
+    <ClInclude Include="BunnyWhite.h" />
+    <ClInclude Include="BunnyBlack.h" />
+    <ClInclude Include="HarmlessAnimal.h" />
+    <ClInclude Include="Sheep.h" />
+    <ClInclude Include="SheepWhite.h" />
+    <ClInclude Include="SheepBlack.h" />
+    <ClInclude Include="Fur.h" />
+    <ClInclude Include="Grass.h" />
+    <ClInclude Include="CookedMeat.h" />
+    <ClInclude Include="HarmfullAnimal.h" />
+    <ClInclude Include="Dinosaur.h" />
+    <ClInclude Include="Velociraptor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />

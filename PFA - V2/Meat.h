@@ -19,5 +19,6 @@ public:
 	virtual std::string &serialize() const;
 	virtual void deserialize(std::ifstream &) throw (MyException);
 private:
+	int				_value;
 };
 

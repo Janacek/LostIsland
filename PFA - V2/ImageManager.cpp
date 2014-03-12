@@ -51,7 +51,12 @@ void ImageManager::start()
 	this->load(HERB, "./Media/images/Herb.png");
 	this->load(WATER_ANIM, "./Media/images/water_anim.png");
 	this->load(MENU_SCREEN, "./Media/images/menuScreen.png");
-
+	this->load(FUR, "./Media/images/fur.png");
+	this->load(CAMPFIRE, "./Media/images/campfire_item.png");
+	this->load(PICKABLE_GRASS, "./Media/images/pickableGrass.png");
+	this->load(PICKABLE_MUSHROOM, "./Media/images/pickableMushroom.png");
+	this->load(LOADING_ARROW, "./Media/images/loadingArrow.png");
+	this->load(COOKED_MEAT, "./Media/images/cookedMeat.png");
 }
 
 void ImageManager::load(Type id, const std::string& filename)
