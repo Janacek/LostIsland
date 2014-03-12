@@ -58,6 +58,8 @@ enum Type
 	LOADING_ARROW,
 	COOKED_MEAT,
 	HARMFULL_ANIMAL,
+	DINOSAUR,
+	VELOCIRAPTOR,
 };
 
 inline const char* typetoString(Type v)
