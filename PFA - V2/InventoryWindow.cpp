@@ -173,6 +173,11 @@ void InventoryWindow::updateView()
 			if (u->_button->GetImage() != NULL)
 				u->_button->GetImage()->Show(false);
 		}
+		if (u->getCompartment() != NULL)
+		{
+			if (u->getNbrLabelRessource() != u->getCompartment()->getSize())
+				u->updateLabel();
+		}
 	}
 }
 

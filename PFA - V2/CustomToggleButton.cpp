@@ -22,8 +22,17 @@ CustomToggleButton::CustomToggleButton(Player *p, Compartment *c) : _player(p), 
 
 void CustomToggleButton::updateLabel()
 {
-	this->_nbrRessources = this->_ressources->getSize();
-	this->setLabelText(this->_ressources);
+	if (this->_ressources != NULL)
+	{
+		this->_nbrRessources = this->_ressources->getSize();
+		this->setLabelText(this->_ressources);
+	}
+}
+		
+
+int CustomToggleButton::getNbrLabelRessource() const
+{
+	return this->_nbrRessources;
 }
 
 void	CustomToggleButton::setLabelText(Compartment *comp)

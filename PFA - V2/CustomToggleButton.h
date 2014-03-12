@@ -13,6 +13,7 @@ public:
 	void setCompartment(Compartment *, int nbr = 0);
 	Type getType() const;
 	bool isEmpty() const;
+	int getNbrLabelRessource() const;
 	void updateLabel();
 	std::list<AEntity *> getEntities();
 	~CustomToggleButton();
@@ -26,6 +27,6 @@ private:
 	Player					*_player;
 	Compartment				*_ressources;
 	sfg::Image::Ptr			_img;
-	int						_nbrRessources;
+	int						_nbrRessources; //c'est pas vraiment le nbr de ressoures
 };
 

@@ -104,7 +104,14 @@ void	Crafting::updateContent()
 	{
 		if (u->getCompartment() != NULL)
 		{
-			this->_content.push_back(u->getEntities().front());
+			int compt = 0;
+			auto it = u->getEntities().begin();
+			while (compt < u->getNbrLabelRessource() && it != u->getEntities().end())
+			{
+				this->_content.push_back(u->getEntities().front());
+				++compt;
+			}
+				
 		}
 	}
 }
