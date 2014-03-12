@@ -120,6 +120,7 @@
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Fur.cpp" />
     <ClCompile Include="Grass.cpp" />
+    <ClCompile Include="HarmfullAnimal.cpp" />
     <ClCompile Include="HarmlessAnimal.cpp" />
     <ClCompile Include="Herb.cpp" />
     <ClCompile Include="Infusion.cpp" />
@@ -161,6 +162,8 @@
     <ClCompile Include="Stew.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Dinosaur.cpp" />
+    <ClCompile Include="Velociraptor.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="WaterBucket.cpp" />
     <ClCompile Include="BunnyWhite.cpp" />
@@ -195,6 +198,7 @@
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="Fur.h" />
     <ClInclude Include="Grass.h" />
+    <ClInclude Include="HarmfullAnimal.h" />
     <ClInclude Include="HarmlessAnimal.h" />
     <ClInclude Include="Herb.h" />
     <ClInclude Include="Infusion.h" />
@@ -241,6 +245,8 @@
     <ClInclude Include="Sword.h" />
     <ClInclude Include="SystemDefines.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="Dinosaur.h" />
+    <ClInclude Include="Velociraptor.h" />
     <ClInclude Include="Water.h" />
     <ClInclude Include="WaterBucket.h" />
     <ClInclude Include="Wood.h" />

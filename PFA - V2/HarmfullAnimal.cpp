@@ -32,7 +32,7 @@ HarmfullAnimal::HarmfullAnimal(sf::Vector2f &position, int life, Camera *cam)
 	_isSelected = true;
 }
 
-HarmfullAnimal::~HarmlessAnimal()
+HarmfullAnimal::~HarmfullAnimal()
 {
 
 }

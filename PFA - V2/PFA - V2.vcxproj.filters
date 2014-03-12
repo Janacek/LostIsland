@@ -73,6 +73,9 @@
     <ClCompile Include="Fur.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="CookedMeat.cpp" />
+    <ClCompile Include="HarmfullAnimal.cpp" />
+    <ClCompile Include="Dinosaur.cpp" />
+    <ClCompile Include="Velociraptor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -152,6 +155,9 @@
     <ClInclude Include="Fur.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="CookedMeat.h" />
+    <ClInclude Include="HarmfullAnimal.h" />
+    <ClInclude Include="Dinosaur.h" />
+    <ClInclude Include="Velociraptor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />
