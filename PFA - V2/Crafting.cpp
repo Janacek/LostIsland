@@ -40,16 +40,20 @@ void Crafting::createTables()
 {
 	auto craftButton = sfg::Button::Create("Craft");
 	auto removeButton = sfg::Button::Create("Supprimer de la table");
+	auto removeAllButton = sfg::Button::Create("Tout supprimer");
 	craftButton->SetRequisition(sf::Vector2f(100.f, 50.f));
 	craftButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::craft, this));
 	removeButton->SetRequisition(sf::Vector2f(100.f, 50.f));
 	removeButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::remove, this));
+	removeAllButton->SetRequisition(sf::Vector2f(100.f, 50.f));
+	removeAllButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&Crafting::removeAll, this));
 	this->_boxButtons = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
 	auto img = sfg::Image::Create();
 	img->SetRequisition(sf::Vector2f(180.f, 166.f));
 	this->_mainBox->Pack(this->_boxButtons);
 	this->_mainBox->PackEnd(craftButton);
 	this->_mainBox->PackEnd(removeButton);
+	this->_mainBox->PackEnd(removeAllButton);
 	this->_largeTable = sfg::Table::Create();
 
 	for (int i = 0; i < 3; i++)
@@ -160,6 +164,28 @@ void Crafting::remove()
 		this->updateContent();
 		this->updateImgResult();
 	}
+}
+
+
+void Crafting::removeAll()
+{
+	this->_content.clear();
+	if (this->_selectedRessource != NULL)
+	{
+		delete this->_objectCraft;
+		this->_objectCraft = NULL;
+		this->_selectedRessource->_button->SetActive(false);
+		this->_selectedRessource->setCompartment(NULL);
+	}
+	for (auto u : this->_tableButton)
+	{
+		if (u->getCompartment() != NULL)
+		{
+			u->setCompartment(NULL);
+		}
+	}
+	this->updateContent();
+	this->updateImgResult();
 }
 
 void Crafting::addInTable(CustomToggleButton *button, int nbr)
