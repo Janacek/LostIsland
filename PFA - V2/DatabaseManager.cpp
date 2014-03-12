@@ -23,7 +23,7 @@ void DatabaseManager::resetContentCraftingTable()
 	this->_contentCraftingTable[SILEX] = 0;
 	this->_contentCraftingTable[WOOD] = 0;
 	this->_contentCraftingTable[ROCK] = 0;
-
+//	this->_contentCraftingTable[CAMPFIRE] = 0;
 }
 
 bool DatabaseManager::openDatabase(std::string const&filename)

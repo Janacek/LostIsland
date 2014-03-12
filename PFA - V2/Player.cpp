@@ -124,6 +124,17 @@ bool Player::addEntityInInventory(AEntity *entity)
 		}
 		++compt;
 	}
+	compt = 0;
+	for (Compartment *u : this->_inventoryPlayer)
+	{
+		if (u->getSize() == 0)
+		{
+			u->addElement(entity);
+			this->_inventoryWindow->addToInventory(this, u, compt);
+			return true;
+		}
+		++compt;
+	}
 	Compartment *u = new Compartment(entity);
 	this->_inventoryPlayer.push_back(u);
 	this->_inventoryWindow->close();
