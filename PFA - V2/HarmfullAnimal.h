@@ -29,7 +29,7 @@ public:
 
 protected:
 	void								changeAnimation(sf::Vector2f&, std::pair<float, float>);
-
+	sf::Vector2i				const	diffDist(sf::Vector2f&first, sf::Vector2f&second);
 	Animation							*_anim;
 	Camera								*_camera;
 	bool								_hasAPath;

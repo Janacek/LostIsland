@@ -18,6 +18,7 @@ public:
 	void addVertexPoint(sf::Vector2i &) ;
 	bool findMeAPath(sf::Vector2i&, sf::Vector2i & , AEntity &);
 	bool tryFindAPathHuman(sf::Vector2i&, sf::Vector2i &, Player &, AEntity *);
+	bool tryFindAPathEnnemy(sf::Vector2i&, sf::Vector2i &, AEntity &, Player *);
 	bool launchPf(sf::Vector2i&, sf::Vector2i &, Player &);
 	bool tryFindAPathEntity(sf::Vector2i&, sf::Vector2i &, AEntity &);
 

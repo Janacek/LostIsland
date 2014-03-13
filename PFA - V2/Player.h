@@ -103,7 +103,6 @@ protected:
 	float								_speed;
 	bool								_hasAPath;
 	bool								_isPathNotFound;
-	bool								_isAttacking;
 	/*
 	** Player's name (could be with miscs)
 	*/
@@ -145,8 +144,7 @@ public:
 	//////////////////////////
 	//  PLAYER'S OBJECTIVE
 	//////////////////////////
-	AEntity						*_objective;
-	Type						_target;
+	
 	/*
 	** Selection of the player.
 	*/
@@ -166,7 +164,6 @@ private:
 	void						changeToIdleAnim();
 	Map							*_map;
 	InventoryWindow				*_inventoryWindow;
-	float						_timeAttack;
 	
 public:
 	const float					HUNGER_CLOCK = 6.f;

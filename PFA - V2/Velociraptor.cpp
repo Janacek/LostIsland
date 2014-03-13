@@ -3,6 +3,7 @@
 Velociraptor::Velociraptor(sf::Vector2f &position, int life, Camera *cam)
 : Dinosaur(position, life, cam)
 {
+	_damages = 20;
 	loadAnimation("Media/images/velociraptor.png", 0.1f);
 }
 
@@ -20,7 +21,7 @@ void Velociraptor::loadAnimation(std::string const &string_anim, float time)
 	sf::Image img_tmp = imgAnim->copyToImage();
 	img_tmp.createMaskFromColor(color);
 	imgAnim->loadFromImage(img_tmp);
-
+	
 
 	_walkDown = new Animation();
 	_walkDown->setSpriteSheet(*imgAnim);
@@ -31,6 +32,7 @@ void Velociraptor::loadAnimation(std::string const &string_anim, float time)
 	_walkDown->addFrame(sf::IntRect(344, 34, 32, 63));
 	_walkDown->addFrame(sf::IntRect(376, 34, 32, 63));
 	
+
 	_walkLeft = new Animation();
 	_walkLeft->setSpriteSheet(*imgAnim);
 	_walkLeft->addFrame(sf::IntRect(442, 330, 79, 51));
