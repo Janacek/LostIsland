@@ -207,7 +207,7 @@ void HarmfullAnimal::loadAnimation(std::string const &string_anim, float)
 
 }
 
-void HarmfullAnimal::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
+void HarmfullAnimal::draw(sf::RenderTexture *tex, sf::Shader &shader) // To edit
 {
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
@@ -216,11 +216,11 @@ void HarmfullAnimal::draw(sf::RenderTexture *, sf::Shader &shader) // To edit
 	{
 		_animatedSprite->setPosition(_posDisp);
 		ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
-		Singleton::getInstance()._window->draw(*_animatedSprite, ShadersManager::getInstance().get(BLOOM));
+		tex->draw(*_animatedSprite, ShadersManager::getInstance().get(BLOOM));
 	}
 }
 
-void HarmfullAnimal::draw(sf::RenderTexture *)
+void HarmfullAnimal::draw(sf::RenderTexture *tex)
 {
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
@@ -228,7 +228,7 @@ void HarmfullAnimal::draw(sf::RenderTexture *)
 	if (!_isDead)
 	{
 		_animatedSprite->setPosition(_posDisp);
-		Singleton::getInstance()._window->draw(*_animatedSprite);
+		tex->draw(*_animatedSprite);
 	}
 	//this->_anim->show(_posDisp);
 }
