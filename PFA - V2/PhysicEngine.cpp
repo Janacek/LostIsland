@@ -116,6 +116,26 @@ bool PhysicEngine::launchPf(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_end, Playe
 	return false;
 }
 
+bool PhysicEngine::tryFindAPathEnnemy(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_end, AEntity &ent, Player *obj) // tmp begin = player
+{
+	sf::Vector2i tmp_begin = tmp_begin2;
+	std::cout << "player x " << tmp_begin.x << " y " << tmp_begin.y << std::endl;
+	//system("pause");
+	//tmp_begin.x = (static_cast<int>(tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL; // ISOK
+	//tmp_begin.y = (static_cast<int>(tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL;
+	for (sf::Vector2f * vect : _pathFinding.findMeAdjacent(tmp_begin))
+	{
+		tmp_begin.x = static_cast<int>(vect->x);
+		tmp_begin.y = static_cast<int>(vect->y);
+		if (_map->getEntitiesMap()[tmp_begin.y][tmp_begin.x]._component == NULL && obj)
+		{
+			ent._objective = obj;
+
+			return (findMeAPath(tmp_end, tmp_begin, ent));
+		}
+	}
+}
+
 bool PhysicEngine::tryFindAPathHuman(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_end, Player &ent, AEntity *obj)
 {
 	//a refaire METTRE UN WHILE
@@ -237,9 +257,6 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity 
 	{
 		for (auto it2 = entities.begin(); it2 != entities.end(); ++it2) // a voir si ca fait pas ramer 
 		{
-
-			
-
 			if (Singleton::getInstance().isRightClicking)
 			{
 				sf::RectangleShape tmp(sf::Vector2f(32, 32));
@@ -289,9 +306,19 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity 
 						tmp_begin.x = _map->getSize().x * Chunk::NB_CELLS;
 						tmp_begin.y = _map->getSize().y * Chunk::NB_CELLS;
 					}
-						tryFindAPathEntity(tmp_begin, tmp_end, **it2);
+					tryFindAPathEntity(tmp_begin, tmp_end, **it2);
 				
 
+
+				}
+			}
+			if (((*it2)->getType() == DINOSAUR) && (*it2)->getIsStopped() == false)
+			{
+				if (diffDist((*it)->getPosition(), (*it2)->getPosition()) < 6 && (*it2)->getIsMoving() == false)
+				{
+					sf::Vector2i tmp_begin(static_cast<int>((*it)->getPosition().x), static_cast<int>((*it)->getPosition().y));
+					sf::Vector2i tmp_end(static_cast<int>((*it2)->getPosition().x), static_cast<int>((*it2)->getPosition().y));
+					tryFindAPathEnnemy(tmp_begin, tmp_end, **it2, *it); // it2 -> le dino ; it -> le player
 
 				}
 			}

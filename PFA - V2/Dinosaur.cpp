@@ -30,6 +30,7 @@ Dinosaur::Dinosaur(sf::Vector2f &position, int life, Camera *cam)
 	_hasAPath = false;
 	_firstPath = true;
 	_isSelected = true;
+	_isAttacking = false;
 }
 
 Dinosaur::~Dinosaur()
@@ -45,5 +46,5 @@ void Dinosaur::loadAnimation(std::string const &string_anim, float)
 
 Type Dinosaur::getType() const
 {
-	return BUNNY;
+	return DINOSAUR;
 }

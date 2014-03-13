@@ -145,9 +145,17 @@ public:
 		int dmg,
 		sf::FloatRect boxcollider,
 		int life);
+	//////////////////////////
+	//  AENTITY'S OBJECTIVE
+	//////////////////////////
+	AEntity								*_objective;
+	Type								_target;
 
 protected:
+	
 	float								_pathToGo;
+	float								_timeAttack;
+	bool								_isAttacking;
 	bool								_isSelected;
 	bool								_isActionOver;
 	bool								_isMoving;
