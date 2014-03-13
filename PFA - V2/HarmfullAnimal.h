@@ -52,6 +52,11 @@ protected:
 	Animation							*_walkDown;
 	Animation							*_walkLeft;
 	Animation							*_walkRight;
+	Animation							*_attackLeft;
+	Animation							*_attackRight;
+	Animation							*_attackDown;
+	Animation							*_attackUp;
+
 	Animation							*_curAnim;
 	AnimatedSprite						*_animatedSprite;
 };

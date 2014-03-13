@@ -123,6 +123,19 @@ void GameScreen::initialize(void)
 
 		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
 			_map->getEntitiesMap()[x][y]._component == NULL) {
+			Velociraptor *raptor = new Velociraptor(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 50, _map->_camera);
+			this->_entities.push_back(raptor);
+			_map->setEntityMap(raptor, x, y);
+			++i;
+		}
+	}
+
+	for (int i = 0; i < 15;) {
+		int x = rand() % (_map->getSize().x * Chunk::NB_CELLS);
+		int y = rand() % (_map->getSize().y * Chunk::NB_CELLS);
+
+		if (_map->getCellMap()[x][y]._cellType == Cell::GRASS &&
+			_map->getEntitiesMap()[x][y]._component == NULL) {
 			BunnyBlack *rabbit = new BunnyBlack(sf::Vector2f(static_cast<float>(y), static_cast<float>(x)), 50, _map->_camera);
 			this->_entities.push_back(rabbit);
 			_map->setEntityMap(rabbit, x, y);

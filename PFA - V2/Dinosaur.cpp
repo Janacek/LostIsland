@@ -45,5 +45,5 @@ void Dinosaur::loadAnimation(std::string const &string_anim, float)
 
 Type Dinosaur::getType() const
 {
-	return DINOSAUR;
+	return BUNNY;
 }

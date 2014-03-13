@@ -5,7 +5,7 @@
 #include "IScreen.h"
 
 #include "Player.h"
-
+#include "Velociraptor.h"
 
 #include "InventoryWindow.h"
 #include "Crafting.h"
