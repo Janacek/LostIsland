@@ -279,7 +279,6 @@ void Player::moveToNextWP()
 	}
 	if (_timeAttack > 0.7 && _isAttacking == true)
 	{
-		std::cout << "STAHP" << std::endl;
 		_isAttacking = false;
 		_timeAttack = 0;
 		
