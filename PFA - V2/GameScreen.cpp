@@ -334,6 +334,92 @@ void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos)
 
 }
 
+void GameScreen::drawEntities()
+{
+	for (auto it = _players.begin(); it != _players.end(); ++it)
+	{
+		sf::Vector2f savePos;
+		savePos = (*it)->getPosition();
+		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+		sf::Vector2f finalPos;
+
+		finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
+		finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
+
+		sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
+		if (mouseRect.intersects((*it)->getBoxCollider()))
+			(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
+		else
+			(*it)->draw(_map->_mapTexture);
+	}
+	for (auto it = _entities.begin(); it != _entities.end(); ++it)
+	{
+		sf::Vector2f savePos;
+		savePos = (*it)->getPosition();
+		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+		sf::Vector2f finalPos;
+
+		finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
+		finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
+
+		sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
+		if (mouseRect.intersects((*it)->getBoxCollider()))
+			(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
+		else
+			(*it)->draw(_map->_mapTexture);
+	}
+}
+
+void GameScreen::redrawEntities()
+{
+	for (auto it = _players.begin(); it != _players.end(); ++it)
+	{
+		if (_map->getEntityAt((int)(*it)->getPosition().y - 1, (int)(*it)->getPosition().x) != NULL ||
+			(_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x) != NULL &&
+			_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x)->getType() != PLAYER))
+		{
+			sf::Vector2f savePos;
+			savePos = (*it)->getPosition();
+			sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+			sf::Vector2f finalPos;
+
+			finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
+			finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
+
+			sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
+			if (mouseRect.intersects((*it)->getBoxCollider()))
+				(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
+			else
+				(*it)->draw(_map->_mapTexture);
+		}
+	}
+/*
+	for (auto it = _entities.begin(); it != _entities.end(); ++it)
+	{
+		sf::Vector2f savePos;
+		savePos = (*it)->getPosition();
+		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+		sf::Vector2f finalPos;
+
+		finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
+		finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
+
+		sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
+		if (mouseRect.intersects((*it)->getBoxCollider()))
+			(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
+		else
+			(*it)->draw(_map->_mapTexture);
+	}*/
+}
+
+void GameScreen::drawEntitiesInfos()
+{
+	for (auto it = _players.begin(); it != _players.end(); ++it)
+	{
+		(*it)->drawInfos(_map->_mapTexture);
+	}
+}
+
 void GameScreen::draw()
 {
 	if (!_loaded)
@@ -354,65 +440,14 @@ void GameScreen::draw()
 		_t = Singleton::getInstance()._clock->restart();
 		Singleton::getInstance()._animClock->restart();
 
-		////
-
-		this->_map->draw(Singleton::getInstance()._window);
-
-
-
-		//sf::Vector2f savePos;
-		//if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getIsAMovingEntity() == false)
-		//{
-		//	savePos = _entitiesMap[i][j]._component->getPosition();
-		//	_entitiesMap[i][j]._component->setPosition(sf::Vector2f((j - _camera->_position.x) * Chunk::SIZE_OF_CELL
-		//		, (i - _camera->_position.y) * Chunk::SIZE_OF_CELL - 20));
-		//	sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-
-		//	sf::Vector2f finalPos;
-
-		//	finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_camera->_position.x);
-		//	finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_camera->_position.y);
-
-		//	if ((int)finalPos.x == j && (int)finalPos.y == i)
-		//	{
-		//		_entitiesMap[i][j]._component->draw(_mapTexture, *ShadersManager::getInstance().get(BLOOM));
-		//	}
+		this->_map->draw();
+		this->drawEntities();
+		this->_map->drawEnv();
+		this->drawEntitiesInfos();
+		this->redrawEntities();
+		this->_map->display();
 
 
-
-
-		for (auto it = _players.begin(); it != _players.end(); ++it)
-		{
-			sf::Vector2f savePos;
-			savePos = (*it)->getPosition();
-			sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-			sf::Vector2f finalPos;
-
-			finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
-			finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
-
-			sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
-			if (mouseRect.intersects((*it)->getBoxCollider()))
-				(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
-			else
-				(*it)->draw(NULL);
-		}
-		for (auto it = _entities.begin(); it != _entities.end(); ++it)
-		{
-			sf::Vector2f savePos;
-			savePos = (*it)->getPosition();
-			sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-			sf::Vector2f finalPos;
-
-			finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
-			finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
-
-			sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
-			if (mouseRect.intersects((*it)->getBoxCollider()))
-				(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
-			else
-				(*it)->draw(NULL);
-		}
 		drawSelectionZone();
 
 		/*

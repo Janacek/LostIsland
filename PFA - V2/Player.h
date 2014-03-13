@@ -27,6 +27,7 @@ public:
 	void drink(Water *);
 	void drink(int);
 	void eat(int);
+	void drawInfos(sf::RenderTexture *);
 	std::string const &getName() const;
 	void setName(std::string const &);
 	void loadAnimation(std::string const & string_anim, float speed);

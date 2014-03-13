@@ -371,7 +371,7 @@ void Player::draw(sf::RenderTexture *tex, sf::Shader &)
 	sf::Vector2f v(0, -10);
 	_animatedSprite->setPosition(_posDisp + v);
 	ShadersManager::getInstance().get(BLOOM)->setParameter("RenderedTexture", sf::Shader::CurrentTexture);
-	Singleton::getInstance()._window->draw(*_animatedSprite, ShadersManager::getInstance().get(BLOOM));
+	tex->draw(*_animatedSprite, ShadersManager::getInstance().get(BLOOM));
 
 	sf::Text name;
 	name.setFont(*FontManager::getInstance().getFont(SANSATION));
@@ -379,7 +379,7 @@ void Player::draw(sf::RenderTexture *tex, sf::Shader &)
 	name.setCharacterSize(12);
 	name.setColor(sf::Color::Black);
 	name.setPosition(_posDisp.x - (name.getGlobalBounds().width / 8), _posDisp.y - 24);
-	Singleton::getInstance()._window->draw(name);
+	tex->draw(name);
 
 	if (_isSelected)
 	{
@@ -394,11 +394,38 @@ void Player::draw(sf::RenderTexture *tex, sf::Shader &)
 		ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 2, 2);
 
 		_cursorTime += 0.025f;
-		Singleton::getInstance()._window->draw(icon, ShadersManager::getInstance().get(FLAG));
+		tex->draw(icon, ShadersManager::getInstance().get(FLAG));
 	}
 }
 
-void Player::draw(sf::RenderTexture *)
+void Player::drawInfos(sf::RenderTexture *tex)
+{
+	sf::Text name;
+	name.setFont(*FontManager::getInstance().getFont(SANSATION));
+	name.setString(_name);
+	name.setCharacterSize(12);
+	name.setColor(sf::Color::Black);
+	name.setPosition(_posDisp.x - (name.getGlobalBounds().width / 8), _posDisp.y - 24);
+	tex->draw(name);
+
+	if (_isSelected)
+	{
+		sf::Vector2f posIcon = _posDisp;
+		sf::RectangleShape icon(sf::Vector2f(32, 32));
+		icon.setTexture(ImageManager::getInstance().get(SELECTED_ICON));
+		posIcon.y -= 52;
+		icon.setPosition(posIcon);
+
+		ShadersManager::getInstance().get(FLAG)->setParameter("texture", sf::Shader::CurrentTexture);
+		ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", _cursorTime);
+		ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 2, 2);
+
+		_cursorTime += 0.025f;
+		tex->draw(icon, ShadersManager::getInstance().get(FLAG));
+	}
+}
+
+void Player::draw(sf::RenderTexture *tex)
 {
 
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
@@ -407,31 +434,7 @@ void Player::draw(sf::RenderTexture *)
 	sf::Vector2f v(0, -10);
 	//this->_anim->show(_posDisp + v);
 	_animatedSprite->setPosition(_posDisp + v);
-	Singleton::getInstance()._window->draw(*_animatedSprite);
-
-	sf::Text name;
-	name.setFont(*FontManager::getInstance().getFont(SANSATION));
-	name.setString(_name);
-	name.setCharacterSize(12);
-	name.setColor(sf::Color::Black);
-	name.setPosition(_posDisp.x - (name.getGlobalBounds().width / 8), _posDisp.y - 24);
-	Singleton::getInstance()._window->draw(name);
-
-	if (_isSelected)
-	{
-		sf::Vector2f posIcon = _posDisp;
-		sf::RectangleShape icon(sf::Vector2f(32, 32));
-		icon.setTexture(ImageManager::getInstance().get(SELECTED_ICON));
-		posIcon.y -= 52;
-		icon.setPosition(posIcon);
-
-		ShadersManager::getInstance().get(FLAG)->setParameter("texture", sf::Shader::CurrentTexture);
-		ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", _cursorTime);
-		ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 2, 2);
-
-		_cursorTime += 0.025f;
-		Singleton::getInstance()._window->draw(icon, ShadersManager::getInstance().get(FLAG));
-	}
+	tex->draw(*_animatedSprite);
 }
 
 void Player::stepsSound()

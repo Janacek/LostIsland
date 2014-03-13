@@ -565,17 +565,8 @@ sf::Vector2f				&Map::getCamPos()
 	return _camPos;
 }
 
-void						Map::draw(sf::RenderWindow *win)
+void						Map::draw()
 {
-	static float time = 0;
-
-	//_entitiesTexture->clear(sf::Color::Transparent);
-	//_waterTexture->clear(sf::Color::Black);
-	/*sf::RectangleShape tmp(sf::Vector2f(static_cast<float>(Chunk::SIZE_OF_CELL),
-		static_cast<float>(Chunk::SIZE_OF_CELL)));*/
-	//sf::RectangleShape trp(sf::Vector2f(static_cast<float>(Chunk::SIZE_OF_CELL),
-	//	static_cast<float>(Chunk::SIZE_OF_CELL)));
-
 	if (!_cellMap || !_entitiesMap)
 		return;
 	for (int i = static_cast<int>(_camera->_position.y); i < static_cast<int>((Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL + 2 + _camera->_position.y)); ++i)
@@ -593,7 +584,18 @@ void						Map::draw(sf::RenderWindow *win)
 					, (i - _camera->_position.y) * Chunk::SIZE_OF_CELL));
 				_mapTexture->draw(*_animatedSprite);
 			}
+		}
+	}
+}
 
+void						Map::drawEnv()
+{
+	if (!_cellMap || !_entitiesMap)
+		return;
+	for (int i = static_cast<int>(_camera->_position.y); i < static_cast<int>((Singleton::getInstance()._window->getSize().y / Chunk::SIZE_OF_CELL + 2 + _camera->_position.y)); ++i)
+	{
+		for (int j = static_cast<int>(_camera->_position.x); j < Singleton::getInstance()._window->getSize().x / Chunk::SIZE_OF_CELL + 1 + _camera->_position.x; ++j)
+		{
 			sf::Vector2f savePos;
 			if (_entitiesMap[i][j]._component != NULL && _entitiesMap[i][j]._component->getIsAMovingEntity() == false)
 			{
@@ -617,25 +619,12 @@ void						Map::draw(sf::RenderWindow *win)
 			}
 		}
 	}
-	//	_waterTexture->display();
+}
+
+void						Map::display()
+{
 	_mapTexture->display();
-	//_entitiesTexture->display();
-
-	/*ShadersManager::getInstance().get(FLAG)->setParameter("texture", sf::Shader::CurrentTexture);
-	ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", time);
-	ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 7, 0);
-
-	time += 0.025;
-	Singleton::getInstance()._window->draw(sf::Sprite(_waterTexture->getTexture()), ShadersManager::getInstance().get(FLAG));*/
 	Singleton::getInstance()._window->draw(sf::Sprite(_mapTexture->getTexture()));
-	//Singleton::getInstance()._window->draw(sf::Sprite(_entitiesTexture->getTexture()));
-
-	/*sf::RectangleShape tmp(sf::Vector2f(250, 250));
-	tmp.setPosition(500, 500);
-	tmp.setTextureRect(sf::Rect<int>(250, 250, 250, 250));
-	tmp.setTexture(&_mapTexture->getTexture());
-	Singleton::getInstance()._window->draw(tmp);*/
-
 }
 
 void						Map::generateRocks()

@@ -67,7 +67,9 @@ public:
 	void					generateRocks();
 
 	// Draw the map.
-	void					draw(sf::RenderWindow *);
+	void					draw();
+	void					drawEnv();
+	void					display();
 	// Updates the map.
 	void					update();
 	Chunk					**getMap() const;
@@ -139,10 +141,10 @@ public:
 	void					createMiniMap();
 	void					drawMiniMap(sf::RenderWindow *, std::vector<Player *> &);
 
-	std::vector<sf::Vector2f>		_spawnPoints;
+	std::vector<sf::Vector2f>			_spawnPoints;
 
 private:
-	std::string				&_loading;
+	std::string							&_loading;
 
 	Animation							*_waveAnim;
 	Animation							*_curAnim;

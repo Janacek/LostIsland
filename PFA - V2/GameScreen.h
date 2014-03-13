@@ -39,6 +39,10 @@ public:
 	virtual std::string &serialize() const;
 	virtual void deserialize(std::ifstream &) throw (MyException);
 
+	void drawEntities();
+	void drawEntitiesInfos();
+	void redrawEntities();
+
 	InventoryWindow			*_inventory; //Oups
 protected:
 private:
