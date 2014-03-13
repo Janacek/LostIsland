@@ -420,7 +420,6 @@ void Player::drawInfos(sf::RenderTexture *tex)
 		ShadersManager::getInstance().get(FLAG)->setParameter("wave_phase", _cursorTime);
 		ShadersManager::getInstance().get(FLAG)->setParameter("wave_amplitude", 2, 2);
 
-		_cursorTime += 0.025f;
 		tex->draw(icon, ShadersManager::getInstance().get(FLAG));
 	}
 }
@@ -480,29 +479,9 @@ void Player::update(Map & map)
 	dt = time - _oldDt;
 
 	_oldDt = time;
+	_cursorTime += dt;
 	this->stepsSound();
-	/*
-	Si on est en mvt on delete la case ou on était a la base, on set la case d'arrivée
 
-	*/
-	/*if (_isMoving == false && map.getEntitiesMap()[static_cast<int>(floor(_position.x))][static_cast<int>(floor(_position.y))]._component == NULL)
-	{
-	std::cout << "Point add : x " << static_cast<int>(floor(_position.x)) << " y " << static_cast<int>(floor(_position.y)) << std::endl;
-	map.setEntityMap(this, static_cast<int>(floor(_position.x)), static_cast<int>(floor(_position.y)));
-	}*/
-
-	/*
-	if (!_path.empty() && )
-	{
-		std::cout << "MUSICC" << std::endl;
-		
-	}
-	else
-	{
-		std::cout << "STOPPPPPPPPPPPPPP" << std::endl;
-		SoundManager::getSoundManager().getSounds()[STEPS].stop();
-	}
-	*/
 	changeMapEntity(map);
 
 	_hungerClock += dt;
@@ -516,10 +495,10 @@ void Player::update(Map & map)
 	if (_thirstClock > THIRST_CLOCK)
 	{
 		_thirstClock = 0.f;
-		_water -= 1;
+		_water -= 25;
 	}
 	if (_water <= 0)
-		_water = 0;
+		_water = 00;
 	if (_food <= 0)
 		_food = 0;
 
@@ -528,7 +507,7 @@ void Player::update(Map & map)
 	if (_lifeClock > HEALTH_CLOCK)
 	{
 		_lifeClock = 0;
-		_life -= 1;
+		_life -= 100;
 	}
 	if (_life <= 0)
 	{

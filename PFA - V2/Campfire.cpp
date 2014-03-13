@@ -20,6 +20,13 @@ Campfire::Campfire()
 	_duration = 60;
 }
 
+void Campfire::putCombustibleInFire(int value)
+{
+	_duration += value;
+	if (_duration > 60)
+		_duration = 60;
+}
+
 void Campfire::doAction(AEntity *other)
 {
 	// do action

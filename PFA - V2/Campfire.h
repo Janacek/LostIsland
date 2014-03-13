@@ -20,6 +20,7 @@ public:
 	virtual std::string &serialize() const;
 	virtual void deserialize(std::ifstream &) throw (MyException);
 	//sf::Rect & getCollisionBox(void);
+	void putCombustibleInFire(int);
 
 private:
 	std::list<std::pair<float, float> > _path;

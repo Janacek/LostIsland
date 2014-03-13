@@ -20,6 +20,7 @@
 #include "ShadersManager.h"
 #include "Herb.h"
 #include "Mushroom.h"
+#include "WaterBucket.h"
 
 std::string &GameScreen::serialize() const
 {
@@ -240,7 +241,7 @@ void GameScreen::initialize(void)
 	_loaded = true;
 	this->_players[0]->addEntityInInventory(new Wood);
 	this->_players[0]->addEntityInInventory(new Campfire);
-	this->_players[0]->addEntityInInventory(new Meat);
+	this->_players[0]->addEntityInInventory(new WaterBucket);
 }
 
 std::vector<Player *> &GameScreen::getPlayers()
@@ -393,23 +394,28 @@ void GameScreen::redrawEntities()
 				(*it)->draw(_map->_mapTexture);
 		}
 	}
-/*
+
 	for (auto it = _entities.begin(); it != _entities.end(); ++it)
 	{
-		sf::Vector2f savePos;
-		savePos = (*it)->getPosition();
-		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-		sf::Vector2f finalPos;
+		if (_map->getEntityAt((int)(*it)->getPosition().y - 1, (int)(*it)->getPosition().x) != NULL ||
+			(_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x) != NULL &&
+			_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x)->getType() != (*it)->getType()))
+		{
+			sf::Vector2f savePos;
+			savePos = (*it)->getPosition();
+			sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+			sf::Vector2f finalPos;
 
-		finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
-		finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
+			finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
+			finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
 
-		sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
-		if (mouseRect.intersects((*it)->getBoxCollider()))
-			(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
-		else
-			(*it)->draw(_map->_mapTexture);
-	}*/
+			sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
+			if (mouseRect.intersects((*it)->getBoxCollider()))
+				(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
+			else
+				(*it)->draw(_map->_mapTexture);
+		}
+	}
 }
 
 void GameScreen::drawEntitiesInfos()
@@ -550,21 +556,24 @@ void GameScreen::update(void)
 			(*it)->_objective = NULL;
 		if ((*it)->getLife() <= 0)
 		{
-			for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
-			{
-				for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
-				{
-					if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getId() == (*it)->getId() &&
-						_map->getEntitiesMap()[i][j]._component->getType() == PLAYER)
-					{
-						_map->getEntitiesMap()[i][j]._component->setId(-1);
-						_map->getEntitiesMap()[i][j]._component = NULL;
-						Player *tmp = (*it);
-						it = _players.erase(it);
-						delete tmp;
-					}
-				}
-			}
+			(*it)->setIsDead(true);
+		/*	Player *tmp = (*it);
+			it = _players.erase(it);*/
+			//for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
+			//{
+			//	for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
+			//	{
+			//		if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getId() == (*it)->getId() &&
+			//			_map->getEntitiesMap()[i][j]._component->getType() == PLAYER)
+			//		{
+			//			_map->getEntitiesMap()[i][j]._component->setId(-1);
+			//			_map->getEntitiesMap()[i][j]._component = NULL;
+			//			Player *tmp = (*it);
+			//			it = _players.erase(it);
+			//			delete tmp;
+			//		}
+			//	}
+			//}
 		}
 		if (_players.size() <= 0)
 		{
