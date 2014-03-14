@@ -26,7 +26,7 @@ void Player::deserialize(std::ifstream &) throw (MyException)
 	//load
 }
 
-Player::Player(sf::Vector2f &pos, Camera *cam) 
+Player::Player(sf::Vector2f &pos, Camera *cam)
 : _camera(cam), AEntity(0.f, true, sf::Vector2f(pos), 10, sf::FloatRect(0, 0, 0, 0), 100)
 {
 	_isActionning = false;
@@ -209,17 +209,18 @@ void Player::doActionOnEntity()
 		}
 		else
 		{
-			if (_objective->getIsActionOver() == false)
+			if (_objective->getIsActionOver() == true && _isActionning == false)
 			{
-				changeToActionAnim();
+				changeToIdleAnim();
 			}
 			else
-				changeToIdleAnim();
+				changeToActionAnim();
+
 			_isActionning = true;
 			if (_actionClock >= 0.5)
 			{
 				_isActionning = false;
-				
+
 				doAction(_objective);
 				_actionClock = 0;
 			}
@@ -248,12 +249,12 @@ void Player::changeToIdleAnim()
 {
 	/*if (_curAnim == _walkRightAnim)
 		_curAnim = _idleRightAnim;
-	if (_curAnim == _walkLeftAnim)
+		if (_curAnim == _walkLeftAnim)
 		_curAnim = _idleLeftAnim;
-	if (_curAnim == _walkUpAnim)
+		if (_curAnim == _walkUpAnim)
 		_curAnim = _idleUpAnim;
-	if (_curAnim == _walkDownAnim)*/
-		_curAnim = _idleDownAnim;
+		if (_curAnim == _walkDownAnim)*/
+	_curAnim = _idleDownAnim;
 }
 
 void Player::moveToNextWP()
@@ -272,20 +273,20 @@ void Player::moveToNextWP()
 		{
 
 			_path.push_back(_objective->getPath().front());
-			}
+		}
 		_timeAttack += dt;
 
-		
+
 	}
 	if (_timeAttack > 0.7 && _isAttacking == true)
 	{
 		_isAttacking = false;
 		_timeAttack = 0;
-		
+
 	}
 	if (_isAttacking == false)
 	{
-		
+
 		if (!_path.empty())
 		{
 			_animatedSprite->setLooped(true);
@@ -316,8 +317,8 @@ void Player::moveToNextWP()
 		}
 		else  {
 			doActionOnEntity();
- 			if (_isActionning == false)
-				changeToIdleAnim();
+			//if (_isActionning == false)
+			//	changeToIdleAnim();
 			//_animatedSprite->stop();
 			_isMoving = false;
 			_hasAPath = false;
@@ -344,7 +345,7 @@ void Player::moveToNextWP()
 			_curAnim = _attackDownAnim;
 		else
 			_curAnim = _attackUpAnim;
-		
+
 		_objective->getAction(this);
 		//On need un new chemin ici 
 	}
@@ -358,7 +359,7 @@ sf::Vector2i const Player::diffDist(sf::Vector2f&first, sf::Vector2f&second)
 	sf::Vector2i sum;
 	sum.x = floor(((first.x) - (second.x)));
 	sum.y = floor(((first.y) - (second.y)));
-	
+
 	return sum;
 }
 
@@ -447,7 +448,7 @@ void Player::stepsSound()
 		this->_stepts.stop();
 		this->_isWalking = false;
 	}
-	
+
 }
 
 void Player::changeMapEntity(Map & map)
@@ -466,7 +467,7 @@ void Player::changeMapEntity(Map & map)
 			map.setEntityMap(this, static_cast<int>(floor(_path.back().second)), static_cast<int>(floor(_path.back().first)));
 		}
 
-	}		
+	}
 }
 
 void Player::update(Map & map)
@@ -564,7 +565,7 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 	_idleLeftAnim->addFrame(sf::IntRect(457, 170, 48, 88));
 	_idleLeftAnim->addFrame(sf::IntRect(407, 170, 48, 88));
 	_idleLeftAnim->addFrame(sf::IntRect(357, 170, 48, 88));
-	
+
 	_walkUpAnim = new Animation();
 	_walkUpAnim->setSpriteSheet(*imgAnim);
 	_walkUpAnim->addFrame(sf::IntRect(0, 260, 80, 84));
@@ -591,7 +592,7 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 	_walkDownAnim->addFrame(sf::IntRect(609, 346, 78, 80));
 	_walkDownAnim->addFrame(sf::IntRect(688, 346, 78, 80));
 
-	
+
 	_walkRightAnim = new Animation();
 	_walkRightAnim->setSpriteSheet(*imgAnim);
 	_walkRightAnim->addFrame(sf::IntRect(1, 428, 68, 88));
@@ -711,16 +712,16 @@ void Player::loadAnimation(std::string const & string_anim, float speed)
 
 	_animatedSprite = new AnimatedSprite(sf::seconds(0.1), true, false);
 	_animatedSprite->setScale(0.5, 0.5);
-	
+
 
 	_curAnim = _idleDownAnim;
 
 
 	_animatedSprite->play(*_curAnim);
-	
-	
 
-	
+
+
+
 
 }
 

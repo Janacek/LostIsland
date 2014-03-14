@@ -29,6 +29,7 @@ void Mushroom::getAction(AEntity *other)
 {
 	if (!_picked)
 	{
+		_isActionOver = true;
 		_picked = true;
 		_isDead = true;
 		Player *player = dynamic_cast<Player *>(other);

@@ -145,9 +145,10 @@ void HarmfullAnimal::moveToNextWP()
 			_hasAPath = false;
 		}
 	}
-	if (_isAttacking == false && _objective && _objective->getIsAMovingEntity() && _objective->getBoxCollider().intersects(_animatedSprite->getGlobalBounds()))
+	if (_isAttacking == false && _objective && _objective->getIsAMovingEntity() && !_objective->getIsDead() && _objective->getBoxCollider().intersects(_animatedSprite->getGlobalBounds()))
 	{
 		_isAttacking = true;
+		
 		std::pair<float, float> save;
 		save.first = _path.front().first;
 		save.second = _path.front().second;
@@ -209,9 +210,9 @@ void HarmfullAnimal::loadAnimation(std::string const &string_anim, float)
 
 void HarmfullAnimal::draw(sf::RenderTexture *tex, sf::Shader &shader) // To edit
 {
+	
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
-
 	if (!_isDead)
 	{
 		_animatedSprite->setPosition(_posDisp);

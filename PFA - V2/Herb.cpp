@@ -29,6 +29,7 @@ void Herb::getAction(AEntity *other)
 {
 	if (!_picked)
 	{
+		_isActionOver = true;
 		_picked = true;
 		_isDead = true;
 		Player *player = dynamic_cast<Player *>(other);
@@ -43,7 +44,7 @@ void Herb::loadAnimation(std::string const &, float)
 
 void Herb::update(Map &)
 {
-
+	
 }
 
 void Herb::draw(sf::RenderTexture *tex, sf::Shader &)
