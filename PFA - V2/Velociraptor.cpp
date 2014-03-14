@@ -3,7 +3,7 @@
 Velociraptor::Velociraptor(sf::Vector2f &position, int life, Camera *cam)
 : Dinosaur(position, life, cam)
 {
-	_damages = 10;
+	_damages = 8;
 	loadAnimation("Media/images/velociraptor.png", 0.1f);
 }
 

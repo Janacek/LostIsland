@@ -312,7 +312,7 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity 
 			}
 			if (((*it2)->getType() == DINOSAUR) && (*it2)->getIsStopped() == false)
 			{
-				if (diffDist((*it)->getPosition(), (*it2)->getPosition()) < 6 && (*it2)->getIsMoving() == false)
+				if (diffDist((*it)->getPosition(), (*it2)->getPosition()) < 10 && (*it2)->getIsMoving() == false)
 				{
 					sf::Vector2i tmp_begin(static_cast<int>((*it)->getPosition().x), static_cast<int>((*it)->getPosition().y));
 					sf::Vector2i tmp_end(static_cast<int>((*it2)->getPosition().x), static_cast<int>((*it2)->getPosition().y));

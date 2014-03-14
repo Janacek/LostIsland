@@ -496,7 +496,7 @@ void Player::update(Map & map)
 	if (_thirstClock > THIRST_CLOCK)
 	{
 		_thirstClock = 0.f;
-		_water -= 25;
+		_water -= 1;
 	}
 	if (_water <= 0)
 		_water = 00;

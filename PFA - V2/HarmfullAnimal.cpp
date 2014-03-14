@@ -158,14 +158,15 @@ void HarmfullAnimal::moveToNextWP()
 		_animatedSprite->setLooped(false);
 		_timeAttack += dt;
 		sf::Vector2i tmp = diffDist(_objective->getPosition(), _position);
+		//std::cout << "x " << tmp.x << " y " << tmp.y << std::endl;
 		if (tmp.x >= 0 && tmp.y == -1) // moi non plus je comprend pas mais une phase de test à arbres binaire composé de baies m'a dit que c'était la bonne solution
 			_curAnim = _attackRight;
 		else if (tmp.x <= -1 && tmp.y == -1)
 			_curAnim = _attackLeft;
 		else if (tmp.x <= 0 && tmp.y == 0)
-			_curAnim = _attackDown;
-		else
 			_curAnim = _attackUp;
+		else
+			_curAnim = _attackDown;
 
 		_objective->getAction(this);
 		//On need un new chemin ici 
