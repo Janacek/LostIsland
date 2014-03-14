@@ -35,4 +35,5 @@ private:
 	double								_oldTime;
 
 	double								_duration;
+	double								_timeBurning;
 };

@@ -43,6 +43,8 @@ public:
 	sf::Clock *_animClock;
 	sfg::Desktop _desktop;
 
+	bool gameOver;
+
 	
 private:
 	Singleton(const Singleton&) {};

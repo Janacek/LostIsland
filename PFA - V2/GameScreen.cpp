@@ -55,7 +55,8 @@ GameScreen::GameScreen()
 	_loadingScreen = new sf::Image;
 	_loadingScreen->loadFromFile("./Media/images/loadingScreen.png");
 	_loaded = false;
-
+	_gameOver = false;
+	Singleton::getInstance().gameOver = false;
 }
 
 GameScreen::~GameScreen()
@@ -339,45 +340,7 @@ void GameScreen::drawEntities()
 {
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
-		sf::Vector2f savePos;
-		savePos = (*it)->getPosition();
-		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-		sf::Vector2f finalPos;
-
-		finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
-		finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
-
-		sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
-		if (mouseRect.intersects((*it)->getBoxCollider()))
-			(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
-		else
-			(*it)->draw(_map->_mapTexture);
-	}
-	for (auto it = _entities.begin(); it != _entities.end(); ++it)
-	{
-		sf::Vector2f savePos;
-		savePos = (*it)->getPosition();
-		sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
-		sf::Vector2f finalPos;
-
-		finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
-		finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
-
-		sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
-		if (mouseRect.intersects((*it)->getBoxCollider()))
-			(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
-		else
-			(*it)->draw(_map->_mapTexture);
-	}
-}
-
-void GameScreen::redrawEntities()
-{
-	for (auto it = _players.begin(); it != _players.end(); ++it)
-	{
-		if (_map->getEntityAt((int)(*it)->getPosition().y - 1, (int)(*it)->getPosition().x) != NULL ||
-			(_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x) != NULL &&
-			_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x)->getType() != PLAYER))
+		if (!(*it)->getIsDead())
 		{
 			sf::Vector2f savePos;
 			savePos = (*it)->getPosition();
@@ -394,12 +357,9 @@ void GameScreen::redrawEntities()
 				(*it)->draw(_map->_mapTexture);
 		}
 	}
-
 	for (auto it = _entities.begin(); it != _entities.end(); ++it)
 	{
-		if (_map->getEntityAt((int)(*it)->getPosition().y - 1, (int)(*it)->getPosition().x) != NULL ||
-			(_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x) != NULL &&
-			_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x)->getType() != (*it)->getType()))
+		if (!(*it)->getIsDead())
 		{
 			sf::Vector2f savePos;
 			savePos = (*it)->getPosition();
@@ -414,6 +374,59 @@ void GameScreen::redrawEntities()
 				(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
 			else
 				(*it)->draw(_map->_mapTexture);
+		}
+	}
+}
+
+void GameScreen::redrawEntities()
+{
+	for (auto it = _players.begin(); it != _players.end(); ++it)
+	{
+		if (!(*it)->getIsDead())
+		{
+			if (_map->getEntityAt((int)(*it)->getPosition().y - 1, (int)(*it)->getPosition().x) != NULL ||
+				(_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x) != NULL &&
+				_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x)->getType() != PLAYER))
+			{
+				sf::Vector2f savePos;
+				savePos = (*it)->getPosition();
+				sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+				sf::Vector2f finalPos;
+
+				finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
+				finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
+
+				sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
+				if (mouseRect.intersects((*it)->getBoxCollider()))
+					(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
+				else
+					(*it)->draw(_map->_mapTexture);
+			}
+		}
+	}
+
+	for (auto it = _entities.begin(); it != _entities.end(); ++it)
+	{
+		if (!(*it)->getIsDead())
+		{
+			if (_map->getEntityAt((int)(*it)->getPosition().y - 1, (int)(*it)->getPosition().x) != NULL ||
+				(_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x) != NULL &&
+				_map->getEntityAt((int)(*it)->getPosition().y, (int)(*it)->getPosition().x)->getType() != (*it)->getType()))
+			{
+				sf::Vector2f savePos;
+				savePos = (*it)->getPosition();
+				sf::Vector2i mousePos = sf::Mouse::getPosition(*Singleton::getInstance()._window);
+				sf::Vector2f finalPos;
+
+				finalPos.x = (float)mousePos.x / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.x);
+				finalPos.y = (float)mousePos.y / (float)Chunk::SIZE_OF_CELL + static_cast<float>(_map->_camera->_position.y);
+
+				sf::FloatRect mouseRect(sf::Vector2f(mousePos), sf::Vector2f(2, 2));
+				if (mouseRect.intersects((*it)->getBoxCollider()))
+					(*it)->draw(_map->_mapTexture, *ShadersManager::getInstance().get(BLOOM));
+				else
+					(*it)->draw(_map->_mapTexture);
+			}
 		}
 	}
 }
@@ -422,7 +435,10 @@ void GameScreen::drawEntitiesInfos()
 {
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
-		(*it)->drawInfos(_map->_mapTexture);
+		if (!(*it)->getIsDead())
+		{
+			(*it)->drawInfos(_map->_mapTexture);
+		}
 	}
 }
 
@@ -529,13 +545,16 @@ void	GameScreen::updateSelectionZone()
 
 			tmp.setPosition(posDisp);
 
-			if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
+			if (!(*it)->getIsDead())
 			{
-				(*it)->setIsSelected(true);
-			}
-			else if (!Singleton::getInstance().isShiftPressed)
-			{
-				(*it)->setIsSelected(false);
+				if (selectionZone.getGlobalBounds().intersects(tmp.getGlobalBounds()))
+				{
+					(*it)->setIsSelected(true);
+				}
+				else if (!Singleton::getInstance().isShiftPressed)
+				{
+					(*it)->setIsSelected(false);
+				}
 			}
 		}
 	}
@@ -543,49 +562,47 @@ void	GameScreen::updateSelectionZone()
 
 void GameScreen::update(void)
 {
+	if (Singleton::getInstance().gameOver)
+	{
+		exit(1);
+	}
+
 	_physicEngine->updatePos(_players, _entities);
 
 	updateSelectionZone();
 	//std::sort(_players.begin(), _players.end(), cmpPlayers);
+	int gameOver = 0;
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
-		(*it)->update(*_map);
-		if ((*it)->_objective)
-		if ((*it)->_objective->getLife() <= 0 && (*it)->_objective->getIsAMovingEntity())
-			(*it)->_objective = NULL;
-		if ((*it)->getLife() <= 0)
+		if (!(*it)->getIsDead())
 		{
-			(*it)->setIsDead(true);
-		/*	Player *tmp = (*it);
-			it = _players.erase(it);*/
-			//for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
-			//{
-			//	for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
-			//	{
-			//		if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getId() == (*it)->getId() &&
-			//			_map->getEntitiesMap()[i][j]._component->getType() == PLAYER)
-			//		{
-			//			_map->getEntitiesMap()[i][j]._component->setId(-1);
-			//			_map->getEntitiesMap()[i][j]._component = NULL;
-			//			Player *tmp = (*it);
-			//			it = _players.erase(it);
-			//			delete tmp;
-			//		}
-			//	}
-			//}
+			(*it)->update(*_map);
+			if ((*it)->_objective)
+			if ((*it)->_objective->getLife() <= 0 && (*it)->_objective->getIsAMovingEntity())
+				(*it)->_objective = NULL;
+			if ((*it)->getLife() <= 0)
+			{
+				(*it)->setIsDead(true);
+				(*it)->setIsSelected(false);
+			}
 		}
-		if (_players.size() <= 0)
-		{
-			_next = new GameOverScreen;
-			_isRunning = false;
-			return;
-		}
+
+		if ((*it)->getIsDead())
+			++gameOver;
+	}
+
+	if (gameOver == 4)
+	{
+		_next = new GameOverScreen;
+		_isRunning = false;
+		return;
 	}
 
 	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
 	{
-		(*it2)->update(*_map);
+		if (!(*it2)->getIsDead())
+			(*it2)->update(*_map);
 	}
 
 	_map->update();
@@ -597,14 +614,7 @@ void GameScreen::update(void)
 		{
 			if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getIsDead())
 			{
-				//delete _map->getEntitiesMap()[i][j]._component;
 				_map->getEntitiesMap()[i][j]._component = NULL;
-				/*		for (auto it = _entities.begin(); it != _entities.end(); ++it)
-						{
-						if ((*it)->getIsDead())
-						it = _entities.erase(it);
-						}*/
-				//delete tmp;
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 #include "Campfire.h"
 #include "Player.h"
+#include "Singleton.h"
 #include "ShadersManager.h"
 
 std::string &Campfire::serialize() const
@@ -18,6 +19,7 @@ Campfire::Campfire()
 {
 	loadAnimation("./Media/images/campfire.png", 0.1f);
 	_duration = 60;
+	_timeBurning = 0;
 }
 
 void Campfire::putCombustibleInFire(int value)
@@ -92,9 +94,15 @@ void Campfire::update(Map &map)
 	_animatedSprite->play(*_curAnim);
 
 	_duration -= dt;
+	_timeBurning += dt;
 
 	if (_duration <= 0)
 		_duration = 0;
+
+	if (_timeBurning >= 5)
+	{
+		Singleton::getInstance().gameOver = true;
+	}
 
 	sf::Time t = sf::seconds(dt);
 	_animatedSprite->update(t);

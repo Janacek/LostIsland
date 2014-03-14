@@ -46,6 +46,9 @@ public:
 	InventoryWindow			*_inventory; //Oups
 protected:
 private:
+
+	bool				_gameOver;
+
 	Crafting			*_crafting;
 	Camera				_camera;
 	void				updateStatistics(sf::Time &elapsedTime);
