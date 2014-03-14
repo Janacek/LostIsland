@@ -495,7 +495,7 @@ void Player::update(Map & map)
 	if (_thirstClock > THIRST_CLOCK)
 	{
 		_thirstClock = 0.f;
-		_water -= 25;
+		_water -= 1;
 	}
 	if (_water <= 0)
 		_water = 00;
@@ -507,7 +507,7 @@ void Player::update(Map & map)
 	if (_lifeClock > HEALTH_CLOCK)
 	{
 		_lifeClock = 0;
-		_life -= 100;
+		_life -= 1;
 	}
 	if (_life <= 0)
 	{

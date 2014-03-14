@@ -538,14 +538,17 @@ void						Map::drawMiniMap(sf::RenderWindow *win, std::vector<Player *> &players
 	}
 
 	for (auto it = players.begin(); it != players.end(); ++it) {
-		sf::RectangleShape tmp(sf::Vector2f(
-			static_cast<float>(3 * rapport.x),
-			static_cast<float>(3 * rapport.y)));
-		tmp.setFillColor(sf::Color::Red);
-		tmp.setOutlineColor(sf::Color::Black);
-		tmp.setOutlineThickness(1.f);
-		tmp.setPosition((*it)->getPosition().x * rapport.x, (*it)->getPosition().y * rapport.y);
-		win->draw(tmp);
+		if (!(*it)->getIsDead())
+		{
+			sf::RectangleShape tmp(sf::Vector2f(
+				static_cast<float>(3 * rapport.x),
+				static_cast<float>(3 * rapport.y)));
+			tmp.setFillColor(sf::Color::Red);
+			tmp.setOutlineColor(sf::Color::Black);
+			tmp.setOutlineThickness(1.f);
+			tmp.setPosition((*it)->getPosition().x * rapport.x, (*it)->getPosition().y * rapport.y);
+			win->draw(tmp);
+		}
 	}
 
 	sf::RectangleShape tmp(sf::Vector2f(
