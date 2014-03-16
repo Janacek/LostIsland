@@ -28,7 +28,6 @@ void CustomToggleButton::updateLabel()
 		this->setLabelText(this->_ressources);
 	}
 }
-		
 
 int CustomToggleButton::getNbrLabelRessource() const
 {

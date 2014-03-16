@@ -76,6 +76,7 @@
     <ClCompile Include="HarmfullAnimal.cpp" />
     <ClCompile Include="Dinosaur.cpp" />
     <ClCompile Include="Velociraptor.cpp" />
+    <ClCompile Include="Stuff.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bunny.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="HarmfullAnimal.h" />
     <ClInclude Include="Dinosaur.h" />
     <ClInclude Include="Velociraptor.h" />
+    <ClInclude Include="Stuff.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossType.hh" />

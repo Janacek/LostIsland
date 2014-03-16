@@ -8,6 +8,7 @@
 #include "Crafting.h"
 
 class GameScreen;
+class Stuff;
 
 class InventoryWindow
 {

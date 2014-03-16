@@ -9,6 +9,7 @@
 
 #include "InventoryWindow.h"
 #include "Crafting.h"
+#include "Stuff.h"
 #include "PhysicEngine.h"
 #include "StartScreen.h"
 #include "FontManager.h"
@@ -50,6 +51,7 @@ private:
 	bool				_gameOver;
 
 	Crafting			*_crafting;
+	Stuff				*_stuff;
 	Camera				_camera;
 	void				updateStatistics(sf::Time &elapsedTime);
 	void				checkDrop(sf::Event &e);
@@ -103,8 +105,4 @@ private:
 	std::string				_loadingText;
 	sf::Text				_loadingSfText;
 
-	/*--------TEST---------*/
-	std::vector<AEntity *> _one;
-	std::vector<AEntity *> _two;
-	std::vector<AEntity *> _tree;
 };
