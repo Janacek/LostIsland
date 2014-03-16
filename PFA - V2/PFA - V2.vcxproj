@@ -119,6 +119,7 @@
     <ClCompile Include="Flint.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Fur.cpp" />
+    <ClCompile Include="Gear.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="HarmfullAnimal.cpp" />
     <ClCompile Include="HarmlessAnimal.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Flint.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="Fur.h" />
+    <ClInclude Include="Gear.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="HarmfullAnimal.h" />
     <ClInclude Include="HarmlessAnimal.h" />

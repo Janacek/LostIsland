@@ -1,4 +1,5 @@
 #include "Sword.h"
+#include "Player.h"
 
 std::string &Sword::serialize() const
 {
@@ -20,6 +21,11 @@ Sword::Sword()
 void Sword::doAction(AEntity *other)
 {
 	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->addEntityInInventory(new Sword);
+	}
 }
 
 void Sword::getAction(AEntity *other)

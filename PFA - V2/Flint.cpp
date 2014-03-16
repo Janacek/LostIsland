@@ -1,4 +1,5 @@
 #include "Flint.h"
+#include "Player.h"
 
 std::string &Flint::serialize() const
 {
@@ -20,6 +21,11 @@ Flint::Flint()
 void Flint::doAction(AEntity *other)
 {
 	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->addEntityInInventory(new Flint);
+	}
 }
 
 void Flint::getAction(AEntity *other)

@@ -60,6 +60,10 @@ enum Type
 	HARMFULL_ANIMAL,
 	DINOSAUR,
 	VELOCIRAPTOR,
+	TRUCK,
+	GEAR,
+	ARMOR,
+	WEAPON,
 };
 
 inline const char* typetoString(Type v)

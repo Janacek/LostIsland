@@ -57,6 +57,9 @@ GameScreen::GameScreen()
 	_loaded = false;
 	_gameOver = false;
 	Singleton::getInstance().gameOver = false;
+	_truckPosition = sf::Vector2f(-1000, 450);
+	_credit0 = sf::Vector2f(500, 1100);
+	_playMusic = true;
 }
 
 GameScreen::~GameScreen()
@@ -96,6 +99,9 @@ void GameScreen::initialize(void)
 {
 	std::ostringstream os;
 	_loaded = false;
+
+	_music = new sf::Music;
+	_music->openFromFile("./Media/sounds/bgm/winTheme.ogg");
 
 	_loadingText = "Initializing map";
 	_map->init(std::string(""), sf::Vector2i(18, 18), 33);
@@ -442,6 +448,17 @@ void GameScreen::drawEntitiesInfos()
 	}
 }
 
+void GameScreen::drawText(std::string text, int x, int y, int size)
+{
+	sf::Text t;
+	t.setPosition(x, y);
+	t.setString(text);
+	t.setFont(*FontManager::getInstance().getFont(SANSATION));
+	t.setCharacterSize(size);
+	t.setColor(sf::Color::Black);
+	Singleton::getInstance()._window->draw(t);
+}
+
 void GameScreen::draw()
 {
 	if (!_loaded)
@@ -456,7 +473,7 @@ void GameScreen::draw()
 		_loadingSfText.setString(_loadingText);
 		Singleton::getInstance()._window->draw(_loadingSfText);
 	}
-	else
+	else if (!Singleton::getInstance().gameOver)
 	{
 		Singleton::getInstance()._window->clear();
 		_t = Singleton::getInstance()._clock->restart();
@@ -488,6 +505,29 @@ void GameScreen::draw()
 		checkDrawInventory();
 		this->_inventory->update();
 		this->_inventory->draw();
+	}
+	else
+	{
+		this->_map->draw();
+		this->drawEntities();
+		this->_map->drawEnv();
+		this->drawEntitiesInfos();
+		this->redrawEntities();
+		this->_map->display();
+		this->_map->drawMiniMap(Singleton::getInstance()._window, _players);
+
+
+		sf::Sprite spriteLoad(*ImageManager::getInstance().get(TRUCK));
+		spriteLoad.setPosition(_truckPosition);
+		Singleton::getInstance()._window->draw(spriteLoad);
+
+		drawText("THANK YOU FOR PLAYING LOST ISLAND,", _credit0.x - 100, _credit0.y, 75);
+		drawText("SINCERLY, THE LOST TEAM", _credit0.x - 100, _credit0.y + 100, 75);
+		drawText("THOMAS MARTIN", _credit0.x - 100, _credit0.y + 200, 75);
+		drawText("RONAN GUINOT", _credit0.x - 100, _credit0.y + 300, 75);
+		drawText("REMY THULIE", _credit0.x - 100, _credit0.y + 400, 75);
+		drawText("GUILLAUME MARCHAND", _credit0.x - 100, _credit0.y + 500, 75);
+
 	}
 	Singleton::getInstance()._window->display();
 }
@@ -564,66 +604,87 @@ void GameScreen::update(void)
 {
 	if (Singleton::getInstance().gameOver)
 	{
-		exit(1);
-	}
-
-	_physicEngine->updatePos(_players, _entities);
-
-	updateSelectionZone();
-	//std::sort(_players.begin(), _players.end(), cmpPlayers);
-	int gameOver = 0;
-
-	for (auto it = _players.begin(); it != _players.end(); ++it)
-	{
-		if (!(*it)->getIsDead())
+		// code the end here
+		//exit(1);
+		if (_playMusic)
 		{
-			(*it)->update(*_map);
-			if ((*it)->_objective)
-			if ((*it)->_objective->getLife() <= 0 && (*it)->_objective->getIsAMovingEntity())
-				(*it)->_objective = NULL;
-			if ((*it)->getLife() <= 0)
+			_music->play();
+			_playMusic = false;
+		}
+
+		_truckPosition.x += 0.003;
+
+		if (_truckPosition.x >= 1920)
+		{
+			_credit0.y -= 0.002;
+		}
+
+		if (Singleton::getInstance().isEscapePressed)
+		{
+			_isRunning = false;
+			_next = new StartScreen();
+		}
+	}
+	else
+	{
+		_physicEngine->updatePos(_players, _entities);
+
+		updateSelectionZone();
+		//std::sort(_players.begin(), _players.end(), cmpPlayers);
+		int gameOver = 0;
+
+		for (auto it = _players.begin(); it != _players.end(); ++it)
+		{
+			if (!(*it)->getIsDead())
 			{
-				(*it)->setIsDead(true);
-				(*it)->setIsSelected(false);
+				(*it)->update(*_map);
+				if ((*it)->_objective)
+				if ((*it)->_objective->getLife() <= 0 && (*it)->_objective->getIsAMovingEntity())
+					(*it)->_objective = NULL;
+				if ((*it)->getLife() <= 0)
+				{
+					(*it)->setIsDead(true);
+					(*it)->setIsSelected(false);
+				}
+			}
+
+			if ((*it)->getIsDead())
+				++gameOver;
+		}
+
+		if (gameOver == 4)
+		{
+			_next = new GameOverScreen;
+			_isRunning = false;
+			return;
+		}
+
+		for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
+		{
+			if (!(*it2)->getIsDead())
+				(*it2)->update(*_map);
+		}
+
+		_map->update();
+
+
+		for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
+		{
+			for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
+			{
+				if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getIsDead())
+				{
+					_map->getEntitiesMap()[i][j]._component = NULL;
+				}
 			}
 		}
 
-		if ((*it)->getIsDead())
-			++gameOver;
-	}
 
-	if (gameOver == 4)
-	{
-		_next = new GameOverScreen;
-		_isRunning = false;
-		return;
-	}
-
-	for (auto it2 = _entities.begin(); it2 != _entities.end(); ++it2)
-	{
-		if (!(*it2)->getIsDead())
-			(*it2)->update(*_map);
-	}
-
-	_map->update();
-
-
-	for (int i = 0; i < _map->getSize().y * Chunk::NB_CELLS; ++i)
-	{
-		for (int j = 0; j < _map->getSize().x * Chunk::NB_CELLS; ++j)
+		if (Singleton::getInstance().isEscapePressed)
 		{
-			if (_map->getEntitiesMap()[i][j]._component && _map->getEntitiesMap()[i][j]._component->getIsDead())
-			{
-				_map->getEntitiesMap()[i][j]._component = NULL;
-			}
+			_isRunning = false;
+			_next = new StartScreen();
 		}
-	}
-
-
-	if (Singleton::getInstance().isEscapePressed)
-	{
-		_isRunning = false;
-		_next = new StartScreen();
 	}
 }
 
