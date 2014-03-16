@@ -119,7 +119,6 @@ bool PhysicEngine::launchPf(sf::Vector2i&tmp_begin, sf::Vector2i &tmp_end, Playe
 bool PhysicEngine::tryFindAPathEnnemy(sf::Vector2i&tmp_begin2, sf::Vector2i &tmp_end, AEntity &ent, Player *obj) // tmp begin = player
 {
 	sf::Vector2i tmp_begin = tmp_begin2;
-	std::cout << "player x " << tmp_begin.x << " y " << tmp_begin.y << std::endl;
 	//system("pause");
 	//tmp_begin.x = (static_cast<int>(tmp_begin.x + _map->getCamPos().x * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL; // ISOK
 	//tmp_begin.y = (static_cast<int>(tmp_begin.y + _map->getCamPos().y * Chunk::SIZE_OF_CELL)) / Chunk::SIZE_OF_CELL;
@@ -259,8 +258,7 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity 
 		{
 			if (Singleton::getInstance().isRightClicking)
 			{
-				sf::RectangleShape tmp(sf::Vector2f(32, 32));
-
+				sf::RectangleShape tmp(sf::Vector2f((*it2)->getBoxCollider().width, (*it2)->getBoxCollider().height));
 				sf::Vector2f posDisp;
 				posDisp.x = (((*it2)->getPosition().x - _map->_camera->_position.x) * Chunk::SIZE_OF_CELL);
 				posDisp.y = (((*it2)->getPosition().y - _map->_camera->_position.y) * Chunk::SIZE_OF_CELL);
@@ -314,7 +312,7 @@ void PhysicEngine::updatePos(std::vector<Player *> players, std::vector<AEntity 
 			}
 			if (((*it2)->getType() == DINOSAUR) && (*it2)->getIsStopped() == false)
 			{
-				if (diffDist((*it)->getPosition(), (*it2)->getPosition()) < 6 && (*it2)->getIsMoving() == false)
+				if (diffDist((*it)->getPosition(), (*it2)->getPosition()) < 10 && (*it2)->getIsMoving() == false)
 				{
 					sf::Vector2i tmp_begin(static_cast<int>((*it)->getPosition().x), static_cast<int>((*it)->getPosition().y));
 					sf::Vector2i tmp_end(static_cast<int>((*it2)->getPosition().x), static_cast<int>((*it2)->getPosition().y));

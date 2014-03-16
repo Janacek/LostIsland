@@ -209,12 +209,8 @@ void Player::doActionOnEntity()
 		}
 		else
 		{
-			if (_objective->getIsActionOver() == false)
-			{
-				changeToActionAnim();
-			}
-			else
-				changeToIdleAnim();
+			
+
 			_isActionning = true;
 			if (_actionClock >= 0.5)
 			{
@@ -223,6 +219,12 @@ void Player::doActionOnEntity()
 				doAction(_objective);
 				_actionClock = 0;
 			}
+			if (_objective->getIsActionOver() == true)
+			{
+				changeToIdleAnim();
+			}
+			else
+				changeToActionAnim();
 		}
 	}
 }
@@ -506,7 +508,7 @@ void Player::update(Map & map)
 	if (_lifeClock > HEALTH_CLOCK)
 	{
 		_lifeClock = 0;
-		_life -= 1;
+		_life -= 100;
 	}
 	if (_life <= 0)
 	{

@@ -92,6 +92,7 @@ void Bush::getAction(AEntity *other)
 		_growthTime = 0.f;
 		try // si c'est un player
 		{
+			_isActionOver = true;
 			Player *player = dynamic_cast<Player *>(other);
 			player->addEntityInInventory(new Berry);
 		}

@@ -37,7 +37,7 @@ void InventoryWindow::createToolbar()
 	auto craftButton = sfg::Button::Create("Craft");
 	craftButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&InventoryWindow::craftClick, this));
 	auto stuffButton = sfg::Button::Create("Stuff");
-	/*TODO signaux*/
+
 	this->_toolbar->Pack(useButton);
 	this->_toolbar->Pack(this->_spinButton);
 	this->_toolbar->Pack(dropButton);
@@ -312,6 +312,7 @@ void InventoryWindow::createCompartment(Player *player)
 	this->_tableBox.push_back(box);
 	this->_inventoryBox->PackEnd(box);
 }
+
 void InventoryWindow::init()
 {
 	//A mettre dans le singleton 

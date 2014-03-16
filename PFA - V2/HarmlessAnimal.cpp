@@ -98,7 +98,7 @@ void HarmlessAnimal::moveToNextWP()
 			_path.front().first == floor(tmp.x) && _path.front().second == floor(tmp.y)) // && que chaque coté est dans la case
 
 		{
-
+			
 			_path.pop_front();
 			changeAnimation(_position, _path.front());
 			return;

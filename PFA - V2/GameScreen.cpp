@@ -49,8 +49,6 @@ GameScreen::GameScreen()
 	_statisticsText.setCharacterSize(10);
 	_statisticsText.setPosition(0, 30);
 
-	/*TEST*/
-	_one.push_back(new Meat);
 
 	_loadingScreen = new sf::Image;
 	_loadingScreen->loadFromFile("./Media/images/loadingScreen.png");
@@ -243,6 +241,9 @@ void GameScreen::initialize(void)
 	this->_inventory->setCraftingClass(this->_crafting);
 	this->_crafting->setInventoryClass(this->_inventory);
 	this->_crafting->createChooseWindowContent();
+
+	this->_stuff = new Stuff;
+	this->_stuff->createZones(this->_players);
 	//initialisation de l'image du pointeur
 	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 	_loaded = true;
@@ -503,6 +504,7 @@ void GameScreen::draw()
 
 		this->_map->drawMiniMap(Singleton::getInstance()._window, _players);
 		checkDrawInventory();
+		this->_stuff->checkScrollEvent();
 		this->_inventory->update();
 		this->_inventory->draw();
 	}
@@ -694,9 +696,13 @@ void		GameScreen::checkDrawInventory()
 	{
 		this->_activeInventary = !this->_activeInventary;
 		if (this->_activeInventary == true)
+		{
 			this->_inventory->showBox(this->_players);
+			this->_stuff->showBox(this->_players);
+		}
 		this->_inventory->_inventoryWindow->Show(this->_activeInventary);
 		this->_crafting->Show(this->_activeInventary);
+		this->_stuff->Show(this->_activeInventary);
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
 }

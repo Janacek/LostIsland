@@ -92,7 +92,6 @@ void HarmfullAnimal::moveToNextWP()
 	{
 		if (_objective &&  !_objective->getPath().empty() && _path.back() != _objective->getPath().front())
 		{
-
 			_path.push_back(_objective->getPath().front());
 		}
 		_timeAttack += dt;
@@ -107,6 +106,7 @@ void HarmfullAnimal::moveToNextWP()
 	{
 		if (!_path.empty())
 		{
+		
 			//_anim->play();
 			_animatedSprite->play(*_curAnim);
 			_isMoving = true;
@@ -145,9 +145,17 @@ void HarmfullAnimal::moveToNextWP()
 			_hasAPath = false;
 		}
 	}
-	if (_isAttacking == false && _objective && _objective->getIsAMovingEntity() && _objective->getBoxCollider().intersects(_animatedSprite->getGlobalBounds()))
+	if (_objective && _objective->getIsDead())
 	{
+		_curAnim = _walkDown;
+		_path.clear();
+		_objective = NULL;
+	}
+	if (_isAttacking == false && _objective && _objective->getIsAMovingEntity() && !_objective->getIsDead() && _objective->getBoxCollider().intersects(_animatedSprite->getGlobalBounds()))
+	{
+		
 		_isAttacking = true;
+	
 		std::pair<float, float> save;
 		save.first = _path.front().first;
 		save.second = _path.front().second;
@@ -157,14 +165,15 @@ void HarmfullAnimal::moveToNextWP()
 		_animatedSprite->setLooped(false);
 		_timeAttack += dt;
 		sf::Vector2i tmp = diffDist(_objective->getPosition(), _position);
+		//std::cout << "x " << tmp.x << " y " << tmp.y << std::endl;
 		if (tmp.x >= 0 && tmp.y == -1) // moi non plus je comprend pas mais une phase de test à arbres binaire composé de baies m'a dit que c'était la bonne solution
 			_curAnim = _attackRight;
 		else if (tmp.x <= -1 && tmp.y == -1)
 			_curAnim = _attackLeft;
 		else if (tmp.x <= 0 && tmp.y == 0)
-			_curAnim = _attackDown;
-		else
 			_curAnim = _attackUp;
+		else
+			_curAnim = _attackDown;
 
 		_objective->getAction(this);
 		//On need un new chemin ici 
@@ -195,8 +204,8 @@ void HarmfullAnimal::getAction(AEntity *o)
 	{
 		Player *player = dynamic_cast<Player *>(o);
 		player->addEntityInInventory(new Meat);
-		if (std::rand() % 10 <= 4)
-			player->addEntityInInventory(new Fur);
+		//if (std::rand() % 10 <= 4)
+			//player->addEntityInInventory(new Fur);
 		_isDead = true;
 	}
 }
@@ -209,9 +218,9 @@ void HarmfullAnimal::loadAnimation(std::string const &string_anim, float)
 
 void HarmfullAnimal::draw(sf::RenderTexture *tex, sf::Shader &shader) // To edit
 {
+	
 	_posDisp.x = ((_position.x - _camera->_position.x) * Chunk::SIZE_OF_CELL);
 	_posDisp.y = ((_position.y - _camera->_position.y) * Chunk::SIZE_OF_CELL);
-
 	if (!_isDead)
 	{
 		_animatedSprite->setPosition(_posDisp);

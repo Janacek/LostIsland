@@ -161,6 +161,7 @@
     <ClCompile Include="SourndManager.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="Stew.cpp" />
+    <ClCompile Include="Stuff.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Dinosaur.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="Stew.h" />
+    <ClInclude Include="Stuff.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="SystemDefines.h" />
     <ClInclude Include="Tree.h" />
