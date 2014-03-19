@@ -190,6 +190,11 @@ void InventoryWindow::fillImage(Player *player, int index, sfg::ToggleButton::Pt
 	}
 }
 
+void InventoryWindow::Show(bool show)
+{
+	this->_inventoryWindow->Show(show);
+}
+
 void	InventoryWindow::showBox(std::vector<Player *>&players)
 {
 	int compt = 0;

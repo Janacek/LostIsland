@@ -39,16 +39,7 @@ GameScreen::GameScreen()
 	_isRunning = true;
 	_camera._position.x = 0;
 	_camera._position.y = 0;
-	_dropCompartment = NULL;
 	_map = new Map(&_camera, _loadingText);
-	pos.x = 100;
-	pos.y = 100;
-
-	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
-	_statisticsText.setPosition(5.f, 5.f);
-	_statisticsText.setCharacterSize(10);
-	_statisticsText.setPosition(0, 30);
-
 
 	_loadingScreen = new sf::Image;
 	_loadingScreen->loadFromFile("./Media/images/loadingScreen.png");
@@ -67,19 +58,7 @@ GameScreen::~GameScreen()
 	std::cout << "Deleting Game Screen" << std::endl;
 	delete _map;
 	delete _physicEngine;
-	delete _dropCompartment;
 	delete _inventory;
-}
-
-void	GameScreen::checkQuit(sf::Event &e)
-{
-	sf::FloatRect rect = this->_inventory->_inventoryWindow->GetAllocation();
-
-	if (this->_inventory->_inventoryWindow->IsGloballyVisible() && e.type == sf::Event::MouseButtonPressed && rect.contains(sf::Vector2f(sf::Mouse::getPosition(*Singleton::getInstance()._window).x, sf::Mouse::getPosition(*Singleton::getInstance()._window).y)) == false)
-	{
-		this->_inventory->_inventoryWindow->Show(false);
-		this->_activeInventary = false;
-	}
 }
 
 void GameScreen::events(sf::Event &e)
@@ -231,7 +210,6 @@ void GameScreen::initialize(void)
 	}
 
 	this->_activeInventary = false;
-	this->_activeWinRessources = false;
 	_loadingText = "Generating inventories";
 
 	this->_inventory->init();
@@ -242,6 +220,7 @@ void GameScreen::initialize(void)
 	this->_crafting->setInventoryClass(this->_inventory);
 	this->_crafting->createChooseWindowContent();
 
+	_loadingText = "Generating Stuff Window";
 	this->_stuff = new Stuff;
 	this->_stuff->createZones(this->_players);
 	//initialisation de l'image du pointeur
@@ -255,11 +234,6 @@ void GameScreen::initialize(void)
 std::vector<Player *> &GameScreen::getPlayers()
 {
 	return this->_players;
-}
-
-void GameScreen::mouseLeftPress(int index)
-{
-
 }
 
 void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos) const
@@ -523,12 +497,36 @@ void GameScreen::draw()
 		spriteLoad.setPosition(_truckPosition);
 		Singleton::getInstance()._window->draw(spriteLoad);
 
-		drawText("THANK YOU FOR PLAYING LOST ISLAND,", _credit0.x - 100, _credit0.y, 75);
-		drawText("SINCERLY, THE LOST TEAM", _credit0.x - 100, _credit0.y + 100, 75);
-		drawText("THOMAS MARTIN", _credit0.x - 100, _credit0.y + 200, 75);
-		drawText("RONAN GUINOT", _credit0.x - 100, _credit0.y + 300, 75);
-		drawText("REMY THULIE", _credit0.x - 100, _credit0.y + 400, 75);
-		drawText("GUILLAUME MARCHAND", _credit0.x - 100, _credit0.y + 500, 75);
+		drawText("THANK YOU FOR PLAYING LOST ISLAND,", _credit0.x - 150, _credit0.y, 75);
+		drawText("SINCERLY, THE LOST TEAM", _credit0.x - 150, _credit0.y + 100, 75);
+		drawText("THOMAS MARTIN", _credit0.x - 150, _credit0.y + 200, 75);
+		drawText("RONAN GUINOT", _credit0.x - 150, _credit0.y + 300, 75);
+		drawText("REMY THULIE", _credit0.x - 150, _credit0.y + 400, 75);
+		drawText("GUILLAUME MARCHAND", _credit0.x - 150, _credit0.y + 500, 75);
+		drawText("YOU CAN SKIP THE", _credit0.x - 150, _credit0.y + 700, 75);
+		drawText("CREDITS BY PRESSING", _credit0.x - 150, _credit0.y + 800, 75);
+		drawText("THE ESCAPE KEY", _credit0.x - 150, _credit0.y + 900, 75);
+		drawText("MAIN DIRECTOR", _credit0.x - 150, _credit0.y + 1100, 75);
+		drawText("THOMAS MARTIN", _credit0.x - 150, _credit0.y + 1200, 60);
+		drawText("MAP DIRECTOR", _credit0.x - 150, _credit0.y + 1300, 75);
+		drawText("THOMAS MARTIN", _credit0.x - 150, _credit0.y + 1400, 60);
+		drawText("PHYSICS DUDE", _credit0.x - 150, _credit0.y + 1500, 75);
+		drawText("RONAN GUINOT", _credit0.x - 150, _credit0.y + 1600, 60);
+		drawText("SOUND COMPOSER", _credit0.x - 150, _credit0.y + 1700, 75);
+		drawText("GUILLAUME MARCHAND", _credit0.x - 150, _credit0.y + 1800, 60);
+		drawText("BUG DESIGNER", _credit0.x - 150, _credit0.y + 1900, 75);
+		drawText("RONAN GUINOT", _credit0.x - 150, _credit0.y + 2000, 60);
+		drawText("LEAD UI DESIGNER", _credit0.x - 150, _credit0.y + 2100, 75);
+		drawText("REMY THULIE", _credit0.x - 150, _credit0.y + 2200, 60);
+		drawText("SPECIAL THANKS", _credit0.x - 150, _credit0.y + 2400, 75);
+		drawText("GARY HOUBRE", _credit0.x - 150, _credit0.y + 2500, 60);
+		drawText("TAKASHI TEZUKA", _credit0.x - 150, _credit0.y + 2600, 60);
+		drawText("STEVEN SPIELBERG", _credit0.x - 150, _credit0.y + 2700, 60);
+		drawText("STARING", _credit0.x - 150, _credit0.y + 2900, 75);
+		drawText("FINN AND JAKE", _credit0.x - 150, _credit0.y + 3000, 60);
+		drawText("HECTOR THE VELOCIRAPTOR", _credit0.x - 150, _credit0.y + 3100, 60);
+		drawText("ROGER RABBIT", _credit0.x - 150, _credit0.y + 3200, 60);
+		drawText("SHEEP N DALES", _credit0.x - 150, _credit0.y + 3300, 60);
 
 	}
 	Singleton::getInstance()._window->display();
@@ -618,13 +616,20 @@ void GameScreen::update(void)
 
 		if (_truckPosition.x >= 1920)
 		{
-			_credit0.y -= 0.002;
+			_credit0.y -= 0.0015;
 		}
 
 		if (Singleton::getInstance().isEscapePressed)
 		{
 			_isRunning = false;
+			_music->stop();
 			_next = new StartScreen();
+		}
+		if (_music->getStatus() == sf::Music::Status::Stopped)
+		{
+			_isRunning = false;
+			_next = new StartScreen;
+			return;
 		}
 	}
 	else
@@ -695,7 +700,7 @@ void		GameScreen::checkDrawInventory()
 			this->_inventory->showBox(this->_players);
 			this->_stuff->showBox(this->_players);
 		}
-		this->_inventory->_inventoryWindow->Show(this->_activeInventary);
+		this->_inventory->Show(this->_activeInventary);
 		this->_crafting->Show(this->_activeInventary);
 		this->_stuff->Show(this->_activeInventary);
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
@@ -705,61 +710,6 @@ void		GameScreen::checkDrawInventory()
 stateName GameScreen::getStateName() const
 {
 	return GAME;
-}
-
-void GameScreen::drawMouse()
-{
-
-}
-void GameScreen::checkClicks()
-{
-
-}
-
-
-bool GameScreen::checkImpossibleCase() const
-{
-	return true;
-}
-
-
-void GameScreen::updateObjectsPos()
-{
-
-}
-
-void GameScreen::saveClick(bool click)
-{
-
-}
-
-void GameScreen::checkClose()
-{
-
-}
-
-void GameScreen::checkInput()
-{
-
-}
-
-void GameScreen::updateStatistics(sf::Time &elapsedTime)
-{
-	_statisticsUpdateTime += elapsedTime;
-	_statisticsNumFrames += 1;
-
-	if (_statisticsUpdateTime >= sf::seconds(1.0f))
-	{
-		std::ostringstream oss;
-		std::ostringstream oss2;
-		oss << _statisticsNumFrames;
-		oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
-
-		std::cout << oss2.str() << std::endl;
-
-		_statisticsUpdateTime -= sf::seconds(1.0f);
-		_statisticsNumFrames = 0;
-	}
 }
 
 IScreen * GameScreen::getNextState(void)
