@@ -41,7 +41,7 @@ void GameOverScreen::draw()
 	pressKey.setFont(*FontManager::getInstance().getFont(SANSATION));
 	pressKey.setPosition((1920 / 2) - (gameOver.getGlobalBounds().width / 2), 400);
 	pressKey.setCharacterSize(60);
-	pressKey.setString("Press Enter key to exit");
+	pressKey.setString("Press Escape key to exit");
 	Singleton::getInstance()._window->draw(pressKey);
 
 	Singleton::getInstance()._window->display();
@@ -50,7 +50,7 @@ void GameOverScreen::draw()
 
 void GameOverScreen::update()
 {
-	if (Singleton::getInstance().isValidating == true)
+	if (Singleton::getInstance().isEscapePressed == true)
 	if (sf::Keyboard::isKeyPressed)
 	{
 		_next = new StartScreen;

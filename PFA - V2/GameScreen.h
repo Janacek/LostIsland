@@ -2,6 +2,9 @@
 
 #include <map>
 #include <functional>
+
+#include <SFML/Audio/Music.hpp>
+
 #include "IScreen.h"
 
 #include "Player.h"
@@ -113,5 +116,7 @@ private:
 	sf::Music				*_music;
 	bool					_playMusic;
 	void					drawText(std::string text, int x, int y, int size);
+
+	sf::Music				*_Amusic;
 
 };
