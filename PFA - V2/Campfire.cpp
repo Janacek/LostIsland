@@ -102,7 +102,7 @@ void Campfire::update(Map &map)
 		_timeBurning = 0;
 	}
 
-	if (_timeBurning >= 5)
+	if (_timeBurning >= 20)
 	{
 		Singleton::getInstance().gameOver = true;
 	}
