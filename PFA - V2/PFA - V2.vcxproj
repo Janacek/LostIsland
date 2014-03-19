@@ -132,7 +132,6 @@
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameOverScreen.cpp" />
     <ClCompile Include="GameScreen.cpp" />
-    <ClCompile Include="GestionClick.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
     <ClCompile Include="AEntity.cpp" />
     <ClCompile Include="ImageManager.cpp" />
@@ -212,7 +211,6 @@
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="GameScreen.h" />
-    <ClInclude Include="GestionClick.h" />
     <ClInclude Include="GraphicEngine.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="AEntity.h" />

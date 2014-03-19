@@ -3,7 +3,6 @@
 #include <SFGUI/SFGUI.hpp>
 #include <vector>
 #include "CustomToggleButton.h"
-#include "GestionClick.h"
 #include "Player.h"
 #include "Crafting.h"
 
@@ -16,6 +15,7 @@ public:
 	InventoryWindow();
 	void init();
 	void update();
+	void Show(bool show = true);
 	void draw();
 	void createZones(std::vector<Player *>&);
 	void close();
@@ -30,10 +30,10 @@ public:
 	void showBox(std::vector<Player *>&);
 	void addToInventory(Player *, Compartment *, int pos);
 	void fillImage(Player *player, int index, sfg::ToggleButton::Ptr);
+	void updateLabel(Player *, int compt);
 	~InventoryWindow();
-
 	
-//private:
+private:
 	void createWindow();
 	void createToolbar();
 	void createNumberWindow();
@@ -45,7 +45,6 @@ public:
 	void mouseEnter(std::string const&);
 	void mouseLeave(std::string const&);
 	void dropClick();
-	void updateLabel(Player *, int compt);
 
 
 	//attributs
@@ -63,11 +62,10 @@ public:
 	sfg::ScrolledWindow::Ptr	_scroll;
 	sfg::Adjustment::Ptr		_adjustment;
 	sfg::Box::Ptr			_inventoryBox;
-	GestionClick		_gestionClick;
 	sf::Image			_img;
 	Crafting			*_crafting;
 	sfg::Window::Ptr	_inventoryWindow;
 	CustomToggleButton	*_selectedRessource;
-	GameScreen			*_gameScreen; //moche ...
+	GameScreen			*_gameScreen; 
 };
 

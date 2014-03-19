@@ -39,16 +39,7 @@ GameScreen::GameScreen()
 	_isRunning = true;
 	_camera._position.x = 0;
 	_camera._position.y = 0;
-	_dropCompartment = NULL;
 	_map = new Map(&_camera, _loadingText);
-	pos.x = 100;
-	pos.y = 100;
-
-	_statisticsText.setFont((*FontManager::getInstance().getFont(SANSATION)));
-	_statisticsText.setPosition(5.f, 5.f);
-	_statisticsText.setCharacterSize(10);
-	_statisticsText.setPosition(0, 30);
-
 
 	_loadingScreen = new sf::Image;
 	_loadingScreen->loadFromFile("./Media/images/loadingScreen.png");
@@ -72,19 +63,7 @@ GameScreen::~GameScreen()
 	std::cout << "Deleting Game Screen" << std::endl;
 	delete _map;
 	delete _physicEngine;
-	delete _dropCompartment;
 	delete _inventory;
-}
-
-void	GameScreen::checkQuit(sf::Event &e)
-{
-	sf::FloatRect rect = this->_inventory->_inventoryWindow->GetAllocation();
-
-	if (this->_inventory->_inventoryWindow->IsGloballyVisible() && e.type == sf::Event::MouseButtonPressed && rect.contains(sf::Vector2f(sf::Mouse::getPosition(*Singleton::getInstance()._window).x, sf::Mouse::getPosition(*Singleton::getInstance()._window).y)) == false)
-	{
-		this->_inventory->_inventoryWindow->Show(false);
-		this->_activeInventary = false;
-	}
 }
 
 void GameScreen::events(sf::Event &e)
@@ -238,7 +217,6 @@ void GameScreen::initialize(void)
 	}
 
 	this->_activeInventary = false;
-	this->_activeWinRessources = false;
 	_loadingText = "Generating inventories";
 
 	this->_inventory->init();
@@ -249,6 +227,7 @@ void GameScreen::initialize(void)
 	this->_crafting->setInventoryClass(this->_inventory);
 	this->_crafting->createChooseWindowContent();
 
+	_loadingText = "Generating Stuff Window";
 	this->_stuff = new Stuff;
 	this->_stuff->createZones(this->_players);
 	//initialisation de l'image du pointeur
@@ -262,11 +241,6 @@ void GameScreen::initialize(void)
 std::vector<Player *> &GameScreen::getPlayers()
 {
 	return this->_players;
-}
-
-void GameScreen::mouseLeftPress(int index)
-{
-
 }
 
 void GameScreen::drawPlayerInformations(Player *player, sf::Vector2f const &pos) const
@@ -683,11 +657,6 @@ void GameScreen::update(void)
 				if ((*it)->_objective)
 				if ((*it)->_objective->getLife() <= 0 && (*it)->_objective->getIsAMovingEntity())
 					(*it)->_objective = NULL;
-				if ((*it)->getLife() <= 0)
-				{
-					(*it)->setIsDead(true);
-					(*it)->setIsSelected(false);
-				}
 			}
 
 			if ((*it)->getIsDead())
@@ -740,7 +709,7 @@ void		GameScreen::checkDrawInventory()
 			this->_inventory->showBox(this->_players);
 			this->_stuff->showBox(this->_players);
 		}
-		this->_inventory->_inventoryWindow->Show(this->_activeInventary);
+		this->_inventory->Show(this->_activeInventary);
 		this->_crafting->Show(this->_activeInventary);
 		this->_stuff->Show(this->_activeInventary);
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
@@ -750,61 +719,6 @@ void		GameScreen::checkDrawInventory()
 stateName GameScreen::getStateName() const
 {
 	return GAME;
-}
-
-void GameScreen::drawMouse()
-{
-
-}
-void GameScreen::checkClicks()
-{
-
-}
-
-
-bool GameScreen::checkImpossibleCase() const
-{
-	return true;
-}
-
-
-void GameScreen::updateObjectsPos()
-{
-
-}
-
-void GameScreen::saveClick(bool click)
-{
-
-}
-
-void GameScreen::checkClose()
-{
-
-}
-
-void GameScreen::checkInput()
-{
-
-}
-
-void GameScreen::updateStatistics(sf::Time &elapsedTime)
-{
-	_statisticsUpdateTime += elapsedTime;
-	_statisticsNumFrames += 1;
-
-	if (_statisticsUpdateTime >= sf::seconds(1.0f))
-	{
-		std::ostringstream oss;
-		std::ostringstream oss2;
-		oss << _statisticsNumFrames;
-		oss2 << _statisticsUpdateTime.asMicroseconds() / _statisticsNumFrames;
-
-		std::cout << oss2.str() << std::endl;
-
-		_statisticsUpdateTime -= sf::seconds(1.0f);
-		_statisticsNumFrames = 0;
-	}
 }
 
 IScreen * GameScreen::getNextState(void)

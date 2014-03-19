@@ -31,9 +31,22 @@ Player::Player(sf::Vector2f &pos, Camera *cam)
 {
 	_isActionning = false;
 	_isAttacking = false;
+	this->_isHittingRock = true;
 	this->_isWalking = false;
 	this->_stepsBuffer.loadFromFile("./Media/sounds/sfx/steps.ogg");
 	this->_stepts.setBuffer(this->_stepsBuffer);
+	this->_eatBuffer.loadFromFile("./Media/sounds/sfx/manger.ogg");
+	this->_eat.setBuffer(this->_eatBuffer);
+	this->_drinkBuffer.loadFromFile("./Media/sounds/sfx/boire.ogg");
+	this->_drink.setBuffer(this->_drinkBuffer);
+	this->_swordBuffer.loadFromFile("./Media/sounds/sfx/sword2.ogg");
+	this->_sword.setBuffer(this->_swordBuffer);
+	this->_dieBuffer.loadFromFile("./Media/sounds/sfx/mort.ogg");
+	this->_die.setBuffer(this->_dieBuffer);
+	this->_cutThreeBuffer.loadFromFile("./Media/sounds/sfx/bois.ogg");
+	this->_cutThree.setBuffer(this->_cutThreeBuffer);
+	this->_hitRockBuffer.loadFromFile("./Media/sounds/sfx/pierre.ogg");
+	this->_hitRock.setBuffer(this->_hitRockBuffer);
 	_target = BADTYPE;
 	this->_name = "Player";
 	this->_inventoryWindow = NULL;
@@ -63,6 +76,11 @@ Player::Player(sf::Vector2f &pos, Camera *cam)
 sf::FloatRect Player::getBoxCollider() const
 {
 	return _animatedSprite->getGlobalBounds();
+}
+
+sf::Sound		Player::getDie() const
+{
+	return (this->_die);
 }
 
 Compartment	*Player::getCompartment(int index)
@@ -103,11 +121,13 @@ int		Player::posInventory(AEntity *entity)
 
 void Player::eat(int amount)
 {
+	this->_eat.play();
 	this->_food + amount > 100 ? this->_food = 100 : this->_food += amount;
 }
 
 void Player::drink(Water *water)
 {
+	this->_drink.play();
 	this->_water + 20 > 100 ? this->_water = 100 : this->_water += 20;
 }
 
@@ -224,7 +244,22 @@ void Player::doActionOnEntity()
 				changeToIdleAnim();
 			}
 			else
+			{
+				if (this->_objective->getType() == ROCK && this->_rockClock.getElapsedTime().asSeconds() > 0.5f)
+				{
+						std::cout << "coucou" << std::endl;
+						this->_hitRock.play();
+						this->_rockClock.restart();
+				}
+
+				if (this->_objective->getType() == TREE && this->_rockClock.getElapsedTime().asSeconds() > 0.5f)
+				{
+					std::cout << "coucou" << std::endl;
+					this->_cutThree.play();
+					this->_rockClock.restart();
+				}
 				changeToActionAnim();
+			}
 		}
 	}
 }
@@ -281,6 +316,7 @@ void Player::moveToNextWP()
 	}
 	if (_timeAttack > 0.7 && _isAttacking == true)
 	{
+			this->_sword.play();
 		_isAttacking = false;
 		_timeAttack = 0;
 		
@@ -517,6 +553,8 @@ void Player::update(Map & map)
 	moveToNextWP();
 	if (_life <= 0)
 	{
+		if (this->_die.getStatus() != sf::Sound::Status::Playing)
+			this->_die.play();
 		_isDead = true;
 		_isSelected = false;
 	}

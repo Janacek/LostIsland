@@ -10,12 +10,6 @@
 
 #include					<list>
 
-
-//#include					"ForestTree.h"
-//#include					"Bush.h"
-//#include					"PalmTree.h"
-//#include					"Rock.h"
-
 class MapEnvironment;
 class Player;
 class AEntity;
@@ -123,11 +117,6 @@ private:
 	const int				_sizeOfMiniMap = 50;
 
 	sf::RenderTexture		*_mapText;
-
-	// A SUPPRIMER LE PLUS VITE POSSIBLE.
-	std::list<Tree *>		_trees;
-	std::list<Tree *>		_bushes;
-	std::list<Tree *>		_palmtrees;
 
 
 	///////////////////////
