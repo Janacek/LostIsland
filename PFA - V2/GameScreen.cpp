@@ -523,12 +523,36 @@ void GameScreen::draw()
 		spriteLoad.setPosition(_truckPosition);
 		Singleton::getInstance()._window->draw(spriteLoad);
 
-		drawText("THANK YOU FOR PLAYING LOST ISLAND,", _credit0.x - 100, _credit0.y, 75);
-		drawText("SINCERLY, THE LOST TEAM", _credit0.x - 100, _credit0.y + 100, 75);
-		drawText("THOMAS MARTIN", _credit0.x - 100, _credit0.y + 200, 75);
-		drawText("RONAN GUINOT", _credit0.x - 100, _credit0.y + 300, 75);
-		drawText("REMY THULIE", _credit0.x - 100, _credit0.y + 400, 75);
-		drawText("GUILLAUME MARCHAND", _credit0.x - 100, _credit0.y + 500, 75);
+		drawText("THANK YOU FOR PLAYING LOST ISLAND,", _credit0.x - 150, _credit0.y, 75);
+		drawText("SINCERLY, THE LOST TEAM", _credit0.x - 150, _credit0.y + 100, 75);
+		drawText("THOMAS MARTIN", _credit0.x - 150, _credit0.y + 200, 75);
+		drawText("RONAN GUINOT", _credit0.x - 150, _credit0.y + 300, 75);
+		drawText("REMY THULIE", _credit0.x - 150, _credit0.y + 400, 75);
+		drawText("GUILLAUME MARCHAND", _credit0.x - 150, _credit0.y + 500, 75);
+		drawText("YOU CAN SKIP THE", _credit0.x - 150, _credit0.y + 700, 75);
+		drawText("CREDITS BY PRESSING", _credit0.x - 150, _credit0.y + 800, 75);
+		drawText("THE ESCAPE KEY", _credit0.x - 150, _credit0.y + 900, 75);
+		drawText("MAIN DIRECTOR", _credit0.x - 150, _credit0.y + 1100, 75);
+		drawText("THOMAS MARTIN", _credit0.x - 150, _credit0.y + 1200, 60);
+		drawText("MAP DIRECTOR", _credit0.x - 150, _credit0.y + 1300, 75);
+		drawText("THOMAS MARTIN", _credit0.x - 150, _credit0.y + 1400, 60);
+		drawText("PHYSICS DUDE", _credit0.x - 150, _credit0.y + 1500, 75);
+		drawText("RONAN GUINOT", _credit0.x - 150, _credit0.y + 1600, 60);
+		drawText("SOUND COMPOSER", _credit0.x - 150, _credit0.y + 1700, 75);
+		drawText("GUILLAUME MARCHAND", _credit0.x - 150, _credit0.y + 1800, 60);
+		drawText("BUG DESIGNER", _credit0.x - 150, _credit0.y + 1900, 75);
+		drawText("RONAN GUINOT", _credit0.x - 150, _credit0.y + 2000, 60);
+		drawText("LEAD UI DESIGNER", _credit0.x - 150, _credit0.y + 2100, 75);
+		drawText("REMY THULIE", _credit0.x - 150, _credit0.y + 2200, 60);
+		drawText("SPECIAL THANKS", _credit0.x - 150, _credit0.y + 2400, 75);
+		drawText("GARY HOUBRE", _credit0.x - 150, _credit0.y + 2500, 60);
+		drawText("TAKASHI TEZUKA", _credit0.x - 150, _credit0.y + 2600, 60);
+		drawText("STEVEN SPIELBERG", _credit0.x - 150, _credit0.y + 2700, 60);
+		drawText("STARING", _credit0.x - 150, _credit0.y + 2900, 75);
+		drawText("FINN AND JAKE", _credit0.x - 150, _credit0.y + 3000, 60);
+		drawText("HECTOR THE VELOCIRAPTOR", _credit0.x - 150, _credit0.y + 3100, 60);
+		drawText("ROGER RABBIT", _credit0.x - 150, _credit0.y + 3200, 60);
+		drawText("SHEEP N DALES", _credit0.x - 150, _credit0.y + 3300, 60);
 
 	}
 	Singleton::getInstance()._window->display();
@@ -618,13 +642,20 @@ void GameScreen::update(void)
 
 		if (_truckPosition.x >= 1920)
 		{
-			_credit0.y -= 0.002;
+			_credit0.y -= 0.0015;
 		}
 
 		if (Singleton::getInstance().isEscapePressed)
 		{
 			_isRunning = false;
+			_music->stop();
 			_next = new StartScreen();
+		}
+		if (_music->getStatus() == sf::Music::Status::Stopped)
+		{
+			_isRunning = false;
+			_next = new StartScreen;
+			return;
 		}
 	}
 	else
