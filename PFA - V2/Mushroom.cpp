@@ -23,6 +23,13 @@ Mushroom::Mushroom()
 void Mushroom::doAction(AEntity *other)
 {
 	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->eat(5);
+		if (std::rand() % 2)
+			player->_isSick = true;
+	}
 }
 
 void Mushroom::getAction(AEntity *other)

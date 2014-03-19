@@ -1,4 +1,5 @@
 #include "Bowl.h"
+#include "Player.h"
 
 std::string &Bowl::serialize() const
 {
@@ -21,6 +22,8 @@ Bowl::Bowl()
 void Bowl::doAction(AEntity *other)
 {
 	// do action
+	Player *player = dynamic_cast<Player *>(other);
+	player->addEntityInInventory(new Bowl);
 }
 
 void Bowl::getAction(AEntity *other)

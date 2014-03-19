@@ -1,4 +1,5 @@
 #include "Jacket.h"
+#include "Player.h"
 
 std::string &Jacket::serialize() const
 {
@@ -20,6 +21,11 @@ Jacket::Jacket()
 void Jacket::doAction(AEntity *other)
 {
 	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->addEntityInInventory(new Jacket);
+	}
 }
 
 void Jacket::getAction(AEntity *other)

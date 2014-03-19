@@ -8,6 +8,7 @@
 #include "ShadersManager.h"
 #include "Fur.h"
 
+
 std::string &HarmfullAnimal::serialize() const
 {
 	std::string toto;
@@ -22,6 +23,8 @@ void HarmfullAnimal::deserialize(std::ifstream &) throw (MyException)
 HarmfullAnimal::HarmfullAnimal(sf::Vector2f &position, int life, Camera *cam)
 : _camera(cam), AEntity(1.f, true, sf::Vector2f(position), 0, sf::FloatRect(0, 0, 0, 0), life)
 {
+	this->_screamBuffer.loadFromFile("./Media/sounds/sfx/dinosaure.ogg");
+	this->_scream.setBuffer(this->_screamBuffer);
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(_position);
 
@@ -159,7 +162,8 @@ void HarmfullAnimal::moveToNextWP()
 		std::pair<float, float> save;
 		save.first = _path.front().first;
 		save.second = _path.front().second;
-
+		if (this->_scream.getStatus() != sf::Sound::Status::Playing)
+			this->_scream.play();
 		_path.clear();
 		_path.push_back(save);
 		_animatedSprite->setLooped(false);

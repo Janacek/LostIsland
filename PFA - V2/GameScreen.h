@@ -105,4 +105,13 @@ private:
 	std::string				_loadingText;
 	sf::Text				_loadingSfText;
 
+
+
+	/* ENDING */
+	sf::Vector2f			_truckPosition;
+	sf::Vector2f			_credit0;
+	sf::Music				*_music;
+	bool					_playMusic;
+	void					drawText(std::string text, int x, int y, int size);
+
 };

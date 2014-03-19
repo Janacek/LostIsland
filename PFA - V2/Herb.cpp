@@ -23,6 +23,11 @@ Herb::Herb()
 void Herb::doAction(AEntity *other)
 {
 	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->addEntityInInventory(new Herb);
+	}
 }
 
 void Herb::getAction(AEntity *other)

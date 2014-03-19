@@ -551,6 +551,13 @@ void Player::update(Map & map)
 	}
 
 	moveToNextWP();
+	if (_life <= 0)
+	{
+		if (this->_die.getStatus() != sf::Sound::Status::Playing)
+			this->_die.play();
+		_isDead = true;
+		_isSelected = false;
+	}
 }
 
 void Player::loadAnimation(std::string const & string_anim, float speed)

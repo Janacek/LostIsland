@@ -1,4 +1,5 @@
 #include "Fabric.h"
+#include "Player.h"
 
 std::string &Fabric::serialize() const
 {
@@ -20,6 +21,11 @@ Fabric::Fabric()
 void Fabric::doAction(AEntity *other)
 {
 	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->addEntityInInventory(new Fabric);
+	}
 }
 
 void Fabric::getAction(AEntity *other)

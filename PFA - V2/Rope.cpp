@@ -1,4 +1,5 @@
 #include "Rope.h"
+#include "Player.h"
 
 std::string &Rope::serialize() const
 {
@@ -20,6 +21,11 @@ Rope::Rope()
 void Rope::doAction(AEntity *other)
 {
 	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->addEntityInInventory(new Rope);
+	}
 }
 
 void Rope::getAction(AEntity *other)
