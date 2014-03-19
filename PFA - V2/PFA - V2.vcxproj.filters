@@ -15,7 +15,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameScreen.cpp" />
-    <ClCompile Include="GestionClick.cpp" />
     <ClCompile Include="GraphicEngine.cpp" />
     <ClCompile Include="InventoryWindow.cpp" />
     <ClCompile Include="KeyboardControler.cpp" />
@@ -91,7 +90,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameScreen.h" />
-    <ClInclude Include="GestionClick.h" />
     <ClInclude Include="GraphicEngine.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="InventoryWindow.h" />
