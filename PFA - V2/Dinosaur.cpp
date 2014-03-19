@@ -22,6 +22,7 @@ void Dinosaur::deserialize(std::ifstream &) throw (MyException)
 Dinosaur::Dinosaur(sf::Vector2f &position, int life, Camera *cam)
 : HarmfullAnimal(position, life, cam)
 {
+
 	_rect.setSize(sf::Vector2f(32, 32));
 	_rect.setPosition(_position);
 	_speed = 2;

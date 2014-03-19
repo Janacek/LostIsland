@@ -49,6 +49,11 @@ GameScreen::GameScreen()
 	_truckPosition = sf::Vector2f(-1000, 450);
 	_credit0 = sf::Vector2f(500, 1100);
 	_playMusic = true;
+
+	_Amusic = new sf::Music;
+	_Amusic->openFromFile("./Media/sounds/bgm/gameTheme.ogg");
+	_music = new sf::Music;
+	_music->openFromFile("./Media/sounds/bgm/winTheme.ogg");
 }
 
 GameScreen::~GameScreen()
@@ -77,8 +82,10 @@ void GameScreen::initialize(void)
 	std::ostringstream os;
 	_loaded = false;
 
-	_music = new sf::Music;
-	_music->openFromFile("./Media/sounds/bgm/winTheme.ogg");
+	_Amusic->play();
+	_Amusic->setVolume(25.f);
+
+
 
 	_loadingText = "Initializing map";
 	_map->init(std::string(""), sf::Vector2i(18, 18), 33);
@@ -604,6 +611,7 @@ void GameScreen::update(void)
 {
 	if (Singleton::getInstance().gameOver)
 	{
+		_Amusic->stop();
 		// code the end here
 		//exit(1);
 		if (_playMusic)
@@ -623,6 +631,7 @@ void GameScreen::update(void)
 		{
 			_isRunning = false;
 			_music->stop();
+			_Amusic->stop();
 			_next = new StartScreen();
 		}
 		if (_music->getStatus() == sf::Music::Status::Stopped)
@@ -648,11 +657,6 @@ void GameScreen::update(void)
 				if ((*it)->_objective)
 				if ((*it)->_objective->getLife() <= 0 && (*it)->_objective->getIsAMovingEntity())
 					(*it)->_objective = NULL;
-				if ((*it)->getLife() <= 0)
-				{
-					(*it)->setIsDead(true);
-					(*it)->setIsSelected(false);
-				}
 			}
 
 			if ((*it)->getIsDead())

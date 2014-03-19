@@ -4,6 +4,8 @@
 #include "Animation.h"
 #include "AnimatedSprite.h"
 #include "Camera.h"
+#include "SFML\Audio\Sound.hpp"
+#include "SFML\Audio\SoundBuffer.hpp"
 
 #define TIMESTOP 3
 #define IT_BEF_STOP 20
@@ -40,7 +42,8 @@ protected:
 	double								_oldDtMvt;
 	double								_oldTime;
 	int									_iterPath;
-
+	sf::SoundBuffer						_screamBuffer;
+	sf::Sound							_scream;
 	std::list<std::pair<float, float> >	_originalPath;
 	// Bunny's position
 	sf::RectangleShape					_rect;

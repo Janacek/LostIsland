@@ -53,6 +53,7 @@ public:
 	void setPosition(sf::Vector2f &pos);
 	sf::Vector2i const diffDist(sf::Vector2f&first, sf::Vector2f&second);
 	sf::FloatRect getBoxCollider() const;
+	sf::Sound	getDie() const;
 
 	virtual std::string &serialize() const;
 	virtual void deserialize(std::ifstream &) throw (MyException);
@@ -99,6 +100,7 @@ protected:
 	** Player pathfinding
 	*/
 	sf::Clock					_mvtClock;
+	sf::Clock					_rockClock;
 	float						_oldDtMvt;
 
 	float								_speed;
@@ -157,8 +159,22 @@ public:
 private:
 	bool						_isActionning;
 	bool						_isWalking;
+	bool						_isHittingRock;
+	bool						_isSoundAttacking;
 	sf::SoundBuffer				_stepsBuffer;
 	sf::Sound					_stepts;
+	sf::SoundBuffer				_eatBuffer;
+	sf::Sound					_eat;
+	sf::SoundBuffer				_drinkBuffer;
+	sf::Sound					_drink;
+	sf::SoundBuffer				_swordBuffer;
+	sf::Sound					_sword;
+	sf::SoundBuffer				_dieBuffer;
+	sf::Sound					_die;
+	sf::SoundBuffer				_cutThreeBuffer;
+	sf::Sound					_cutThree;
+	sf::SoundBuffer				_hitRockBuffer;
+	sf::Sound					_hitRock;
 	float						_cursorTime;
 	void						changeAnimation(sf::Vector2f&, std::pair<float, float>);
 	void						changeToActionAnim();
