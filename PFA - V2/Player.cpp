@@ -247,14 +247,12 @@ void Player::doActionOnEntity()
 			{
 				if (this->_objective->getType() == ROCK && this->_rockClock.getElapsedTime().asSeconds() > 0.5f)
 				{
-						std::cout << "coucou" << std::endl;
 						this->_hitRock.play();
 						this->_rockClock.restart();
 				}
 
-				if (this->_objective->getType() == TREE && this->_rockClock.getElapsedTime().asSeconds() > 0.5f)
+				if ((this->_objective->getType() == TREE || this->_objective->getType() == PALMTREE) && this->_rockClock.getElapsedTime().asSeconds() > 0.5f)
 				{
-					std::cout << "coucou" << std::endl;
 					this->_cutThree.play();
 					this->_rockClock.restart();
 				}
