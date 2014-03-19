@@ -23,7 +23,7 @@ private:
 	IScreen				*_next;
 
 	sfg::Window::Ptr	_window;
-	sfg::Desktop		_desktop;
+
 
 	// Music Stuff
 	sfg::Label::Ptr		_musicLabel;

@@ -58,7 +58,7 @@ OptionScreen::OptionScreen()
 	table->Attach(sfxBox, sf::Rect<sf::Uint32>(0, 1, 1, 1));
 
 	_window->Add(table);
-	_desktop.Add(_window);
+	Singleton::getInstance()._desktop.Add(_window);
 }
 
 void OptionScreen::events(sf::Event &e)
@@ -87,7 +87,7 @@ void OptionScreen::update()
 		_next = new StartScreen();
 	}
 
-	_desktop.Update(Singleton::getInstance()._clock->restart().asSeconds());
+	Singleton::getInstance()._desktop.Update(Singleton::getInstance()._clock->restart().asSeconds());
 }
 
 stateName OptionScreen::getStateName() const
@@ -113,4 +113,9 @@ bool OptionScreen::isRunning() const
 OptionScreen::~OptionScreen() {
 
 	Singleton::getInstance().isRunning = false;
+	this->_musicLabel->Show(false);
+	this->_musicScale->Show(false);
+	this->_sfxLabel->Show(false);
+	this->_sfxScale->Show(false);
+	Singleton::getInstance()._desktop.Remove(this->_window);
 }
