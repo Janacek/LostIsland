@@ -577,14 +577,18 @@ void GameScreen::update(void)
 
 	for (auto it = _players.begin(); it != _players.end(); ++it)
 	{
+		if ((*it)->getDie().getStatus() != sf::Sound::Status::Playing)
+			(*it)->getDie().play();
 		if (!(*it)->getIsDead())
 		{
+			
 			(*it)->update(*_map);
 			if ((*it)->_objective)
 			if ((*it)->_objective->getLife() <= 0 && (*it)->_objective->getIsAMovingEntity())
 				(*it)->_objective = NULL;
 			if ((*it)->getLife() <= 0)
 			{
+				
 				(*it)->setIsDead(true);
 				(*it)->setIsSelected(false);
 			}
