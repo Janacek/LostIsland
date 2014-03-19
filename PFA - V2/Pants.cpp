@@ -1,4 +1,5 @@
 #include "Pants.h"
+#include "Player.h"
 
 std::string &Pants::serialize() const
 {
@@ -20,6 +21,11 @@ Pants::Pants()
 void Pants::doAction(AEntity *other)
 {
 	// do action
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->addEntityInInventory(new Pants);
+	}
 }
 
 void Pants::getAction(AEntity *other)

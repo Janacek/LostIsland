@@ -515,6 +515,11 @@ void Player::update(Map & map)
 	}
 
 	moveToNextWP();
+	if (_life <= 0)
+	{
+		_isDead = true;
+		_isSelected = false;
+	}
 }
 
 void Player::loadAnimation(std::string const & string_anim, float speed)

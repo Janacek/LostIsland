@@ -1,4 +1,6 @@
 #include "WoodenPlank.h"
+#include "Campfire.h"
+#include "Player.h"
 
 std::string &WoodenPlank::serialize() const
 {
@@ -19,7 +21,41 @@ WoodenPlank::WoodenPlank()
 
 void WoodenPlank::doAction(AEntity *other)
 {
-	// nothing
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		Map * map = player->getMap();
+		sf::Vector2f pPos = player->getPosition();
+		Campfire *campfire;
+		if (map->getEntityAt((int)pPos.y + 1, (int)pPos.x) != NULL
+			&& map->getEntityAt((int)pPos.y + 1, (int)pPos.x)->getType() == CAMPFIRE)
+		{
+			campfire = dynamic_cast<Campfire *>(map->getEntityAt((int)pPos.y + 1, (int)pPos.x));
+			campfire->putCombustibleInFire(15);
+		}
+		else if (map->getEntityAt((int)pPos.y, (int)pPos.x + 1) != NULL
+			&& map->getEntityAt((int)pPos.y, (int)pPos.x + 1)->getType() == CAMPFIRE)
+		{
+			campfire = dynamic_cast<Campfire *>(map->getEntityAt((int)pPos.y, (int)pPos.x + 1));
+			campfire->putCombustibleInFire(15);
+		}
+		else if (map->getEntityAt((int)pPos.y, (int)pPos.x - 1) != NULL
+			&& map->getEntityAt((int)pPos.y, (int)pPos.x - 1)->getType() == CAMPFIRE)
+		{
+			campfire = dynamic_cast<Campfire *>(map->getEntityAt((int)pPos.y, (int)pPos.x - 1));
+			campfire->putCombustibleInFire(15);
+		}
+		else if (map->getEntityAt((int)pPos.y - 1, (int)pPos.x) != NULL
+			&& map->getEntityAt((int)pPos.y - 1, (int)pPos.x)->getType() == CAMPFIRE)
+		{
+			campfire = dynamic_cast<Campfire *>(map->getEntityAt((int)pPos.y - 1, (int)pPos.x));
+			campfire->putCombustibleInFire(15);
+		}
+		else
+		{
+			player->addEntityInInventory(new WoodenPlank);
+		}
+	}
 }
 
 void WoodenPlank::getAction(AEntity *other)

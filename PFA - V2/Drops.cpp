@@ -1,6 +1,7 @@
 #include "Drops.h"
 #include		"ImageManager.h"
 #include		"ShadersManager.h"
+#include "Player.h"
 
 std::string &Drops::serialize() const
 {
@@ -26,7 +27,12 @@ void Drops::doAction(AEntity* other)
 
 void Drops::getAction(AEntity* other)
 {
-
+	Player *player = dynamic_cast<Player *>(other);
+	for (auto it = _drops.begin(); it != _drops.end(); ++it)
+	{
+		player->addEntityInInventory((*it));
+	}
+	this->_isDead = true;
 }
 
 void Drops::update(Map &map)

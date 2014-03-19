@@ -93,7 +93,8 @@ void StartScreen::draw()
 
 void StartScreen::initialize(void)
 {
-	//_music->play();
+	_music->setLoop(true);
+	_music->play();
 }
 
 void StartScreen::update(void)
@@ -120,12 +121,14 @@ void StartScreen::update(void)
 	{
 		if (_curPos == 0) 
 		{
+			_music->stop();
 			_next = new GameScreen();
 		}
 		else if (_curPos == 1)
 			_next = new OptionScreen(); // TODO
 		else if (_curPos == 2)
 		{
+			_music->stop();
 			Singleton::getInstance()._window->close();
 			exit(1);
 		}

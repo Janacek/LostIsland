@@ -22,7 +22,11 @@ Rock::Rock()
 
 void Rock::doAction(AEntity* other)
 {
-	//L'arbre ne fait rien
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->addEntityInInventory(new Rock);
+	}
 }
 
 

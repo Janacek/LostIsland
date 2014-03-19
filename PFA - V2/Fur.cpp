@@ -1,4 +1,5 @@
 #include "Fur.h"
+#include "Player.h"
 
 std::string &Fur::serialize() const
 {
@@ -18,7 +19,11 @@ Fur::Fur(void)
 
 void Fur::doAction(AEntity* other)
 {
-
+	if (other)
+	{
+		Player *player = dynamic_cast<Player *>(other);
+		player->addEntityInInventory(new Fur);
+	}
 }
 
 void Fur::getAction(AEntity* other)

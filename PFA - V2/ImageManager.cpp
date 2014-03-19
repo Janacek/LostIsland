@@ -57,6 +57,7 @@ void ImageManager::start()
 	this->load(PICKABLE_MUSHROOM, "./Media/images/pickableMushroom.png");
 	this->load(LOADING_ARROW, "./Media/images/loadingArrow.png");
 	this->load(COOKED_MEAT, "./Media/images/cookedMeat.png");
+	this->load(TRUCK, "./Media/images/truck.png");
 }
 
 void ImageManager::load(Type id, const std::string& filename)
