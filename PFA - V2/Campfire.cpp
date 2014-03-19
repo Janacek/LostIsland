@@ -97,7 +97,10 @@ void Campfire::update(Map &map)
 	_timeBurning += dt;
 
 	if (_duration <= 0)
+	{
 		_duration = 0;
+		_timeBurning = 0;
+	}
 
 	if (_timeBurning >= 5)
 	{
