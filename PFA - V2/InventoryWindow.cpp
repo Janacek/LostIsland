@@ -363,4 +363,6 @@ void InventoryWindow::draw()
 
 InventoryWindow::~InventoryWindow()
 {
+	this->_inventoryWindow->Show(false);
+	Singleton::getInstance()._desktop.Remove(this->_inventoryWindow);
 }

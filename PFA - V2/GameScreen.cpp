@@ -64,6 +64,7 @@ GameScreen::~GameScreen()
 	delete _map;
 	delete _physicEngine;
 	delete _inventory;
+	delete _crafting;
 }
 
 void GameScreen::events(sf::Event &e)

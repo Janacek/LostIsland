@@ -275,4 +275,8 @@ void	Crafting::mouseLeftPress(CustomToggleButton *but)
 
 Crafting::~Crafting()
 {
+	this->_choosePlayerWindow->Show(false);
+	this->_craftingWindow->Show(false);
+	Singleton::getInstance()._desktop.Remove(this->_choosePlayerWindow);
+	Singleton::getInstance()._desktop.Remove(this->_craftingWindow);
 }
