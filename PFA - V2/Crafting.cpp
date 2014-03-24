@@ -108,10 +108,10 @@ void	Crafting::updateContent()
 			auto it = u->getEntities().begin();
 			while (compt < u->getNbrLabelRessource() && it != u->getEntities().end())
 			{
-				this->_content.push_back(u->getEntities().front());
+				this->_content.push_back(*it);
+				++it;
 				++compt;
-			}
-				
+			}			
 		}
 	}
 }

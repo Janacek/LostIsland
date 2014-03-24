@@ -60,6 +60,8 @@ void CustomToggleButton::empty()
 	if (this->_button->GetImage() != NULL)
 		this->_button->GetImage()->Show(false);
 	this->setCompartment(NULL);
+	this->updateLabel();
+	this->_nbrRessources = 0;
 	this->_player = NULL;
 }
 

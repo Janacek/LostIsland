@@ -227,9 +227,6 @@ void GameScreen::initialize(void)
 	this->_crafting->setInventoryClass(this->_inventory);
 	this->_crafting->createChooseWindowContent();
 
-	_loadingText = "Generating Stuff Window";
-	this->_stuff = new Stuff;
-	this->_stuff->createZones(this->_players);
 	//initialisation de l'image du pointeur
 	this->_mousePicture.setSize(sf::Vector2f(static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100), static_cast<float>(Singleton::getInstance()._window->getSize().x * 10 / 100)));
 	_loaded = true;
@@ -485,7 +482,6 @@ void GameScreen::draw()
 
 		this->_map->drawMiniMap(Singleton::getInstance()._window, _players);
 		checkDrawInventory();
-		this->_stuff->checkScrollEvent();
 		this->_inventory->update();
 		this->_inventory->draw();
 	}
@@ -620,11 +616,11 @@ void GameScreen::update(void)
 			_playMusic = false;
 		}
 
-		_truckPosition.x += 0.003;
+		_truckPosition.x += 0.006;
 
 		if (_truckPosition.x >= 1920)
 		{
-			_credit0.y -= 0.0015;
+			_credit0.y -= 0.0025;
 		}
 
 		if (Singleton::getInstance().isEscapePressed)
@@ -707,11 +703,9 @@ void		GameScreen::checkDrawInventory()
 		if (this->_activeInventary == true)
 		{
 			this->_inventory->showBox(this->_players);
-			this->_stuff->showBox(this->_players);
 		}
 		this->_inventory->Show(this->_activeInventary);
 		this->_crafting->Show(this->_activeInventary);
-		this->_stuff->Show(this->_activeInventary);
 		Singleton::getInstance().isKeyIPressed = !Singleton::getInstance().isKeyIPressed;
 	}
 }

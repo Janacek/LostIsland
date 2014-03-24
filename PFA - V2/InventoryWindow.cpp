@@ -171,7 +171,9 @@ void InventoryWindow::updateView()
 		if (u->getCompartment() != NULL && u->getCompartment()->getSize() == 0)
 		{
 			if (u->_button->GetImage() != NULL)
+		
 				u->_button->GetImage()->Show(false);
+			u->setCompartment(NULL);
 		}
 		if (u->getCompartment() != NULL)
 		{
@@ -234,6 +236,8 @@ void InventoryWindow::useClick()
 		{
 			this->_selectedRessource->getCompartment()->delAllElement();
 			this->_selectedRessource->_button->GetImage()->Show(false);
+			this->_selectedRessource->setCompartment(NULL);
+			this->_selectedRessource->updateLabel();
 			this->_selectedRessource = NULL;
 		}
 		else
@@ -256,7 +260,6 @@ void InventoryWindow::mouseLeftPress(CustomToggleButton *but)
 {
 	if (but->_button->IsActive() == true && but->isEmpty() == true)
 	{
-		//	this->_spinButton->SetValue(0);
 		but->_button->SetActive(false);
 		return;
 	}
